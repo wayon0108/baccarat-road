@@ -178,8 +178,281 @@ button.tie,.tie{background:linear-gradient(135deg,#3bad7e,#20835d)!important}
 }
 </style>
 
+
+<style id="v13-css">
+.v13-panel{margin:12px 0;padding:12px;border:1px solid rgba(199,155,72,.45);border-radius:12px;background:rgba(16,35,58,.72)}
+.v13-title{font-weight:800;color:#f0d28b;margin-bottom:10px}
+.v13-grid{display:grid;grid-template-columns:repeat(6,minmax(105px,1fr));gap:8px}
+.v13-card{padding:9px;border-radius:9px;background:rgba(255,255,255,.055);text-align:center}
+.v13-card b{display:block;font-size:18px;margin-top:3px}
+.v13-sub{font-size:12px;opacity:.72}
+.v13-models{margin-top:10px;display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
+.v13-model{font-size:12px;padding:7px;border-radius:7px;background:rgba(255,255,255,.045);text-align:center}
+@media(max-width:850px){.v13-grid{grid-template-columns:repeat(3,1fr)}.v13-models{grid-template-columns:repeat(2,1fr)}}
+</style>
+
+
+<style id="v15-premium-ui">
+:root{
+  --v15-bg:#07111f;
+  --v15-panel:#0d1b2d;
+  --v15-panel2:#12243a;
+  --v15-line:rgba(215,178,104,.22);
+  --v15-gold:#d8b56c;
+  --v15-gold2:#f0d69b;
+  --v15-text:#eef4fb;
+  --v15-muted:#8ea2bb;
+  --v15-shadow:0 14px 38px rgba(0,0,0,.26);
+}
+html{scroll-behavior:smooth}
+body{
+  background:
+    radial-gradient(circle at 18% -10%, rgba(44,86,133,.22), transparent 32%),
+    radial-gradient(circle at 90% 0%, rgba(216,181,108,.08), transparent 24%),
+    linear-gradient(180deg,#07111f 0%,#091625 48%,#07111f 100%) !important;
+  color:var(--v15-text);
+  min-height:100vh;
+}
+*{box-sizing:border-box}
+button,input,select,textarea{font:inherit}
+button{
+  transition:transform .16s ease,filter .16s ease,box-shadow .16s ease,border-color .16s ease;
+  -webkit-tap-highlight-color:transparent;
+}
+button:active{transform:scale(.97)}
+button:hover{filter:brightness(1.06)}
+input,select,textarea{
+  background:#091729 !important;
+  border:1px solid rgba(180,202,228,.18) !important;
+  color:#f7fbff !important;
+  border-radius:10px !important;
+  outline:none;
+}
+input:focus,select:focus,textarea:focus{
+  border-color:rgba(216,181,108,.72) !important;
+  box-shadow:0 0 0 3px rgba(216,181,108,.10);
+}
+
+/* Main shells */
+.wrap,.container,.app,.dashboard,.main{
+  max-width:1600px !important;
+  margin-left:auto !important;
+  margin-right:auto !important;
+}
+section,.panel,.card,.box,.road-panel,.analysis-panel,.connector-panel,.v13-panel{
+  border-radius:14px !important;
+  border-color:var(--v15-line) !important;
+  box-shadow:var(--v15-shadow);
+}
+.v13-panel{
+  background:linear-gradient(180deg,rgba(16,35,58,.96),rgba(10,25,43,.96)) !important;
+  padding:14px !important;
+  margin:12px 0 14px !important;
+}
+.v13-title{
+  color:var(--v15-gold2) !important;
+  font-size:15px !important;
+  letter-spacing:.4px;
+}
+.v13-grid{gap:9px !important}
+.v13-card{
+  background:linear-gradient(180deg,rgba(255,255,255,.065),rgba(255,255,255,.035)) !important;
+  border:1px solid rgba(255,255,255,.055);
+  min-height:68px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+}
+.v13-card b{font-size:20px !important}
+.v13-sub{color:var(--v15-muted)}
+.v13-model{
+  border:1px solid rgba(255,255,255,.05);
+  background:rgba(255,255,255,.035) !important;
+  min-height:38px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+/* Road area */
+canvas,svg{image-rendering:auto}
+.road-panel,.roadBox,.road-box{
+  overflow:hidden;
+  background:linear-gradient(180deg,#f9fbfd,#f2f6fa) !important;
+}
+.road-title,.panel-title,.section-title,h2,h3{
+  letter-spacing:.25px;
+}
+.road-title,.road-header{
+  background:linear-gradient(90deg,#12243a,#1a3552) !important;
+  color:#f5dfad !important;
+  border-bottom:1px solid rgba(216,181,108,.35) !important;
+}
+
+/* Make action areas feel less cramped */
+.controls,.toolbar,.actions,.button-row,.btn-row{
+  gap:8px !important;
+}
+button{
+  min-height:38px;
+  border-radius:10px !important;
+}
+.center-analysis-btn{
+  min-width:210px !important;
+  min-height:44px !important;
+  font-weight:800 !important;
+  letter-spacing:.5px;
+  box-shadow:0 8px 24px rgba(0,0,0,.20);
+}
+
+/* Common baccarat buttons */
+button[onclick*="'B'"],button[onclick*='"B"']{
+  box-shadow:inset 0 -2px 0 rgba(0,0,0,.18);
+}
+button[onclick*="'P'"],button[onclick*='"P"']{
+  box-shadow:inset 0 -2px 0 rgba(0,0,0,.18);
+}
+button[onclick*="'T'"],button[onclick*='"T"']{
+  box-shadow:inset 0 -2px 0 rgba(0,0,0,.18);
+}
+
+/* Thin, elegant scrollbar */
+::-webkit-scrollbar{width:8px;height:8px}
+::-webkit-scrollbar-track{background:rgba(255,255,255,.025)}
+::-webkit-scrollbar-thumb{
+  background:rgba(216,181,108,.32);
+  border-radius:999px;
+}
+::-webkit-scrollbar-thumb:hover{background:rgba(216,181,108,.48)}
+
+/* Desktop polish */
+@media(min-width:1100px){
+  body{padding:10px 14px 22px !important}
+  .v13-grid{grid-template-columns:repeat(6,minmax(120px,1fr)) !important}
+  .v13-models{grid-template-columns:repeat(7,1fr) !important}
+}
+
+/* Tablet */
+@media(max-width:1099px){
+  body{padding:8px !important}
+  .v13-grid{grid-template-columns:repeat(3,1fr) !important}
+  .v13-models{grid-template-columns:repeat(4,1fr) !important}
+}
+
+/* Mobile: no sideways drifting, denser but readable */
+@media(max-width:720px){
+  html,body{max-width:100%;overflow-x:hidden !important}
+  body{padding:6px !important}
+  section,.panel,.card,.box,.road-panel,.analysis-panel,.connector-panel,.v13-panel{
+    border-radius:11px !important;
+  }
+  .v13-panel{padding:10px !important}
+  .v13-title{font-size:14px !important}
+  .v13-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+    gap:6px !important;
+  }
+  .v13-card{
+    min-height:61px;
+    padding:7px !important;
+  }
+  .v13-card b{font-size:17px !important}
+  .v13-models{
+    grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+    gap:5px !important;
+  }
+  .v13-model{font-size:11px !important;padding:6px 4px !important}
+  button{min-height:42px}
+  .center-analysis-btn{width:min(92%,310px) !important;max-width:none !important}
+  input,select{min-height:40px}
+}
+
+/* Subtle load-in */
+@keyframes v15fade{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+.v13-panel,.analysis-panel,.connector-panel{animation:v15fade .28s ease both}
+</style>
+
+
+<style id="v16-layout">
+/* V16 三欄賭場工作台 */
+#v15Badge{display:none!important}
+.app{max-width:1780px!important}
+.header{position:sticky;top:0;z-index:30;box-shadow:0 10px 28px rgba(0,0,0,.28)}
+.v16-shell{
+ display:grid;grid-template-columns:260px minmax(0,1fr) 330px;
+ gap:10px;align-items:start;margin-top:10px
+}
+.v16-left,.v16-center,.v16-right{min-width:0}
+.v16-left .controls{position:sticky;top:78px}
+.v16-right{position:sticky;top:78px;max-height:calc(100vh - 88px);overflow:auto;padding-right:2px}
+.v16-center .roads{width:100%;min-width:0}
+.v16-center .roads>.road{margin-bottom:8px}
+.v16-center .minis{gap:7px!important}
+.v16-right .v13-panel{margin:0 0 9px!important}
+.v16-right .v13-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+.v16-right .v13-models{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+.v16-right .road-ai-panel{margin:0!important;border-radius:13px!important}
+.v16-right .road-ai-grid{grid-template-columns:1fr!important}
+.v16-right .road-ai-best{padding:10px!important}
+.v16-right .road-ai-item{min-height:34px}
+.v16-right .center-analysis-btn{width:100%!important;max-width:none!important;margin:9px 0!important}
+.v16-titlebar{
+ display:flex;align-items:center;justify-content:space-between;gap:12px;
+ padding:9px 13px;margin:0 0 9px;border:1px solid rgba(216,181,108,.22);
+ border-radius:12px;background:linear-gradient(90deg,#10233a,#0b1a2c);
+ box-shadow:0 10px 28px rgba(0,0,0,.18)
+}
+.v16-titlebar strong{color:#f0d69b;font-size:16px;letter-spacing:.45px}
+.v16-titlebar span{font-size:12px;color:#91a6bf}
+.v16-bottom{margin-top:10px}
+.v16-bottom .analysis-full{margin-top:0}
+.v16-bottom .analysis-head .v13-panel{display:none!important}
+.v16-bottom .road-ai-panel{display:none!important}
+.v16-bottom .connect{margin-top:9px}
+.v16-connector-toggle{
+ width:100%;min-height:42px;border:1px solid rgba(216,181,108,.28)!important;
+ background:linear-gradient(90deg,#12243a,#172f49)!important;color:#f0d69b!important;
+ font-weight:800
+}
+.v16-bottom .connect.v16-collapsed .connect-grid,
+.v16-bottom .connect.v16-collapsed .subgrid,
+.v16-bottom .connect.v16-collapsed #importFile,
+.v16-bottom .connect.v16-collapsed .log{display:none!important}
+.v16-bottom .connect.v16-collapsed{padding-bottom:8px!important}
+.v16-left .controls{width:100%!important}
+.v16-left .result-btn{min-height:74px!important;font-size:27px!important}
+.v16-left .twobtn button{min-height:44px!important}
+.v16-left .actions{grid-template-columns:repeat(3,1fr)!important}
+@media(max-width:1180px){
+ .v16-shell{grid-template-columns:230px minmax(0,1fr)}
+ .v16-right{grid-column:1/-1;position:static;max-height:none;display:grid;grid-template-columns:1fr 1fr;gap:9px}
+ .v16-right .v13-panel,.v16-right .road-ai-panel{margin:0!important}
+}
+@media(max-width:760px){
+ .header{position:static}
+ .v16-shell{display:flex;flex-direction:column}
+ .v16-left,.v16-center,.v16-right{width:100%}
+ .v16-left .controls,.v16-right{position:static;max-height:none}
+ .v16-left{order:1}.v16-right{order:2;display:block}.v16-center{order:3}
+ .v16-right .v13-panel{margin-bottom:8px!important}
+ .v16-center .minis{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+ .v16-titlebar{align-items:flex-start;flex-direction:column;gap:2px}
+}
+</style>
+
 </head>
 <body>
+
+<div id="v15Badge" style="
+max-width:1600px;margin:0 auto 10px;padding:8px 12px;
+display:flex;align-items:center;justify-content:space-between;gap:10px;
+border:1px solid rgba(216,181,108,.2);border-radius:12px;
+background:linear-gradient(90deg,rgba(18,36,58,.82),rgba(10,25,43,.72));
+box-shadow:0 10px 30px rgba(0,0,0,.18)">
+  <div style="font-weight:850;letter-spacing:.3px;color:#f0d69b">Baccarat Intelligence V16</div>
+  <div style="font-size:12px;color:#91a6bf">1億局背景 · 五路分析 · 即時回測 · 信心校準</div>
+</div>
+
 <div class="app">
   <div class="header">
     <div class="brand">
@@ -222,9 +495,25 @@ button.tie,.tie{background:linear-gradient(135deg,#3bad7e,#20835d)!important}
   <div class="panel analysis-full">
     <div class="analysis-head">
       <div>
-        <div class="analysis-title">▮▮ 走勢統計演算法｜五路分析</div>
-        <div id="bigDataStatus" style="font-size:13px;font-weight:800;color:#17653a;margin-top:4px">已載入 100,000 局模擬背景資料</div>
-        <div class="analysis-sub">每按一次「莊」或「閒」就立即重算，右上角原本「資料不足」的位置會直接改成下一局「莊／閒」建議｜已內建100,000局模擬背景＋本桌歷史＋N-gram/Markov＋型態比對＋滾動回測</div>
+        
+<section class="v13-panel" id="v13Control">
+  <div class="v13-title">V16 模型控制中心｜1億局背景＋即時回測＋信心校準</div>
+  <div class="v13-grid">
+    <div class="v13-card"><span class="v13-sub">下一局建議</span><b id="v13Pick">資料不足</b></div>
+    <div class="v13-card"><span class="v13-sub">校準後信號</span><b id="v13Confidence">—</b></div>
+    <div class="v13-card"><span class="v13-sub">模型一致度</span><b id="v13Consensus">—</b></div>
+    <div class="v13-card"><span class="v13-sub">近50局回測</span><b id="v13Acc50">—</b></div>
+    <div class="v13-card"><span class="v13-sub">近100局回測</span><b id="v13Acc100">—</b></div>
+    <div class="v13-card"><span class="v13-sub">樣本可信度</span><b id="v13Sample">低</b></div>
+  </div>
+  <div class="v13-models" id="v13Models"></div>
+  <div class="v13-sub" style="margin-top:8px">信號不足或模型分歧時自動「觀望」。百分比代表模型信號/回測校準，不代表下一局真實勝率。</div>
+  <div class="v13-sub" style="margin-top:6px">1億局模擬：8副牌｜標準補牌規則｜約 1,405,060 靴｜莊 45.867135%｜閒 44.614958%｜和 9.517907%</div>
+</section>
+
+<div class="analysis-title">▮▮ 走勢統計演算法｜五路分析</div>
+        <div id="bigDataStatus" style="font-size:13px;font-weight:800;color:#17653a;margin-top:4px">已載入 100,000,000 局模擬背景資料</div>
+        <div class="analysis-sub">每按一次「莊」或「閒」就立即重算，右上角原本「資料不足」的位置會直接改成下一局「莊／閒」建議｜已內建1億局模擬背景＋本桌歷史＋N-gram/Markov＋型態比對＋滾動回測</div>
       </div>
       <div id="algoPick" class="recommend-card neutral">資料不足</div>
     </div>
@@ -235,7 +524,7 @@ button.tie,.tie{background:linear-gradient(135deg,#3bad7e,#20835d)!important}
         <div>閒機率分數：<b id="probP">50.0%</b></div>
         <div>模型信心：<b id="confidence">0%</b></div>
         <div>有效樣本：<b id="samples">0</b> 局</div>
-        <div>背景大數據：<b>100,000</b> 局</div>
+        <div>背景大數據：<b>100,000,000</b> 局</div>
       </div>
 
       <div class="confidence-wrap">
@@ -275,7 +564,7 @@ button.tie,.tie{background:linear-gradient(135deg,#3bad7e,#20835d)!important}
     </div>
 
     <div class="analysis-note">
-      大數據模型會同時使用內建100,000局模擬背景資料與本桌已匯入/累積牌局，搭配近20/50/100/300局、多階 N-gram／Markov、型態相似度、連續/交替特徵及滾動回測校正。「和」不列入莊閒方向模型；模型信心是訊號強度，不是保證勝率。
+      大數據模型會同時使用內建1億局模擬背景資料與本桌已匯入/累積牌局，搭配近20/50/100/300局、多階 N-gram／Markov、型態相似度、連續/交替特徵及滾動回測校正。「和」不列入莊閒方向模型；模型信心是訊號強度，不是保證勝率。
     </div>
   </div>
 
@@ -329,7 +618,7 @@ function laplaceProb(b,p){return (b+1)/(b+p+2)}
 // 這個模型會真的用「已輸入的歷史牌局」計算，而不是固定顯示假數字。
 // 它是統計推薦，不可能保證下一局結果。
 
-const BIGDATA100K = {"rounds_total":100000,"bp_rounds":90442,"base":{"B":45968,"P":44474},"ngram":{"1":{"B":[23244,22723],"P":[22723,21751]},"2":{"BP":[11616,11107],"PP":[11107,10644],"PB":[11480,11243],"BB":[11764,11479]},"3":{"BPP":[5707,5400],"PPB":[5635,5472],"PBB":[5818,5662],"BBB":[5946,5817],"BBP":[5893,5586],"BPB":[5845,5771],"PBP":[5723,5520],"PPP":[5400,5244]},"4":{"BPPB":[2941,2766],"PPBB":[2839,2796],"PBBB":[2948,2870],"BBBP":[2987,2830],"BBPB":[2903,2990],"BPBB":[2979,2866],"BPBP":[2957,2814],"PBPP":[2810,2710],"PBBP":[2906,2756],"BBBB":[2998,2947],"BBPP":[2896,2690],"BPPP":[2754,2646],"PPPB":[2694,2706],"PPBP":[2766,2706],"PBPB":[2942,2781],"PPPP":[2646,2598]},"5":{"BPPBB":[1507,1434],"PPBBB":[1433,1406],"PBBBP":[1482,1388],"BBBPB":[1477,1510],"BBPBB":[1474,1429],"BPBBB":[1515,1464],"BBPBP":[1517,1473],"BPBPP":[1452,1362],"PBPPB":[1470,1340],"PPBBP":[1426,1370],"PBBPB":[1426,1480],"BPBBP":[1480,1386],"PBBBB":[1492,1456],"BBBBB":[1506,1491],"BBBBP":[1505,1442],"BBBPP":[1467,1363],"BBPPP":[1370,1320],"BPPPB":[1376,1378],"PPPBP":[1360,1346],"PPBPP":[1358,1348],"BPBPB":[1499,1458],"PBPBB":[1505,1437],"PBBPP":[1429,1327],"BBPPB":[1470,1426],"PPBPB":[1443,1323],"PBPBP":[1440,1341],"BPPBP":[1406,1360],"PBPPP":[1384,1326],"BPPPP":[1334,1312],"PPPPP":[1312,1286],"PPPPB":[1318,1328],"PPPBB":[1332,1362]},"6":{"BPPBBB":[745,762],"PPBBBP":[741,665],"PBBBPB":[758,724],"BBBPBB":[753,724],"BBPBBB":[737,737],"BPBBBP":[741,723],"BBBPBP":[763,747],"BBPBPP":[772,701],"BPBPPB":[762,690],"PBPPBB":[749,721],"BPPBBP":[732,702],"PPBBPB":[692,734],"PBBPBB":[721,705],"BBPBBP":[750,679],"BPBBPB":[734,746],"BPBBBB":[764,751],"PBBBBB":[772,719],"BBBBBB":[734,772],"BBBBBP":[765,726],"BBBBPP":[751,691],"BBBPPP":[672,691],"BBPPPB":[682,688],"BPPPBP":[711,667],"PPPBPP":[700,646],"PPBPPB":[708,650],"PPBBBB":[728,705],"PBBBBP":[740,716],"BBBBPB":[719,786],"BBPBPB":[780,737],"BPBPBB":[766,733],"PBPBBP":[730,707],"BPBBPP":[715,671],"PBBPPB":[721,708],"BBPPBB":[757,713],"PBBBPP":[716,672],"PPPBPB":[722,638],"PPBPBP":[689,634],"PBPBPB":[719,721],"PBPBBB":[778,727],"BBBPPB":[749,718],"BBPPBP":[759,667],"BPPBPB":[721,685],"PPBPBB":[739,704],"PBBPBP":[754,726],"BPBPPP":[699,663],"PBPPPP":[668,658],"BPPPPP":[645,667],"PPPPPP":[667,619],"PPPPPB":[648,664],"PPPPBB":[664,654],"PPPBBP":[694,668],"PPBBPP":[714,656],"BBPPPP":[666,654],"PPPPBP":[649,679],"BPPPPB":[670,664],"PBBPPP":[698,629],"BPPPBB":[668,708],"BPPBPP":[658,702],"PPBPPP":[685,663],"PBPPBP":[647,693],"PBPBPP":[680,661],"PBPPPB":[694,690],"PPPBBB":[688,644],"BPBPBP":[751,707]}},"markov":{"1":{"B":[23244,22723],"P":[22723,21751]},"2":{"BP":[11616,11107],"PP":[11107,10644],"PB":[11480,11243],"BB":[11764,11479]},"3":{"BPP":[5707,5400],"PPB":[5635,5472],"PBB":[5818,5662],"BBB":[5946,5817],"BBP":[5893,5586],"BPB":[5845,5771],"PBP":[5723,5520],"PPP":[5400,5244]},"4":{"BPPB":[2941,2766],"PPBB":[2839,2796],"PBBB":[2948,2870],"BBBP":[2987,2830],"BBPB":[2903,2990],"BPBB":[2979,2866],"BPBP":[2957,2814],"PBPP":[2810,2710],"PBBP":[2906,2756],"BBBB":[2998,2947],"BBPP":[2896,2690],"BPPP":[2754,2646],"PPPB":[2694,2706],"PPBP":[2766,2706],"PBPB":[2942,2781],"PPPP":[2646,2598]}}};
+const BIGDATA100K = {"rounds_total":100000000,"bp_rounds":90482093,"base":{"B":45867135,"P":44614958},"ngram":{"1":{"P":[22615786,21999171],"B":[23251349,22615786]},"2":{"PP":[11151302,10847869],"PB":[11465274,11150512],"BP":[11464483,11151302],"BB":[11786075,11465274]},"3":{"PPP":[5498254,5349615],"PPB":[5652892,5498410],"PBP":[5652518,5497994],"PBB":[5811145,5654129],"BPP":[5653048,5498254],"BPB":[5812381,5652102],"BBP":[5811965,5653308],"BBB":[5974930,5811145]},"4":{"PPPP":[2710746,2638869],"PPPB":[2787768,2710486],"PPBP":[2787006,2711404],"PPBB":[2866161,2786731],"PBPP":[2788100,2709894],"PBPB":[2865778,2786740],"PBBP":[2867115,2787013],"PBBB":[2946831,2864314],"BPPP":[2787508,2710746],"BPPB":[2865124,2787924],"BPBP":[2865512,2786590],"BPBB":[2944983,2867398],"BBPP":[2864948,2788360],"BBPB":[2946603,2865362],"BBBP":[2944850,2866295],"BBBB":[3028099,2946831]},"5":{"PPPPP":[1336702,1302167],"PPPPB":[1375233,1335513],"PPPBP":[1374067,1336419],"PPPBB":[1413704,1374064],"PPBPP":[1375290,1336114],"PPBPB":[1414461,1372545],"PPBBP":[1413114,1373616],"PPBBB":[1454552,1411609],"PBPPP":[1373382,1336512],"PBPPB":[1413645,1374455],"PBPBP":[1412135,1374605],"PBPBB":[1452088,1413690],"PBBPP":[1412670,1374343],"PBBPB":[1453424,1413691],"PBBBP":[1451059,1413255],"PBBBB":[1492567,1454264],"BPPPP":[1374044,1336702],"BPPPB":[1412535,1374973],"BPPBP":[1412939,1374985],"BPPBB":[1452457,1412667],"BPBPP":[1412810,1373780],"BPBPB":[1451317,1414195],"BPBBP":[1454001,1413397],"BPBBB":[1492279,1452704],"BBPPP":[1414126,1374234],"BBPPB":[1451479,1413469],"BBPBP":[1453377,1411985],"BBPBB":[1492895,1453708],"BBBPP":[1452278,1414017],"BBBPB":[1493179,1451671],"BBBBP":[1493791,1453040],"BBBBB":[1535532,1492567]},"6":{"PPPPPP":[659134,643033],"PPPPPB":[678166,658536],"PPPPBP":[677054,658459],"PPPPBB":[697895,677338],"PPPBPP":[678348,658071],"PPPBPB":[697318,676749],"PPPBBP":[696230,677834],"PPPBBB":[716372,697332],"PPBPPP":[677494,658620],"PPBPPB":[697221,678069],"PPBPBP":[695600,676945],"PPBPBB":[717233,697228],"PPBBPP":[696271,677345],"PPBBPB":[716604,696510],"PPBBBP":[715472,696137],"PPBBBB":[736375,718177],"PBPPPP":[677801,658711],"PBPPPB":[696232,677150],"PBPPBP":[697041,677414],"PBPPBB":[716872,696773],"PBPBPP":[697433,677172],"PBPBPB":[715443,696692],"PBPBBP":[715926,697764],"PBPBBB":[735422,716666],"PBBPPP":[697546,676797],"PBBPPB":[715673,696997],"PBBPBP":[717113,696578],"PBBPBB":[736807,716617],"PBBBPP":[715768,697487],"PBBBPB":[735168,715891],"PBBBBP":[737333,716931],"PBBBBB":[756871,735696],"BPPPPP":[677568,659134],"BPPPPB":[697067,676977],"BPPPBP":[697013,677960],"BPPPBB":[715809,696726],"BPPBPP":[696942,678043],"BPPBPB":[717143,695796],"BPPBBP":[716884,695782],"BPPBBB":[738180,714277],"BPBPPP":[695888,677892],"BPBPPB":[716424,696386],"BPBPBP":[716535,697660],"BPBPBB":[734855,716462],"BPBBPP":[716399,696998],"BPBBPB":[736820,717181],"BPBBBP":[735587,717117],"BPBBBB":[756192,736087],"BBPPPP":[696243,677991],"BBPPPB":[716303,697823],"BBPPBP":[715898,697571],"BBPPBB":[735585,715894],"BBPBPP":[715377,696608],"BBPBPB":[735874,717503],"BBPBBP":[738075,715633],"BBPBBB":[756857,736038],"BBBPPP":[716580,697437],"BBBPPB":[735806,716472],"BBBPBP":[736264,715407],"BBBPBB":[756088,737091],"BBBBPP":[736510,716530],"BBBBPB":[758011,735780],"BBBBBP":[756458,736109],"BBBBBB":[778661,756871]}},"markov":{"1":{"P":[22615786,21999171],"B":[23251349,22615786]},"2":{"PP":[11151302,10847869],"PB":[11465274,11150512],"BP":[11464483,11151302],"BB":[11786075,11465274]},"3":{"PPP":[5498254,5349615],"PPB":[5652892,5498410],"PBP":[5652518,5497994],"PBB":[5811145,5654129],"BPP":[5653048,5498254],"BPB":[5812381,5652102],"BBP":[5811965,5653308],"BBB":[5974930,5811145]},"4":{"PPPP":[2710746,2638869],"PPPB":[2787768,2710486],"PPBP":[2787006,2711404],"PPBB":[2866161,2786731],"PBPP":[2788100,2709894],"PBPB":[2865778,2786740],"PBBP":[2867115,2787013],"PBBB":[2946831,2864314],"BPPP":[2787508,2710746],"BPPB":[2865124,2787924],"BPBP":[2865512,2786590],"BPBB":[2944983,2867398],"BBPP":[2864948,2788360],"BBPB":[2946603,2865362],"BBBP":[2944850,2866295],"BBBB":[3028099,2946831]}}};
 
 function bgPatternProb(localSeq, maxOrder=6){
   if(!localSeq.length) return null;
@@ -344,7 +633,7 @@ function bgPatternProb(localSeq, maxOrder=6){
     const prob=(b+2)/(m+4);
     const w=(0.45+k*0.22)*Math.min(1.35,Math.log10(m+10)/2.5);
     num += prob*w; den += w;
-    used.push({name:`10萬局${k}階(${m})`,p:prob,w,m});
+    used.push({name:`1億局${k}階(${m})`,p:prob,w,m});
   }
   return den ? {p:num/den,w:Math.min(2.4,den),used} : null;
 }
@@ -503,12 +792,12 @@ function recommendationModel(){
 
   const components=[];
 
-  // 100,000 局模擬大數據背景：提供基準率與目前尾端型態的歷史匹配。
+  // 1 億局模擬大數據背景：提供基準率與目前尾端型態的歷史匹配。
   const bgBase = bgBaseProb();
-  components.push({name:'10萬局背景基準',p:bgBase,w:0.45,m:BIGDATA100K.bp_rounds});
+  components.push({name:'1億局背景基準',p:bgBase,w:0.45,m:BIGDATA100K.bp_rounds});
   const bgPat = bgPatternProb(seq,6);
   if(bgPat){
-    components.push({name:'10萬局相似尾型',p:bgPat.p,w:bgPat.w,m:BIGDATA100K.bp_rounds});
+    components.push({name:'1億局相似尾型',p:bgPat.p,w:bgPat.w,m:BIGDATA100K.bp_rounds});
     bgPat.used.forEach(x=>components.push(x));
   }
 
@@ -581,7 +870,7 @@ function recommendationModel(){
 
   let reason=strongest.map(c=>`${c.name}→${c.p>=.5?'莊':'閒'} ${pct(c.p)}`).join('；');
   if(bt.count) reason+=`｜滾動回測 ${bt.count} 次，命中 ${pct(bt.rate)}`;
-  reason+=`｜本桌有效樣本 ${n} 局｜背景資料 100,000 局`;
+  reason+=`｜本桌有效樣本 ${n} 局｜背景資料 100,000,000 局`;
   if(n<12) reason+='｜樣本仍少，建議僅作低信心參考';
   else if(n<30) reason+='｜樣本逐步累積中';
   else if(n<100) reason+='｜已進入中等樣本';
@@ -636,7 +925,7 @@ function roadRecommendationModel(){
 
   const items=[];
 
-  // 珠盤路：使用 10萬局尾型 + 本桌近期/全局頻率
+  // 珠盤路：使用 1億局尾型 + 本桌近期/全局頻率
   let beadScore=0, beadEv=.45;
   const bg=bgPatternProb(seq,6);
   if(bg){beadScore+=(bg.p-.5)*1.8; beadEv+=.25;}
@@ -1132,5 +1421,219 @@ try{
 
 render();
 </script>
+
+<script id="v13-model-layer">
+(function(){
+  const $=id=>document.getElementById(id);
+  const bp=()=> (Array.isArray(window.data)?window.data:[]).map(x=>{
+    const v=typeof x==="string"?x:(x&&x.r);
+    return v==="B"||v==="P"?v:null;
+  }).filter(Boolean);
+  const clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
+  function vote(name,score,weight){ return {name,score:clamp(score,-1,1),weight}; }
+  function rateScore(s,n){
+    let a=s.slice(-n); if(!a.length)return 0;
+    let b=a.filter(x=>x==="B").length;
+    return (b/a.length-.5)*2;
+  }
+  function transitionScore(s){
+    if(s.length<5)return 0;
+    let last=s[s.length-1], same=0,opp=0;
+    for(let i=1;i<s.length-1;i++) if(s[i-1]===last){s[i]===last?same++:opp++;}
+    let t=same+opp; if(!t)return 0;
+    let cont=(same+1)/(t+2);
+    return (last==="B"?1:-1)*(cont-.5)*2;
+  }
+  function streakScore(s){
+    if(!s.length)return 0;
+    let last=s[s.length-1], k=1;
+    for(let i=s.length-2;i>=0&&s[i]===last;i--)k++;
+    return (last==="B"?1:-1)*Math.min(.55,k*.09);
+  }
+  function alternateScore(s){
+    let a=s.slice(-8); if(a.length<4)return 0;
+    let alt=0; for(let i=1;i<a.length;i++) if(a[i]!==a[i-1])alt++;
+    if(alt/(a.length-1)<.7)return 0;
+    return a[a.length-1]==="B" ? -.45 : .45;
+  }
+  function ngramScore(s){
+    if(s.length<5)return 0;
+    for(let k=Math.min(5,s.length-2);k>=1;k--){
+      let key=s.slice(-k).join(""), B=0,P=0;
+      for(let i=k;i<s.length;i++){
+        if(s.slice(i-k,i).join("")===key){s[i]==="B"?B++:P++;}
+      }
+      if(B+P>=3)return ((B+1)/(B+P+2)-.5)*2;
+    }
+    return 0;
+  }
+  function modelVotes(s){
+    let bgVote=0;
+    try{
+      const bg=bgPatternProb(s,6);
+      if(bg) bgVote=clamp((bg.p-.5)*2,-1,1);
+      else bgVote=clamp((bgBaseProb()-.5)*2,-1,1);
+    }catch(e){}
+    return [
+      vote("1億局背景",bgVote,1.25),
+      vote("近期20",rateScore(s,20),1),
+      vote("近期50",rateScore(s,50),.8),
+      vote("轉移模型",transitionScore(s),1.1),
+      vote("連續型態",streakScore(s),.7),
+      vote("交替型態",alternateScore(s),.65),
+      vote("N-gram",ngramScore(s),1.2)
+    ];
+  }
+  function rawPrediction(s){
+    let vs=modelVotes(s), den=vs.reduce((a,v)=>a+v.weight,0);
+    let score=vs.reduce((a,v)=>a+v.score*v.weight,0)/den;
+    let directional=vs.filter(v=>Math.abs(v.score)>=.08);
+    let sign=score>=0?1:-1;
+    let agree=directional.length?directional.filter(v=>Math.sign(v.score)===sign).length/directional.length:0;
+    return {vs,score,agree};
+  }
+  function walkForward(s){
+    let out=[];
+    for(let i=12;i<s.length;i++){
+      let p=rawPrediction(s.slice(0,i));
+      if(Math.abs(p.score)<.08||p.agree<.6)continue;
+      let pred=p.score>0?"B":"P";
+      out.push({ok:pred===s[i],strength:Math.abs(p.score),agree:p.agree});
+    }
+    return out;
+  }
+  function acc(arr,n){
+    let a=arr.slice(-n); if(!a.length)return null;
+    return a.filter(x=>x.ok).length/a.length;
+  }
+  function calibratedStrength(raw,bt){
+    // empirical calibration by nearby historical signal-strength bins
+    let r=Math.abs(raw.score), near=bt.filter(x=>Math.abs(x.strength-r)<=.12);
+    if(near.length>=12){
+      let empirical=near.filter(x=>x.ok).length/near.length;
+      // convert accuracy around 50% into a conservative signal-strength display
+      return clamp(.5+(empirical-.5)*.65,.5,.75);
+    }
+    return clamp(.5+r*.18,.5,.68);
+  }
+  function render(){
+    let s=bp(), raw=rawPrediction(s), bt=walkForward(s);
+    let conf=calibratedStrength(raw,bt);
+    let enough=s.length>=20, decisive=Math.abs(raw.score)>=.10 && raw.agree>=.62;
+    let pick= enough&&decisive ? (raw.score>0?"莊":"閒") : "觀望";
+    if($("v13Pick")) $("v13Pick").textContent=pick;
+    if($("v13Confidence")) $("v13Confidence").textContent=s.length?Math.round(conf*100)+"%":"—";
+    if($("v13Consensus")) $("v13Consensus").textContent=s.length?Math.round(raw.agree*100)+"%":"—";
+    let a50=acc(bt,50),a100=acc(bt,100);
+    if($("v13Acc50")) $("v13Acc50").textContent=a50==null?"—":(a50*100).toFixed(1)+"%";
+    if($("v13Acc100")) $("v13Acc100").textContent=a100==null?"—":(a100*100).toFixed(1)+"%";
+    if($("v13Sample")) $("v13Sample").textContent=s.length>=200?"高":s.length>=60?"中":"低";
+    if($("v13Models")){
+      $("v13Models").innerHTML=raw.vs.map(v=>{
+        let p=Math.abs(v.score)<.08?"觀望":v.score>0?"莊":"閒";
+        return '<div class="v13-model">'+v.name+'：<b>'+p+'</b> '+Math.round(Math.abs(v.score)*100)+'%</div>';
+      }).join("");
+    }
+  }
+  window.updateV13=render;
+  document.addEventListener("DOMContentLoaded",()=>{
+    render();
+    // Observe the existing dashboard so manual/API additions refresh V13 automatically.
+    const root=document.body;
+    new MutationObserver(()=>{clearTimeout(window.__v13t);window.__v13t=setTimeout(render,30)})
+      .observe(root,{childList:true,subtree:true,characterData:true});
+  });
+})();
+</script>
+
+
+<script id="v15-ux">
+(function(){
+  function tintPick(){
+    const el=document.getElementById("v13Pick");
+    if(!el)return;
+    const card=el.closest(".v13-card");
+    if(!card)return;
+    card.style.border="1px solid rgba(255,255,255,.07)";
+    card.style.boxShadow="none";
+    const t=(el.textContent||"").trim();
+    if(t==="莊"){
+      card.style.borderColor="rgba(212,59,72,.62)";
+      card.style.boxShadow="0 0 0 2px rgba(212,59,72,.08) inset";
+    }else if(t==="閒"){
+      card.style.borderColor="rgba(45,115,201,.68)";
+      card.style.boxShadow="0 0 0 2px rgba(45,115,201,.08) inset";
+    }else if(t==="觀望"){
+      card.style.borderColor="rgba(216,181,108,.55)";
+      card.style.boxShadow="0 0 0 2px rgba(216,181,108,.06) inset";
+    }
+  }
+  document.addEventListener("DOMContentLoaded",()=>{
+    tintPick();
+    const target=document.getElementById("v13Pick");
+    if(target)new MutationObserver(tintPick).observe(target,{childList:true,characterData:true,subtree:true});
+  });
+})();
+</script>
+
+
+<script id="v16-layout-js">
+document.addEventListener("DOMContentLoaded",function(){
+  const app=document.querySelector(".app");
+  const main=app&&app.querySelector(".main");
+  const controls=main&&main.querySelector(".controls");
+  const roads=main&&main.querySelector(".roads");
+  const analysis=app&&app.querySelector(".analysis-full");
+  const v13=document.getElementById("v13Control");
+  const roadAI=analysis&&analysis.querySelector(".road-ai-panel");
+  if(!app||!main||!controls||!roads||!analysis||!v13||!roadAI)return;
+
+  const title=document.createElement("div");
+  title.className="v16-titlebar";
+  title.innerHTML='<strong>BACCARAT 智能分析工作台 V16</strong><span>1億局背景 · 標準五路 · 即時回測 · 模型校準</span>';
+  main.parentNode.insertBefore(title,main);
+
+  const shell=document.createElement("div");
+  shell.className="v16-shell";
+  const left=document.createElement("aside");left.className="v16-left";
+  const center=document.createElement("main");center.className="v16-center";
+  const right=document.createElement("aside");right.className="v16-right";
+  left.appendChild(controls);
+  center.appendChild(roads);
+  right.appendChild(v13);
+  right.appendChild(roadAI);
+  shell.append(left,center,right);
+  main.parentNode.insertBefore(shell,main);
+  main.remove();
+
+  const bottom=document.createElement("div");
+  bottom.className="v16-bottom";
+  analysis.parentNode.insertBefore(bottom,analysis);
+  bottom.appendChild(analysis);
+
+  const connector=analysis.querySelector(".connect");
+  if(connector){
+    connector.classList.add("v16-collapsed");
+    const btn=document.createElement("button");
+    btn.className="v16-connector-toggle";
+    btn.textContent="展開即時資料接入 / API 設定";
+    connector.parentNode.insertBefore(btn,connector);
+    btn.addEventListener("click",()=>{
+      connector.classList.toggle("v16-collapsed");
+      btn.textContent=connector.classList.contains("v16-collapsed")
+        ?"展開即時資料接入 / API 設定":"收合即時資料接入 / API 設定";
+    });
+  }
+
+  // 將原本的開始分析按鈕留在右側；若按鈕在下方則搬到最佳路分析後面。
+  const allBtns=[...document.querySelectorAll("button")];
+  const analyzeBtn=allBtns.find(b=>(b.textContent||"").trim().includes("開始分析"));
+  if(analyzeBtn){
+    analyzeBtn.classList.add("center-analysis-btn");
+    right.insertBefore(analyzeBtn,roadAI.nextSibling);
+  }
+});
+</script>
+
 </body>
 </html>
