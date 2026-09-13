@@ -440,6 +440,210 @@ button[onclick*="'T'"],button[onclick*='"T"']{
 }
 </style>
 
+
+<style id="v17-professional">
+:root{
+  --bg:#06111f;
+  --bg2:#0a1828;
+  --panel:#0d1d30;
+  --panel2:#10243a;
+  --line:#2b4a69;
+  --line2:#d4ad5f;
+  --text:#f3f7fb;
+  --muted:#9db0c4;
+  --gold:#e0b85f;
+  --gold2:#f6d991;
+  --banker:#ff3347;
+  --player:#1685ff;
+  --tie:#16c767;
+  --cyan:#44a8ff;
+}
+html,body{background:linear-gradient(180deg,#06111f,#081624 55%,#06111f)!important;color:var(--text)!important}
+body{font-family:Inter,"Noto Sans TC","Microsoft JhengHei",Arial,sans-serif!important}
+*{box-sizing:border-box}
+.v16-titlebar{
+  background:linear-gradient(90deg,#081726,#10253a)!important;
+  border:1px solid rgba(224,184,95,.48)!important;
+  box-shadow:0 8px 30px rgba(0,0,0,.32)!important;
+}
+.v16-titlebar strong{color:var(--gold2)!important;font-size:18px!important}
+.v16-titlebar span{color:#b7c8d8!important}
+.v16-shell{grid-template-columns:275px minmax(0,1fr) 330px!important;gap:10px!important}
+.v16-left,.v16-center,.v16-right{min-width:0}
+.panel,.card,.box,.analysis-panel,.connector-panel,.v13-panel,.road-ai-panel,.controls,.road{
+  background:linear-gradient(180deg,rgba(15,31,50,.98),rgba(9,24,40,.98))!important;
+  border:1px solid rgba(91,124,155,.42)!important;
+  box-shadow:0 10px 28px rgba(0,0,0,.24)!important;
+  border-radius:12px!important;
+}
+.controls{padding:12px!important}
+.controls h2,.controls h3,.panel-title,.v13-title,.road-ai-title{color:#fff!important}
+.controls .result-btn{
+  border:1px solid rgba(255,255,255,.16)!important;
+  color:#fff!important;
+  text-shadow:0 1px 2px rgba(0,0,0,.4);
+  box-shadow:inset 0 -3px 0 rgba(0,0,0,.18),0 7px 16px rgba(0,0,0,.18)!important;
+}
+.controls .result-btn:nth-of-type(1){background:linear-gradient(180deg,#ff4353,#d91931)!important}
+.controls .result-btn:nth-of-type(2){background:linear-gradient(180deg,#258dff,#0763d7)!important}
+.controls .result-btn:nth-of-type(3){background:linear-gradient(180deg,#22c96d,#0a8d45)!important}
+button{
+  color:#f7fbff!important;
+  border:1px solid rgba(116,149,181,.35)!important;
+  background:linear-gradient(180deg,#132d48,#0b1d31)!important;
+  font-weight:700!important
+}
+button:hover{filter:brightness(1.09)}
+button:active{transform:translateY(1px) scale(.985)}
+.center-analysis-btn,.v16-connector-toggle{
+  color:#241a08!important;
+  background:linear-gradient(180deg,#f6d991,#d2a84f)!important;
+  border-color:#f2cf79!important;
+  box-shadow:0 7px 20px rgba(224,184,95,.20)!important;
+}
+input,select,textarea{
+  background:#071522!important;
+  border:1px solid rgba(108,144,177,.45)!important;
+  color:#fff!important;
+}
+::placeholder{color:#72869b!important}
+.road{overflow:hidden!important}
+.road h3,.road-title,.road-header{
+  background:linear-gradient(90deg,#10243a,#0c1e31)!important;
+  color:#fff!important;
+  border-bottom:1px solid rgba(93,130,164,.38)!important;
+}
+.road canvas,.road svg{
+  background:#f8fbff!important;
+}
+.v13-panel{background:linear-gradient(180deg,#0c1d2f,#081623)!important}
+.v13-title{color:var(--gold2)!important}
+.v13-card,.v13-model{
+  background:#0b1a2a!important;
+  border:1px solid rgba(99,137,173,.28)!important;
+}
+.v13-card b{color:#fff!important}
+.v13-sub{color:#9fb2c5!important}
+#v13Pick{font-size:24px!important}
+.road-ai-best{
+  background:#081725!important;
+  border:1px solid rgba(224,184,95,.55)!important;
+}
+.road-ai-best strong,.road-ai-title{color:var(--gold2)!important}
+.road-ai-item{
+  background:#091827!important;
+  border:1px solid rgba(81,116,149,.26)!important;
+}
+table{color:#eef5fb!important}
+th{color:#aabbd0!important;background:#0b1a2a!important}
+td{border-color:rgba(91,124,155,.25)!important}
+.v16-right{scrollbar-color:rgba(224,184,95,.4) transparent}
+.v16-bottom{
+  border-top:1px solid rgba(224,184,95,.15);
+  padding-top:8px
+}
+/* sharpen hierarchy */
+h1,h2,h3,strong,b{letter-spacing:.1px}
+small,.muted,.subtle{color:var(--muted)!important}
+/* compact professional spacing */
+.v16-left .controls{gap:8px!important}
+.v16-center .roads{gap:8px!important}
+.v16-right{gap:8px!important}
+.v13-grid{gap:7px!important}
+.v13-models{gap:5px!important}
+@media(min-width:1400px){
+  .v16-shell{grid-template-columns:285px minmax(760px,1fr) 350px!important}
+}
+@media(max-width:1180px){
+  .v16-shell{grid-template-columns:245px minmax(0,1fr)!important}
+}
+@media(max-width:760px){
+  body{padding:5px!important}
+  .v16-titlebar{padding:10px!important}
+  .v16-titlebar strong{font-size:16px!important}
+  .controls{padding:9px!important}
+  .road h3,.road-title,.road-header{font-size:13px!important}
+  .v13-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+}
+</style>
+
+
+<style id="v18-high-contrast">
+/* V18 高對比：避免文字與背景顏色過近 */
+html,body{
+  background:#050c14!important;
+  color:#f8fbff!important;
+}
+.v16-titlebar,.controls,.panel,.card,.box,.analysis-panel,.connector-panel,
+.v13-panel,.road-ai-panel,.road-ai-best,.road-ai-item{
+  background:#0b1b2b!important;
+}
+.v16-titlebar{border-color:#d9ad55!important}
+.v16-titlebar strong,.v13-title,.road-ai-title,.road-ai-best strong{
+  color:#ffd978!important;
+}
+.v16-titlebar span,.v13-sub,small,.muted,.subtle{
+  color:#b9c8d8!important;
+}
+h1,h2,h3,h4,label,.panel-title,.section-title{
+  color:#ffffff!important;
+}
+p,td,li,.value,.stat-value{
+  color:#eef5fb!important;
+}
+th{
+  color:#d6e2ee!important;
+  background:#10253a!important;
+}
+.v13-card,.v13-model{
+  background:#071522!important;
+  border-color:#31506d!important;
+}
+.v13-card span,.v13-model{color:#c5d3e1!important}
+.v13-card b{color:#ffffff!important}
+input,select,textarea{
+  background:#020a12!important;
+  color:#ffffff!important;
+  border-color:#55718d!important;
+}
+input::placeholder,textarea::placeholder{color:#8fa3b7!important}
+button{
+  background:#173653!important;
+  color:#ffffff!important;
+  border-color:#496987!important;
+}
+.center-analysis-btn,.v16-connector-toggle{
+  background:#e1b75e!important;
+  color:#171006!important;
+  border-color:#ffdb82!important;
+}
+.road h3,.road-title,.road-header{
+  background:#102943!important;
+  color:#ffffff!important;
+}
+.road canvas,.road svg{
+  background:#ffffff!important;
+}
+/* Keep semantic baccarat colors bright and unmistakable */
+#v13Pick{color:#ffffff!important}
+.v17k{
+  background:#0a1c2d!important;
+  border-color:#365773!important;
+}
+#v17KPI .v17k span{color:#b9c9d9!important}
+#v17KPI .v17k b{color:#ffda7c!important}
+/* Borders separate neighboring dark panels */
+.v16-left,.v16-center,.v16-right{color:#f8fbff!important}
+.v16-bottom{border-top-color:#38546e!important}
+table{background:#071522!important}
+td{border-color:#29465f!important}
+/* links / informational blue should be bright */
+a{color:#64b5ff!important}
+@media(max-width:760px){
+  body{background:#050c14!important}
+}
+</style>
+
 </head>
 <body>
 
@@ -497,7 +701,7 @@ box-shadow:0 10px 30px rgba(0,0,0,.18)">
       <div>
         
 <section class="v13-panel" id="v13Control">
-  <div class="v13-title">V16 模型控制中心｜1億局背景＋即時回測＋信心校準</div>
+  <div class="v13-title">V18 模型控制中心｜1億局背景＋即時回測＋信心校準</div>
   <div class="v13-grid">
     <div class="v13-card"><span class="v13-sub">下一局建議</span><b id="v13Pick">資料不足</b></div>
     <div class="v13-card"><span class="v13-sub">校準後信號</span><b id="v13Confidence">—</b></div>
@@ -1590,7 +1794,7 @@ document.addEventListener("DOMContentLoaded",function(){
 
   const title=document.createElement("div");
   title.className="v16-titlebar";
-  title.innerHTML='<strong>BACCARAT 智能分析工作台 V16</strong><span>1億局背景 · 標準五路 · 即時回測 · 模型校準</span>';
+  title.innerHTML='<strong>BACCARAT 智能分析工作台 V18</strong><span>1億局背景 · 標準五路 · 即時回測 · 模型校準</span>';
   main.parentNode.insertBefore(title,main);
 
   const shell=document.createElement("div");
