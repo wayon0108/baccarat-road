@@ -1,809 +1,234 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-Hant">
 <head>
-<meta charset="UTF-8">
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>百家樂走勢・Allbet資料接入版</title>
+<title>百家樂走勢</title>
 <style>
 :root{
-  --green:#006b50;--green2:#00825f;--green3:#064b3d;
-  --red:#ef3f46;--blue:#1387ef;--tie:#0db264;--gold:#f2c75c;
-  --line:#d4d8d6;--panel:#f7f8f7;--text:#1d2724;
+  --bg1:#087153; --bg2:#01513d; --deep:#004634; --line:#27c98f;
+  --gold:#ffe28a; --red:#ff2438; --blue:#0b84f6; --tie:#0bb660;
+  --ink:#14242f; --muted:#66747d; --white:#fff; --grid:#d8dedb;
 }
 *{box-sizing:border-box}
-html,body{margin:0;max-width:100%;overflow-x:hidden;background:#005c47;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans TC","PingFang TC",Arial,sans-serif;color:var(--text)}
-button{font:inherit}
-.app{min-height:100vh;background:linear-gradient(180deg,#006f55,#005a45);padding:7px}
-.top{
-  display:grid;grid-template-columns:350px minmax(260px,1fr) 150px 150px 150px 180px;
-  align-items:center;gap:14px;color:white;padding:3px 15px 10px;
+html,body{margin:0;background:var(--bg2);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang TC","Noto Sans TC",Arial,sans-serif;overflow-x:hidden}
+body{color:#fff}
+.app{min-height:100vh;padding:10px;background:linear-gradient(135deg,var(--bg1),var(--bg2))}
+.header{
+  display:grid;grid-template-columns:320px 1fr 145px 145px 145px 175px 58px;
+  gap:10px;align-items:center;margin-bottom:8px
 }
-.logo{display:flex;align-items:center;gap:10px;white-space:nowrap}
-.spade{font-size:52px;color:var(--gold);filter:drop-shadow(0 2px 2px #333)}
-.brandCN{font-size:31px;font-weight:900;letter-spacing:2px;color:#ffe084;text-shadow:0 2px 3px #263}
-.brandEN{font-size:13px;letter-spacing:2px;color:#ffe7a7;font-weight:800}
-.resultbox,.counter,.clock{border:1px solid rgba(255,255,255,.5);border-radius:13px;background:rgba(0,40,31,.28);box-shadow:inset 0 0 0 1px rgba(255,255,255,.08)}
-.resultbox{height:64px;padding:15px 20px;font-size:22px;font-weight:800}
-.counter{height:64px;display:flex;align-items:center;justify-content:space-evenly;font-size:22px;font-weight:900}
-.counter .tag{border-radius:12px;padding:10px 15px;color:#fff;font-size:28px}
-.counter.b .tag{background:linear-gradient(#f34b51,#dc202c)}
-.counter.p .tag{background:linear-gradient(#1e94ff,#0672d5)}
-.counter.t .tag{background:linear-gradient(#14bc6b,#078b4a)}
-.clock{text-align:center;padding:6px 8px;font-weight:700}
-.clock .date{font-size:13px}.clock .time{font-size:26px;letter-spacing:1px}
+.brand{display:flex;align-items:center;gap:10px;color:var(--gold);font-weight:900}
+.spade{font-size:60px;line-height:1}.brand-cn{font-size:34px}.brand-en{font-size:13px;letter-spacing:3px}
+.topbox{height:60px;border:2px solid #29c492;border-radius:14px;background:rgba(0,73,55,.65);display:flex;align-items:center;justify-content:center;font-weight:900}
+.current{justify-content:flex-start;padding:0 18px;font-size:22px}
+.counter{font-size:25px;gap:16px}.counter b{font-size:30px}
+.bank{background:linear-gradient(#d71c2c,#a90f1b)}.player{background:linear-gradient(#0f8cf8,#075daf)}.tie{background:linear-gradient(#10b765,#08723f)}
+.clock{flex-direction:column;font-size:13px}.clock b{font-size:24px}
+.settings{font-size:25px}
 
-.layout{display:grid;grid-template-columns:280px minmax(0,1fr);gap:6px;align-items:start}
-.layout>.box:nth-child(1){grid-column:1;grid-row:1 / span 2}
-.layout>.box:nth-child(2){grid-column:2;grid-row:1}
-.layout>.box:nth-child(3){grid-column:2;grid-row:2}
-.box{background:white;border:3px solid var(--green2);border-radius:10px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.15)}
-.title{height:40px;background:linear-gradient(180deg,#00664e,#00503e);color:#fff;padding:6px 10px;font-size:22px;font-weight:900;border-bottom:2px solid var(--green2)}
-.controls{padding:12px;background:#fff}
-.mainbtn{width:100%;border:0;border-radius:12px;color:#fff;font-weight:900;font-size:29px;padding:13px 10px;margin-bottom:8px;box-shadow:0 4px 0 rgba(0,0,0,.15);cursor:pointer}
-.mainbtn.b{background:linear-gradient(#f34e54,#ed333d)}
-.mainbtn.p{background:linear-gradient(#2098f5,#0d80e4)}
-.mainbtn.t{background:linear-gradient(#12bd70,#08a45e)}
-.row{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:4px}
-.smallbtn{border:0;background:#e8e8e8;border-radius:12px;padding:14px 7px;font-size:23px;font-weight:900;color:#151c55;box-shadow:0 3px 0 #d0d0d0;cursor:pointer}
-.checkrow{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:14px 2px}
-.check{display:flex;align-items:center;gap:7px;font-size:18px}
-.check input{width:24px;height:24px}
-.undo{width:100%;border:0;border-radius:12px;background:#e4e4e4;padding:13px;font-size:24px;font-weight:800;cursor:pointer;box-shadow:0 3px 0 #ccc}
-.actions{display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px;margin-top:12px}
-.actions button{border:0;border-radius:10px;padding:12px 4px;font-size:18px;font-weight:900;cursor:pointer}
-.save{background:#06815f;color:#fff}.load{background:#e8e8e8;color:#152057}.clear{background:#292929;color:#fff}
+.main{display:grid;grid-template-columns:290px minmax(0,1fr);gap:8px}
+.controls{background:#fff;color:#111;border:2px solid #2fc890;border-radius:12px;padding:10px}
+.controls h3{margin:0 0 8px;font-size:20px}
+.result-btn{width:100%;height:58px;border:0;border-radius:12px;color:#fff;font-size:30px;font-weight:900;margin-bottom:6px}
+.rb{background:linear-gradient(#ff2f46,#ef2135)}.pb{background:linear-gradient(#1999ff,#0877df)}.tb{background:linear-gradient(#13c66d,#05a654)}
+.twobtn{display:grid;grid-template-columns:1fr 1fr;gap:8px}.twobtn button{height:52px;border:0;border-radius:12px;background:#eef2f6;font-size:22px;font-weight:900;color:#10224a}
+.checks{display:flex;justify-content:space-around;margin:13px 0;font-size:17px}.checks input{width:23px;height:23px;vertical-align:middle}
+.undo{width:100%;height:54px;border:0;border-radius:13px;background:#dff3eb;color:#143547;font-size:24px;font-weight:900}
+.actions{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:8px}.actions button{height:48px;border:0;border-radius:10px;font-weight:900}.save{background:#078c66;color:#fff}.clear{background:#1c2328;color:#fff}
 
-.gridpanel{position:relative;background:white;overflow:hidden;min-width:0}
-canvas{display:block;background:#fff;max-width:100%;width:100%;height:auto}
-#bead{width:100%;height:auto}
-#bigRoad{width:100%;height:auto}
-.bigarea{display:grid;grid-template-rows:auto auto;min-width:0}
-.bottomroads{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:5px;border-top:4px solid var(--green)}
-.mini .title{height:34px;font-size:17px;padding:4px 9px}
-.mini{border-right:2px solid var(--green);overflow:hidden}
-.mini:last-child{border-right:0}
+.roads{display:grid;grid-template-columns:1fr 1.45fr;grid-template-rows:305px 178px;gap:8px;min-width:0}
+.road{border:2px solid var(--line);border-radius:12px;overflow:hidden;background:#fff;min-width:0}
+.road h4{height:38px;margin:0;padding:7px 12px;background:linear-gradient(180deg,#0b684f,#00503e);font-size:18px}
+.canvaswrap{height:calc(100% - 38px);overflow:hidden;background:#fff}.canvaswrap canvas{width:100%;height:100%;display:block}
+.minis{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px}
 
-.algo{
-  grid-column:1 / -1;margin-top:6px;background:linear-gradient(180deg,#f8fbfa,#eef7f3);
-  border:3px solid #0b8c68;border-radius:12px;display:grid;
-  grid-template-columns:240px 190px 1fr 260px;gap:12px;padding:12px;align-items:center;
-}
-.algoTitle{font-size:22px;font-weight:1000;color:#075a46}
-.pick{
-  display:flex;align-items:center;justify-content:center;height:78px;border-radius:14px;
-  color:white;font-size:38px;font-weight:1000;box-shadow:0 4px 0 rgba(0,0,0,.16)
-}
-.pick.B{background:linear-gradient(#f05559,#df2832)}
-.pick.P{background:linear-gradient(#239af7,#0a79db)}
-.pick.N{background:linear-gradient(#7b8582,#626b68)}
-.metrics{font-size:15px;line-height:1.7}
-.bar{height:12px;background:#d9dfdc;border-radius:999px;overflow:hidden}
-.bar>div{height:100%;width:0%;background:linear-gradient(90deg,#0d916c,#11b47f)}
-.reason{font-size:14px;line-height:1.55}
-.hit{border-left:1px solid #c4d3cd;padding-left:14px;font-size:14px;line-height:1.7}
-.hit b{font-size:21px}
-.note{font-size:11px;color:#68736f;margin-top:4px}
-.syncbox{grid-column:1 / -1;background:#fff;border:3px solid #0b8c68;border-radius:12px;padding:12px;display:grid;grid-template-columns:190px 1fr 120px 120px 120px;gap:8px;align-items:center}
-.syncbox input,.syncbox select{height:40px;border:1px solid #b9c6c1;border-radius:8px;padding:0 10px;font-size:14px}
-.syncbox button{height:40px;border:0;border-radius:8px;font-weight:900;cursor:pointer}
-.syncBtn{background:#087f60;color:#fff}.stopBtn{background:#555;color:#fff}.importBtn{background:#e8e8e8;color:#173552}
-.syncstatus{grid-column:1 / -1;font-size:12px;color:#50615b;line-height:1.5}
-.connectbox{grid-column:1 / -1;background:#f8fbfa;border:3px solid #0b8c68;border-radius:12px;padding:12px}
-.connecthead{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
-.connecttitle{font-size:21px;font-weight:1000;color:#075a46}
-.statuspill{padding:6px 12px;border-radius:999px;font-weight:900;background:#e4e4e4;color:#555}
-.statuspill.on{background:#d8f5e8;color:#087852}
-.statuspill.err{background:#ffe1e1;color:#b3262d}
-.connrow{display:grid;grid-template-columns:180px 1fr 120px 120px 120px;gap:8px;margin-top:10px}
-.connrow input,.connrow select{height:40px;border:1px solid #b9c6c1;border-radius:8px;padding:0 10px;font-size:14px}
-.connrow button{height:40px;border:0;border-radius:8px;font-weight:900;cursor:pointer}
-.logbox{margin-top:10px;background:#0d1915;color:#c8f5df;border-radius:8px;height:110px;overflow:auto;padding:9px;font:12px/1.45 ui-monospace,Consolas,monospace}
-@media(max-width:1200px){
- .top{grid-template-columns:minmax(220px,1.2fr) minmax(180px,1fr) 105px 105px 105px}.clock{display:none}
- .layout{grid-template-columns:240px minmax(0,1fr)}
- .connrow{grid-template-columns:140px minmax(0,1fr) 96px 96px 96px}
- .algo{grid-template-columns:180px 150px minmax(0,1fr) 200px}
-}
-@media(max-width:850px){
- .app{width:100%;padding:5px}
- .top{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;padding:4px 3px 8px}
- .logo{grid-column:1 / -1;justify-content:center}
- .resultbox{grid-column:1 / -1;height:auto;min-height:48px;padding:10px 12px;font-size:17px}
- .counter{height:48px;font-size:17px}
- .counter .tag{font-size:20px;padding:7px 9px}
- .layout{display:grid;grid-template-columns:minmax(0,1fr);gap:6px}
- .layout>.box:nth-child(1),.layout>.box:nth-child(2),.layout>.box:nth-child(3){grid-column:1;grid-row:auto}
- .controls{padding:8px}
- .mainbtn{font-size:22px;padding:10px;margin-bottom:6px}
- .smallbtn{font-size:18px;padding:10px 6px}
- .checkrow{margin:10px 2px}.check{font-size:15px}.check input{width:20px;height:20px}
- .undo{font-size:20px;padding:10px}.actions button{font-size:15px;padding:10px 3px}
- .title{height:34px;font-size:18px;padding:5px 8px}
- .bottomroads{grid-template-columns:1fr 1fr;gap:4px}
- .mini:nth-child(2){border-right:0}
- .mini:nth-child(3){border-top:2px solid var(--green)}
- .mini:nth-child(4){border-top:2px solid var(--green);border-right:0}
- .algo{grid-column:1;grid-template-columns:1fr;gap:8px;padding:10px}
- .pick{height:58px;font-size:28px}.hit{border-left:0;border-top:1px solid #c4d3cd;padding:8px 0 0}
- .connectbox{grid-column:1;padding:10px}
- .connrow{grid-template-columns:1fr 1fr;gap:6px}
- .connrow input,.connrow select,.connrow button{width:100%;min-width:0}
- .connrow input:nth-child(2){grid-column:1 / -1}
- .logbox{height:90px}
-}
-@media(max-width:520px){
- .brandCN{font-size:24px}.brandEN{font-size:10px}.spade{font-size:40px}
- .top{grid-template-columns:1fr 1fr 1fr}
- .counter{font-size:15px}.counter .tag{font-size:18px;padding:6px 7px}
- .bottomroads{grid-template-columns:1fr}
- .mini{border-right:0!important;border-top:2px solid var(--green)}
- .mini:first-child{border-top:0}
- .connrow{grid-template-columns:1fr}
- .connrow input:nth-child(2){grid-column:auto}
- .algoTitle,.connecttitle{font-size:18px}
+.panel{background:#fff;color:var(--ink);border:2px solid var(--line);border-radius:12px}
+.analysis{margin-top:8px;padding:12px;display:grid;grid-template-columns:300px 170px repeat(5,1fr);align-items:center;gap:12px}
+.analysis-title{font-size:24px;font-weight:900}.analysis-btn{height:56px;border:0;border-radius:10px;background:#78909e;color:#fff;font-size:20px;font-weight:900}
+.metric{padding-left:12px;border-left:1px solid #ccd4d8;font-size:14px}.metric b{font-size:20px}
+
+.connect{margin-top:8px;padding:12px}.connect-head{display:flex;justify-content:space-between;align-items:center}.connect-title{font-size:24px;font-weight:900}.connect-sub{font-size:12px;color:#617079;margin-top:2px}.status{padding:7px 13px;border-radius:20px;background:#f1f4f3}
+.connect-grid{display:grid;grid-template-columns:220px 1fr 165px 165px;gap:8px;margin-top:10px}
+.connect-grid input,.connect-grid select,.subgrid input,.subgrid select{height:42px;border:1px solid #d6dde0;border-radius:10px;padding:0 10px}
+.connbtns{display:grid;grid-template-columns:1fr 1fr;gap:8px}.connbtns button{height:42px;border:0;border-radius:10px;font-weight:900}.start{background:#0a9567;color:#fff}.stop{background:#2f353a;color:#fff}
+.subgrid{display:grid;grid-template-columns:220px 170px 1fr 110px 110px 110px;gap:8px;margin-top:8px}.subgrid button{border:0;border-radius:10px;background:#e9edf0;font-weight:900}
+.log{margin-top:8px;background:#142630;color:#55dfb8;border-radius:8px;min-height:74px;padding:10px;font-size:13px}
+
+@media(max-width:900px){
+  .app{padding:4px}
+  .header{grid-template-columns:1fr 70px 70px 70px;gap:4px}.brand{grid-column:1/-1}.brand-cn{font-size:24px}.spade{font-size:40px}.brand-en{font-size:10px}.current,.clock,.settings{display:none}.topbox{height:44px}.counter{font-size:14px;gap:4px}.counter b{font-size:20px}
+  .main{grid-template-columns:105px minmax(0,1fr);gap:4px}.controls{padding:5px}.controls h3{font-size:12px}.result-btn{height:38px;font-size:20px}.twobtn button{height:34px;font-size:14px}.checks{font-size:11px;margin:5px 0}.checks input{width:14px;height:14px}.undo{height:34px;font-size:14px}.actions{gap:2px}.actions button{height:32px;font-size:11px}
+  .roads{grid-template-columns:1fr 1.45fr;grid-template-rows:180px 100px;gap:4px}.road h4{height:28px;font-size:12px;padding:5px 7px}.canvaswrap{height:calc(100% - 28px)}.minis{gap:4px}
+  .analysis{grid-template-columns:1fr 90px 1fr 1fr;gap:5px;padding:7px}.analysis-title{font-size:15px}.analysis-btn{height:40px;font-size:12px}.metric{font-size:10px;padding-left:4px}.metric b{font-size:13px}
+  .connect{padding:7px}.connect-title{font-size:15px}.connect-sub{font-size:9px}.connect-grid{grid-template-columns:120px 1fr 90px 90px;gap:4px}.connect-grid input,.connect-grid select{height:34px;font-size:11px}.connbtns button{height:34px;font-size:10px}.subgrid{grid-template-columns:120px 90px 1fr 70px 70px 70px;gap:4px}.subgrid input,.subgrid select{height:34px;font-size:11px}.subgrid button{font-size:9px}.log{font-size:9px;min-height:60px}
 }
 </style>
 </head>
 <body>
 <div class="app">
-  <div class="top">
-    <div class="logo">
+  <div class="header">
+    <div class="brand">
       <div class="spade">♠</div>
-      <div><div class="brandCN">百家樂走勢</div><div class="brandEN">BACCARAT ROADMAP · DATA CONNECT</div></div>
+      <div><div class="brand-cn">百家樂走勢</div><div class="brand-en">BACCARAT ROADMAP</div></div>
     </div>
-    <div class="resultbox">本局結果：<span id="lastResult">—</span></div>
-    <div class="counter b"><span class="tag">莊</span><span id="cntB">0</span></div>
-    <div class="counter p"><span class="tag">閒</span><span id="cntP">0</span></div>
-    <div class="counter t"><span class="tag">和</span><span id="cntT">0</span></div>
-    <div class="clock"><div class="date" id="date"></div><div class="time" id="time"></div></div>
+    <div class="topbox current">本局結果：<span id="last">- - -</span></div>
+    <div class="topbox counter bank">莊 <b id="bCount">0</b></div>
+    <div class="topbox counter player">閒 <b id="pCount">0</b></div>
+    <div class="topbox counter tie">和 <b id="tCount">0</b></div>
+    <div class="topbox clock"><span id="date"></span><b id="time"></b></div>
+    <div class="topbox settings">⚙</div>
   </div>
 
-  <div class="layout">
-    <div class="box">
-      <div class="title" style="background:#fff;color:#111;border-bottom:0;font-size:18px">輸入本局結果</div>
-      <div class="controls">
-        <button class="mainbtn b" onclick="addResult('B')">莊</button>
-        <button class="mainbtn p" onclick="addResult('P')">閒</button>
-        <button class="mainbtn t" onclick="addResult('T')">和</button>
-        <div class="row">
-          <button class="smallbtn" onclick="setSix('B')">莊 6</button>
-          <button class="smallbtn" onclick="setSix('P')">閒 6</button>
-        </div>
-        <div class="checkrow">
-          <label class="check"><input id="bp" type="checkbox">莊對</label>
-          <label class="check"><input id="pp" type="checkbox">閒對</label>
-        </div>
-        <button class="undo" onclick="undo()">上一步</button>
-        <div class="actions">
-          <button class="save" onclick="saveData()">儲存</button>
-          <button class="load" onclick="loadData()">讀取</button>
-          <button class="clear" onclick="clearAll()">清空</button>
-        </div>
+  <div class="main">
+    <div class="controls">
+      <h3>輸入本局結果</h3>
+      <button class="result-btn rb" onclick="add('B')">莊</button>
+      <button class="result-btn pb" onclick="add('P')">閒</button>
+      <button class="result-btn tb" onclick="add('T')">和</button>
+      <div class="twobtn"><button onclick="add('B6')">莊 6</button><button onclick="add('P6')">閒 6</button></div>
+      <div class="checks"><label><input type="checkbox" id="bp"> 莊對</label><label><input type="checkbox" id="pp"> 閒對</label></div>
+      <button class="undo" onclick="undo()">上一步</button>
+      <div class="actions"><button class="save" onclick="saveData()">儲存</button><button onclick="loadData()">讀取</button><button class="clear" onclick="clearAll()">清空</button></div>
+    </div>
+
+    <div class="roads">
+      <div class="road"><h4>珠盤路</h4><div class="canvaswrap"><canvas id="bead"></canvas></div></div>
+      <div class="road"><h4>大路</h4><div class="canvaswrap"><canvas id="big"></canvas></div></div>
+      <div class="minis">
+        <div class="road"><h4>大眼仔</h4><div class="canvaswrap"><canvas id="eye"></canvas></div></div>
+        <div class="road"><h4>小路</h4><div class="canvaswrap"><canvas id="small"></canvas></div></div>
+        <div class="road"><h4>甲由路</h4><div class="canvaswrap"><canvas id="cock"></canvas></div></div>
+        <div class="road"><h4>下一手問路</h4><div class="canvaswrap"><canvas id="ask"></canvas></div></div>
       </div>
     </div>
+  </div>
 
-    <div class="box">
-      <div class="title">珠盤路</div>
-      <div class="gridpanel"><canvas id="bead" width="1050" height="252"></canvas></div>
-    </div>
+  <div class="panel analysis">
+    <div class="analysis-title">▮▮ 走勢統計演算法</div>
+    <button class="analysis-btn" onclick="renderPrediction()">開始分析</button>
+    <div class="metric">莊機率<br><b id="probB">50.0%</b></div>
+    <div class="metric">閒機率<br><b id="probP">50.0%</b></div>
+    <div class="metric">和機率<br><b id="probT">0.0%</b></div>
+    <div class="metric">模型信心<br><b id="confidence">0%</b></div>
+    <div class="metric">有效樣本<br><b id="samples">0 局</b></div>
+  </div>
 
-    <div class="box">
-      <div class="title">大路</div>
-      <div class="bigarea">
-        <div class="gridpanel"><canvas id="bigRoad" width="1050" height="252"></canvas></div>
-        <div class="bottomroads">
-          <div class="mini"><div class="title">大眼仔</div><canvas id="bigEye" width="260" height="108"></canvas></div>
-          <div class="mini"><div class="title">小路</div><canvas id="smallRoad" width="260" height="108"></canvas></div>
-          <div class="mini"><div class="title">甲由路</div><canvas id="cockroach" width="260" height="108"></canvas></div>
-          <div class="mini"><div class="title">下一手問路</div><canvas id="askRoad" width="260" height="108"></canvas></div>
-        </div>
-      </div>
-    </div>
-
-
-
-    <div class="algo">
+  <div class="panel connect">
+    <div class="connect-head">
       <div>
-        <div class="algoTitle">走勢統計演算法</div>
-        <div class="note">依目前已輸入資料即時計算</div>
+        <div class="connect-title">◉ Allbet / 百家樂資料接入</div>
+        <div class="connect-sub">支援 HTTP / JSON / CSV / WebSocket · 只要貼上網址即可自動接資料</div>
       </div>
-      <div id="algoPick" class="pick N">資料不足</div>
-      <div>
-        <div class="metrics">
-          莊機率分數：<b id="probB">50.0%</b>　｜　閒機率分數：<b id="probP">50.0%</b><br>
-          模型信心：<b id="confidence">0%</b>　｜　有效樣本：<b id="samples">0</b> 局
-        </div>
-        <div class="bar"><div id="confBar"></div></div>
-        <div class="reason" id="reason">輸入莊或閒後，系統會開始累積資料。</div>
-        <div class="note">演算法使用 N-gram／Markov 轉移、近期權重、連續型態、交替型態與線上權重校正做統計整合；「和」不列入莊閒預測序列。</div>
-      </div>
-      <div class="hit">
-        預測紀錄：<b id="predCount">0</b> 次<br>
-        命中：<b id="hitCount">0</b> 次<br>
-        命中率：<b id="hitRate">—</b>
-        <div class="note">只有在系統有給出莊/閒建議時才計入。</div>
-      </div>
+      <div class="status">● <span id="connStatus">未連線</span></div>
     </div>
 
-    <div class="connectbox">
-      <div class="connecthead">
-        <div>
-          <div class="connecttitle">Allbet / 百家樂資料接入</div>
-          <div class="note">先完成走勢與演算法；等找到平台實際 API / WebSocket 後，只要貼進來即可自動接資料。</div>
-        </div>
-        <div id="connStatus" class="statuspill">未連線</div>
-      </div>
-
-      <div class="connrow">
-        <select id="sourceType">
-          <option value="http">HTTP / JSON / CSV</option>
-          <option value="ws">WebSocket</option>
-          <option value="demo">內建測試資料</option>
-        </select>
-        <input id="endpoint" placeholder="貼上 Network 找到的 API 或 WebSocket 網址">
-        <button class="syncBtn" onclick="connectSource()">開始連線</button>
-        <button class="stopBtn" onclick="disconnectSource()">停止</button>
-        <button class="importBtn" onclick="testFeed()">測試一局</button>
-      </div>
-
-      <div class="connrow">
-        <input id="tableFilter" placeholder="桌號，例如 B605">
-        <input id="resultField" placeholder="結果欄位名稱（可留空自動辨識）">
-        <select id="pollMs">
-          <option value="1000">每 1 秒</option>
-          <option value="3000" selected>每 3 秒</option>
-          <option value="5000">每 5 秒</option>
-          <option value="10000">每 10 秒</option>
-        </select>
-        <button class="importBtn" onclick="exportData()">匯出資料</button>
-        <button class="importBtn" onclick="document.getElementById('importFile').click()">匯入資料</button>
-      </div>
-      <input id="importFile" type="file" accept=".json,.csv" style="display:none" onchange="importDataFile(event)">
-
-      <div id="connLog" class="logbox">[系統] 程式已就緒。現在可手動輸入莊/閒/和；找到平台資料網址後再貼進上方即可。</div>
+    <div class="connect-grid">
+      <select id="sourceType"><option value="http">HTTP / JSON / CSV</option><option value="ws">WebSocket</option></select>
+      <input id="endpoint" placeholder="貼上 API 或 WebSocket 網址">
+      <div class="connbtns"><button class="start" onclick="connectSource()">▶ 開始連線</button><button class="stop" onclick="disconnectSource()">■ 停止</button></div>
+      <input id="tableFilter" value="B219" placeholder="桌號，例如 B219">
     </div>
 
+    <div class="subgrid">
+      <input id="tableMirror" value="B219" placeholder="桌號">
+      <select id="pollMs"><option value="3000">3 秒</option><option value="1000">1 秒</option><option value="5000">5 秒</option></select>
+      <input id="resultField" placeholder="結果欄位名稱（可留空自動辨識）">
+      <button onclick="testFeed()">測試一局</button>
+      <button onclick="exportData()">匯出資料</button>
+      <button onclick="document.getElementById('importFile').click()">匯入資料</button>
+    </div>
+    <input id="importFile" type="file" accept=".json,.csv" style="display:none" onchange="importDataFile(event)">
+    <div id="log" class="log">[系統] 程式已就緒，現在可手動輸入莊/閒/和；或連接平台資料後開始自動更新。</div>
   </div>
 </div>
 
 <script>
-const ROWS=6, BIGCELL=42, MINICELL=18, BEADCELL=42;
-let data=[];
-let pendingSix=null;
-let pendingPrediction=null;
-let predictionStats={count:0,hit:0};
+let data = JSON.parse(localStorage.getItem('baccaratData')||'[]');
+let timer=null, ws=null, seen=new Set();
+function base(r){return r[0]}
+function color(r){return base(r)==='B'?'#ef2335':base(r)==='P'?'#087cf0':'#08a95b'}
+function add(r){data.push({r,bp:bp.checked,pp:pp.checked});bp.checked=pp.checked=false;persist();render()}
+function undo(){data.pop();persist();render()}
+function clearAll(){if(confirm('確定清空全部資料？')){data=[];persist();render()}}
+function persist(){localStorage.setItem('baccaratData',JSON.stringify(data))}
+function saveData(){persist();alert('已儲存')}
+function loadData(){data=JSON.parse(localStorage.getItem('baccaratData')||'[]');render()}
 
-function clock(){
-  const d=new Date();
-  date.textContent=d.toLocaleDateString('zh-TW',{year:'numeric',month:'2-digit',day:'2-digit'});
-  time.textContent=d.toLocaleTimeString('zh-TW',{hour12:false});
-}
-setInterval(clock,1000);clock();
+function tick(){const d=new Date();date.textContent=d.toLocaleDateString('zh-TW');time.textContent=d.toLocaleTimeString('zh-TW',{hour12:false})}
+setInterval(tick,1000);tick();
 
-function addResult(side){
-  // 先用「上一局結束時已產生的建議」核對本局，不使用本局資料偷看答案
-  if((side==='B'||side==='P') && pendingPrediction && (pendingPrediction==='B'||pendingPrediction==='P')){
-    predictionStats.count++;
-    if(pendingPrediction===side) predictionStats.hit++;
-  }
-  data.push({
-    side,
-    six: pendingSix===side,
-    bankerPair: bp.checked,
-    playerPair: pp.checked
-  });
-  pendingSix=null;bp.checked=false;pp.checked=false;
-  render();
-  pendingPrediction = currentRecommendation();
-  saveSilent();
+function setup(id,cell){
+  const c=document.getElementById(id),r=c.parentElement.getBoundingClientRect(),d=devicePixelRatio||1;
+  c.width=r.width*d;c.height=r.height*d;const x=c.getContext('2d');x.setTransform(d,0,0,d,0,0);
+  x.fillStyle='#fff';x.fillRect(0,0,r.width,r.height);x.strokeStyle='#d8dedb';x.lineWidth=.7;
+  for(let i=0;i<=r.width;i+=cell){x.beginPath();x.moveTo(i,0);x.lineTo(i,r.height);x.stroke()}
+  for(let i=0;i<=r.height;i+=cell){x.beginPath();x.moveTo(0,i);x.lineTo(r.width,i);x.stroke()}
+  return {x,w:r.width,h:r.height}
 }
-function setSix(s){pendingSix=pendingSix===s?null:s;updateSixButtons()}
-function updateSixButtons(){
-  [...document.querySelectorAll('.smallbtn')].forEach(btn=>{
-    if(btn.textContent.includes('莊')) btn.style.outline=pendingSix==='B'?'3px solid #ef3f46':'';
-    if(btn.textContent.includes('閒')) btn.style.outline=pendingSix==='P'?'3px solid #1387ef':'';
-  });
-}
-function undo(){
-  if(!data.length)return;
-  data.pop();
-  // 預測命中紀錄無法可靠倒推，所以退一步時重建統計
-  rebuildPredictionStats();
-  render();
-  pendingPrediction=currentRecommendation();
-  saveSilent();
-}
-function clearAll(){
-  if(!confirm('確定要清空全部走勢與預測紀錄？'))return;
-  data=[];predictionStats={count:0,hit:0};pendingPrediction=null;
-  localStorage.removeItem('baccarat_algo_v3');
-  render();
-}
-function saveSilent(){
-  localStorage.setItem('baccarat_algo_v3',JSON.stringify({data,predictionStats}));
-}
-function saveData(){saveSilent();alert('已儲存')}
-function loadData(){
-  const raw=localStorage.getItem('baccarat_algo_v3');
-  if(!raw)return alert('目前沒有儲存資料');
-  const obj=JSON.parse(raw);data=obj.data||[];predictionStats=obj.predictionStats||{count:0,hit:0};
-  render();pendingPrediction=currentRecommendation();
-}
-function rebuildPredictionStats(){
-  // 僅保守重置命中統計，不假造歷史回測
-  predictionStats={count:0,hit:0};
-}
-
-function drawGrid(ctx,w,h,cell){
-  ctx.clearRect(0,0,w,h);
-  ctx.strokeStyle='#d6d9d7';ctx.lineWidth=1;
-  for(let x=0;x<=w;x+=cell){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,h);ctx.stroke()}
-  for(let y=0;y<=h;y+=cell){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(w,y);ctx.stroke()}
-}
-function stats(){
-  cntB.textContent=data.filter(x=>x.side==='B').length;
-  cntP.textContent=data.filter(x=>x.side==='P').length;
-  cntT.textContent=data.filter(x=>x.side==='T').length;
-  const last=data.at(-1);
-  lastResult.textContent=!last?'—':last.side==='B'?'莊':last.side==='P'?'閒':'和';
-}
-
 function drawBead(){
-  const c=bead,ctx=c.getContext('2d');drawGrid(ctx,c.width,c.height,BEADCELL);
-  data.forEach((x,i)=>{
-    const col=Math.floor(i/ROWS),row=i%ROWS,cx=col*BEADCELL+BEADCELL/2,cy=row*BEADCELL+BEADCELL/2;
-    const color=x.side==='B'?'#ef3f46':x.side==='P'?'#1387ef':'#0db264';
-    ctx.fillStyle=color;ctx.beginPath();ctx.arc(cx,cy,18,0,Math.PI*2);ctx.fill();
-    ctx.fillStyle='#fff';ctx.font='900 19px sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';
-    ctx.fillText(x.six?'6':(x.side==='B'?'莊':x.side==='P'?'閒':'和'),cx,cy);
-    if(x.bankerPair){ctx.fillStyle='#772dd1';ctx.beginPath();ctx.arc(cx-13,cy-13,4,0,Math.PI*2);ctx.fill()}
-    if(x.playerPair){ctx.fillStyle='#f3a11b';ctx.beginPath();ctx.arc(cx+13,cy+13,4,0,Math.PI*2);ctx.fill()}
-  });
+  const {x,h}=setup('bead',30),rows=Math.max(1,Math.floor(h/30));
+  data.forEach((v,i)=>{const c=Math.floor(i/rows),r=i%rows,cx=c*30+15,cy=r*30+15;x.fillStyle=color(v.r);x.beginPath();x.arc(cx,cy,12,0,Math.PI*2);x.fill();x.fillStyle='#fff';x.font='bold 14px sans-serif';x.textAlign='center';x.textBaseline='middle';x.fillText(v.r.includes('6')?'6':base(v.r)==='B'?'莊':base(v.r)==='P'?'閒':'和',cx,cy)})
 }
+function bigPositions(){
+  const arr=data.filter(v=>base(v.r)!=='T');let out=[],col=-1,row=0,last=null;
+  for(const v of arr){const r=base(v.r);if(r!==last){col++;row=0}else row=Math.min(5,row+1);out.push({r,col,row});last=r}
+  return out
+}
+function drawBig(){const {x}=setup('big',34);bigPositions().forEach(v=>{const cx=v.col*34+17,cy=v.row*34+17;x.strokeStyle=color(v.r);x.lineWidth=3;x.beginPath();x.arc(cx,cy,12,0,Math.PI*2);x.stroke()})}
+function derived(offset){const a=bigPositions(),out=[];for(let i=offset+2;i<a.length;i++){const p=a[i-1],c=a[i];out.push(((c.row===p.row)||(c.col-p.col===1&&c.row===0))?'R':'B')}return out}
+function drawDerived(id,arr,type){
+  const {x,h}=setup(id,22),rows=Math.max(1,Math.floor(h/22));
+  arr.forEach((v,i)=>{const c=Math.floor(i/rows),r=i%rows,cx=c*22+11,cy=r*22+11;x.strokeStyle=x.fillStyle=v==='R'?'#ef2335':'#087cf0';x.lineWidth=2;
+    if(type==='slash'){x.beginPath();x.moveTo(cx-6,cy+6);x.lineTo(cx+6,cy-6);x.stroke()}
+    else if(type==='dot'){x.beginPath();x.arc(cx,cy,5,0,Math.PI*2);x.fill()}
+    else{x.beginPath();x.arc(cx,cy,7,0,Math.PI*2);x.stroke()}
+  })
+}
+function drawAsk(){const {x}=setup('ask',22);for(let j=0;j<2;j++)for(let i=0;i<10;i++){const cx=i*22+11,cy=j*22+11;x.strokeStyle=(i+j)%2?'#ef2335':'#087cf0';x.lineWidth=2;x.beginPath();x.arc(cx,cy,7,0,Math.PI*2);x.stroke()}}
+function stats(){
+  const B=data.filter(v=>base(v.r)==='B').length,P=data.filter(v=>base(v.r)==='P').length,T=data.filter(v=>base(v.r)==='T').length,n=data.length;
+  bCount.textContent=B;pCount.textContent=P;tCount.textContent=T;
+  last.textContent=n?(base(data[n-1].r)==='B'?'莊':base(data[n-1].r)==='P'?'閒':'和'):'- - -';
+  probB.textContent=(n?B/n*100:50).toFixed(1)+'%';probP.textContent=(n?P/n*100:50).toFixed(1)+'%';probT.textContent=(n?T/n*100:0).toFixed(1)+'%';samples.textContent=n+' 局'
+}
+function renderPrediction(){
+  const a=data.map(v=>base(v.r)).filter(r=>r!=='T');if(a.length<8){confidence.textContent='0%';return}
+  let B=0,P=0;for(let n=1;n<=3;n++){const pat=a.slice(-n).join('');for(let i=0;i<a.length-n;i++)if(a.slice(i,i+n).join('')===pat){a[i+n]==='B'?B++:P++}}
+  const total=B+P;confidence.textContent=(total?Math.min(90,Math.round(50+Math.abs(B-P)/total*40)):0)+'%'
+}
+function render(){drawBead();drawBig();drawDerived('eye',derived(1),'circle');drawDerived('small',derived(2),'dot');drawDerived('cock',derived(3),'slash');drawAsk();stats();renderPrediction()}
+window.addEventListener('resize',render);
 
-function makeBigRoad(source=data){
-  const seq=[];let leadingTie=0;
-  source.forEach(x=>{
-    if(x.side==='T'){
-      if(seq.length) seq.at(-1).ties=(seq.at(-1).ties||0)+1;
-      else leadingTie++;
-    }else{
-      seq.push({...x,ties:leadingTie});leadingTie=0;
-    }
-  });
-  const out=[],occ=new Set();
-  let last=null,col=0,row=0,head=0;
-  for(const x of seq){
-    if(last===null){col=0;row=0;head=0}
-    else if(x.side===last){
-      const nr=row+1;
-      if(nr<ROWS&&!occ.has(col+','+nr))row=nr;else col++;
-    }else{
-      head++;while(occ.has(head+',0'))head++;
-      col=head;row=0;
-    }
-    occ.add(col+','+row);out.push({...x,col,row});last=x.side;
-  }
-  return out;
+function normalizeResult(v){
+  if(v==null)return null;const s=String(v).trim().toLowerCase();
+  if(['b','banker','莊','庄'].includes(s)||s.includes('banker'))return 'B';
+  if(['p','player','閒','闲'].includes(s)||s.includes('player'))return 'P';
+  if(['t','tie','和'].includes(s)||s.includes('tie'))return 'T';return null
 }
-function drawBig(){
-  const c=bigRoad,ctx=c.getContext('2d');drawGrid(ctx,c.width,c.height,BIGCELL);
-  makeBigRoad().forEach(x=>{
-    const cx=x.col*BIGCELL+BIGCELL/2,cy=x.row*BIGCELL+BIGCELL/2;
-    const color=x.side==='B'?'#ef3f46':'#1387ef';
-    ctx.strokeStyle=color;ctx.lineWidth=4;ctx.beginPath();ctx.arc(cx,cy,15,0,Math.PI*2);ctx.stroke();
-    if(x.six){ctx.fillStyle=color;ctx.font='900 15px sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText('6',cx,cy)}
-    if(x.ties){
-      ctx.strokeStyle='#0db264';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(cx-12,cy+12);ctx.lineTo(cx+12,cy-12);ctx.stroke();
-      if(x.ties>1){ctx.fillStyle='#0db264';ctx.font='900 10px sans-serif';ctx.fillText(x.ties,cx+12,cy-12)}
-    }
-  });
+function pick(o,names){for(const n of names)if(o&&Object.prototype.hasOwnProperty.call(o,n))return o[n]}
+function rows(p){if(Array.isArray(p))return p;if(p&&Array.isArray(p.data))return p.data;if(p&&Array.isArray(p.results))return p.results;if(p&&Array.isArray(p.items))return p.items;return [p]}
+function processPayload(payload){
+  const target=(tableFilter.value||tableMirror.value||'').trim().toLowerCase();let added=0;
+  for(const row of rows(payload)){if(!row||typeof row!=='object')continue;const table=pick(row,['table','tableId','table_id','tableNo','desk','room']);if(target&&String(table??'').toLowerCase()!==target)continue;
+    const rf=resultField.value.trim();const raw=rf?row[rf]:pick(row,['result','winner','side','gameResult','game_result','outcome','win']);const r=normalizeResult(raw);if(!r)continue;
+    const id=pick(row,['id','gameId','game_id','roundId','round_id','serial','issue'])??JSON.stringify(row);const key=String(id);if(seen.has(key))continue;seen.add(key);data.push({r,source:'auto'});added++}
+  if(added){persist();render();logmsg(`新增 ${added} 局，自動更新走勢`)}
 }
-function mapCols(cells){
-  const m=new Map();cells.forEach(x=>{if(!m.has(x.col))m.set(x.col,new Set());m.get(x.col).add(x.row)});return m;
-}
-function derive(offset, source=data){
-  const cells=makeBigRoad(source),m=mapCols(cells),out=[];
-  for(const x of cells){
-    const c=x.col,r=x.row;if(c<offset+1)continue;
-    let red;
-    if(r===0){
-      const a=m.get(c-1)?.size||0,b=m.get(c-1-offset)?.size||0;red=a===b;
-    }else{
-      const tc=c-offset,hasSame=m.get(tc)?.has(r)||false,hasPrev=m.get(tc)?.has(r-1)||false;
-      red=hasSame===hasPrev;
-    }
-    out.push(red?'R':'B');
-  }
-  return out;
-}
-function layoutMini(seq){
-  const out=[],occ=new Set();let last=null,col=0,row=0,head=0;
-  seq.forEach(s=>{
-    if(last===null){col=0;row=0;head=0}
-    else if(s===last){const nr=row+1;if(nr<ROWS&&!occ.has(col+','+nr))row=nr;else col++}
-    else{head++;while(occ.has(head+',0'))head++;col=head;row=0}
-    occ.add(col+','+row);out.push({s,col,row});last=s;
-  });return out;
-}
-function drawMini(id,seq,type){
-  const c=document.getElementById(id),ctx=c.getContext('2d');drawGrid(ctx,c.width,c.height,MINICELL);
-  layoutMini(seq).forEach(x=>{
-    const cx=x.col*MINICELL+MINICELL/2,cy=x.row*MINICELL+MINICELL/2;
-    const color=x.s==='R'?'#ef3f46':'#1387ef';ctx.strokeStyle=color;ctx.fillStyle=color;ctx.lineWidth=2;
-    if(type==='circle'){ctx.beginPath();ctx.arc(cx,cy,5.5,0,Math.PI*2);ctx.stroke()}
-    else if(type==='dot'){ctx.beginPath();ctx.arc(cx,cy,4,0,Math.PI*2);ctx.fill()}
-    else{ctx.beginPath();ctx.moveTo(cx-5,cy+5);ctx.lineTo(cx+5,cy-5);ctx.stroke()}
-  });
-}
-function drawAsk(){
-  const c=askRoad,ctx=c.getContext('2d');drawGrid(ctx,c.width,c.height,MINICELL);
-  const options=['B','P']; options.forEach((side,i)=>{
-    const fake=[...data,{side,six:false,bankerPair:false,playerPair:false}];
-    const vals=[derive(1,fake).at(-1),derive(2,fake).at(-1),derive(3,fake).at(-1)];
-    vals.forEach((v,j)=>{
-      const cx=(j+1)*MINICELL+MINICELL/2,cy=i*MINICELL*2+MINICELL;
-      const color=v==='R'?'#ef3f46':'#1387ef';
-      ctx.strokeStyle=color;ctx.lineWidth=2;ctx.beginPath();ctx.arc(cx,cy,6,0,Math.PI*2);ctx.stroke();
-    });
-    ctx.fillStyle=side==='B'?'#ef3f46':'#1387ef';ctx.font='900 12px sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';
-    ctx.fillText(side==='B'?'莊':'閒',MINICELL/2, i*MINICELL*2+MINICELL);
-  });
-}
-
-
-
-let sourceTimer=null;
-let sourceSocket=null;
-let sourceSeen=new Set(JSON.parse(localStorage.getItem('baccarat_seen_ids')||'[]'));
-let adaptiveWeights=JSON.parse(localStorage.getItem('baccarat_adaptive_weights')||'{"ngram":1,"recent":1,"streak":1,"alternate":1}');
-let modelLedger=JSON.parse(localStorage.getItem('baccarat_model_ledger')||'[]');
-
-function logMsg(msg){
-  const el=document.getElementById('connLog');
-  if(!el)return;
-  const t=new Date().toLocaleTimeString('zh-TW',{hour12:false});
-  el.textContent += `\n[${t}] ${msg}`;
-  el.scrollTop=el.scrollHeight;
-}
-function setConnStatus(text,mode=''){
-  connStatus.textContent=text;
-  connStatus.className='statuspill'+(mode?' '+mode:'');
-}
-function normalizeSide(v){
-  if(v===null||v===undefined)return null;
-  const s=String(v).trim().toLowerCase();
-  if(['b','banker','莊','庄','bank','1'].includes(s))return 'B';
-  if(['p','player','閒','闲','play','2'].includes(s))return 'P';
-  if(['t','tie','和','draw','3'].includes(s))return 'T';
-  return null;
-}
-function deepFindResult(obj, preferred=''){
-  if(!obj || typeof obj!=='object') return null;
-  if(preferred && obj[preferred]!==undefined){
-    const s=normalizeSide(obj[preferred]); if(s)return s;
-  }
-  const keys=['result','winner','side','outcome','win','gameResult','resultType','bankerPlayer','勝方','結果'];
-  for(const k of keys){
-    if(obj[k]!==undefined){
-      const s=normalizeSide(obj[k]); if(s)return s;
-    }
-  }
-  for(const [k,v] of Object.entries(obj)){
-    if(v && typeof v==='object'){
-      const s=deepFindResult(v,preferred); if(s)return s;
-    }
-  }
-  return null;
-}
-function deepFindId(obj){
-  if(!obj || typeof obj!=='object')return '';
-  const keys=['id','roundId','round_id','gameId','game_id','shoeId','issue','round','局號','期號'];
-  for(const k of keys)if(obj[k]!==undefined)return String(obj[k]);
-  return '';
-}
-function deepFindTable(obj){
-  if(!obj || typeof obj!=='object')return '';
-  const keys=['table','tableId','table_id','tableName','tableCode','desk','桌號'];
-  for(const k of keys)if(obj[k]!==undefined)return String(obj[k]);
-  return '';
-}
-function collectObjects(payload){
-  const out=[];
-  const walk=x=>{
-    if(Array.isArray(x)){x.forEach(walk);return}
-    if(x && typeof x==='object'){
-      out.push(x);
-      Object.values(x).forEach(v=>{if(v&&typeof v==='object')walk(v)});
-    }
-  };
-  walk(payload);return out;
-}
-function ingestPayload(payload, source='network'){
-  const preferred=(resultField?.value||'').trim();
-  const filter=(tableFilter?.value||'').trim().toLowerCase();
-  let objects=collectObjects(payload);
-  let added=0;
-  for(const obj of objects){
-    const side=deepFindResult(obj,preferred);
-    if(!side)continue;
-    const table=deepFindTable(obj);
-    if(filter && table && !table.toLowerCase().includes(filter))continue;
-    const id=deepFindId(obj) || JSON.stringify(obj).slice(0,180);
-    const key=[table,id,side].join('|');
-    if(sourceSeen.has(key))continue;
-    sourceSeen.add(key);
-    data.push({side,six:false,bankerPair:false,playerPair:false,source});
-    added++;
-  }
-  if(added){
-    localStorage.setItem('baccarat_seen_ids',JSON.stringify([...sourceSeen].slice(-50000)));
-    render(); pendingPrediction=currentRecommendation(); saveSilent(); updateAdaptiveModel();
-    logMsg(`新增 ${added} 局資料，走勢與演算法已更新。`);
-  }
-  return added;
-}
-function parseCSV(text){
-  const lines=text.trim().split(/\r?\n/).filter(Boolean);
-  if(!lines.length)return [];
-  const head=lines[0].split(',').map(x=>x.trim());
-  return lines.slice(1).map(line=>{
-    const p=line.split(',').map(x=>x.trim()),o={};
-    head.forEach((h,i)=>o[h]=p[i]);return o;
-  });
-}
-async function pollHttp(){
-  const url=endpoint.value.trim();
-  if(!url)return;
-  try{
-    const res=await fetch(url,{cache:'no-store'});
-    if(!res.ok)throw new Error('HTTP '+res.status);
-    const ct=(res.headers.get('content-type')||'').toLowerCase();
-    const payload=ct.includes('json')?await res.json():parseCSV(await res.text());
-    const n=ingestPayload(payload,'http');
-    setConnStatus('HTTP 已連線','on');
-    if(!n)logMsg('已取得資料，但沒有發現新的莊/閒/和結果。');
-  }catch(e){
-    setConnStatus('連線失敗','err');
-    logMsg('HTTP 失敗：'+e.message+'。可能需要登入、Token 或平台限制 CORS。');
-  }
-}
-function connectWebSocket(){
-  const url=endpoint.value.trim();
-  try{
-    sourceSocket=new WebSocket(url);
-    sourceSocket.onopen=()=>{setConnStatus('WS 已連線','on');logMsg('WebSocket 已連線。')};
-    sourceSocket.onmessage=ev=>{
-      let payload=ev.data;
-      try{payload=JSON.parse(ev.data)}catch{}
-      if(typeof payload==='object')ingestPayload(payload,'ws');
-    };
-    sourceSocket.onerror=()=>{setConnStatus('WS 錯誤','err');logMsg('WebSocket 發生錯誤。')};
-    sourceSocket.onclose=()=>{setConnStatus('已停止');logMsg('WebSocket 已關閉。')};
-  }catch(e){setConnStatus('連線失敗','err');logMsg('WS 失敗：'+e.message)}
+function logmsg(m){const t=new Date().toLocaleTimeString('zh-TW',{hour12:false});log.innerHTML+=`<div>[${t}] ${m}</div>`;log.scrollTop=log.scrollHeight}
+async function poll(){
+  try{const res=await fetch(endpoint.value.trim(),{cache:'no-store',credentials:'include'});if(!res.ok)throw new Error('HTTP '+res.status);let payload;const ct=res.headers.get('content-type')||'';payload=ct.includes('json')?await res.json():JSON.parse(await res.text());processPayload(payload);connStatus.textContent='已連線'}catch(e){connStatus.textContent='連線失敗';logmsg(e.message)}
 }
 function connectSource(){
-  disconnectSource(false);
-  localStorage.setItem('baccarat_endpoint',endpoint.value.trim());
-  localStorage.setItem('baccarat_table_filter',tableFilter.value.trim());
-  localStorage.setItem('baccarat_result_field',resultField.value.trim());
-  const type=sourceType.value;
-  if(type==='demo'){
-    setConnStatus('測試模式','on');logMsg('已進入測試模式。按「測試一局」可模擬輸入。');return;
-  }
-  if(!endpoint.value.trim()){setConnStatus('缺少網址','err');logMsg('請先貼上 API 或 WebSocket 網址。');return}
-  if(type==='http'){
-    pollHttp();
-    sourceTimer=setInterval(pollHttp,Number(pollMs.value)||3000);
-    logMsg('HTTP 自動抓取已啟動。');
-  }else{
-    connectWebSocket();
-  }
+  disconnectSource(false);const url=endpoint.value.trim();if(!url){alert('請先貼上網址');return}
+  if(sourceType.value==='ws'){try{ws=new WebSocket(url);connStatus.textContent='連線中';ws.onopen=()=>{connStatus.textContent='已連線';logmsg('WebSocket 已連線')};ws.onmessage=e=>{try{processPayload(JSON.parse(e.data))}catch{}};ws.onclose=()=>connStatus.textContent='已停止'}catch(e){logmsg(e.message)}}
+  else{poll();timer=setInterval(poll,Number(pollMs.value)||3000);logmsg('開始自動抓取')}
 }
-function disconnectSource(writeLog=true){
-  if(sourceTimer){clearInterval(sourceTimer);sourceTimer=null}
-  if(sourceSocket){try{sourceSocket.close()}catch{} sourceSocket=null}
-  if(writeLog)logMsg('已停止資料連線。');
-  if(document.getElementById('connStatus'))setConnStatus('已停止');
-}
-function testFeed(){
-  const seq=['B','P','B','B','P','T'];
-  const side=seq[Math.floor(Math.random()*seq.length)];
-  data.push({side,six:false,bankerPair:false,playerPair:false,source:'demo'});
-  render();pendingPrediction=currentRecommendation();saveSilent();updateAdaptiveModel();
-  logMsg('測試輸入：'+(side==='B'?'莊':side==='P'?'閒':'和'));
-}
-function exportData(){
-  const blob=new Blob([JSON.stringify({exportedAt:new Date().toISOString(),data,predictionStats,adaptiveWeights},null,2)],{type:'application/json'});
-  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='baccarat_data_'+Date.now()+'.json';a.click();URL.revokeObjectURL(a.href);
-  logMsg('已匯出目前歷史資料。');
-}
-function importDataFile(ev){
-  const f=ev.target.files?.[0];if(!f)return;
-  const rd=new FileReader();
-  rd.onload=()=>{
-    try{
-      const txt=rd.result;let rows=[];
-      if(f.name.toLowerCase().endsWith('.csv'))rows=parseCSV(txt);
-      else{
-        const obj=JSON.parse(txt);rows=Array.isArray(obj)?obj:(obj.data||[]);
-      }
-      if(Array.isArray(rows)){
-        let added=0;
-        for(const r of rows){
-          const side=typeof r==='string'?normalizeSide(r):deepFindResult(r,'');
-          if(side){data.push({side,six:false,bankerPair:false,playerPair:false,source:'import'});added++}
-        }
-        render();pendingPrediction=currentRecommendation();saveSilent();updateAdaptiveModel();
-        logMsg(`匯入完成：新增 ${added} 局。`);
-      }
-    }catch(e){logMsg('匯入失敗：'+e.message)}
-  };
-  rd.readAsText(f);
-  ev.target.value='';
-}
-function updateAdaptiveModel(){
-  // 用最近資料做簡單 walk-forward 校正，各特徵權重依近期命中率微調
-  const seq=data.filter(x=>x.side==='B'||x.side==='P').map(x=>x.side);
-  if(seq.length<40)return;
-  const start=Math.max(12,seq.length-120);
-  const score={ngram:[0,0],recent:[0,0],streak:[0,0],alternate:[0,0]};
-  for(let i=start;i<seq.length;i++){
-    const hist=seq.slice(0,i), actual=seq[i];
-    // ngram 2-3
-    let pred=null,b=1,p=1;
-    for(const k of [3,2,1]){
-      if(hist.length<=k)continue;
-      const pat=hist.slice(-k).join('');
-      b=1;p=1;
-      for(let j=k;j<hist.length;j++){
-        if(hist.slice(j-k,j).join('')===pat){hist[j]==='B'?b++:p++}
-      }
-      if(b+p>3){pred=b>=p?'B':'P';break}
-    }
-    if(pred){score.ngram[1]++;if(pred===actual)score.ngram[0]++}
-
-    const rec=hist.slice(-12); if(rec.length){
-      const rb=rec.filter(x=>x==='B').length;pred=rb>=rec.length/2?'B':'P';
-      score.recent[1]++;if(pred===actual)score.recent[0]++;
-    }
-    const last=hist.at(-1);let st=1;
-    for(let j=hist.length-2;j>=0&&hist[j]===last;j--)st++;
-    if(st>=2){pred=last;score.streak[1]++;if(pred===actual)score.streak[0]++}
-    let alt=0;
-    for(let j=hist.length-1;j>0&&j>=hist.length-6;j--){if(hist[j]!==hist[j-1])alt++;else break}
-    if(alt>=3){pred=last==='B'?'P':'B';score.alternate[1]++;if(pred===actual)score.alternate[0]++}
-  }
-  for(const k of Object.keys(score)){
-    const [hit,total]=score[k];
-    if(total>=8){
-      const rate=hit/total;
-      adaptiveWeights[k]=Math.max(.55,Math.min(1.6,0.7+rate*0.9));
-    }
-  }
-  localStorage.setItem('baccarat_adaptive_weights',JSON.stringify(adaptiveWeights));
-}
-
-/* ===== 走勢統計演算法 =====
-   不是讀取未來牌，而是從已輸入 B/P 序列估計條件機率。
-   使用 1~5 階 N-gram + Markov、近期加權、連續/交替型態，並用樣本量縮減信心。
-*/
-function algorithm(source=data){
-  const seq=source.filter(x=>x.side==='B'||x.side==='P').map(x=>x.side);
-  const n=seq.length;
-  if(n<8) return {pick:'N',pb:.5,pp:.5,conf:0,n,reason:`目前只有 ${n} 局莊/閒資料，至少 8 局後開始顯示統計建議。`};
-
-  let logit=0, totalWeight=0, details=[];
-
-  // 1~5階 N-gram：找過去相同尾巴後下一手的結果
-  for(let k=1;k<=5;k++){
-    if(n<=k)continue;
-    const pattern=seq.slice(n-k).join('');
-    let b=1,p=1; // Laplace smoothing
-    for(let i=k;i<n;i++){
-      if(seq.slice(i-k,i).join('')===pattern){
-        if(seq[i]==='B')b++;else p++;
-      }
-    }
-    const samples=b+p-2;
-    if(samples>0){
-      const prob=b/(b+p);
-      const reliability=Math.min(1,samples/(4+k*2));
-      const w=(6+k*4)*reliability*(adaptiveWeights.ngram||1);
-      logit += (prob-.5)*2*w; totalWeight += w;
-      if(k>=2 && samples>=3) details.push(`${k}階型態樣本${samples}局`);
-    }
-  }
-
-  // 近期 16 局：越近權重越高
-  const recent=seq.slice(-16);
-  let wb=0,wp=0,ws=0;
-  recent.forEach((s,i)=>{
-    const w=0.45+0.55*(i+1)/recent.length;
-    ws+=w;if(s==='B')wb+=w;else wp+=w;
-  });
-  const recEdge=(wb-wp)/ws;
-  logit += recEdge*16*(adaptiveWeights.recent||1); totalWeight += 16*(adaptiveWeights.recent||1);
-  if(Math.abs(recEdge)>.18)details.push(`近期${recent.length}局${recEdge>0?'莊':'閒'}偏多`);
-
-  // 連續/跳路型態
-  const last=seq.at(-1);
-  let streak=1;
-  for(let i=n-2;i>=0&&seq[i]===last;i--)streak++;
-  if(streak>=2){
-    let same=1,opp=1;
-    // 從歷史找同長度連段之後是否延續
-    for(let i=streak;i<n;i++){
-      let ok=true;
-      for(let j=1;j<=streak;j++) if(seq[i-j]!==last){ok=false;break}
-      if(ok){ if(seq[i]===last)same++; else opp++; }
-    }
-    const probSame=same/(same+opp), w=Math.min(18,6+streak*2);
-    logit += (last==='B'?1:-1)*(probSame-.5)*2*w; totalWeight += w;
-    details.push(`${last==='B'?'莊':'閒'}${streak}連`);
-  }
-
-  let alternations=0;
-  for(let i=n-1;i>0 && i>=n-7;i--){ if(seq[i]!==seq[i-1])alternations++; else break; }
-  if(alternations>=3){
-    const expected=last==='B'?'P':'B';
-    const w=Math.min(14,6+alternations)*(adaptiveWeights.alternate||1);
-    logit += (expected==='B'?1:-1)*w*0.45;totalWeight+=w;
-    details.push(`近${alternations+1}手呈跳路`);
-  }
-
-  // 樣本量縮減：資料少時拉回50%
-  const shrink=Math.min(1,(n-6)/35);
-  const normalized = totalWeight ? (logit/totalWeight) : 0;
-  let pb=.5 + normalized*.34*shrink;
-  pb=Math.max(.36,Math.min(.64,pb));
-  const pp=1-pb;
-
-  const edge=Math.abs(pb-.5);
-  const conf=Math.round(Math.min(92, edge*200 + Math.min(35,n*0.75)));
-  let pick=pb>=.5?'B':'P';
-
-  // 資料太少或差異過小 -> 觀望
-  if(n<12 || edge<.025) pick='N';
-
-  return{
-    pick,pb,pp,conf,n,
-    reason:(details.slice(0,4).join('；') || '目前未出現明顯重複型態') +
-      (pick==='N'?'；差異不足，建議觀望。':'。') +
-      `｜自適應權重 N:${(adaptiveWeights.ngram||1).toFixed(2)} R:${(adaptiveWeights.recent||1).toFixed(2)} S:${(adaptiveWeights.streak||1).toFixed(2)} A:${(adaptiveWeights.alternate||1).toFixed(2)}`
-  };
-}
-function currentRecommendation(){return algorithm().pick}
-
-function renderAlgorithm(){
-  const r=algorithm();
-  probB.textContent=(r.pb*100).toFixed(1)+'%';
-  probP.textContent=(r.pp*100).toFixed(1)+'%';
-  confidence.textContent=r.conf+'%';
-  samples.textContent=r.n;
-  confBar.style.width=r.conf+'%';
-  reason.textContent=r.reason;
-  algoPick.className='pick '+r.pick;
-  algoPick.textContent=r.pick==='B'?'建議 莊':r.pick==='P'?'建議 閒':'觀望';
-  predCount.textContent=predictionStats.count;
-  hitCount.textContent=predictionStats.hit;
-  hitRate.textContent=predictionStats.count?((predictionStats.hit/predictionStats.count)*100).toFixed(1)+'%':'—';
-}
-
-function render(){
-  stats();drawBead();drawBig();
-  drawMini('bigEye',derive(1),'circle');
-  drawMini('smallRoad',derive(2),'dot');
-  drawMini('cockroach',derive(3),'slash');
-  drawAsk();renderAlgorithm();updateSixButtons();
-}
-endpoint.value=localStorage.getItem('baccarat_endpoint')||'';
-tableFilter.value=localStorage.getItem('baccarat_table_filter')||'';
-resultField.value=localStorage.getItem('baccarat_result_field')||'';
-loadData();
-updateAdaptiveModel();
+function disconnectSource(write=true){if(timer){clearInterval(timer);timer=null}if(ws){try{ws.close()}catch{}ws=null}connStatus.textContent='已停止';if(write)logmsg('已停止')}
+function testFeed(){data.push({r:Math.random()>.5?'B':'P'});persist();render()}
+function exportData(){const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='baccarat-data.json';a.click()}
+function importDataFile(e){const f=e.target.files[0];if(!f)return;const rd=new FileReader();rd.onload=()=>{try{const v=JSON.parse(rd.result);if(Array.isArray(v)){data=v;persist();render()}}catch{alert('檔案格式錯誤')}};rd.readAsText(f)}
 render();
-pendingPrediction=currentRecommendation();
 </script>
 </body>
 </html>
