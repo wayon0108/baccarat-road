@@ -95,6 +95,89 @@ body{color:#fff}
 }
 
 </style>
+
+<style>
+.road,.road canvas,.road-wrap,.canvas-wrap{max-width:100%!important;overflow:hidden!important}
+canvas{display:block;max-width:100%!important}
+</style>
+
+<style id="casino-road-v9">
+.roads-main{display:grid!important;grid-template-columns:34% 66%!important;gap:6px!important}
+.roads-bottom{display:grid!important;grid-template-columns:1fr 1fr 1fr 1.12fr!important;gap:6px!important}
+.road{border:1px solid #bfc8c4!important;border-radius:2px!important;background:#fff!important;overflow:hidden!important}
+.road h4{height:24px!important;line-height:24px!important;margin:0!important;padding:0 8px!important;font-size:13px!important;font-weight:800!important;background:#f3f6f4!important;border-bottom:1px solid #cfd7d3!important}
+.canvaswrap{height:180px!important;overflow:hidden!important}
+.road-small .canvaswrap{height:120px!important}
+@media(max-width:900px){
+  .roads-main{grid-template-columns:1fr!important}
+  .roads-bottom{grid-template-columns:1fr 1fr!important}
+  .canvaswrap{height:150px!important}
+  .road-small .canvaswrap{height:105px!important}
+}
+</style>
+
+
+<style id="best-road-ai-v10">
+.road-ai-panel{margin:12px 14px 4px;border:1px solid #ccd6d1;border-radius:10px;background:#fbfcfb;padding:12px}
+.road-ai-title{font-size:17px;font-weight:900;color:#153f31;margin-bottom:9px}
+.road-ai-best{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 12px;border-radius:8px;background:#f1f6f3;border:1px solid #d9e4de}
+.road-ai-label{font-size:12px;color:#68756f;font-weight:700}
+.road-ai-name{font-size:21px;font-weight:900;margin-top:2px}
+.road-ai-pick{min-width:150px;text-align:center;padding:11px 14px;border-radius:9px;font-size:18px;font-weight:900}
+.road-ai-pick.B{background:#ffe8eb;color:#c61529;border:1px solid #f3aeb7}
+.road-ai-pick.P{background:#e8f3ff;color:#0869c4;border:1px solid #a9d2fb}
+.road-ai-pick.neutral{background:#ecefed;color:#66706b;border:1px solid #d4dad7}
+.road-ai-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;margin-top:9px}
+.road-ai-item{display:grid;grid-template-columns:1fr auto;gap:2px 6px;align-items:center;border:1px solid #dde4e1;border-radius:7px;background:white;padding:8px}
+.road-ai-item span{grid-column:1/3;font-size:12px;color:#68736e;font-weight:800}
+.road-ai-item b{font-size:16px}
+.road-ai-item em{font-style:normal;font-size:12px;color:#68736e;font-weight:800}
+.road-ai-reason{margin-top:9px;font-size:12px;line-height:1.55;color:#52605a}
+@media(max-width:900px){.road-ai-grid{grid-template-columns:1fr 1fr}.road-ai-pick{min-width:120px;font-size:16px}}
+</style>
+
+
+<style id="casino-alt-v11">
+:root{
+  --ink:#10233a;--muted:#637184;--line:#d7dde5;--panel:#ffffff;
+  --head:#18283e;--head2:#243b58;--accent:#c79b48;--soft:#f3f5f8;
+  --banker:#d43b48;--player:#2d73c9;--tie:#2e9a6d;
+}
+html,body{background:#e9edf2!important;color:var(--ink)!important;overflow-x:hidden!important}
+body{background-image:linear-gradient(180deg,#eef1f5 0,#e5e9ef 100%)!important}
+.topbar,.header,.app-header{background:linear-gradient(110deg,var(--head),var(--head2))!important;border-bottom:3px solid var(--accent)!important}
+.logo,.brand,.title{color:#f4d88e!important}
+.panel,.road{background:var(--panel)!important;border-color:#cbd3dc!important;box-shadow:0 3px 12px rgba(20,37,57,.08)!important}
+.road h4{background:linear-gradient(90deg,#1b2d45,#263f5e)!important;color:#fff!important;border-bottom:2px solid var(--accent)!important}
+button.banker,.banker{background:linear-gradient(135deg,#e24955,#bb2636)!important}
+button.player,.player{background:linear-gradient(135deg,#3985dc,#1f62b3)!important}
+button.tie,.tie{background:linear-gradient(135deg,#3bad7e,#20835d)!important}
+.analysis-full{border-top:4px solid var(--accent)!important}
+.analysis-title,.road-ai-title{color:#172c45!important}
+.analysis-head{background:linear-gradient(90deg,#f8f5ee,#fff)!important}
+.recommend-card,.road-ai-best{box-shadow:none!important}
+.connect{border-top:4px solid #2b4767!important}
+.connect-head{background:#f5f7fa!important}
+.connect-title{color:#172c45!important}
+.start{background:#223f60!important}
+.log{background:#111d2c!important;color:#9ce4d0!important}
+.road-ai-panel{background:#f7f8fa!important;border-color:#d6dce4!important}
+.road-ai-item{border-color:#d9dfe6!important}
+.stats,.analysis-metrics{color:#23364c!important}
+</style>
+
+
+<style id="center-analysis-v12">
+.center-analysis-btn{
+  display:block!important;
+  margin:12px auto!important;
+  min-width:190px!important;
+  max-width:260px!important;
+  padding:13px 28px!important;
+  text-align:center!important;
+}
+</style>
+
 </head>
 <body>
 <div class="app">
@@ -125,12 +208,12 @@ body{color:#fff}
 
     <div class="roads">
       <div class="road"><h4>珠盤路</h4><div class="canvaswrap"><canvas id="bead"></canvas></div></div>
-      <div class="road"><h4>大路</h4><div class="canvaswrap"><canvas id="big"></canvas></div></div>
+      <div class="road big-road"><h4>大路</h4><div class="canvaswrap"><canvas id="big"></canvas></div></div>
       <div class="minis">
-        <div class="road"><h4>大眼仔</h4><div class="canvaswrap"><canvas id="eye"></canvas></div></div>
-        <div class="road"><h4>小路</h4><div class="canvaswrap"><canvas id="small"></canvas></div></div>
-        <div class="road"><h4>甲由路</h4><div class="canvaswrap"><canvas id="cock"></canvas></div></div>
-        <div class="road"><h4>下一手問路</h4><div class="canvaswrap"><canvas id="ask"></canvas></div></div>
+        <div class="road road-small"><h4>大眼仔</h4><div class="canvaswrap"><canvas id="eye"></canvas></div></div>
+        <div class="road road-small"><h4>小路</h4><div class="canvaswrap"><canvas id="small"></canvas></div></div>
+        <div class="road road-small"><h4>曱甴路</h4><div class="canvaswrap"><canvas id="cock"></canvas></div></div>
+        <div class="road road-small"><h4>下一手問路</h4><div class="canvaswrap"><canvas id="ask"></canvas></div></div>
       </div>
     </div>
   </div>
@@ -139,8 +222,9 @@ body{color:#fff}
   <div class="panel analysis-full">
     <div class="analysis-head">
       <div>
-        <div class="analysis-title">▮▮ 走勢統計演算法</div>
-        <div class="analysis-sub">依目前已輸入資料即時計算</div>
+        <div class="analysis-title">▮▮ 走勢統計演算法｜五路分析</div>
+        <div id="bigDataStatus" style="font-size:13px;font-weight:800;color:#17653a;margin-top:4px">已載入 100,000 局模擬背景資料</div>
+        <div class="analysis-sub">每按一次「莊」或「閒」就立即重算，右上角原本「資料不足」的位置會直接改成下一局「莊／閒」建議｜已內建100,000局模擬背景＋本桌歷史＋N-gram/Markov＋型態比對＋滾動回測</div>
       </div>
       <div id="algoPick" class="recommend-card neutral">資料不足</div>
     </div>
@@ -151,6 +235,7 @@ body{color:#fff}
         <div>閒機率分數：<b id="probP">50.0%</b></div>
         <div>模型信心：<b id="confidence">0%</b></div>
         <div>有效樣本：<b id="samples">0</b> 局</div>
+        <div>背景大數據：<b>100,000</b> 局</div>
       </div>
 
       <div class="confidence-wrap">
@@ -165,16 +250,40 @@ body{color:#fff}
       </div>
     </div>
 
+
+    <div class="road-ai-panel">
+      <div class="road-ai-title">最佳路分析</div>
+      <div class="road-ai-best">
+        <div>
+          <div class="road-ai-label">目前最強訊號</div>
+          <div id="bestRoadName" class="road-ai-name">等待輸入</div>
+        </div>
+        <div id="bestRoadPick" class="road-ai-pick neutral">資料不足</div>
+      </div>
+
+      <div class="road-ai-grid">
+        <div class="road-ai-item"><span>珠盤路</span><b id="roadBeadPick">—</b><em id="roadBeadConf">0%</em></div>
+        <div class="road-ai-item"><span>大路</span><b id="roadBigPick">—</b><em id="roadBigConf">0%</em></div>
+        <div class="road-ai-item"><span>大眼仔</span><b id="roadEyePick">—</b><em id="roadEyeConf">0%</em></div>
+        <div class="road-ai-item"><span>小路</span><b id="roadSmallPick">—</b><em id="roadSmallConf">0%</em></div>
+        <div class="road-ai-item"><span>曱甴路</span><b id="roadCockPick">—</b><em id="roadCockConf">0%</em></div>
+      </div>
+
+      <div id="roadAiReason" class="road-ai-reason">
+        每輸入一局後，會分別分析五種走勢，找出目前訊號最完整的一路。
+      </div>
+    </div>
+
     <div class="analysis-note">
-      演算法參考 N-gram／Markov 轉移、近期權重、連續型態、交替型態與樣本量校正；「和」不列入莊閒預測序列。
+      大數據模型會同時使用內建100,000局模擬背景資料與本桌已匯入/累積牌局，搭配近20/50/100/300局、多階 N-gram／Markov、型態相似度、連續/交替特徵及滾動回測校正。「和」不列入莊閒方向模型；模型信心是訊號強度，不是保證勝率。
     </div>
   </div>
 
   <div class="panel connect">
     <div class="connect-head">
       <div>
-        <div class="connect-title">◉ Allbet / 百家樂資料接入</div>
-        <div class="connect-sub">支援 HTTP / JSON / CSV / WebSocket · 只要貼上網址即可自動接資料</div>
+        <div class="connect-title">◉ 百家樂即時資料接入</div>
+        <div class="connect-sub">支援 HTTP / JSON / CSV / WebSocket · 連線後自動抓新局、更新五路分析與最佳路建議</div>
       </div>
       <div class="status">● <span id="connStatus">未連線</span></div>
     </div>
@@ -201,121 +310,519 @@ body{color:#fff}
 
 <script>
 
-let predictionStats = JSON.parse(localStorage.getItem('baccaratPredictionStats') || '{"count":0,"hit":0}');
+let predictionStats = JSON.parse(localStorage.getItem('baccaratPredictionStats_v11_alt') || '{"count":0,"hit":0}');
 let pendingPrediction = null;
 
-function recommendationModel(){
-  const seq = data.map(v=>base(v.r)).filter(r=>r!=='T');
-  const n = seq.length;
-  if(n < 6){
-    return {pick:'N',pb:.5,pp:.5,conf:0,n,reason:'資料不足，先累積更多莊／閒結果。'};
+
+function currentStreakInfo(seq){
+  if(!seq.length) return {side:null,len:0};
+  let len=1;for(let i=seq.length-1;i>0&&seq[i]===seq[i-1];i--)len++;
+  return {side:seq[seq.length-1],len};
+}
+function currentAltLen(seq){
+  if(seq.length<2)return 0;
+  let len=1;for(let i=seq.length-1;i>0&&seq[i]!==seq[i-1];i--)len++;
+  return len;
+}
+function laplaceProb(b,p){return (b+1)/(b+p+2)}
+
+// 這個模型會真的用「已輸入的歷史牌局」計算，而不是固定顯示假數字。
+// 它是統計推薦，不可能保證下一局結果。
+
+const BIGDATA100K = {"rounds_total":100000,"bp_rounds":90442,"base":{"B":45968,"P":44474},"ngram":{"1":{"B":[23244,22723],"P":[22723,21751]},"2":{"BP":[11616,11107],"PP":[11107,10644],"PB":[11480,11243],"BB":[11764,11479]},"3":{"BPP":[5707,5400],"PPB":[5635,5472],"PBB":[5818,5662],"BBB":[5946,5817],"BBP":[5893,5586],"BPB":[5845,5771],"PBP":[5723,5520],"PPP":[5400,5244]},"4":{"BPPB":[2941,2766],"PPBB":[2839,2796],"PBBB":[2948,2870],"BBBP":[2987,2830],"BBPB":[2903,2990],"BPBB":[2979,2866],"BPBP":[2957,2814],"PBPP":[2810,2710],"PBBP":[2906,2756],"BBBB":[2998,2947],"BBPP":[2896,2690],"BPPP":[2754,2646],"PPPB":[2694,2706],"PPBP":[2766,2706],"PBPB":[2942,2781],"PPPP":[2646,2598]},"5":{"BPPBB":[1507,1434],"PPBBB":[1433,1406],"PBBBP":[1482,1388],"BBBPB":[1477,1510],"BBPBB":[1474,1429],"BPBBB":[1515,1464],"BBPBP":[1517,1473],"BPBPP":[1452,1362],"PBPPB":[1470,1340],"PPBBP":[1426,1370],"PBBPB":[1426,1480],"BPBBP":[1480,1386],"PBBBB":[1492,1456],"BBBBB":[1506,1491],"BBBBP":[1505,1442],"BBBPP":[1467,1363],"BBPPP":[1370,1320],"BPPPB":[1376,1378],"PPPBP":[1360,1346],"PPBPP":[1358,1348],"BPBPB":[1499,1458],"PBPBB":[1505,1437],"PBBPP":[1429,1327],"BBPPB":[1470,1426],"PPBPB":[1443,1323],"PBPBP":[1440,1341],"BPPBP":[1406,1360],"PBPPP":[1384,1326],"BPPPP":[1334,1312],"PPPPP":[1312,1286],"PPPPB":[1318,1328],"PPPBB":[1332,1362]},"6":{"BPPBBB":[745,762],"PPBBBP":[741,665],"PBBBPB":[758,724],"BBBPBB":[753,724],"BBPBBB":[737,737],"BPBBBP":[741,723],"BBBPBP":[763,747],"BBPBPP":[772,701],"BPBPPB":[762,690],"PBPPBB":[749,721],"BPPBBP":[732,702],"PPBBPB":[692,734],"PBBPBB":[721,705],"BBPBBP":[750,679],"BPBBPB":[734,746],"BPBBBB":[764,751],"PBBBBB":[772,719],"BBBBBB":[734,772],"BBBBBP":[765,726],"BBBBPP":[751,691],"BBBPPP":[672,691],"BBPPPB":[682,688],"BPPPBP":[711,667],"PPPBPP":[700,646],"PPBPPB":[708,650],"PPBBBB":[728,705],"PBBBBP":[740,716],"BBBBPB":[719,786],"BBPBPB":[780,737],"BPBPBB":[766,733],"PBPBBP":[730,707],"BPBBPP":[715,671],"PBBPPB":[721,708],"BBPPBB":[757,713],"PBBBPP":[716,672],"PPPBPB":[722,638],"PPBPBP":[689,634],"PBPBPB":[719,721],"PBPBBB":[778,727],"BBBPPB":[749,718],"BBPPBP":[759,667],"BPPBPB":[721,685],"PPBPBB":[739,704],"PBBPBP":[754,726],"BPBPPP":[699,663],"PBPPPP":[668,658],"BPPPPP":[645,667],"PPPPPP":[667,619],"PPPPPB":[648,664],"PPPPBB":[664,654],"PPPBBP":[694,668],"PPBBPP":[714,656],"BBPPPP":[666,654],"PPPPBP":[649,679],"BPPPPB":[670,664],"PBBPPP":[698,629],"BPPPBB":[668,708],"BPPBPP":[658,702],"PPBPPP":[685,663],"PBPPBP":[647,693],"PBPBPP":[680,661],"PBPPPB":[694,690],"PPPBBB":[688,644],"BPBPBP":[751,707]}},"markov":{"1":{"B":[23244,22723],"P":[22723,21751]},"2":{"BP":[11616,11107],"PP":[11107,10644],"PB":[11480,11243],"BB":[11764,11479]},"3":{"BPP":[5707,5400],"PPB":[5635,5472],"PBB":[5818,5662],"BBB":[5946,5817],"BBP":[5893,5586],"BPB":[5845,5771],"PBP":[5723,5520],"PPP":[5400,5244]},"4":{"BPPB":[2941,2766],"PPBB":[2839,2796],"PBBB":[2948,2870],"BBBP":[2987,2830],"BBPB":[2903,2990],"BPBB":[2979,2866],"BPBP":[2957,2814],"PBPP":[2810,2710],"PBBP":[2906,2756],"BBBB":[2998,2947],"BBPP":[2896,2690],"BPPP":[2754,2646],"PPPB":[2694,2706],"PPBP":[2766,2706],"PBPB":[2942,2781],"PPPP":[2646,2598]}}};
+
+function bgPatternProb(localSeq, maxOrder=6){
+  if(!localSeq.length) return null;
+  let num=0, den=0, used=[];
+  for(let k=1;k<=maxOrder;k++){
+    if(localSeq.length<k) continue;
+    const pat=localSeq.slice(-k).join('');
+    const rec=BIGDATA100K.ngram[String(k)] && BIGDATA100K.ngram[String(k)][pat];
+    if(!rec) continue;
+    const b=rec[0], p=rec[1], m=b+p;
+    if(m<20) continue;
+    const prob=(b+2)/(m+4);
+    const w=(0.45+k*0.22)*Math.min(1.35,Math.log10(m+10)/2.5);
+    num += prob*w; den += w;
+    used.push({name:`10萬局${k}階(${m})`,p:prob,w,m});
   }
+  return den ? {p:num/den,w:Math.min(2.4,den),used} : null;
+}
 
-  let score = 0, totalWeight = 0, reasons = [];
+function bgBaseProb(){
+  const b=BIGDATA100K.base.B, p=BIGDATA100K.base.P;
+  return (b+5)/(b+p+10);
+}
 
-  // 1) N-gram / Markov
-  for(let len=1; len<=3; len++){
-    if(n<=len) continue;
-    const pat = seq.slice(-len).join('');
+function clamp(v,a,b){return Math.max(a,Math.min(b,v))}
+function sigmoid(x){return 1/(1+Math.exp(-x))}
+function pct(v){return (v*100).toFixed(1)+'%'}
+
+function windowProb(seq,win){
+  const s=seq.slice(-Math.min(win,seq.length));
+  let b=s.filter(x=>x==='B').length,p=s.length-b;
+  return (b+2)/(b+p+4); // beta(2,2) 平滑
+}
+
+function ngramPrediction(seq,maxOrder=6){
+  let votes=[],n=seq.length;
+  for(let k=1;k<=maxOrder;k++){
+    if(n<=k)continue;
+    const pat=seq.slice(-k).join('');
     let b=0,p=0;
-    for(let i=0;i<n-len;i++){
-      if(seq.slice(i,i+len).join('')===pat){
-        seq[i+len]==='B' ? b++ : p++;
+    for(let i=0;i<=n-k-1;i++){
+      if(seq.slice(i,i+k).join('')===pat){
+        seq[i+k]==='B'?b++:p++;
       }
     }
-    const total=b+p;
-    if(total){
-      const edge=(b-p)/total;
-      const w=1.6-len*.2;
-      score += edge*w; totalWeight += w;
-      if(Math.abs(edge)>.15) reasons.push(`${len}階型態偏${edge>0?'莊':'閒'}`);
+    const m=b+p;
+    if(m>=2){
+      const pb=(b+1.5)/(m+3);
+      const reliability=Math.min(1,m/12);
+      const specificity=.55+k*.13;
+      votes.push({name:`${k}階 N-gram(${m})`,p:pb,w:reliability*specificity,m});
     }
   }
+  return votes;
+}
 
-  // 2) Recent weighted form
-  const recent = seq.slice(-12);
-  let rb=0,rp=0;
-  recent.forEach((r,i)=>{
-    const w=(i+1)/recent.length;
-    r==='B' ? rb+=w : rp+=w;
-  });
-  const rt=rb+rp;
-  if(rt){
-    const edge=(rb-rp)/rt;
-    score += edge*1.25; totalWeight += 1.25;
-    if(Math.abs(edge)>.12) reasons.push(`近期偏${edge>0?'莊':'閒'}`);
+function markovPrediction(seq,order){
+  const n=seq.length;if(n<=order)return null;
+  const state=seq.slice(-order).join('');
+  let b=0,p=0;
+  for(let i=0;i<=n-order-1;i++){
+    if(seq.slice(i,i+order).join('')===state){
+      seq[i+order]==='B'?b++:p++;
+    }
   }
+  const m=b+p;if(m<2)return null;
+  return {name:`Markov-${order}(${m})`,p:(b+1)/(m+2),w:Math.min(1.25,.45+m/16+order*.12),m};
+}
 
-  // 3) Streak / alternation
-  let streak=1;
-  for(let i=n-1;i>0 && seq[i]===seq[i-1];i--) streak++;
-  if(streak>=3){
-    const edge=seq[n-1]==='B'?.35:-.35;
-    score += edge; totalWeight += .35;
-    reasons.push(`${streak}連${seq[n-1]==='B'?'莊':'閒'}`);
+function similarityPrediction(seq){
+  // 找歷史上與最近 8~12 手最相近的片段，觀察其下一手。
+  const n=seq.length;if(n<20)return null;
+  let scored=[];
+  for(const L of [12,10,8,6]){
+    if(n<=L+1)continue;
+    const target=seq.slice(-L);
+    for(let i=0;i<=n-L-1;i++){
+      let same=0;
+      for(let j=0;j<L;j++) if(seq[i+j]===target[j]) same++;
+      const sim=same/L;
+      if(sim>=.72) scored.push({sim,next:seq[i+L],L});
+    }
   }
-  let alt=0;
-  for(let i=n-1;i>0 && seq[i]!==seq[i-1];i--) alt++;
-  if(alt>=3){
-    const next=seq[n-1]==='B'?'P':'B';
-    const edge=next==='B'?.28:-.28;
-    score += edge; totalWeight += .28;
-    reasons.push(`交替型態延續`);
+  scored.sort((a,b)=>b.sim-a.sim||b.L-a.L);
+  scored=scored.slice(0,40);
+  if(scored.length<3)return null;
+  let wb=0,wt=0;
+  scored.forEach(s=>{const w=Math.pow(s.sim,4)*(s.L/8);wt+=w;if(s.next==='B')wb+=w});
+  return {name:`相似型態(${scored.length})`,p:(wb+0.8)/(wt+1.6),w:Math.min(1.35,.45+scored.length/35),m:scored.length};
+}
+
+function streakPrediction(seq){
+  const n=seq.length;if(n<8)return null;
+  const st=currentStreakInfo(seq);if(st.len<2)return null;
+  const k=Math.min(st.len,6);
+  let same=0,flip=0;
+  for(let i=k-1;i<n-1;i++){
+    let ok=true;
+    for(let j=0;j<k;j++)if(seq[i-j]!==st.side){ok=false;break}
+    if(ok) seq[i+1]===st.side?same++:flip++;
   }
+  const m=same+flip;if(!m)return null;
+  const cont=(same+1)/(m+2);
+  const p=st.side==='B'?cont:1-cont;
+  return {name:`${st.len}連後續(${m})`,p,w:Math.min(1,.35+m/18),m};
+}
 
-  const shrink=Math.min(1,Math.max(0,(n-6)/30));
-  const norm=totalWeight?score/totalWeight:0;
-  let pb=.5 + norm*.28*shrink;
-  pb=Math.max(.36,Math.min(.64,pb));
-  const pp=1-pb;
-  const edge=Math.abs(pb-.5);
-  const conf=Math.round(Math.min(92, edge*210 + Math.min(35,n*.8)));
-  let pick=pb>=.5?'B':'P';
-  if(n<12 || edge<.025) pick='N';
+function alternatePrediction(seq){
+  const n=seq.length;if(n<10)return null;
+  const alt=currentAltLen(seq);if(alt<3)return null;
+  const k=Math.min(alt,8);
+  let cont=0,stop=0;
+  for(let i=k-1;i<n-1;i++){
+    let ok=true;
+    for(let j=i-k+2;j<=i;j++)if(seq[j]===seq[j-1]){ok=false;break}
+    if(ok) seq[i+1]!==seq[i]?cont++:stop++;
+  }
+  const m=cont+stop;if(!m)return null;
+  const pc=(cont+1)/(m+2), next=seq[n-1]==='B'?'P':'B';
+  return {name:`交替${alt}手(${m})`,p:next==='B'?pc:1-pc,w:Math.min(.9,.3+m/20),m};
+}
 
+function simpleHistoricalPredict(seq){
+  if(seq.length<12)return .5;
+  const comps=[];
+  for(const w of [20,50,100,300]){
+    if(seq.length>=Math.min(12,w/2)){
+      const p=windowProb(seq,w);
+      const weight={20:1.15,50:.95,100:.75,300:.55}[w];
+      comps.push({p,w:weight});
+    }
+  }
+  ngramPrediction(seq,4).forEach(x=>comps.push(x));
+  [1,2,3].forEach(o=>{const x=markovPrediction(seq,o);if(x)comps.push(x)});
+  const sim=similarityPrediction(seq);if(sim)comps.push(sim);
+  const st=streakPrediction(seq);if(st)comps.push(st);
+  const al=alternatePrediction(seq);if(al)comps.push(al);
+  let s=0,w=0;comps.forEach(c=>{s+=c.p*c.w;w+=c.w});
+  return w?s/w:.5;
+}
+
+function walkForwardBacktest(seq){
+  // 只用「當時之前」的資料預測下一局，避免偷看未來。
+  // 最多回測最近 250 局，兼顧速度。
+  const start=Math.max(20,seq.length-250);
+  let hit=0,count=0,brier=0;
+  for(let i=start;i<seq.length;i++){
+    const hist=seq.slice(0,i);
+    const p=simpleHistoricalPredict(hist);
+    if(Math.abs(p-.5)<.015)continue;
+    const pred=p>.5?'B':'P';
+    if(pred===seq[i])hit++;
+    brier+=Math.pow((seq[i]==='B'?1:0)-p,2);
+    count++;
+  }
   return {
-    pick,pb,pp,conf,n,
-    reason:(reasons.slice(0,4).join('；') || '目前未出現明顯重複型態') + (pick==='N'?'；差異不足，建議觀望。':'。')
+    count, hit,
+    rate:count?hit/count:.5,
+    brier:count?brier/count:.25
   };
 }
 
+function recommendationModel(){
+  const seq=data.map(v=>base(v.r)).filter(r=>r==='B'||r==='P');
+  const n=seq.length;
+  if(n===0){
+    return {pick:'N',pb:.5,pp:.5,conf:0,n,
+      reason:'尚未輸入莊／閒結果。輸入第一局後會立即開始分析下一局。',
+      backtest:{count:0,rate:.5}};
+  }
+
+  const components=[];
+
+  // 100,000 局模擬大數據背景：提供基準率與目前尾端型態的歷史匹配。
+  const bgBase = bgBaseProb();
+  components.push({name:'10萬局背景基準',p:bgBase,w:0.45,m:BIGDATA100K.bp_rounds});
+  const bgPat = bgPatternProb(seq,6);
+  if(bgPat){
+    components.push({name:'10萬局相似尾型',p:bgPat.p,w:bgPat.w,m:BIGDATA100K.bp_rounds});
+    bgPat.used.forEach(x=>components.push(x));
+  }
+
+  // 近期 + 中期 + 長期多尺度資料
+  [
+    [20,1.35],[50,1.15],[100,.9],[300,.65]
+  ].forEach(([win,w])=>{
+    if(n>=1){
+      const ageFactor=Math.min(1,n/Math.max(6,win*.18));
+      components.push({
+        name:`近${Math.min(win,n)}局`,
+        p:windowProb(seq,win),
+        w:w*(0.35+0.65*ageFactor)
+      });
+    }
+  });
+
+  // 全歷史基準
+  const allB=seq.filter(x=>x==='B').length;
+  components.push({name:`全歷史(${n})`,p:(allB+3)/(n+6),w:.55});
+
+  // 高階 N-gram + Markov
+  ngramPrediction(seq,6).forEach(x=>components.push(x));
+  [1,2,3,4].forEach(o=>{const x=markovPrediction(seq,o);if(x)components.push(x)});
+
+  // 型態相似度 / 連續 / 交替
+  const sim=similarityPrediction(seq); if(sim)components.push(sim);
+  const st=streakPrediction(seq); if(st)components.push(st);
+  const al=alternatePrediction(seq); if(al)components.push(al);
+
+  // 多模型加權
+  let num=0,den=0;
+  components.forEach(c=>{
+    const sampleBoost=c.m?Math.min(1.15,.7+Math.log10(c.m+1)*.2):1;
+    const w=c.w*sampleBoost;
+    num+=c.p*w;den+=w;
+  });
+  let raw=den?num/den:.5;
+
+  // 滾動回測校正：若歷史回測表現差，就把建議往 50% 拉回。
+  const bt=walkForwardBacktest(seq);
+  let calibration=.55;
+  if(bt.count>=20){
+    calibration=clamp((bt.rate-.48)/.10,.25,1);
+  }
+  const sampleFactor=clamp(n/100,.08,1);
+  let pb=.5+(raw-.5)*calibration*sampleFactor;
+  pb=clamp(pb,.38,.62);
+  const pp=1-pb;
+  const edge=Math.abs(pb-.5);
+
+  // 信心 = 模型分歧強度 + 樣本量 + 回測穩定度，不等於真實勝率。
+  const btScore=bt.count>=20?clamp((bt.rate-.5)/.12,0,1):0;
+  const evidence=clamp(den/8,0,1);
+  const conf=Math.round(clamp(
+    (edge/.12)*48 + sampleFactor*20 + btScore*18 + evidence*10,
+    0,92
+  ));
+
+  let pick='N';
+  if(n>=1){
+    if(pb>pp) pick='B';
+    else if(pp>pb) pick='P';
+    else pick=seq[seq.length-1]==='B'?'P':'B';
+  }
+
+  const strongest=[...components]
+    .sort((a,b)=>Math.abs(b.p-.5)*b.w-Math.abs(a.p-.5)*a.w)
+    .slice(0,5);
+
+  let reason=strongest.map(c=>`${c.name}→${c.p>=.5?'莊':'閒'} ${pct(c.p)}`).join('；');
+  if(bt.count) reason+=`｜滾動回測 ${bt.count} 次，命中 ${pct(bt.rate)}`;
+  reason+=`｜本桌有效樣本 ${n} 局｜背景資料 100,000 局`;
+  if(n<12) reason+='｜樣本仍少，建議僅作低信心參考';
+  else if(n<30) reason+='｜樣本逐步累積中';
+  else if(n<100) reason+='｜已進入中等樣本';
+  else reason+='｜已進入較大樣本';
+
+  return {pick,pb,pp,conf,n,reason,backtest:bt};
+}
+
+function scoreToPick(score){
+  if(score > 0.002) return 'B';
+  if(score < -0.002) return 'P';
+  return 'N';
+}
+function confFromScore(score, evidence=1){
+  return Math.round(clamp(Math.abs(score)*260*evidence, 0, 92));
+}
+function recentBinaryBalance(seq, n=12){
+  const s=seq.slice(-n);
+  if(!s.length) return 0;
+  const b=s.filter(x=>x==='B').length;
+  return (b-(s.length-b))/s.length;
+}
+function recentDerivedBalance(arr,n=12){
+  const s=arr.slice(-n);
+  if(!s.length) return 0;
+  const red=s.filter(x=>x==='R').length;
+  return (red-(s.length-red))/s.length;
+}
+function transitionContinuation(seq){
+  if(seq.length<3) return 0;
+  let cont=0, rev=0;
+  const last=seq[seq.length-1];
+  for(let i=1;i<seq.length-1;i++){
+    if(seq[i]===last){
+      if(seq[i+1]===last) cont++; else rev++;
+    }
+  }
+  if(!(cont+rev)) return 0;
+  return (cont-rev)/(cont+rev);
+}
+function derivedCandidateScore(side, offset, arr){
+  const mark=hypotheticalNextMark(side,offset);
+  if(!mark) return 0;
+  const bal=recentDerivedBalance(arr,14);
+  // 若最近該衍生路偏紅/藍，候選下一手形成同色時加分，反色扣分
+  const sign=mark==='R'?1:-1;
+  return sign*bal;
+}
+function roadRecommendationModel(){
+  const seq=data.map(v=>base(v.r)).filter(r=>r==='B'||r==='P');
+  if(!seq.length) return {best:null,items:[]};
+
+  const items=[];
+
+  // 珠盤路：使用 10萬局尾型 + 本桌近期/全局頻率
+  let beadScore=0, beadEv=.45;
+  const bg=bgPatternProb(seq,6);
+  if(bg){beadScore+=(bg.p-.5)*1.8; beadEv+=.25;}
+  beadScore+=recentBinaryBalance(seq,20)*.09;
+  const allB=seq.filter(x=>x==='B').length;
+  beadScore+=(((allB+2)/(seq.length+4))-.5)*.45;
+  items.push({key:'bead',name:'珠盤路',score:beadScore,conf:confFromScore(beadScore,Math.min(1,.55+seq.length/45))});
+
+  // 大路：連龍/單跳/近期方向
+  const st=currentStreakInfo(seq), alt=currentAltLen(seq);
+  let bigScore=recentBinaryBalance(seq,16)*.075;
+  if(st.len>=2){
+    const cont=transitionContinuation(seq);
+    const sign=st.side==='B'?1:-1;
+    bigScore += sign*cont*.10;
+  }
+  if(alt>=3){
+    const next=seq[seq.length-1]==='B'?'P':'B';
+    bigScore += (next==='B'?1:-1)*Math.min(.08,alt*.012);
+  }
+  items.push({key:'big',name:'大路',score:bigScore,conf:confFromScore(bigScore,Math.min(1,.5+seq.length/35))});
+
+  // 大眼仔 / 小路 / 曱甴路：比較「假設下一手莊/閒」會形成的衍生路顏色，
+  // 再與該路近期紅/藍結構吻合度比較。
+  const configs=[
+    ['eye','大眼仔',1,derived(1)],
+    ['small','小路',2,derived(2)],
+    ['cock','曱甴路',3,derived(3)]
+  ];
+  for(const [key,name,offset,arr] of configs){
+    let score=0;
+    if(arr.length){
+      const sb=derivedCandidateScore('B',offset,arr);
+      const sp=derivedCandidateScore('P',offset,arr);
+      score=(sb-sp)*.065;
+      // 輕微加入大數據主模型方向，避免衍生路樣本太少時亂跳
+      const main=recommendationModel();
+      score += (main.pb-.5)*.35;
+    }else{
+      const main=recommendationModel();
+      score=(main.pb-.5)*.20;
+    }
+    items.push({key,name,score,conf:confFromScore(score,Math.min(1,.35+arr.length/24))});
+  }
+
+  items.forEach(x=>x.pick=scoreToPick(x.score));
+  // 最佳路：信心最高；若全部太低則仍顯示最高但標註低信心
+  const best=[...items].sort((a,b)=>b.conf-a.conf)[0];
+  return {best,items};
+}
+function updateRoadRecommendations(){
+  const model=roadRecommendationModel();
+  const mapping={
+    bead:['roadBeadPick','roadBeadConf'],
+    big:['roadBigPick','roadBigConf'],
+    eye:['roadEyePick','roadEyeConf'],
+    small:['roadSmallPick','roadSmallConf'],
+    cock:['roadCockPick','roadCockConf']
+  };
+  for(const item of model.items){
+    const ids=mapping[item.key];
+    if(!ids) continue;
+    const p=document.getElementById(ids[0]), c=document.getElementById(ids[1]);
+    if(p){
+      p.textContent=item.pick==='B'?'莊':item.pick==='P'?'閒':'觀望';
+      p.style.color=item.pick==='B'?'#d91f32':item.pick==='P'?'#087cf0':'#66706b';
+    }
+    if(c)c.textContent=item.conf+'%';
+  }
+  const name=document.getElementById('bestRoadName');
+  const pick=document.getElementById('bestRoadPick');
+  const reason=document.getElementById('roadAiReason');
+  if(!model.best){
+    if(name)name.textContent='等待輸入';
+    if(pick){pick.className='road-ai-pick neutral';pick.textContent='資料不足'}
+    if(reason)reason.textContent='每輸入一局後，會分別分析五種走勢，找出目前訊號最完整的一路。';
+    return;
+  }
+  const b=model.best;
+  if(name)name.textContent=b.name+'｜信心 '+b.conf+'%';
+  if(pick){
+    pick.className='road-ai-pick '+(b.pick==='N'?'neutral':b.pick);
+    pick.textContent=b.pick==='B'?'最佳路建議 莊':b.pick==='P'?'最佳路建議 閒':'最佳路：觀望';
+  }
+  if(reason){
+    const desc=model.items.map(x=>`${x.name} ${x.pick==='B'?'莊':x.pick==='P'?'閒':'觀望'} ${x.conf}%`).join('｜');
+    reason.textContent=`目前比較五路訊號：${desc}。最佳路以目前信心最高者為主；這是統計訊號，不代表下一局必然結果。`;
+  }
+}
+
 function updateRecommendation(){
-  const r = recommendationModel();
-  probB.textContent=(r.pb*100).toFixed(1)+'%';
-  probP.textContent=(r.pp*100).toFixed(1)+'%';
-  confidence.textContent=r.conf+'%';
-  samples.textContent=r.n;
-  confBar.style.width=r.conf+'%';
-  reason.textContent=r.reason;
+  const $ = id => document.getElementById(id);
+  let r;
+  try{
+    r = recommendationModel();
+  }catch(err){
+    console.error('recommendationModel error', err);
+    const seq=data.map(v=>base(v && v.r)).filter(x=>x==='B'||x==='P');
+    const n=seq.length;
+    if(!n){
+      r={pick:'N',pb:.5,pp:.5,conf:0,n:0,reason:'尚未輸入莊／閒結果。'};
+    }else{
+      // 保底邏輯：即使進階模型某處出錯，也一定要顯示下一局方向
+      const b=seq.filter(x=>x==='B').length;
+      const pb=(b+1)/(n+2);
+      const pp=1-pb;
+      const pick=pb===pp ? (seq[seq.length-1]==='B'?'P':'B') : (pb>pp?'B':'P');
+      r={pick,pb,pp,conf:Math.max(5,Math.min(60,Math.round(Math.abs(pb-pp)*100))),n,
+         reason:'進階模型暫時改用保底統計模式，仍會依目前已輸入資料提供下一局方向。'};
+    }
+  }
 
-  algoPick.className='recommend-card '+(r.pick==='N'?'neutral':r.pick);
-  algoPick.textContent=r.pick==='B'?'建議 莊':r.pick==='P'?'建議 閒':'觀望';
+  const probBEl=$('probB'), probPEl=$('probP'), confEl=$('confidence'),
+        samplesEl=$('samples'), confBarEl=$('confBar'), reasonEl=$('reason'),
+        pickEl=$('algoPick'),
+        predEl=$('predCount'), hitEl=$('hitCount'), rateEl=$('hitRate');
 
-  predCount.textContent=predictionStats.count;
-  hitCount.textContent=predictionStats.hit;
-  hitRate.textContent=predictionStats.count ? ((predictionStats.hit/predictionStats.count)*100).toFixed(1)+'%' : '—';
+  if(probBEl) probBEl.textContent=(r.pb*100).toFixed(1)+'%';
+  if(probPEl) probPEl.textContent=(r.pp*100).toFixed(1)+'%';
+  if(confEl) confEl.textContent=r.conf+'%';
+  if(samplesEl) samplesEl.textContent=r.n;
+  if(confBarEl) confBarEl.style.width=r.conf+'%';
+  if(reasonEl) reasonEl.textContent=r.reason;
+
+  if(pickEl){
+    pickEl.className='recommend-card '+(r.pick==='N'?'neutral':r.pick);
+    pickEl.textContent=r.pick==='B'?'下一局建議 莊':r.pick==='P'?'下一局建議 閒':'資料不足';
+  }
+
+  if(predEl) predEl.textContent=predictionStats.count;
+  if(hitEl) hitEl.textContent=predictionStats.hit;
+  if(rateEl) rateEl.textContent=predictionStats.count ? ((predictionStats.hit/predictionStats.count)*100).toFixed(1)+'%' : '—';
 
   pendingPrediction = r.pick;
+  updateRoadRecommendations();
 }
 
 function scorePendingPrediction(actual){
   if(pendingPrediction==='B' || pendingPrediction==='P'){
     predictionStats.count++;
     if(actual===pendingPrediction) predictionStats.hit++;
-    localStorage.setItem('baccaratPredictionStats',JSON.stringify(predictionStats));
+    localStorage.setItem('baccaratPredictionStats_v11_alt',JSON.stringify(predictionStats));
   }
 }
 
-let data = JSON.parse(localStorage.getItem('baccaratData')||'[]');
+let data = [];
+if(!Array.isArray(data)) data=[];
+data = data.map(v=>{
+  if(typeof v==='string') return {r:v};
+  if(v && typeof v==='object'){
+    if(v.r) return v;
+    const candidate=v.result ?? v.winner ?? v.side ?? v.outcome;
+    if(candidate) return {r:normalizeResult(candidate)||String(candidate)};
+  }
+  return null;
+}).filter(Boolean);
 let timer=null, ws=null, seen=new Set();
 function base(r){return r[0]}
 function color(r){return base(r)==='B'?'#ef2335':base(r)==='P'?'#087cf0':'#08a95b'}
-function add(r){const actual=base(r);scorePendingPrediction(actual);data.push({r,bp:bp.checked,pp:pp.checked});bp.checked=pp.checked=false;persist();render()}
+function add(r){
+  const actual=base(r);
+  scorePendingPrediction(actual);
+
+  const bpEl=document.getElementById('bp');
+  const ppEl=document.getElementById('pp');
+  data.push({
+    r,
+    bp:bpEl ? bpEl.checked : false,
+    pp:ppEl ? ppEl.checked : false,
+    source:'manual',
+    ts:Date.now()
+  });
+
+  if(bpEl) bpEl.checked=false;
+  if(ppEl) ppEl.checked=false;
+
+  persist();
+  render();
+  // 再執行一次，避免某些手機瀏覽器畫布重繪影響文字區塊更新
+  requestAnimationFrame(()=>updateRecommendation());
+}
 function undo(){data.pop();persist();render()}
 function clearAll(){if(confirm('確定清空全部資料？')){data=[];persist();render()}}
-function persist(){localStorage.setItem('baccaratData',JSON.stringify(data))}
+function persist(){localStorage.setItem('baccaratData_v11_alt',JSON.stringify(data))}
 function saveData(){persist();alert('已儲存')}
-function loadData(){data=JSON.parse(localStorage.getItem('baccaratData')||'[]');render()}
+function loadData(){data=JSON.parse(localStorage.getItem('baccaratData_v11_alt')||'[]');render()}
 
 function tick(){const d=new Date();date.textContent=d.toLocaleDateString('zh-TW');time.textContent=d.toLocaleTimeString('zh-TW',{hour12:false})}
 setInterval(tick,1000);tick();
@@ -328,31 +835,180 @@ function setup(id,cell){
   for(let i=0;i<=r.height;i+=cell){x.beginPath();x.moveTo(0,i);x.lineTo(r.width,i);x.stroke()}
   return {x,w:r.width,h:r.height}
 }
+
+function drawGridCustom(id, cols, rows, majorEvery=1){
+  const c=document.getElementById(id), r=c.parentElement.getBoundingClientRect(), d=devicePixelRatio||1;
+  c.width=Math.max(1,r.width*d); c.height=Math.max(1,r.height*d);
+  const x=c.getContext('2d'); x.setTransform(d,0,0,d,0,0);
+  x.fillStyle='#fff'; x.fillRect(0,0,r.width,r.height);
+  const cw=r.width/Math.max(1,cols), ch=r.height/Math.max(1,rows);
+  for(let i=0;i<=cols;i++){
+    x.strokeStyle=(i%majorEvery===0)?'#aeb9b5':'#dfe5e2';
+    x.lineWidth=(i%majorEvery===0)?1.1:.6;
+    x.beginPath();x.moveTo(i*cw,0);x.lineTo(i*cw,r.height);x.stroke();
+  }
+  for(let j=0;j<=rows;j++){
+    x.strokeStyle=(j%majorEvery===0)?'#aeb9b5':'#dfe5e2';
+    x.lineWidth=(j%majorEvery===0)?1.1:.6;
+    x.beginPath();x.moveTo(0,j*ch);x.lineTo(r.width,j*ch);x.stroke();
+  }
+  return {x,w:r.width,h:r.height,cw,ch};
+}
+
+// 珠盤路：每一列固定 6 顆，由上往下填滿 6 顆後才開下一列。
 function drawBead(){
-  const {x,h}=setup('bead',30),rows=Math.max(1,Math.floor(h/30));
-  data.forEach((v,i)=>{const c=Math.floor(i/rows),r=i%rows,cx=c*30+15,cy=r*30+15;x.fillStyle=color(v.r);x.beginPath();x.arc(cx,cy,12,0,Math.PI*2);x.fill();x.fillStyle='#fff';x.font='bold 14px sans-serif';x.textAlign='center';x.textBaseline='middle';x.fillText(v.r.includes('6')?'6':base(v.r)==='B'?'莊':base(v.r)==='P'?'閒':'和',cx,cy)})
+  const rows=6;
+  const colsNeeded=Math.max(16,Math.ceil(data.length/rows)+1);
+  const {x,cw,ch}=drawGridCustom('bead',colsNeeded,rows,1);
+  const radius=Math.max(4,Math.min(cw,ch)*.38);
+  data.forEach((v,i)=>{
+    const col=Math.floor(i/rows), row=i%rows;
+    const cx=(col+.5)*cw, cy=(row+.5)*ch, r=base(v.r);
+    x.fillStyle=r==='B'?'#e71d36':r==='P'?'#1479d3':'#18a558';
+    x.beginPath();x.arc(cx,cy,radius,0,Math.PI*2);x.fill();
+    x.fillStyle='#fff';x.font=`700 ${Math.max(7,Math.min(cw,ch)*.34)}px Arial`;
+    x.textAlign='center';x.textBaseline='middle';
+    x.fillText(r==='B'?'莊':r==='P'?'閒':'和',cx,cy);
+    if(v.bp){x.fillStyle='#7a0915';x.beginPath();x.arc(cx-radius*.72,cy+radius*.72,Math.max(1.5,radius*.15),0,Math.PI*2);x.fill()}
+    if(v.pp){x.fillStyle='#063e75';x.beginPath();x.arc(cx+radius*.72,cy-radius*.72,Math.max(1.5,radius*.15),0,Math.PI*2);x.fill()}
+  });
+}
+
+function roadPositionsFromSides(sides){
+  const occ=new Map(), out=[];
+  let last=null, col=-1, row=0, startCol=-1;
+  const key=(c,r)=>`${c},${r}`;
+
+  for(const side of sides){
+    if(side!==last){
+      startCol++;
+      while(occ.has(key(startCol,0))) startCol++;
+      col=startCol; row=0;
+    }else{
+      const belowRow=row+1;
+      if(belowRow<6 && !occ.has(key(col,belowRow))){
+        row=belowRow;
+      }else{
+        col++;
+        while(occ.has(key(col,row))) col++;
+      }
+    }
+    const p={r:side,col,row};
+    occ.set(key(col,row),p); out.push(p); last=side;
+  }
+  return out;
 }
 function bigPositions(){
-  const arr=data.filter(v=>base(v.r)!=='T');let out=[],col=-1,row=0,last=null;
-  for(const v of arr){const r=base(v.r);if(r!==last){col++;row=0}else row=Math.min(5,row+1);out.push({r,col,row});last=r}
-  return out
+  return roadPositionsFromSides(data.map(v=>base(v.r)).filter(r=>r==='B'||r==='P'));
 }
-function drawBig(){const {x}=setup('big',34);bigPositions().forEach(v=>{const cx=v.col*34+17,cy=v.row*34+17;x.strokeStyle=color(v.r);x.lineWidth=3;x.beginPath();x.arc(cx,cy,12,0,Math.PI*2);x.stroke()})}
-function derived(offset){const a=bigPositions(),out=[];for(let i=offset+2;i<a.length;i++){const p=a[i-1],c=a[i];out.push(((c.row===p.row)||(c.col-p.col===1&&c.row===0))?'R':'B')}return out}
+function drawBig(){
+  const pos=bigPositions();
+  const cols=Math.max(24,(pos.length?Math.max(...pos.map(p=>p.col))+3:24));
+  const {x,cw,ch}=drawGridCustom('big',cols,6,1);
+  const radius=Math.max(3.8,Math.min(cw,ch)*.34);
+  pos.forEach(v=>{
+    const cx=(v.col+.5)*cw,cy=(v.row+.5)*ch;
+    x.strokeStyle=v.r==='B'?'#e71d36':'#1479d3';
+    x.lineWidth=Math.max(1.7,radius*.18);
+    x.beginPath();x.arc(cx,cy,radius,0,Math.PI*2);x.stroke();
+  });
+}
+
+// 從「大路」結構計算三種衍生路：大眼仔/小路/曱甴路。
+// offset=1/2/3 分別對應比較前 1/2/3 欄的結構。
+function deriveFromPositions(pos,offset){
+  const occ=new Set(pos.map(p=>`${p.col},${p.row}`));
+  const out=[];
+  for(const p of pos){
+    if(p.row===0){
+      if(p.col<=offset) continue;
+      const h1=Array.from({length:6},(_,r)=>occ.has(`${p.col-1},${r}`)).filter(Boolean).length;
+      const h2=Array.from({length:6},(_,r)=>occ.has(`${p.col-1-offset},${r}`)).filter(Boolean).length;
+      out.push(h1===h2?'R':'B');
+    }else{
+      if(p.col<offset) continue;
+      const a=occ.has(`${p.col-offset},${p.row}`);
+      const b=occ.has(`${p.col-offset},${p.row-1}`);
+      out.push(a===b?'R':'B');
+    }
+  }
+  return out;
+}
+function derived(offset){return deriveFromPositions(bigPositions(),offset)}
+
+// 衍生路本身也依「路」的方式排，但視覺上 2×2 小格組成 1 大格。
+// 因此高度 6 小格 = 3 大格；每個大格最多可容納四個小記號。
+function derivedPositions(arr){return roadPositionsFromSides(arr)}
 function drawDerived(id,arr,type){
-  const {x,h}=setup(id,22),rows=Math.max(1,Math.floor(h/22));
-  arr.forEach((v,i)=>{const c=Math.floor(i/rows),r=i%rows,cx=c*22+11,cy=r*22+11;x.strokeStyle=x.fillStyle=v==='R'?'#ef2335':'#087cf0';x.lineWidth=2;
-    if(type==='slash'){x.beginPath();x.moveTo(cx-6,cy+6);x.lineTo(cx+6,cy-6);x.stroke()}
-    else if(type==='dot'){x.beginPath();x.arc(cx,cy,5,0,Math.PI*2);x.fill()}
-    else{x.beginPath();x.arc(cx,cy,7,0,Math.PI*2);x.stroke()}
-  })
+  const pos=derivedPositions(arr);
+  const microCols=Math.max(20,(pos.length?Math.max(...pos.map(p=>p.col))+3:20));
+  const cols=microCols%2?microCols+1:microCols;
+  const {x,cw,ch}=drawGridCustom(id,cols,6,2);
+  const size=Math.max(2.1,Math.min(cw,ch)*.26);
+  pos.forEach(v=>{
+    const cx=(v.col+.5)*cw,cy=(v.row+.5)*ch;
+    const col=v.r==='R'?'#e71d36':'#1479d3';
+    if(type==='circle'){
+      x.strokeStyle=col;x.lineWidth=Math.max(1.2,size*.25);
+      x.beginPath();x.arc(cx,cy,size,0,Math.PI*2);x.stroke();
+    }else if(type==='dot'){
+      x.fillStyle=col;x.beginPath();x.arc(cx,cy,size*.82,0,Math.PI*2);x.fill();
+    }else{
+      x.strokeStyle=col;x.lineWidth=Math.max(1.2,size*.25);
+      x.beginPath();x.moveTo(cx-size*.75,cy+size*.75);x.lineTo(cx+size*.75,cy-size*.75);x.stroke();
+    }
+  });
 }
-function drawAsk(){const {x}=setup('ask',22);for(let j=0;j<2;j++)for(let i=0;i<10;i++){const cx=i*22+11,cy=j*22+11;x.strokeStyle=(i+j)%2?'#ef2335':'#087cf0';x.lineWidth=2;x.beginPath();x.arc(cx,cy,7,0,Math.PI*2);x.stroke()}}
+
+function positionsForHypothetical(side){
+  const sides=data.map(v=>base(v.r)).filter(r=>r!=='T');
+  sides.push(side);
+  return roadPositionsFromSides(sides);
+}
+function hypotheticalNextMark(side,offset){
+  const before=derived(offset);
+  const after=deriveFromPositions(positionsForHypothetical(side),offset);
+  return after.length>before.length ? after[after.length-1] : null;
+}
+
+// 下一手問路：每一排固定三顆，大眼仔/小路/曱甴路各一顆；右側顯示大字「閒問路 / 莊問路」。
+
+function drawAsk(){
+  const c=document.getElementById('ask'), r=c.parentElement.getBoundingClientRect(), d=devicePixelRatio||1;
+  c.width=Math.max(1,r.width*d); c.height=Math.max(1,r.height*d);
+  const x=c.getContext('2d');x.setTransform(d,0,0,d,0,0);
+  x.fillStyle='#fff';x.fillRect(0,0,r.width,r.height);
+  const labelW=Math.min(78,Math.max(56,r.width*.29)), gridW=r.width-labelW;
+  const cw=gridW/3,ch=r.height/2;
+  x.strokeStyle='#b9c2be';x.lineWidth=.9;
+  for(let i=0;i<=3;i++){x.beginPath();x.moveTo(i*cw,0);x.lineTo(i*cw,r.height);x.stroke()}
+  for(let j=0;j<=2;j++){x.beginPath();x.moveTo(0,j*ch);x.lineTo(gridW,j*ch);x.stroke()}
+  x.beginPath();x.moveTo(gridW,0);x.lineTo(gridW,r.height);x.stroke();
+
+  [['P','閒問路','#1479d3'],['B','莊問路','#e71d36']].forEach((row,ri)=>{
+    const [side,label,labelColor]=row,cy=(ri+.5)*ch;
+    for(let offset=1;offset<=3;offset++){
+      const mark=hypotheticalNextMark(side,offset),cx=(offset-.5)*cw;
+      const col=mark==='R'?'#e71d36':'#1479d3',rr=Math.min(cw,ch)*.22;
+      if(offset===1){
+        x.strokeStyle=col;x.lineWidth=2;x.beginPath();x.arc(cx,cy,rr,0,Math.PI*2);x.stroke();
+      }else if(offset===2){
+        x.fillStyle=col;x.beginPath();x.arc(cx,cy,rr*.8,0,Math.PI*2);x.fill();
+      }else{
+        x.strokeStyle=col;x.lineWidth=2;x.beginPath();x.moveTo(cx-rr*.75,cy+rr*.75);x.lineTo(cx+rr*.75,cy-rr*.75);x.stroke();
+      }
+    }
+    x.fillStyle=labelColor;x.font=`800 ${Math.max(12,Math.min(17,ch*.28))}px Arial`;
+    x.textAlign='center';x.textBaseline='middle';x.fillText(label,gridW+labelW/2,cy);
+  });
+}
+
 function stats(){
-  const B=data.filter(v=>base(v.r)==='B').length,P=data.filter(v=>base(v.r)==='P').length,T=data.filter(v=>base(v.r)==='T').length,n=data.length;
+  const B=data.filter(v=>base(v.r)==='B').length,
+        P=data.filter(v=>base(v.r)==='P').length,
+        T=data.filter(v=>base(v.r)==='T').length,n=data.length;
   bCount.textContent=B;pCount.textContent=P;tCount.textContent=T;
   last.textContent=n?(base(data[n-1].r)==='B'?'莊':base(data[n-1].r)==='P'?'閒':'和'):'- - -';
-  probB.textContent=(n?B/n*100:50).toFixed(1)+'%';probP.textContent=(n?P/n*100:50).toFixed(1)+'%';probT.textContent=(n?T/n*100:0).toFixed(1)+'%';samples.textContent=n+' 局'
 }
 function legacyRenderPrediction(){
   const a=data.map(v=>base(v.r)).filter(r=>r!=='T');if(a.length<8){confidence.textContent='0%';return}
@@ -370,26 +1026,110 @@ function normalizeResult(v){
 }
 function pick(o,names){for(const n of names)if(o&&Object.prototype.hasOwnProperty.call(o,n))return o[n]}
 function rows(p){if(Array.isArray(p))return p;if(p&&Array.isArray(p.data))return p.data;if(p&&Array.isArray(p.results))return p.results;if(p&&Array.isArray(p.items))return p.items;return [p]}
+
+function parseCSVText(text){
+  const lines=String(text).trim().split(/\r?\n/).filter(Boolean);
+  if(lines.length<2) return [];
+  const splitLine=line=>{
+    const out=[];let cur='',q=false;
+    for(let i=0;i<line.length;i++){
+      const ch=line[i];
+      if(ch==='"'){
+        if(q && line[i+1]==='"'){cur+='"';i++} else q=!q;
+      }else if(ch===',' && !q){out.push(cur.trim());cur=''}
+      else cur+=ch;
+    }
+    out.push(cur.trim());return out;
+  };
+  const head=splitLine(lines[0]);
+  return lines.slice(1).map(line=>{
+    const vals=splitLine(line),o={};
+    head.forEach((h,i)=>o[h]=vals[i]??'');
+    return o;
+  });
+}
+function deepRows(payload){
+  if(Array.isArray(payload)) return payload;
+  if(!payload || typeof payload!=='object') return [];
+  const preferred=['data','results','items','rows','history','games','records','list'];
+  for(const k of preferred){
+    if(Array.isArray(payload[k])) return payload[k];
+    if(payload[k] && typeof payload[k]==='object'){
+      const x=deepRows(payload[k]);
+      if(x.length) return x;
+    }
+  }
+  return [payload];
+}
+
 function processPayload(payload){
   const target=(tableFilter.value||tableMirror.value||'').trim().toLowerCase();let added=0;
-  for(const row of rows(payload)){if(!row||typeof row!=='object')continue;const table=pick(row,['table','tableId','table_id','tableNo','desk','room']);if(target&&String(table??'').toLowerCase()!==target)continue;
+  for(const row of deepRows(payload)){if(!row||typeof row!=='object')continue;const table=pick(row,['table','tableId','table_id','tableNo','desk','room']);if(target&&String(table??'').toLowerCase()!==target)continue;
     const rf=resultField.value.trim();const raw=rf?row[rf]:pick(row,['result','winner','side','gameResult','game_result','outcome','win']);const r=normalizeResult(raw);if(!r)continue;
-    const id=pick(row,['id','gameId','game_id','roundId','round_id','serial','issue'])??JSON.stringify(row);const key=String(id);if(seen.has(key))continue;seen.add(key);data.push({r,source:'auto'});added++}
-  if(added){persist();render();logmsg(`新增 ${added} 局，自動更新走勢`)}
+    const id=pick(row,['id','gameId','game_id','roundId','round_id','serial','issue'])??JSON.stringify(row);const key=String(id);if(seen.has(key))continue;seen.add(key);scorePendingPrediction(r);data.push({r,source:'auto',ts:Date.now(),table:table??''});added++}
+  if(added){persist();render();logmsg(`新增 ${added} 局，自動更新走勢＋五路最佳路分析`)}
 }
 function logmsg(m){const t=new Date().toLocaleTimeString('zh-TW',{hour12:false});log.innerHTML+=`<div>[${t}] ${m}</div>`;log.scrollTop=log.scrollHeight}
 async function poll(){
-  try{const res=await fetch(endpoint.value.trim(),{cache:'no-store',credentials:'include'});if(!res.ok)throw new Error('HTTP '+res.status);let payload;const ct=res.headers.get('content-type')||'';payload=ct.includes('json')?await res.json():JSON.parse(await res.text());processPayload(payload);connStatus.textContent='已連線'}catch(e){connStatus.textContent='連線失敗';logmsg(e.message)}
+  try{
+    const url=endpoint.value.trim();
+    const res=await fetch(url,{cache:'no-store',credentials:'include'});
+    if(!res.ok)throw new Error('HTTP '+res.status);
+
+    const ct=(res.headers.get('content-type')||'').toLowerCase();
+    const text=await res.text();
+    let payload;
+
+    if(ct.includes('csv') || /\.csv(?:\?|$)/i.test(url)){
+      payload=parseCSVText(text);
+    }else{
+      try{payload=JSON.parse(text)}
+      catch{
+        // 如果不是 JSON，再嘗試 CSV
+        payload=parseCSVText(text);
+        if(!payload.length) throw new Error('回傳內容不是可辨識的 JSON / CSV');
+      }
+    }
+
+    processPayload(payload);
+    connStatus.textContent='已連線';
+  }catch(e){
+    connStatus.textContent='連線失敗';
+    logmsg(e.message+'（若是瀏覽器 CORS 或登入限制，需使用平台正式 API / 代理端點）');
+  }
 }
 function connectSource(){
-  disconnectSource(false);const url=endpoint.value.trim();if(!url){alert('請先貼上網址');return}
+  disconnectSource(false);const url=endpoint.value.trim();
+  localStorage.setItem('baccaratFeedSettings_v11_alt',JSON.stringify({
+    sourceType:sourceType.value,endpoint:url,tableFilter:tableFilter.value,
+    tableMirror:tableMirror.value,pollMs:pollMs.value,resultField:resultField.value
+  }));if(!url){alert('請先貼上網址');return}
   if(sourceType.value==='ws'){try{ws=new WebSocket(url);connStatus.textContent='連線中';ws.onopen=()=>{connStatus.textContent='已連線';logmsg('WebSocket 已連線')};ws.onmessage=e=>{try{processPayload(JSON.parse(e.data))}catch{}};ws.onclose=()=>connStatus.textContent='已停止'}catch(e){logmsg(e.message)}}
   else{poll();timer=setInterval(poll,Number(pollMs.value)||3000);logmsg('開始自動抓取')}
 }
 function disconnectSource(write=true){if(timer){clearInterval(timer);timer=null}if(ws){try{ws.close()}catch{}ws=null}connStatus.textContent='已停止';if(write)logmsg('已停止')}
-function testFeed(){data.push({r:Math.random()>.5?'B':'P'});persist();render()}
+function testFeed(){
+  const r=Math.random()>.5?'B':'P';
+  scorePendingPrediction(r);
+  data.push({r,source:'test',ts:Date.now()});
+  persist();
+  render();
+}
 function exportData(){const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='baccarat-data.json';a.click()}
 function importDataFile(e){const f=e.target.files[0];if(!f)return;const rd=new FileReader();rd.onload=()=>{try{const v=JSON.parse(rd.result);if(Array.isArray(v)){data=v;persist();render()}}catch{alert('檔案格式錯誤')}};rd.readAsText(f)}
+
+try{
+  const fs=JSON.parse(localStorage.getItem('baccaratFeedSettings_v11_alt')||'null');
+  if(fs){
+    if(fs.sourceType)sourceType.value=fs.sourceType;
+    if(fs.endpoint)endpoint.value=fs.endpoint;
+    if(fs.tableFilter!=null)tableFilter.value=fs.tableFilter;
+    if(fs.tableMirror!=null)tableMirror.value=fs.tableMirror;
+    if(fs.pollMs)pollMs.value=fs.pollMs;
+    if(fs.resultField!=null)resultField.value=fs.resultField;
+  }
+}catch{}
+
 render();
 </script>
 </body>
