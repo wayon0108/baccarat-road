@@ -63,6 +63,37 @@ body{color:#fff}
   .analysis{grid-template-columns:1fr 90px 1fr 1fr;gap:5px;padding:7px}.analysis-title{font-size:15px}.analysis-btn{height:40px;font-size:12px}.metric{font-size:10px;padding-left:4px}.metric b{font-size:13px}
   .connect{padding:7px}.connect-title{font-size:15px}.connect-sub{font-size:9px}.connect-grid{grid-template-columns:120px 1fr 90px 90px;gap:4px}.connect-grid input,.connect-grid select{height:34px;font-size:11px}.connbtns button{height:34px;font-size:10px}.subgrid{grid-template-columns:120px 90px 1fr 70px 70px 70px;gap:4px}.subgrid input,.subgrid select{height:34px;font-size:11px}.subgrid button{font-size:9px}.log{font-size:9px;min-height:60px}
 }
+
+.analysis-full{margin-top:8px;padding:14px}
+.analysis-head{display:grid;grid-template-columns:1fr 220px;gap:14px;align-items:center}
+.analysis-title{font-size:24px;font-weight:900}
+.analysis-sub{font-size:12px;color:#6d7b84;margin-top:2px}
+.recommend-card{height:72px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:30px;font-weight:900;color:#fff;box-shadow:inset 0 -3px 0 rgba(0,0,0,.08)}
+.recommend-card.B{background:linear-gradient(#ff443f,#ef2a28)}
+.recommend-card.P{background:linear-gradient(#2299ff,#0873da)}
+.recommend-card.neutral{background:linear-gradient(#8a9aa5,#72838e)}
+.analysis-body{display:grid;grid-template-columns:1.15fr 1.6fr .7fr;gap:16px;align-items:center;margin-top:12px}
+.analysis-metrics{display:grid;grid-template-columns:1fr 1fr;gap:8px 18px;font-size:16px}
+.analysis-metrics b{font-size:21px}
+.confidence-wrap{min-width:0}
+.confidence-bar{height:14px;background:#e7ecef;border-radius:20px;overflow:hidden}
+.confidence-bar>div{height:100%;width:0;background:linear-gradient(90deg,#32c474,#0aa05f);transition:width .25s}
+.analysis-reason{margin-top:8px;font-size:13px;line-height:1.45;color:#52616a}
+.prediction-stat{font-size:15px;line-height:1.7;border-left:1px solid #d8dfe2;padding-left:16px}
+.analysis-note{margin-top:10px;font-size:12px;color:#78868e;line-height:1.5}
+@media(max-width:900px){
+  .analysis-full{padding:7px}
+  .analysis-head{grid-template-columns:1fr 110px;gap:6px}
+  .analysis-title{font-size:15px}
+  .analysis-sub{font-size:9px}
+  .recommend-card{height:44px;font-size:17px;border-radius:9px}
+  .analysis-body{grid-template-columns:1fr;gap:7px;margin-top:7px}
+  .analysis-metrics{grid-template-columns:1fr 1fr;font-size:10px;gap:4px 8px}
+  .analysis-metrics b{font-size:12px}
+  .prediction-stat{border-left:0;border-top:1px solid #d8dfe2;padding:6px 0 0;font-size:10px}
+  .analysis-reason,.analysis-note{font-size:9px}
+}
+
 </style>
 </head>
 <body>
@@ -104,14 +135,39 @@ body{color:#fff}
     </div>
   </div>
 
-  <div class="panel analysis">
-    <div class="analysis-title">▮▮ 走勢統計演算法</div>
-    <button class="analysis-btn" onclick="renderPrediction()">開始分析</button>
-    <div class="metric">莊機率<br><b id="probB">50.0%</b></div>
-    <div class="metric">閒機率<br><b id="probP">50.0%</b></div>
-    <div class="metric">和機率<br><b id="probT">0.0%</b></div>
-    <div class="metric">模型信心<br><b id="confidence">0%</b></div>
-    <div class="metric">有效樣本<br><b id="samples">0 局</b></div>
+  
+  <div class="panel analysis-full">
+    <div class="analysis-head">
+      <div>
+        <div class="analysis-title">▮▮ 走勢統計演算法</div>
+        <div class="analysis-sub">依目前已輸入資料即時計算</div>
+      </div>
+      <div id="algoPick" class="recommend-card neutral">資料不足</div>
+    </div>
+
+    <div class="analysis-body">
+      <div class="analysis-metrics">
+        <div>莊機率分數：<b id="probB">50.0%</b></div>
+        <div>閒機率分數：<b id="probP">50.0%</b></div>
+        <div>模型信心：<b id="confidence">0%</b></div>
+        <div>有效樣本：<b id="samples">0</b> 局</div>
+      </div>
+
+      <div class="confidence-wrap">
+        <div class="confidence-bar"><div id="confBar"></div></div>
+        <div id="reason" class="analysis-reason">輸入莊或閒後，系統會開始累積資料。</div>
+      </div>
+
+      <div class="prediction-stat">
+        預測紀錄：<b id="predCount">0</b> 次<br>
+        命中：<b id="hitCount">0</b> 次<br>
+        命中率：<b id="hitRate">—</b>
+      </div>
+    </div>
+
+    <div class="analysis-note">
+      演算法參考 N-gram／Markov 轉移、近期權重、連續型態、交替型態與樣本量校正；「和」不列入莊閒預測序列。
+    </div>
   </div>
 
   <div class="panel connect">
@@ -144,11 +200,117 @@ body{color:#fff}
 </div>
 
 <script>
+
+let predictionStats = JSON.parse(localStorage.getItem('baccaratPredictionStats') || '{"count":0,"hit":0}');
+let pendingPrediction = null;
+
+function recommendationModel(){
+  const seq = data.map(v=>base(v.r)).filter(r=>r!=='T');
+  const n = seq.length;
+  if(n < 6){
+    return {pick:'N',pb:.5,pp:.5,conf:0,n,reason:'資料不足，先累積更多莊／閒結果。'};
+  }
+
+  let score = 0, totalWeight = 0, reasons = [];
+
+  // 1) N-gram / Markov
+  for(let len=1; len<=3; len++){
+    if(n<=len) continue;
+    const pat = seq.slice(-len).join('');
+    let b=0,p=0;
+    for(let i=0;i<n-len;i++){
+      if(seq.slice(i,i+len).join('')===pat){
+        seq[i+len]==='B' ? b++ : p++;
+      }
+    }
+    const total=b+p;
+    if(total){
+      const edge=(b-p)/total;
+      const w=1.6-len*.2;
+      score += edge*w; totalWeight += w;
+      if(Math.abs(edge)>.15) reasons.push(`${len}階型態偏${edge>0?'莊':'閒'}`);
+    }
+  }
+
+  // 2) Recent weighted form
+  const recent = seq.slice(-12);
+  let rb=0,rp=0;
+  recent.forEach((r,i)=>{
+    const w=(i+1)/recent.length;
+    r==='B' ? rb+=w : rp+=w;
+  });
+  const rt=rb+rp;
+  if(rt){
+    const edge=(rb-rp)/rt;
+    score += edge*1.25; totalWeight += 1.25;
+    if(Math.abs(edge)>.12) reasons.push(`近期偏${edge>0?'莊':'閒'}`);
+  }
+
+  // 3) Streak / alternation
+  let streak=1;
+  for(let i=n-1;i>0 && seq[i]===seq[i-1];i--) streak++;
+  if(streak>=3){
+    const edge=seq[n-1]==='B'?.35:-.35;
+    score += edge; totalWeight += .35;
+    reasons.push(`${streak}連${seq[n-1]==='B'?'莊':'閒'}`);
+  }
+  let alt=0;
+  for(let i=n-1;i>0 && seq[i]!==seq[i-1];i--) alt++;
+  if(alt>=3){
+    const next=seq[n-1]==='B'?'P':'B';
+    const edge=next==='B'?.28:-.28;
+    score += edge; totalWeight += .28;
+    reasons.push(`交替型態延續`);
+  }
+
+  const shrink=Math.min(1,Math.max(0,(n-6)/30));
+  const norm=totalWeight?score/totalWeight:0;
+  let pb=.5 + norm*.28*shrink;
+  pb=Math.max(.36,Math.min(.64,pb));
+  const pp=1-pb;
+  const edge=Math.abs(pb-.5);
+  const conf=Math.round(Math.min(92, edge*210 + Math.min(35,n*.8)));
+  let pick=pb>=.5?'B':'P';
+  if(n<12 || edge<.025) pick='N';
+
+  return {
+    pick,pb,pp,conf,n,
+    reason:(reasons.slice(0,4).join('；') || '目前未出現明顯重複型態') + (pick==='N'?'；差異不足，建議觀望。':'。')
+  };
+}
+
+function updateRecommendation(){
+  const r = recommendationModel();
+  probB.textContent=(r.pb*100).toFixed(1)+'%';
+  probP.textContent=(r.pp*100).toFixed(1)+'%';
+  confidence.textContent=r.conf+'%';
+  samples.textContent=r.n;
+  confBar.style.width=r.conf+'%';
+  reason.textContent=r.reason;
+
+  algoPick.className='recommend-card '+(r.pick==='N'?'neutral':r.pick);
+  algoPick.textContent=r.pick==='B'?'建議 莊':r.pick==='P'?'建議 閒':'觀望';
+
+  predCount.textContent=predictionStats.count;
+  hitCount.textContent=predictionStats.hit;
+  hitRate.textContent=predictionStats.count ? ((predictionStats.hit/predictionStats.count)*100).toFixed(1)+'%' : '—';
+
+  pendingPrediction = r.pick;
+}
+
+function scorePendingPrediction(actual){
+  if(pendingPrediction==='B' || pendingPrediction==='P'){
+    predictionStats.count++;
+    if(actual===pendingPrediction) predictionStats.hit++;
+    localStorage.setItem('baccaratPredictionStats',JSON.stringify(predictionStats));
+  }
+}
+
 let data = JSON.parse(localStorage.getItem('baccaratData')||'[]');
 let timer=null, ws=null, seen=new Set();
 function base(r){return r[0]}
 function color(r){return base(r)==='B'?'#ef2335':base(r)==='P'?'#087cf0':'#08a95b'}
-function add(r){data.push({r,bp:bp.checked,pp:pp.checked});bp.checked=pp.checked=false;persist();render()}
+function add(r){const actual=base(r);scorePendingPrediction(actual);data.push({r,bp:bp.checked,pp:pp.checked});bp.checked=pp.checked=false;persist();render()}
 function undo(){data.pop();persist();render()}
 function clearAll(){if(confirm('確定清空全部資料？')){data=[];persist();render()}}
 function persist(){localStorage.setItem('baccaratData',JSON.stringify(data))}
@@ -192,12 +354,12 @@ function stats(){
   last.textContent=n?(base(data[n-1].r)==='B'?'莊':base(data[n-1].r)==='P'?'閒':'和'):'- - -';
   probB.textContent=(n?B/n*100:50).toFixed(1)+'%';probP.textContent=(n?P/n*100:50).toFixed(1)+'%';probT.textContent=(n?T/n*100:0).toFixed(1)+'%';samples.textContent=n+' 局'
 }
-function renderPrediction(){
+function legacyRenderPrediction(){
   const a=data.map(v=>base(v.r)).filter(r=>r!=='T');if(a.length<8){confidence.textContent='0%';return}
   let B=0,P=0;for(let n=1;n<=3;n++){const pat=a.slice(-n).join('');for(let i=0;i<a.length-n;i++)if(a.slice(i,i+n).join('')===pat){a[i+n]==='B'?B++:P++}}
   const total=B+P;confidence.textContent=(total?Math.min(90,Math.round(50+Math.abs(B-P)/total*40)):0)+'%'
 }
-function render(){drawBead();drawBig();drawDerived('eye',derived(1),'circle');drawDerived('small',derived(2),'dot');drawDerived('cock',derived(3),'slash');drawAsk();stats();renderPrediction()}
+function render(){drawBead();drawBig();drawDerived('eye',derived(1),'circle');drawDerived('small',derived(2),'dot');drawDerived('cock',derived(3),'slash');drawAsk();stats();updateRecommendation()}
 window.addEventListener('resize',render);
 
 function normalizeResult(v){
