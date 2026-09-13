@@ -11,7 +11,7 @@
   --line:#d4d8d6;--panel:#f7f8f7;--text:#1d2724;
 }
 *{box-sizing:border-box}
-html,body{margin:0;background:#005c47;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans TC","PingFang TC",Arial,sans-serif;color:var(--text)}
+html,body{margin:0;max-width:100%;overflow-x:hidden;background:#005c47;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans TC","PingFang TC",Arial,sans-serif;color:var(--text)}
 button{font:inherit}
 .app{min-height:100vh;background:linear-gradient(180deg,#006f55,#005a45);padding:7px}
 .top{
@@ -32,7 +32,10 @@ button{font:inherit}
 .clock{text-align:center;padding:6px 8px;font-weight:700}
 .clock .date{font-size:13px}.clock .time{font-size:26px;letter-spacing:1px}
 
-.layout{display:grid;grid-template-columns:280px 280px minmax(700px,1fr);gap:6px}
+.layout{display:grid;grid-template-columns:280px minmax(0,1fr);gap:6px;align-items:start}
+.layout>.box:nth-child(1){grid-column:1;grid-row:1 / span 2}
+.layout>.box:nth-child(2){grid-column:2;grid-row:1}
+.layout>.box:nth-child(3){grid-column:2;grid-row:2}
 .box{background:white;border:3px solid var(--green2);border-radius:10px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.15)}
 .title{height:40px;background:linear-gradient(180deg,#00664e,#00503e);color:#fff;padding:6px 10px;font-size:22px;font-weight:900;border-bottom:2px solid var(--green2)}
 .controls{padding:12px;background:#fff}
@@ -50,10 +53,11 @@ button{font:inherit}
 .actions button{border:0;border-radius:10px;padding:12px 4px;font-size:18px;font-weight:900;cursor:pointer}
 .save{background:#06815f;color:#fff}.load{background:#e8e8e8;color:#152057}.clear{background:#292929;color:#fff}
 
-.gridpanel{position:relative;background:white;overflow:auto}
-canvas{display:block;background:#fff}
-#bead{min-height:430px}
-.bigarea{display:grid;grid-template-rows:340px 142px}
+.gridpanel{position:relative;background:white;overflow:hidden;min-width:0}
+canvas{display:block;background:#fff;max-width:100%;width:100%;height:auto}
+#bead{width:100%;height:auto}
+#bigRoad{width:100%;height:auto}
+.bigarea{display:grid;grid-template-rows:auto auto;min-width:0}
 .bottomroads{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:5px;border-top:4px solid var(--green)}
 .mini .title{height:34px;font-size:17px;padding:4px 9px}
 .mini{border-right:2px solid var(--green);overflow:hidden}
@@ -94,16 +98,49 @@ canvas{display:block;background:#fff}
 .connrow input,.connrow select{height:40px;border:1px solid #b9c6c1;border-radius:8px;padding:0 10px;font-size:14px}
 .connrow button{height:40px;border:0;border-radius:8px;font-weight:900;cursor:pointer}
 .logbox{margin-top:10px;background:#0d1915;color:#c8f5df;border-radius:8px;height:110px;overflow:auto;padding:9px;font:12px/1.45 ui-monospace,Consolas,monospace}
-@media(max-width:1200px){.connrow{grid-template-columns:150px 1fr 100px 100px 100px}}
-
-
-
 @media(max-width:1200px){
- .top{grid-template-columns:1fr 1fr 110px 110px 110px}.clock{display:none}
- .layout{grid-template-columns:260px 260px minmax(650px,1fr)}
+ .top{grid-template-columns:minmax(220px,1.2fr) minmax(180px,1fr) 105px 105px 105px}.clock{display:none}
+ .layout{grid-template-columns:240px minmax(0,1fr)}
+ .connrow{grid-template-columns:140px minmax(0,1fr) 96px 96px 96px}
+ .algo{grid-template-columns:180px 150px minmax(0,1fr) 200px}
 }
 @media(max-width:850px){
- .app{min-width:1180px}
+ .app{width:100%;padding:5px}
+ .top{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;padding:4px 3px 8px}
+ .logo{grid-column:1 / -1;justify-content:center}
+ .resultbox{grid-column:1 / -1;height:auto;min-height:48px;padding:10px 12px;font-size:17px}
+ .counter{height:48px;font-size:17px}
+ .counter .tag{font-size:20px;padding:7px 9px}
+ .layout{display:grid;grid-template-columns:minmax(0,1fr);gap:6px}
+ .layout>.box:nth-child(1),.layout>.box:nth-child(2),.layout>.box:nth-child(3){grid-column:1;grid-row:auto}
+ .controls{padding:8px}
+ .mainbtn{font-size:22px;padding:10px;margin-bottom:6px}
+ .smallbtn{font-size:18px;padding:10px 6px}
+ .checkrow{margin:10px 2px}.check{font-size:15px}.check input{width:20px;height:20px}
+ .undo{font-size:20px;padding:10px}.actions button{font-size:15px;padding:10px 3px}
+ .title{height:34px;font-size:18px;padding:5px 8px}
+ .bottomroads{grid-template-columns:1fr 1fr;gap:4px}
+ .mini:nth-child(2){border-right:0}
+ .mini:nth-child(3){border-top:2px solid var(--green)}
+ .mini:nth-child(4){border-top:2px solid var(--green);border-right:0}
+ .algo{grid-column:1;grid-template-columns:1fr;gap:8px;padding:10px}
+ .pick{height:58px;font-size:28px}.hit{border-left:0;border-top:1px solid #c4d3cd;padding:8px 0 0}
+ .connectbox{grid-column:1;padding:10px}
+ .connrow{grid-template-columns:1fr 1fr;gap:6px}
+ .connrow input,.connrow select,.connrow button{width:100%;min-width:0}
+ .connrow input:nth-child(2){grid-column:1 / -1}
+ .logbox{height:90px}
+}
+@media(max-width:520px){
+ .brandCN{font-size:24px}.brandEN{font-size:10px}.spade{font-size:40px}
+ .top{grid-template-columns:1fr 1fr 1fr}
+ .counter{font-size:15px}.counter .tag{font-size:18px;padding:6px 7px}
+ .bottomroads{grid-template-columns:1fr}
+ .mini{border-right:0!important;border-top:2px solid var(--green)}
+ .mini:first-child{border-top:0}
+ .connrow{grid-template-columns:1fr}
+ .connrow input:nth-child(2){grid-column:auto}
+ .algoTitle,.connecttitle{font-size:18px}
 }
 </style>
 </head>
@@ -147,23 +184,46 @@ canvas{display:block;background:#fff}
 
     <div class="box">
       <div class="title">珠盤路</div>
-      <div class="gridpanel"><canvas id="bead" width="280" height="430"></canvas></div>
+      <div class="gridpanel"><canvas id="bead" width="1050" height="252"></canvas></div>
     </div>
 
     <div class="box">
       <div class="title">大路</div>
       <div class="bigarea">
-        <div class="gridpanel"><canvas id="bigRoad" width="1050" height="340"></canvas></div>
+        <div class="gridpanel"><canvas id="bigRoad" width="1050" height="252"></canvas></div>
         <div class="bottomroads">
           <div class="mini"><div class="title">大眼仔</div><canvas id="bigEye" width="260" height="108"></canvas></div>
           <div class="mini"><div class="title">小路</div><canvas id="smallRoad" width="260" height="108"></canvas></div>
-          <div class="mini"><div class="title">曱甴路</div><canvas id="cockroach" width="260" height="108"></canvas></div>
+          <div class="mini"><div class="title">甲由路</div><canvas id="cockroach" width="260" height="108"></canvas></div>
           <div class="mini"><div class="title">下一手問路</div><canvas id="askRoad" width="260" height="108"></canvas></div>
         </div>
       </div>
     </div>
 
 
+
+    <div class="algo">
+      <div>
+        <div class="algoTitle">走勢統計演算法</div>
+        <div class="note">依目前已輸入資料即時計算</div>
+      </div>
+      <div id="algoPick" class="pick N">資料不足</div>
+      <div>
+        <div class="metrics">
+          莊機率分數：<b id="probB">50.0%</b>　｜　閒機率分數：<b id="probP">50.0%</b><br>
+          模型信心：<b id="confidence">0%</b>　｜　有效樣本：<b id="samples">0</b> 局
+        </div>
+        <div class="bar"><div id="confBar"></div></div>
+        <div class="reason" id="reason">輸入莊或閒後，系統會開始累積資料。</div>
+        <div class="note">演算法使用 N-gram／Markov 轉移、近期權重、連續型態、交替型態與線上權重校正做統計整合；「和」不列入莊閒預測序列。</div>
+      </div>
+      <div class="hit">
+        預測紀錄：<b id="predCount">0</b> 次<br>
+        命中：<b id="hitCount">0</b> 次<br>
+        命中率：<b id="hitRate">—</b>
+        <div class="note">只有在系統有給出莊/閒建議時才計入。</div>
+      </div>
+    </div>
 
     <div class="connectbox">
       <div class="connecthead">
@@ -203,33 +263,11 @@ canvas{display:block;background:#fff}
       <div id="connLog" class="logbox">[系統] 程式已就緒。現在可手動輸入莊/閒/和；找到平台資料網址後再貼進上方即可。</div>
     </div>
 
-    <div class="algo">
-      <div>
-        <div class="algoTitle">走勢統計演算法</div>
-        <div class="note">依目前已輸入資料即時計算</div>
-      </div>
-      <div id="algoPick" class="pick N">資料不足</div>
-      <div>
-        <div class="metrics">
-          莊機率分數：<b id="probB">50.0%</b>　｜　閒機率分數：<b id="probP">50.0%</b><br>
-          模型信心：<b id="confidence">0%</b>　｜　有效樣本：<b id="samples">0</b> 局
-        </div>
-        <div class="bar"><div id="confBar"></div></div>
-        <div class="reason" id="reason">輸入莊或閒後，系統會開始累積資料。</div>
-        <div class="note">演算法使用 N-gram／Markov 轉移、近期權重、連續型態、交替型態與線上權重校正做統計整合；「和」不列入莊閒預測序列。</div>
-      </div>
-      <div class="hit">
-        預測紀錄：<b id="predCount">0</b> 次<br>
-        命中：<b id="hitCount">0</b> 次<br>
-        命中率：<b id="hitRate">—</b>
-        <div class="note">只有在系統有給出莊/閒建議時才計入。</div>
-      </div>
-    </div>
   </div>
 </div>
 
 <script>
-const ROWS=6, BIGCELL=42, MINICELL=18, BEADCELL=46;
+const ROWS=6, BIGCELL=42, MINICELL=18, BEADCELL=42;
 let data=[];
 let pendingSix=null;
 let pendingPrediction=null;
