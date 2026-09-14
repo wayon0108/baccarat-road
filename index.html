@@ -1382,6 +1382,107 @@ body,.app,.v16-shell{
 #autoAllLog{margin-top:6px;padding:6px;border:1px solid #173b4e;border-radius:7px;background:#040d14;color:#86a7b8;font:8px/1.4 ui-monospace,monospace;max-height:90px;overflow:auto}
 </style>
 
+
+<style id="v23-auto-hub-css">
+#v23AutoHub{
+  margin-top:7px;border:1px solid #22627b;border-radius:10px;background:#061725;overflow:hidden;color:#eaf8ff
+}
+.v23-head{
+  display:flex;justify-content:space-between;gap:10px;align-items:center;
+  padding:8px 10px;background:linear-gradient(90deg,#eef4f5,#f8fbfb);color:#0b2435
+}
+.v23-head b{font-size:14px}.v23-head span{font-size:9px;color:#526c7b}
+.v23-state{padding:4px 9px;border-radius:999px;background:#e8eff1;font-size:10px;font-weight:900}
+.v23-body{padding:8px}
+.v23-main{
+  display:grid;grid-template-columns:180px minmax(280px,1fr) 115px 115px;gap:6px;align-items:center
+}
+.v23-main select,.v23-main input,.v23-main button{
+  min-height:34px;border-radius:7px;border:1px solid #295a72;background:#04131f;color:#eef9ff;
+  font-size:10px;padding:5px 8px;box-sizing:border-box
+}
+#v23Start{background:#0c6e90;font-weight:900}
+#v23Stop{background:#312027}
+.v23-upload{
+  display:grid;grid-template-columns:minmax(250px,1fr) 120px 120px;gap:6px;margin-top:6px
+}
+.v23-upload input,.v23-upload button{
+  min-height:32px;border-radius:7px;border:1px solid #28566e;background:#06131e;color:#e8f7ff;font-size:9px;padding:5px
+}
+.v23-grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:5px;margin-top:7px}
+.v23-card{padding:6px;border:1px solid #173f53;border-radius:7px;background:#07131e;min-width:0}
+.v23-card span{display:block;font-size:7.5px;color:#7594a6}.v23-card b{display:block;margin-top:2px;font-size:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.v23-good{color:#6ee0aa!important}.v23-warn{color:#ffd36b!important}.v23-bad{color:#ff7c86!important}
+#v23Log{
+  margin-top:7px;padding:6px 8px;border:1px solid #17394b;border-radius:7px;background:#030c12;
+  color:#8cabba;font:8px/1.45 ui-monospace,monospace;max-height:70px;overflow:auto;white-space:pre-wrap
+}
+.v23-adv{
+  margin-top:7px;border-top:1px solid #17394c;padding-top:6px
+}
+.v23-adv summary{cursor:pointer;font-size:9px;color:#83b7cf;font-weight:800}
+.v23-adv-inner{margin-top:6px}
+.v23-hidden-old{
+  position:absolute!important;left:-99999px!important;top:auto!important;width:1px!important;height:1px!important;
+  overflow:hidden!important;opacity:0!important;pointer-events:none!important
+}
+@media(max-width:900px){
+ .v23-main{grid-template-columns:1fr 1fr}
+ .v23-main input{grid-column:1/-1}
+ .v23-upload{grid-template-columns:1fr 1fr}
+ .v23-upload input{grid-column:1/-1}
+ .v23-grid{grid-template-columns:repeat(3,1fr)}
+}
+</style>
+
+
+<style id="v231-casino-road-inner">
+/* 外框尺寸與三欄工作台不動，只改白色路紙 */
+.road, .road-card, .road-box { overflow:hidden !important; }
+
+/* 白色路紙統一為正規 6 列比例 */
+.road canvas, .road svg,
+#beadCanvas,#bigCanvas,#bigEyeCanvas,#smallCanvas,#cockroachCanvas,#askCanvas{
+  display:block !important;
+  width:100% !important;
+  background:#fff !important;
+}
+
+/* 珠盤路 / 大路：縮短白底高度，外框不變 */
+#beadCanvas,#bigCanvas{
+  height:clamp(210px,23.5vw,330px) !important;
+  max-height:330px !important;
+}
+
+/* 大眼仔 / 小路 / 曱甴路：標準衍生路較矮 */
+#bigEyeCanvas,#smallCanvas,#cockroachCanvas{
+  height:clamp(112px,12.2vw,175px) !important;
+  max-height:175px !important;
+}
+
+/* 下一手問路同衍生路高度 */
+#askCanvas{
+  height:clamp(112px,12.2vw,175px) !important;
+  max-height:175px !important;
+}
+
+/* 標題維持緊湊的娛樂場路紙樣式 */
+.road-title,.road h3,.road-card h3,.road-box h3{
+  line-height:1.05 !important;
+  margin:0 !important;
+  padding-top:5px !important;
+  padding-bottom:5px !important;
+  font-weight:800 !important;
+}
+
+/* 白底下方不再被內容撐滿：保留原外框 */
+.road canvas + *, .road svg + *{max-height:0}
+@media(max-width:900px){
+  #beadCanvas,#bigCanvas{height:220px !important}
+  #bigEyeCanvas,#smallCanvas,#cockroachCanvas,#askCanvas{height:125px !important}
+}
+</style>
+
 </head>
 
 <body>
@@ -1518,7 +1619,49 @@ color:#c9d6e3;font-size:12px;text-align:center">
     </div>
   </div>
 
-  <div class="panel connect">
+  
+<section id="v23AutoHub">
+  <div class="v23-head">
+    <div><b>百家樂全自動資料中心</b><span>　自動連線 → 自動解析 → 自動去重 → 自動分析 → 自動更新</span></div>
+    <div class="v23-state" id="v23State">● 未連線</div>
+  </div>
+  <div class="v23-body">
+    <div class="v23-main">
+      <select id="v23Mode">
+        <option value="auto">自動判斷 HTTP / JSON / WebSocket</option>
+        <option value="http">HTTP / JSON 輪詢</option>
+        <option value="ws">WebSocket 即時</option>
+      </select>
+      <input id="v23Url" placeholder="貼上 API / JSON / WebSocket 網址">
+      <button type="button" id="v23Start">▶ 全自動開始</button>
+      <button type="button" id="v23Stop">■ 停止</button>
+    </div>
+
+    <div class="v23-upload">
+      <input type="file" id="v23File" accept=".json,.csv,.txt,application/json,text/csv,text/plain">
+      <button type="button" id="v23Import">自動匯入檔案</button>
+      <button type="button" id="v23Test">測試一筆資料</button>
+    </div>
+
+    <div class="v23-grid">
+      <div class="v23-card"><span>連線狀態</span><b id="v23Conn">未連線</b></div>
+      <div class="v23-card"><span>走勢</span><b id="v23Trend">等待資料</b></div>
+      <div class="v23-card"><span>點數</span><b id="v23Points">等待資料</b></div>
+      <div class="v23-card"><span>牌型 / 補牌</span><b id="v23Cards">等待資料</b></div>
+      <div class="v23-card"><span>資料品質</span><b id="v23Quality">等待資料</b></div>
+      <div class="v23-card"><span>AI 分析</span><b id="v23AI">等待資料</b></div>
+    </div>
+
+    <div id="v23Log">系統待命。貼上資料網址或匯入 JSON / CSV 後即可自動分析。</div>
+
+    <details class="v23-adv">
+      <summary>進階設定（一般不用開）</summary>
+      <div class="v23-adv-inner" id="v23AdvancedMount"></div>
+    </details>
+  </div>
+</section>
+
+<div class="panel connect">
     <div class="connect-head">
       <div>
         <div class="connect-title">◉ 百家樂即時資料接入</div>
@@ -3569,7 +3712,7 @@ document.addEventListener("DOMContentLoaded",function(){
 document.addEventListener("DOMContentLoaded",()=>{
  setTimeout(()=>{
    const bc=document.querySelector(".brand-cn");
-   if(bc)bc.textContent="BACCARAT 智能分析工作台 ULTIMATE";
+   if(bc)bc.textContent="BACCARAT 智能分析工作台 ULTIMATE V23.1";
    const be=document.querySelector(".brand-en");
    if(be)be.textContent="AI演算法 × 影像辨識 × 即時數據 × 歷史回測 × 模型分析";
  },120);
@@ -4069,6 +4212,196 @@ document.addEventListener("DOMContentLoaded",()=>{
     });
     setTimeout(wrap,900);
     setInterval(()=>{wrap();updateStatus()},1500);
+  });
+})();
+</script>
+
+
+<script id="v23-auto-hub-js">
+(function(){
+ const $=id=>document.getElementById(id);
+ let ws=null,timer=null,lastRaw=null,recv=0,good=0,bad=0,dups=0,lastIds=new Set();
+
+ function log(msg){
+   const e=$("v23Log"); if(!e)return;
+   const t=new Date().toLocaleTimeString();
+   e.textContent=`[${t}] ${msg}\n`+e.textContent;
+ }
+ function setState(txt,cls){
+   const e=$("v23State"); if(!e)return;
+   e.textContent=txt; e.className="v23-state "+(cls||"");
+ }
+ function set(id,txt,cls){
+   const e=$(id); if(!e)return;
+   e.textContent=txt; e.className=(cls||"");
+ }
+ function normalizeMode(url){
+   const m=$("v23Mode")?.value||"auto";
+   if(m!=="auto")return m;
+   return /^wss?:\/\//i.test(url)?"ws":"http";
+ }
+ function updateDashboard(){
+   // Mirror already-existing detailed indicators from V20/V21/V22.
+   const trend=$("feedTrendState")?.textContent||"等待資料";
+   const point=$("feedPointState")?.textContent||"等待資料";
+   const card=$("feedCardState")?.textContent||"等待資料";
+   const quality=$("dqOverall")?.textContent||"等待資料";
+   const ai=$("v24Pick")?.textContent||$("v13Pick")?.textContent||"等待資料";
+
+   set("v23Trend",trend,trend.includes("未")?"v23-warn":"v23-good");
+   set("v23Points",point,point.includes("未")?"v23-warn":"v23-good");
+   set("v23Cards",card,card.includes("未")?"v23-warn":"v23-good");
+   set("v23Quality",quality,quality==="良好"?"v23-good":quality==="不足"?"v23-bad":"v23-warn");
+   set("v23AI",ai,ai==="莊"||ai==="閒"?"v23-good":"v23-warn");
+ }
+ function useExistingParser(payload){
+   lastRaw=payload;recv++;
+   try{
+     if(typeof window.processPayload==="function"){
+       window.processPayload(payload);
+       good++;
+       setTimeout(()=>{
+         try{if(typeof render==="function")render()}catch(e){}
+         try{if(typeof window.updateV13==="function")window.updateV13()}catch(e){}
+         try{if(typeof updateRoadRecommendations==="function")updateRoadRecommendations()}catch(e){}
+         updateDashboard();
+       },40);
+       log(`已接收第 ${recv} 批資料，自動解析與分析完成`);
+     }else{
+       bad++;log("找不到資料解析器");
+     }
+   }catch(e){
+     bad++;log("解析失敗："+e.message);
+   }
+ }
+ async function pollHttp(url){
+   stop(false);
+   setState("● 連線中","v23-warn"); set("v23Conn","HTTP 連線中","v23-warn");
+   async function once(){
+     try{
+       const res=await fetch(url,{cache:"no-store",credentials:"include"});
+       if(!res.ok)throw new Error("HTTP "+res.status);
+       const ct=res.headers.get("content-type")||"";
+       const body=ct.includes("json")?await res.json():await res.text();
+       useExistingParser(body);
+       setState("● 已連線","v23-good");set("v23Conn","HTTP 已連線","v23-good");
+     }catch(e){
+       setState("● 連線失敗","v23-bad");set("v23Conn","HTTP 失敗","v23-bad");
+       log("HTTP 失敗："+e.message+"（可能是 CORS、登入權限或網址格式）");
+     }
+   }
+   await once();
+   let sec=parseInt(document.getElementById("interval")?.value||"3",10);
+   sec=Math.max(1,Math.min(60,sec||3));
+   timer=setInterval(once,sec*1000);
+ }
+ function connectWs(url){
+   stop(false);
+   try{
+     setState("● 連線中","v23-warn");set("v23Conn","WebSocket 連線中","v23-warn");
+     ws=new WebSocket(url);
+     ws.onopen=()=>{setState("● 已連線","v23-good");set("v23Conn","WebSocket 已連線","v23-good");log("WebSocket 已連線")};
+     ws.onmessage=e=>{
+       let x=e.data;
+       try{x=JSON.parse(x)}catch(_){}
+       useExistingParser(x);
+     };
+     ws.onerror=()=>{setState("● 連線錯誤","v23-bad");set("v23Conn","WebSocket 錯誤","v23-bad")};
+     ws.onclose=()=>{setState("● 已斷線","v23-warn");set("v23Conn","WebSocket 已斷線","v23-warn");ws=null};
+   }catch(e){log("WebSocket 失敗："+e.message)}
+ }
+ function start(){
+   const url=$("v23Url")?.value.trim();
+   if(!url){alert("請先貼上 API / JSON / WebSocket 網址");return}
+   try{localStorage.setItem("v23AutoUrl",url)}catch(e){}
+   const mode=normalizeMode(url);
+   log(`啟動全自動模式：${mode.toUpperCase()}`);
+   mode==="ws"?connectWs(url):pollHttp(url);
+ }
+ function stop(write=true){
+   if(timer){clearInterval(timer);timer=null}
+   if(ws){try{ws.close()}catch(e){}ws=null}
+   setState("● 已停止","v23-warn");set("v23Conn","已停止","v23-warn");
+   if(write)log("已停止自動資料接入");
+ }
+ async function importFile(){
+   const f=$("v23File")?.files?.[0];
+   if(!f){alert("請先選擇 JSON / CSV / TXT 檔案");return}
+   try{
+     const text=await f.text();
+     let payload=text;
+     if(/\.json$/i.test(f.name)){try{payload=JSON.parse(text)}catch(e){}}
+     useExistingParser(payload);
+     log(`已自動匯入 ${f.name}`);
+   }catch(e){log("檔案匯入失敗："+e.message)}
+ }
+ function testOne(){
+   const sample={
+     tableId:"B219",roundId:"TEST-"+Date.now(),
+     playerCards:["A","7","8"],bankerCards:["10","6"],
+     playerPoints:6,bankerPoints:6,result:"T"
+   };
+   useExistingParser(sample);
+   log("已送入一筆測試資料：閒6 / 莊6 / 和");
+ }
+ function mountAdvanced(){
+   const mount=$("v23AdvancedMount");
+   const old=document.querySelector(".panel.connect");
+   if(!mount||!old)return;
+   // Keep original connector UI available for debugging but visually contained under advanced settings.
+   old.classList.remove("v26-closed");
+   old.style.margin="0";
+   old.style.border="0";
+   old.style.background="transparent";
+   mount.appendChild(old);
+   const h=old.querySelector(".connect-head"); if(h)h.style.display="none";
+ }
+ document.addEventListener("DOMContentLoaded",()=>{
+   setTimeout(()=>{
+     mountAdvanced();
+     try{
+       const u=localStorage.getItem("v23AutoUrl");
+       if(u&&$("v23Url"))$("v23Url").value=u;
+     }catch(e){}
+     $("v23Start")?.addEventListener("click",start);
+     $("v23Stop")?.addEventListener("click",()=>stop(true));
+     $("v23Import")?.addEventListener("click",importFile);
+     $("v23Test")?.addEventListener("click",testOne);
+     setInterval(updateDashboard,1000);
+   },500);
+ });
+})();
+</script>
+
+
+<script id="v231-casino-road-inner-js">
+(function(){
+  const sizeRoadPaper=()=>{
+    const set=(ids,h)=>{
+      ids.forEach(id=>{
+        const c=document.getElementById(id);
+        if(!c)return;
+        c.style.setProperty("width","100%","important");
+        c.style.setProperty("height",h+"px","important");
+        c.style.setProperty("max-height",h+"px","important");
+        c.style.setProperty("display","block","important");
+        c.style.setProperty("background","#fff","important");
+      });
+    };
+    const w=window.innerWidth||1440;
+    const major=Math.max(210,Math.min(330,Math.round(w*.235)));
+    const minor=Math.max(112,Math.min(175,Math.round(w*.122)));
+    set(["beadCanvas","bigCanvas"],major);
+    set(["bigEyeCanvas","smallCanvas","cockroachCanvas","askCanvas"],minor);
+  };
+  document.addEventListener("DOMContentLoaded",()=>{
+    sizeRoadPaper();
+    addEventListener("resize",sizeRoadPaper,{passive:true});
+    // Existing render functions may rewrite canvas attributes/styles.
+    const obs=new MutationObserver(()=>requestAnimationFrame(sizeRoadPaper));
+    ["beadCanvas","bigCanvas","bigEyeCanvas","smallCanvas","cockroachCanvas","askCanvas"]
+      .map(id=>document.getElementById(id)).filter(Boolean)
+      .forEach(el=>obs.observe(el,{attributes:true,attributeFilter:["style","width","height"]}));
   });
 })();
 </script>
