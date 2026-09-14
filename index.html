@@ -817,6 +817,151 @@ a{color:#64b5ff!important}
 #v19TemplateLearn{background:#0d604e;border-color:#26866b}.vtemplate-note{margin-top:4px;font-size:8px;line-height:1.35;color:#7692a3}
 .vconf{display:inline-block;margin-left:4px;padding:1px 4px;border-radius:4px;background:#102b3b;color:#a9d9ed;font-size:8px}
 </style>
+
+<style id="v26-clean-layout-css">
+/* V26 CLEAN WORKSPACE — remove visual clutter without removing functions */
+.app{max-width:1680px!important;padding:8px!important}
+.header{
+  grid-template-columns:minmax(250px,1.5fr) minmax(200px,1fr) 88px 88px 88px 150px!important;
+  gap:6px!important;margin-bottom:6px!important
+}
+.header .settings{display:none!important}
+.brand .spade{font-size:38px!important}
+.brand-cn{font-size:22px!important}.brand-en{font-size:10px!important}
+.topbox{min-height:48px!important;padding:6px 8px!important;border-radius:9px!important}
+.v16-titlebar{padding:7px 10px!important;margin-bottom:7px!important;border-radius:9px!important}
+.v16-titlebar strong{font-size:13px!important}.v16-titlebar span{font-size:9px!important}
+
+/* 3-column desktop workstation */
+.v16-shell{
+  display:grid!important;
+  grid-template-columns:268px minmax(0,1fr) 338px!important;
+  gap:8px!important;align-items:start!important
+}
+.v16-left,.v16-center,.v16-right{min-width:0!important}
+.v16-left{position:sticky!important;top:6px!important}
+.v16-left .controls{position:static!important;padding:0!important;background:transparent!important;border:0!important;box-shadow:none!important}
+.v16-right{position:sticky!important;top:6px!important;max-height:calc(100vh - 12px)!important;overflow:auto!important;padding-right:2px!important}
+
+/* Left workspace tabs */
+#v26InputDock{border:1px solid #1c526e;border-radius:11px;background:#061725;overflow:hidden}
+.v26-tabbar{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;padding:5px;background:#081d2b;border-bottom:1px solid #173e54}
+.v26-tab{
+  min-height:34px;border:1px solid #214b61;border-radius:7px;background:#0a2232;color:#8eafc1;
+  font-size:9px;font-weight:900;padding:4px
+}
+.v26-tab.active{background:#0e6286;color:#fff;border-color:#2d91b8}
+.v26-pane{display:none;padding:7px}.v26-pane.active{display:block}
+#v26QuickPane h3{font-size:12px!important;margin:0 0 6px!important}
+#v26QuickPane .result-btn{min-height:58px!important;font-size:23px!important;margin-bottom:5px!important}
+#v26QuickPane .twobtn button{min-height:34px!important;font-size:10px!important}
+#v26QuickPane .checks{margin:6px 0!important;font-size:10px!important}
+#v26QuickPane .checks input{width:16px!important;height:16px!important}
+#v26QuickPane .undo{height:38px!important;font-size:14px!important}
+#v26QuickPane .actions button{height:34px!important;font-size:9px!important}
+#v19HandInput,#v19Vision{margin:0!important;border:0!important;border-radius:0!important;background:transparent!important;padding:0!important}
+
+/* Manual hand input: less vertical height */
+.v19-side{padding:5px!important;margin-top:4px!important}
+.v19-side-head{margin-bottom:3px!important}
+.v19-cards{gap:3px!important}
+.v19-cardbox select,.v19-manual select{min-height:28px!important;font-size:10px!important}
+#v19SaveHand{min-height:34px!important}
+#v19ClearHand{min-height:28px!important}
+#v19AutoLatest{margin-top:4px!important;padding:5px!important}
+
+/* Vision panel: essential controls first */
+#v19Vision .vh{margin-bottom:5px!important}
+.vvisionBtns{grid-template-columns:1fr 1fr!important;gap:4px!important}
+.vvisionBtns button{min-height:31px!important;font-size:9px!important}
+#v19VisionWrap{margin-top:5px!important}
+#v19VisionCanvas{max-height:205px!important}
+#v19VisionStep{font-size:8px!important;padding:4px!important}
+.vroiList{gap:2px!important}
+.vroi{padding:3px!important}
+.vtemplate{padding:5px!important}
+.vtemplate-row{grid-template-columns:.55fr .7fr 1.65fr!important}
+#v19TemplateClear{grid-column:1/-1!important;min-height:27px!important}
+.vtemplate-note{display:none!important}
+
+/* Main roads become the visual center */
+.v16-center .roads{
+  display:grid!important;
+  grid-template-columns:.9fr 1.5fr!important;
+  grid-template-rows:290px 168px!important;
+  gap:7px!important
+}
+.road{border-radius:9px!important}
+.road h4{height:31px!important;padding:5px 9px!important;font-size:12px!important}
+.canvaswrap{height:calc(100% - 31px)!important}
+.v16-center .minis{gap:6px!important}
+.road-small h4{font-size:10px!important}
+
+/* Right analysis: compact, strongest information only */
+#v24Decision{padding:8px!important;margin-bottom:7px!important;border-radius:10px!important}
+.v24-head{margin-bottom:6px!important}.v24-head b{font-size:12px!important}.v24-head span{font-size:8px!important}
+.v24-main{grid-template-columns:96px 1fr!important;gap:7px!important}
+.v24-gauge{width:90px!important;height:90px!important}
+.v24-gauge:before{inset:8px!important}
+.v24-gauge-inner strong{font-size:27px!important}
+.v24-summary{gap:4px!important}
+.v24-metric{padding:5px!important;min-height:42px!important}
+.v24-metric span{font-size:8px!important}.v24-metric b{font-size:13px!important}
+.v24-signal,.v24-alert,#v24Pattern{margin-top:5px!important;padding:6px!important}
+.v24-pattern-grid{gap:3px!important}.v24-p{padding:4px!important}
+.v24-p span{font-size:8px!important}.v24-p b{font-size:10px!important}
+.v24-detail-title{font-size:9px!important}
+.v24-detail-grid{grid-template-columns:1fr 1fr!important;gap:3px!important}
+.v24-detail{padding:4px!important}.v24-detail small{display:none!important}
+.v24-detail>span{font-size:7.5px!important}.v24-detail>b{font-size:10px!important}
+
+/* Best-road summary: single compact block */
+.road-ai-panel{padding:7px!important;margin-top:6px!important}
+.road-ai-best{min-height:48px!important;padding:6px!important}
+.road-ai-name{font-size:15px!important}.road-ai-pick{font-size:13px!important;min-width:90px!important;padding:7px!important}
+.road-ai-grid{grid-template-columns:1fr!important;gap:3px!important}
+.road-ai-item{
+  min-height:47px!important;padding:5px!important;
+  grid-template-columns:1fr auto!important;
+  grid-template-areas:"name score" "pick score" "desc desc"!important
+}
+.v19-road-desc{font-size:8px!important;line-height:1.3!important;margin-top:2px!important;padding-top:3px!important}
+#v19BestText{font-size:8.5px!important}
+
+/* Old / duplicate bottom analysis stays out of the way */
+.v16-bottom{margin-top:7px!important}
+.v16-bottom .analysis-full{display:none!important}
+
+/* Connector becomes a clean drawer */
+.panel.connect{
+  margin-top:7px!important;border-radius:10px!important;padding:0!important;overflow:hidden!important;
+  border:1px solid #214b61!important;background:#061725!important
+}
+.panel.connect.v26-closed .connect-grid,
+.panel.connect.v26-closed .subgrid,
+.panel.connect.v26-closed #importFile,
+.panel.connect.v26-closed .log{display:none!important}
+.connect-head{padding:7px 9px!important;cursor:pointer!important;margin:0!important}
+.connect-title{font-size:11px!important}.connect-sub{font-size:8px!important}
+.connect-grid,.subgrid{padding:7px!important;gap:5px!important}
+#v26ConnectorToggle{margin-left:auto;min-height:27px;padding:3px 8px;border:1px solid #285a72;border-radius:6px;background:#0b2a3d;color:#dff7ff;font-size:8px;font-weight:800}
+
+/* Screen-size fallbacks */
+@media(max-width:1180px){
+  .v16-shell{grid-template-columns:240px minmax(0,1fr)!important}
+  .v16-right{grid-column:1/-1!important;position:static!important;display:grid!important;grid-template-columns:1fr 1fr!important;gap:7px!important;max-height:none!important}
+}
+@media(max-width:760px){
+  .header{grid-template-columns:1fr 1fr!important}
+  .brand{grid-column:1/-1}
+  .v16-shell{display:flex!important;flex-direction:column!important}
+  .v16-left,.v16-center,.v16-right{width:100%!important;position:static!important}
+  .v16-right{display:block!important}
+  .v16-center .roads{grid-template-columns:1fr!important;grid-template-rows:220px 250px auto!important}
+  .v16-center .minis{grid-template-columns:1fr 1fr!important}
+}
+</style>
+
 </head>
 
 <body>
@@ -2856,6 +3001,71 @@ document.addEventListener("DOMContentLoaded",function(){
     canvas()?.addEventListener("pointerup",up);
   });
 })();
+</script>
+
+
+<script id="v26-clean-layout-js">
+document.addEventListener("DOMContentLoaded",function(){
+  setTimeout(function(){
+    const left=document.querySelector(".v16-left");
+    const controls=left&&left.querySelector(".controls");
+    const hand=document.getElementById("v19HandInput");
+    const vision=document.getElementById("v19Vision");
+    if(left&&controls&&hand&&vision&&!document.getElementById("v26InputDock")){
+      const dock=document.createElement("section");dock.id="v26InputDock";
+      const tabs=document.createElement("div");tabs.className="v26-tabbar";
+      const quick=document.createElement("div");quick.id="v26QuickPane";quick.className="v26-pane active";
+      const manual=document.createElement("div");manual.id="v26ManualPane";manual.className="v26-pane";
+      const scan=document.createElement("div");scan.id="v26VisionPane";scan.className="v26-pane";
+      [
+        ["v26QuickPane","快速輸入"],
+        ["v26ManualPane","完整牌局"],
+        ["v26VisionPane","影像辨識"]
+      ].forEach(([target,label],i)=>{
+        const b=document.createElement("button");b.type="button";b.className="v26-tab"+(i===0?" active":"");
+        b.dataset.target=target;b.textContent=label;tabs.appendChild(b);
+      });
+
+      // Move every original quick-control child except detailed/vision blocks.
+      [...controls.children].forEach(el=>{
+        if(el!==hand&&el!==vision)quick.appendChild(el);
+      });
+      manual.appendChild(hand);
+      scan.appendChild(vision);
+      dock.append(tabs,quick,manual,scan);
+      controls.appendChild(dock);
+
+      tabs.addEventListener("click",e=>{
+        const b=e.target.closest(".v26-tab");if(!b)return;
+        tabs.querySelectorAll(".v26-tab").forEach(x=>x.classList.toggle("active",x===b));
+        dock.querySelectorAll(".v26-pane").forEach(x=>x.classList.toggle("active",x.id===b.dataset.target));
+      });
+    }
+
+    // Make the connector a single collapsed drawer instead of a long form.
+    const connector=document.querySelector(".panel.connect");
+    if(connector&&!connector.dataset.v26){
+      connector.dataset.v26="1";connector.classList.add("v26-closed");
+      const head=connector.querySelector(".connect-head");
+      if(head){
+        const btn=document.createElement("button");btn.type="button";btn.id="v26ConnectorToggle";btn.textContent="展開設定";
+        head.appendChild(btn);
+        const toggle=()=>{
+          connector.classList.toggle("v26-closed");
+          btn.textContent=connector.classList.contains("v26-closed")?"展開設定":"收合設定";
+        };
+        btn.addEventListener("click",e=>{e.stopPropagation();toggle()});
+        head.addEventListener("click",e=>{if(e.target.closest("button"))return;toggle()});
+      }
+    }
+
+    // Rename the title to make the new hierarchy obvious.
+    const title=document.querySelector(".v16-titlebar strong");
+    if(title)title.textContent="BACCARAT V19｜精簡工作台";
+    const subtitle=document.querySelector(".v16-titlebar span");
+    if(subtitle)subtitle.textContent="左：輸入／辨識　中：五路　右：AI 決策";
+  },80);
+});
 </script>
 
 </body>
