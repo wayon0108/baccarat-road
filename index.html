@@ -1957,6 +1957,134 @@ body,.app,.v16-shell{
 }
 </style>
 
+
+<style id="v246-tablet-text-readable">
+/* V24.6 平板：只放大右側「框框裡面的字」，外框位置/三區並存不動 */
+@media (min-width:760px) and (max-width:1400px){
+
+  /* AI 決策中心：框內文字加大 */
+  .v16-right #v24Decision .v24-metric span{
+    font-size:7.5px!important;
+    line-height:1.15!important;
+  }
+  .v16-right #v24Decision .v24-metric b{
+    font-size:10px!important;
+    line-height:1.15!important;
+  }
+  .v16-right #v24Decision .v24-alert{
+    font-size:8px!important;
+    line-height:1.2!important;
+  }
+  .v16-right #v24Decision .v24-p span{
+    font-size:7px!important;
+    line-height:1.1!important;
+  }
+  .v16-right #v24Decision .v24-p b{
+    font-size:8.5px!important;
+    line-height:1.1!important;
+  }
+
+  /* 五路分析：每個小框內名稱/方向/數字放大 */
+  .v16-right #v241Unified .m{
+    font-size:7px!important;
+    line-height:1.15!important;
+    padding:3px!important;
+  }
+  .v16-right #v241Unified .m b{
+    font-size:8px!important;
+    line-height:1.1!important;
+  }
+  .v16-right #v241Unified .st span{
+    font-size:6.5px!important;
+    line-height:1.1!important;
+  }
+  .v16-right #v241Unified .st b{
+    font-size:8px!important;
+    line-height:1.1!important;
+  }
+  .v16-right #v241Unified .warn{
+    font-size:6.5px!important;
+    line-height:1.15!important;
+  }
+  .v16-right #v241Unified .meta{
+    font-size:6.5px!important;
+    line-height:1.15!important;
+  }
+
+  /* 最佳路分析：五個框內的文字明顯加大 */
+  .v16-right .road-ai-item{
+    padding:4px 3px!important;
+  }
+  .v16-right .road-ai-item span{
+    font-size:7.5px!important;
+    line-height:1.1!important;
+  }
+  .v16-right .road-ai-item b{
+    font-size:9px!important;
+    line-height:1.1!important;
+  }
+  .v16-right .road-ai-item em{
+    font-size:7px!important;
+    line-height:1.1!important;
+  }
+  .v16-right .road-ai-reason{
+    font-size:6.5px!important;
+    line-height:1.15!important;
+  }
+
+  /* 為了不把整個右欄撐高，減少框內上下空白，而不是再縮字 */
+  .v16-right #v24Decision .v24-metric,
+  .v16-right #v241Unified .m,
+  .v16-right #v241Unified .st,
+  .v16-right .road-ai-item{
+    min-height:0!important;
+  }
+}
+</style>
+
+
+<style id="v247-tablet-final-readable">
+/* V24.7：平板右欄最終可讀版。只優化框內字級與留白，不移動三大區塊。 */
+@media (min-width:760px) and (max-width:1400px){
+  /* AI 決策中心 */
+  .v16-right #v24Decision .v24-metric{padding:4px 5px!important}
+  .v16-right #v24Decision .v24-metric span{font-size:8.5px!important;font-weight:700!important;line-height:1.15!important}
+  .v16-right #v24Decision .v24-metric b{font-size:11.5px!important;font-weight:900!important;line-height:1.15!important}
+  .v16-right #v24Decision .v24-alert{font-size:9px!important;font-weight:800!important;line-height:1.18!important;padding:4px 6px!important}
+  .v16-right #v24Decision .v24-p{padding:3px 4px!important}
+  .v16-right #v24Decision .v24-p span{font-size:7.8px!important;font-weight:700!important}
+  .v16-right #v24Decision .v24-p b{font-size:9.5px!important;font-weight:900!important}
+
+  /* 五路分析：框內文字放大，但五格仍維持一排 */
+  .v16-right #v241Unified .m{padding:4px 3px!important;font-size:7.8px!important;font-weight:700!important;line-height:1.12!important}
+  .v16-right #v241Unified .m b{font-size:9px!important;font-weight:900!important;line-height:1.08!important}
+  .v16-right #v241Unified .st{padding:3px!important}
+  .v16-right #v241Unified .st span{font-size:7px!important;font-weight:700!important}
+  .v16-right #v241Unified .st b{font-size:9px!important;font-weight:900!important}
+  .v16-right #v241Unified .meta{font-size:7px!important;line-height:1.12!important}
+  .v16-right #v241Unified .warn{font-size:7px!important;font-weight:700!important;line-height:1.12!important;padding:3px 5px!important}
+
+  /* 最佳路分析：照片中最難看的五個框，優先放大 */
+  .v16-right .road-ai-item{padding:5px 3px!important;display:flex!important;flex-direction:column!important;justify-content:center!important}
+  .v16-right .road-ai-item span{font-size:8.5px!important;font-weight:800!important;line-height:1.08!important}
+  .v16-right .road-ai-item b{font-size:11px!important;font-weight:900!important;line-height:1.08!important;margin-top:2px!important}
+  .v16-right .road-ai-item em{font-size:8px!important;font-weight:800!important;line-height:1.08!important;margin-top:2px!important}
+  .v16-right .road-ai-label{font-size:7.5px!important;font-weight:800!important}
+  .v16-right .road-ai-name{font-size:11px!important;font-weight:900!important}
+  .v16-right .road-ai-pick{font-size:9px!important;font-weight:900!important}
+  .v16-right .road-ai-reason{font-size:7.2px!important;font-weight:700!important;line-height:1.12!important;padding:3px 5px!important}
+
+  /* 避免放大字後被固定高度裁掉 */
+  .v16-right #v24Decision .v24-metric,
+  .v16-right #v24Decision .v24-p,
+  .v16-right #v241Unified .m,
+  .v16-right #v241Unified .st,
+  .v16-right .road-ai-item{
+    overflow:visible!important;
+  }
+}
+</style>
+
 </head>
 
 <body>
