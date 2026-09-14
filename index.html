@@ -1486,6 +1486,30 @@ body,.app,.v16-shell{
 #v19SaveHand{min-height:38px!important;font-size:11px!important}
 </style>
 
+
+<style id="v234-fast-input-fix-css">
+/* 修正實際畫面：不要重複兩次「完整牌局輸入」 */
+#v19HandInput .v19-hi-title{display:none!important}
+
+/* 目前正在輸入哪一張，直接高亮 */
+.v233-slot.active{
+  outline:2px solid #ffd45f!important;
+  border-color:#ffd45f!important;
+  box-shadow:0 0 0 2px rgba(255,212,95,.18) inset!important;
+}
+.v233-slot.filled{font-size:18px!important}
+
+/* 輸入區再壓緊一點，避免左欄太長 */
+.v233-side-pad{margin-top:4px!important}
+.v233-slots{margin-bottom:4px!important}
+.v233-pad{gap:2px!important}
+.v233-pad button{min-height:29px!important}
+.v233-actions{margin-top:4px!important}
+#v233FastResult{margin:4px 0!important;padding:6px!important}
+#v233AutoSave{width:100%;min-height:30px;margin:3px 0 4px;border-radius:6px;border:1px solid #257b65;background:#163a33;color:#dfffee;font-size:9px;font-weight:900}
+#v233InputReady{margin:0 0 5px;padding:5px 7px;border-radius:6px;background:#082233;border:1px solid #1e566e;color:#76dcff;font-size:8.5px}
+</style>
+
 </head>
 
 <body>
@@ -4539,6 +4563,72 @@ document.addEventListener("DOMContentLoaded",()=>{
    sync();
  }
  document.addEventListener("DOMContentLoaded",()=>setTimeout(install,300));
+})();
+</script>
+
+
+<script id="v234-fast-input-fix-js">
+(function(){
+ const $=id=>document.getElementById(id);
+
+ function clearManualPoints(){
+   ["v19PManual","v19BManual"].forEach(id=>{
+     const e=$(id);
+     if(e && e.value!==""){
+       e.value="";
+       e.dispatchEvent(new Event("change",{bubbles:true}));
+     }
+   });
+ }
+
+ function highlight(){
+   ["P","B"].forEach(prefix=>{
+     const vals=[1,2,3].map(i=>$("v19"+prefix+i)?.value||"");
+     let activeIndex=vals.findIndex(v=>!v);
+     if(activeIndex<0) activeIndex=2;
+     for(let i=0;i<3;i++){
+       const e=$("v233"+prefix+"S"+i);
+       if(e)e.classList.toggle("active",i===activeIndex);
+     }
+   });
+ }
+
+ function installFix(){
+   const hand=$("v19HandInput");
+   if(!hand)return;
+
+   clearManualPoints();
+
+   if(!$("v233InputReady")){
+     const n=document.createElement("div");
+     n.id="v233InputReady";
+     n.textContent="快速牌面輸入已啟用｜直接按 A～K，會依序填入第1張 → 第2張 → 補牌";
+     hand.insertBefore(n,hand.firstChild);
+   }
+
+   // 選牌時強制使用牌面計算，不讓舊的「最後點數」殘值干擾。
+   hand.addEventListener("click",e=>{
+     if(e.target.closest(".v233-pad button")){
+       clearManualPoints();
+       setTimeout(highlight,0);
+     }
+     if(e.target.closest(".v233-slot")){
+       setTimeout(highlight,0);
+     }
+   });
+
+   ["v19P1","v19P2","v19P3","v19B1","v19B2","v19B3"].forEach(id=>{
+     $(id)?.addEventListener("change",()=>setTimeout(highlight,0));
+   });
+
+   // 重新命名按鈕，避免誤解。
+   const save=$("v19SaveHand");
+   if(save)save.textContent="✓ 記錄這一局";
+
+   highlight();
+ }
+
+ document.addEventListener("DOMContentLoaded",()=>setTimeout(installFix,450));
 })();
 </script>
 
