@@ -962,6 +962,110 @@ a{color:#64b5ff!important}
 }
 </style>
 
+
+<style id="v19-user-order-fix">
+#v26InputDock .v26-tabbar{display:none!important}
+#v26InputDock .v26-pane{display:block!important;padding:7px!important}
+#v26QuickPane{order:1;border-bottom:1px solid #173e54}
+#v26ManualPane{order:2;border-bottom:1px solid #173e54}
+#v26VisionPane{order:3}
+#v26InputDock{display:flex!important;flex-direction:column!important}
+#v26QuickPane:before,
+#v26ManualPane:before,
+#v26VisionPane:before{
+ display:block;font-size:11px;font-weight:900;color:#f2cf77;
+ margin:0 0 6px;padding-bottom:5px;border-bottom:1px solid rgba(242,207,119,.18)
+}
+#v26QuickPane:before{content:"快速輸入"}
+#v26ManualPane:before{content:"完整牌局輸入"}
+#v26VisionPane:before{content:"螢幕影像辨識"}
+</style>
+
+
+<style id="v19-reference-final-css">
+html,body{background:#020b12!important}
+body{margin:0!important}
+.app{max-width:none!important;width:100%!important;padding:6px 8px!important;background:linear-gradient(180deg,#003d37 0,#00583f 52%,#003d37 100%)!important}
+.header{background:#031725!important;border-bottom:1px solid #17637a!important;padding:5px 8px!important;margin:-6px -8px 6px!important}
+.brand-cn{font-size:24px!important}.brand-en{font-size:9px!important}
+.v16-titlebar{display:none!important}
+.v16-shell{grid-template-columns:335px minmax(650px,1fr) 430px!important;gap:7px!important}
+.v16-left,.v16-center,.v16-right{border:1px solid #0e6b65!important;border-radius:10px!important;background:rgba(2,22,32,.93)!important;padding:6px!important}
+.v16-left{position:static!important}
+.v16-right{position:static!important;max-height:none!important;overflow:visible!important}
+#v26InputDock{border:0!important;background:transparent!important}
+#v26QuickPane,#v26ManualPane,#v26VisionPane{padding:5px!important}
+#v26QuickPane:before,#v26ManualPane:before,#v26VisionPane:before{color:#fff!important;font-size:13px!important}
+#v26QuickPane{order:1!important}
+#v26ManualPane{order:2!important}
+#v26VisionPane{order:3!important}
+
+/* Approved image has manual detailed entry first visually inside the input workspace */
+#v26InputDock{display:flex!important}
+#v26QuickPane{order:2!important}
+#v26ManualPane{order:1!important}
+#v26VisionPane{order:3!important}
+#v26ManualPane:before{content:"輸入本局結果"!important}
+#v19HandInput .v19-hi-title{margin-bottom:5px!important}
+#v19HandInput .v19-hi-title b{font-size:13px!important}
+.v19-side.player{background:linear-gradient(135deg,#087de8,#109cff)!important;border-color:#18b1ff!important}
+.v19-side.banker{background:linear-gradient(135deg,#ef1733,#ff2945)!important;border-color:#ff5368!important}
+.v19-side .v19-side-head b,.v19-side .pts,.v19-cardbox label,.v19-manual label{color:#fff!important}
+.v19-cardbox select,.v19-manual select{background:#04111c!important;border-color:#17384b!important}
+#v19SaveHand{background:linear-gradient(180deg,#12c46e,#079653)!important;border-color:#27db8b!important}
+#v19ClearHand{display:none!important}
+#v19AutoLatest{display:none!important}
+#v19HandInput .v19-hi-note{display:none!important}
+#v26QuickPane{border-top:1px solid #205269!important;border-bottom:0!important}
+#v26QuickPane .result-btn{min-height:52px!important}
+#v26VisionPane{margin-top:3px!important;border-top:1px solid #205269!important}
+
+/* Main road composition */
+.v16-center{padding:6px!important}
+.v16-center .roads{grid-template-columns:1fr 1fr!important;grid-template-rows:245px 150px!important;gap:7px!important}
+.road{border:1px solid #0b7772!important;overflow:hidden!important}
+.road h4{background:linear-gradient(90deg,#0b2335,#17344b)!important;border-bottom:1px solid #d6a934!important;color:#fff!important}
+.canvaswrap{background:#fff!important}
+.v16-center .minis{grid-column:1/-1!important;display:grid!important;grid-template-columns:repeat(4,1fr)!important;gap:7px!important}
+.v16-center .minis .road{min-width:0!important}
+#v19Vision{max-height:420px;overflow:auto}
+
+/* Right decision center */
+#v24Decision{background:#041a28!important;border:1px solid #1c566f!important}
+.v24-gauge{background:conic-gradient(#0a6f9b var(--g,0%),#12384b 0)!important}
+.v24-alert{background:#342706!important;border-color:#a77b0b!important;color:#ffd86a!important}
+.road-ai-panel{background:#041a28!important;border-color:#1c566f!important}
+.road-ai-title{color:#ffd467!important}
+.v24-detail-grid{grid-template-columns:repeat(2,1fr)!important}
+
+/* Bottom connector spans entire viewport like reference */
+.panel.connect{margin-top:6px!important;background:#061725!important;border:1px solid #21617a!important}
+.panel.connect.v26-closed .connect-grid,
+.panel.connect.v26-closed .subgrid,
+.panel.connect.v26-closed #importFile,
+.panel.connect.v26-closed .log{display:grid!important}
+#v26ConnectorToggle{display:none!important}
+.connect-head{background:#f4f6f5!important;color:#092238!important;border-radius:7px 7px 0 0!important}
+.connect-title{color:#092238!important;font-size:15px!important}
+.connect-sub{color:#607383!important}
+.connect-grid{grid-template-columns:180px minmax(300px,1fr) 170px 105px 105px!important}
+.subgrid{grid-template-columns:180px 180px 130px minmax(300px,1fr) 110px 110px 110px!important}
+
+/* Keep screen usable at tablet widths */
+@media(max-width:1250px){
+ .v16-shell{grid-template-columns:300px minmax(580px,1fr)!important}
+ .v16-right{grid-column:1/-1!important;display:grid!important;grid-template-columns:1fr 1fr!important}
+}
+@media(max-width:850px){
+ .v16-shell{display:flex!important;flex-direction:column!important}
+ .v16-left,.v16-center,.v16-right{width:100%!important}
+ .v16-right{display:block!important}
+ .v16-center .roads{grid-template-columns:1fr!important;grid-template-rows:220px 220px auto!important}
+ .v16-center .minis{grid-template-columns:1fr 1fr!important}
+ .connect-grid,.subgrid{grid-template-columns:1fr!important}
+}
+</style>
+
 </head>
 
 <body>
@@ -3065,6 +3169,18 @@ document.addEventListener("DOMContentLoaded",function(){
     const subtitle=document.querySelector(".v16-titlebar span");
     if(subtitle)subtitle.textContent="左：輸入／辨識　中：五路　右：AI 決策";
   },80);
+});
+</script>
+
+
+<script id="v19-reference-final-js">
+document.addEventListener("DOMContentLoaded",()=>{
+ setTimeout(()=>{
+   const bc=document.querySelector(".brand-cn");
+   if(bc)bc.textContent="BACCARAT 智能分析工作台 ULTIMATE";
+   const be=document.querySelector(".brand-en");
+   if(be)be.textContent="AI演算法 × 影像辨識 × 即時數據 × 歷史回測 × 模型分析";
+ },120);
 });
 </script>
 
