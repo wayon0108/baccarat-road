@@ -1752,37 +1752,64 @@ body,.app,.v16-shell{
 </style>
 
 
-<style id="v243-tablet-right-scroll">
-/* V24.3：平板不再縮到很小，改成右側欄獨立上下滑動 */
+<style id="v244-tablet-tabs-css">
 @media (min-width:760px) and (max-width:1400px){
   .v16-right{
-    max-height:calc(100vh - 120px)!important;
-    overflow-y:auto!important;
-    overflow-x:hidden!important;
-    -webkit-overflow-scrolling:touch!important;
-    overscroll-behavior:contain!important;
-    padding-right:5px!important;
-    scrollbar-width:thin;
+    overflow:hidden!important;
+    padding-top:38px!important;
+    position:relative!important;
   }
-  .v16-right::-webkit-scrollbar{width:5px}
-  .v16-right::-webkit-scrollbar-thumb{background:#34566a;border-radius:999px}
-  .v16-right::-webkit-scrollbar-track{background:transparent}
+  #v244RightTabs{
+    position:absolute!important;
+    top:4px!important;left:4px!important;right:4px!important;
+    height:30px!important;
+    display:grid!important;
+    grid-template-columns:repeat(3,1fr)!important;
+    gap:3px!important;
+    z-index:999!important;
+    background:#061725!important;
+  }
+  #v244RightTabs button{
+    min-height:30px!important;
+    height:30px!important;
+    padding:2px 4px!important;
+    border:1px solid #28556c!important;
+    border-radius:6px!important;
+    background:#0a2232!important;
+    color:#9fc0d2!important;
+    font-size:8px!important;
+    font-weight:900!important;
+  }
+  #v244RightTabs button.active{
+    background:#15384d!important;
+    color:#ffd66d!important;
+    border-color:#b88a28!important;
+  }
 
-  /* 保持可讀尺寸，只做很輕微的間距壓縮 */
+  /* 平板改為分頁：一次只顯示一個右側分析區塊 */
+  .v16-right.v244-tabs-ready > #v24Decision,
+  .v16-right.v244-tabs-ready > #v241Unified,
+  .v16-right.v244-tabs-ready > .road-ai-panel{
+    display:none!important;
+    max-height:none!important;
+    height:auto!important;
+    overflow:visible!important;
+    margin:0!important;
+  }
+  .v16-right.v244-tabs-ready.v244-show-ai > #v24Decision{display:block!important}
+  .v16-right.v244-tabs-ready.v244-show-five > #v241Unified{display:block!important}
+  .v16-right.v244-tabs-ready.v244-show-best > .road-ai-panel{display:block!important}
+
+  /* 每一頁都只做輕微緊湊，不再縮成看不清楚 */
   .v16-right #v24Decision,
-  .v16-right #v241Unified{margin-top:5px!important}
-  .v16-right #v241Unified{padding:6px!important}
+  .v16-right #v241Unified,
+  .v16-right .road-ai-panel{
+    box-sizing:border-box!important;
+    width:100%!important;
+  }
+  .v16-right #v241Unified{padding:5px!important}
   .v16-right #v241Unified .grid{gap:3px!important}
   .v16-right #v241Unified .stats{gap:3px!important}
-
-  /* 右側第一個決策區固定在頂部，往下滑仍看得到主要決策 */
-  .v16-right #v24Decision{
-    position:sticky!important;
-    top:0!important;
-    z-index:60!important;
-    background:#071a27!important;
-    box-shadow:0 5px 12px rgba(0,0,0,.32);
-  }
 }
 </style>
 
@@ -5212,6 +5239,63 @@ window.V24_CONFIG={symmetricThreshold:true,noBetZone:0.045,derivedRoadCorrelatio
     $("v241State").textContent=d.pick==="觀望"?"混合/弱訊號":"有效訊號";
   }
   document.addEventListener("DOMContentLoaded",()=>{setTimeout(()=>{build();render()},400);setInterval(render,1000)});
+})();
+</script>
+
+
+<script id="v244-tablet-tabs-js">
+(function(){
+  function isTablet(){return window.matchMedia("(min-width:760px) and (max-width:1400px)").matches}
+  function setup(){
+    const right=document.querySelector(".v16-right");
+    if(!right||!isTablet())return;
+    const ai=document.getElementById("v24Decision");
+    const five=document.getElementById("v241Unified");
+    const best=right.querySelector(".road-ai-panel");
+    if(!ai||!five||!best)return;
+
+    let tabs=document.getElementById("v244RightTabs");
+    if(!tabs){
+      tabs=document.createElement("div");
+      tabs.id="v244RightTabs";
+      tabs.innerHTML=`
+        <button type="button" data-v244="ai">AI決策</button>
+        <button type="button" data-v244="five">五路分析</button>
+        <button type="button" data-v244="best">最佳路</button>`;
+      right.insertBefore(tabs,right.firstChild);
+      tabs.addEventListener("click",e=>{
+        const b=e.target.closest("button[data-v244]");
+        if(!b)return;
+        show(b.dataset.v244);
+      });
+    }
+    right.classList.add("v244-tabs-ready");
+    if(!right.classList.contains("v244-show-ai")&&!right.classList.contains("v244-show-five")&&!right.classList.contains("v244-show-best")){
+      show("ai");
+    }
+  }
+  function show(name){
+    const right=document.querySelector(".v16-right");
+    const tabs=document.getElementById("v244RightTabs");
+    if(!right||!tabs)return;
+    right.classList.remove("v244-show-ai","v244-show-five","v244-show-best");
+    right.classList.add("v244-show-"+name);
+    tabs.querySelectorAll("button").forEach(b=>b.classList.toggle("active",b.dataset.v244===name));
+  }
+  document.addEventListener("DOMContentLoaded",()=>{
+    setTimeout(setup,350);
+    setTimeout(setup,900);
+    setInterval(setup,1500);
+  });
+  window.addEventListener("resize",()=>{
+    const right=document.querySelector(".v16-right");
+    const tabs=document.getElementById("v244RightTabs");
+    if(!right)return;
+    if(!isTablet()){
+      right.classList.remove("v244-tabs-ready","v244-show-ai","v244-show-five","v244-show-best");
+      if(tabs)tabs.remove();
+    }else setup();
+  });
 })();
 </script>
 
