@@ -1436,50 +1436,35 @@ body,.app,.v16-shell{
 </style>
 
 
-<style id="v231-casino-road-inner">
-/* 外框尺寸與三欄工作台不動，只改白色路紙 */
-.road, .road-card, .road-box { overflow:hidden !important; }
+<style id="v232-real-casino-road-paper">
+/* 外框完全不改：只讓白色路紙本體依正規百家樂 6 列比例縮小 */
+.v16-center .road{
+  background:#061725 !important;
+}
 
-/* 白色路紙統一為正規 6 列比例 */
-.road canvas, .road svg,
-#beadCanvas,#bigCanvas,#bigEyeCanvas,#smallCanvas,#cockroachCanvas,#askCanvas{
+/* 標題與外框尺寸保持原本設定 */
+.v16-center .road > h4{
+  flex:0 0 auto !important;
+}
+
+/* 白色內底本身，不再強制撐滿外框 */
+.v16-center .canvaswrap{
+  background:#fff !important;
+  height:auto !important;
+  min-height:0 !important;
+  flex:none !important;
+}
+
+/* 真正的 V23 canvas IDs */
+#bead,#big,#eye,#small,#cock,#ask{
   display:block !important;
   width:100% !important;
   background:#fff !important;
 }
 
-/* 珠盤路 / 大路：縮短白底高度，外框不變 */
-#beadCanvas,#bigCanvas{
-  height:clamp(210px,23.5vw,330px) !important;
-  max-height:330px !important;
-}
-
-/* 大眼仔 / 小路 / 曱甴路：標準衍生路較矮 */
-#bigEyeCanvas,#smallCanvas,#cockroachCanvas{
-  height:clamp(112px,12.2vw,175px) !important;
-  max-height:175px !important;
-}
-
-/* 下一手問路同衍生路高度 */
-#askCanvas{
-  height:clamp(112px,12.2vw,175px) !important;
-  max-height:175px !important;
-}
-
-/* 標題維持緊湊的娛樂場路紙樣式 */
-.road-title,.road h3,.road-card h3,.road-box h3{
-  line-height:1.05 !important;
-  margin:0 !important;
-  padding-top:5px !important;
-  padding-bottom:5px !important;
-  font-weight:800 !important;
-}
-
-/* 白底下方不再被內容撐滿：保留原外框 */
-.road canvas + *, .road svg + *{max-height:0}
-@media(max-width:900px){
-  #beadCanvas,#bigCanvas{height:220px !important}
-  #bigEyeCanvas,#smallCanvas,#cockroachCanvas,#askCanvas{height:125px !important}
+/* 剩餘的外框空間改回深色，不是白色 */
+.v16-center .road{
+  position:relative !important;
 }
 </style>
 
@@ -3712,7 +3697,7 @@ document.addEventListener("DOMContentLoaded",function(){
 document.addEventListener("DOMContentLoaded",()=>{
  setTimeout(()=>{
    const bc=document.querySelector(".brand-cn");
-   if(bc)bc.textContent="BACCARAT 智能分析工作台 ULTIMATE V23.1";
+   if(bc)bc.textContent="BACCARAT 智能分析工作台 ULTIMATE";
    const be=document.querySelector(".brand-en");
    if(be)be.textContent="AI演算法 × 影像辨識 × 即時數據 × 歷史回測 × 模型分析";
  },120);
@@ -4374,34 +4359,72 @@ document.addEventListener("DOMContentLoaded",()=>{
 </script>
 
 
-<script id="v231-casino-road-inner-js">
+<script id="v232-real-casino-road-paper-js">
 (function(){
-  const sizeRoadPaper=()=>{
-    const set=(ids,h)=>{
-      ids.forEach(id=>{
-        const c=document.getElementById(id);
-        if(!c)return;
-        c.style.setProperty("width","100%","important");
-        c.style.setProperty("height",h+"px","important");
-        c.style.setProperty("max-height",h+"px","important");
-        c.style.setProperty("display","block","important");
-        c.style.setProperty("background","#fff","important");
-      });
-    };
-    const w=window.innerWidth||1440;
-    const major=Math.max(210,Math.min(330,Math.round(w*.235)));
-    const minor=Math.max(112,Math.min(175,Math.round(w*.122)));
-    set(["beadCanvas","bigCanvas"],major);
-    set(["bigEyeCanvas","smallCanvas","cockroachCanvas","askCanvas"],minor);
-  };
+  function sizeOne(id, cols, rows, minH, maxH){
+    const c=document.getElementById(id);
+    if(!c || !c.parentElement) return;
+    const wrap=c.parentElement;
+    const w=wrap.getBoundingClientRect().width || wrap.clientWidth || 1;
+
+    // 正規路紙：固定 6 列，格子盡量維持接近正方形。
+    let h=Math.round(w * rows / cols);
+    h=Math.max(minH, Math.min(maxH, h));
+
+    wrap.style.setProperty("height", h+"px", "important");
+    wrap.style.setProperty("max-height", h+"px", "important");
+    wrap.style.setProperty("min-height", h+"px", "important");
+    c.style.setProperty("height", h+"px", "important");
+    c.style.setProperty("max-height", h+"px", "important");
+  }
+
+  function applyCasinoRoadSize(){
+    // 珠盤路：6列，基準16欄
+    sizeOne("bead", 16, 6, 150, 245);
+
+    // 大路：6列，基準24欄
+    sizeOne("big", 24, 6, 130, 220);
+
+    // 三小路：6個微列，基準20欄
+    sizeOne("eye", 20, 6, 82, 145);
+    sizeOne("small", 20, 6, 82, 145);
+    sizeOne("cock", 20, 6, 82, 145);
+
+    // 問路：2列 × 3欄 + 文字區，保持娛樂場常見橫向比例
+    const ask=document.getElementById("ask");
+    if(ask && ask.parentElement){
+      const wrap=ask.parentElement;
+      const w=wrap.getBoundingClientRect().width || 1;
+      let h=Math.max(92,Math.min(145,Math.round(w*.50)));
+      wrap.style.setProperty("height",h+"px","important");
+      wrap.style.setProperty("max-height",h+"px","important");
+      wrap.style.setProperty("min-height",h+"px","important");
+      ask.style.setProperty("height",h+"px","important");
+    }
+
+    // 尺寸改完立即重畫，圖案/字型仍用 V23 原本 draw 函式，不另造一套。
+    try{
+      if(typeof drawBead==="function") drawBead();
+      if(typeof drawBig==="function") drawBig();
+      if(typeof drawDerived==="function"){
+        drawDerived("eye",derived(1),"circle");
+        drawDerived("small",derived(2),"dot");
+        drawDerived("cock",derived(3),"slash");
+      }
+      if(typeof drawAsk==="function") drawAsk();
+    }catch(e){ console.warn("road resize redraw",e); }
+  }
+
   document.addEventListener("DOMContentLoaded",()=>{
-    sizeRoadPaper();
-    addEventListener("resize",sizeRoadPaper,{passive:true});
-    // Existing render functions may rewrite canvas attributes/styles.
-    const obs=new MutationObserver(()=>requestAnimationFrame(sizeRoadPaper));
-    ["beadCanvas","bigCanvas","bigEyeCanvas","smallCanvas","cockroachCanvas","askCanvas"]
-      .map(id=>document.getElementById(id)).filter(Boolean)
-      .forEach(el=>obs.observe(el,{attributes:true,attributeFilter:["style","width","height"]}));
+    setTimeout(applyCasinoRoadSize,350);
+    let t;
+    window.addEventListener("resize",()=>{
+      clearTimeout(t);
+      t=setTimeout(applyCasinoRoadSize,120);
+    },{passive:true});
+
+    // render() 可能因輸入資料重畫，但外框/白底比例仍固定
+    setInterval(applyCasinoRoadSize,1500);
   });
 })();
 </script>
