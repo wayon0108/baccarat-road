@@ -1752,64 +1752,208 @@ body,.app,.v16-shell{
 </style>
 
 
-<style id="v244-tablet-tabs-css">
+
+<style id="v245-tablet-three-panels">
+/* V24.5：平板右欄三區同時存在：AI 決策＋五路分析＋最佳路 */
 @media (min-width:760px) and (max-width:1400px){
   .v16-right{
-    overflow:hidden!important;
-    padding-top:38px!important;
-    position:relative!important;
-  }
-  #v244RightTabs{
-    position:absolute!important;
-    top:4px!important;left:4px!important;right:4px!important;
-    height:30px!important;
     display:grid!important;
-    grid-template-columns:repeat(3,1fr)!important;
-    gap:3px!important;
-    z-index:999!important;
-    background:#061725!important;
-  }
-  #v244RightTabs button{
-    min-height:30px!important;
-    height:30px!important;
-    padding:2px 4px!important;
-    border:1px solid #28556c!important;
-    border-radius:6px!important;
-    background:#0a2232!important;
-    color:#9fc0d2!important;
-    font-size:8px!important;
-    font-weight:900!important;
-  }
-  #v244RightTabs button.active{
-    background:#15384d!important;
-    color:#ffd66d!important;
-    border-color:#b88a28!important;
+    grid-template-rows:minmax(0,.88fr) minmax(0,.82fr) minmax(0,.78fr)!important;
+    gap:5px!important;
+    overflow:hidden!important;
+    padding:0!important;
   }
 
-  /* 平板改為分頁：一次只顯示一個右側分析區塊 */
-  .v16-right.v244-tabs-ready > #v24Decision,
-  .v16-right.v244-tabs-ready > #v241Unified,
-  .v16-right.v244-tabs-ready > .road-ai-panel{
-    display:none!important;
-    max-height:none!important;
-    height:auto!important;
-    overflow:visible!important;
-    margin:0!important;
-  }
-  .v16-right.v244-tabs-ready.v244-show-ai > #v24Decision{display:block!important}
-  .v16-right.v244-tabs-ready.v244-show-five > #v241Unified{display:block!important}
-  .v16-right.v244-tabs-ready.v244-show-best > .road-ai-panel{display:block!important}
-
-  /* 每一頁都只做輕微緊湊，不再縮成看不清楚 */
-  .v16-right #v24Decision,
-  .v16-right #v241Unified,
-  .v16-right .road-ai-panel{
-    box-sizing:border-box!important;
+  /* 三個核心區塊全部同時顯示 */
+  .v16-right > #v24Decision,
+  .v16-right > #v241Unified,
+  .v16-right > .road-ai-panel{
+    display:flex!important;
+    flex-direction:column!important;
     width:100%!important;
+    height:100%!important;
+    min-height:0!important;
+    margin:0!important;
+    overflow:hidden!important;
+    box-sizing:border-box!important;
+    border-radius:8px!important;
   }
-  .v16-right #v241Unified{padding:5px!important}
-  .v16-right #v241Unified .grid{gap:3px!important}
-  .v16-right #v241Unified .stats{gap:3px!important}
+
+  /* AI 決策：保留主決策/回測/型態摘要，隱藏過長的細節區 */
+  .v16-right #v24Decision{
+    padding:6px!important;
+  }
+  .v16-right #v24Decision .v24-head{
+    font-size:9px!important;
+    margin-bottom:4px!important;
+  }
+  .v16-right #v24Decision .v24-main{
+    flex:0 0 auto!important;
+    gap:5px!important;
+  }
+  .v16-right #v24Decision .v24-gauge{
+    width:62px!important;
+    height:62px!important;
+    min-width:62px!important;
+  }
+  .v16-right #v24Decision .v24-gauge-inner strong{
+    font-size:15px!important;
+  }
+  .v16-right #v24Decision .v24-summary{
+    gap:3px!important;
+  }
+  .v16-right #v24Decision .v24-metric{
+    padding:3px!important;
+  }
+  .v16-right #v24Decision .v24-metric span{
+    font-size:6px!important;
+  }
+  .v16-right #v24Decision .v24-metric b{
+    font-size:8px!important;
+  }
+  .v16-right #v24Decision .v24-alert{
+    margin-top:3px!important;
+    padding:3px 5px!important;
+    font-size:7px!important;
+  }
+  .v16-right #v24Decision #v24Pattern{
+    flex:1 1 auto!important;
+    min-height:0!important;
+    margin-top:3px!important;
+    overflow:hidden!important;
+  }
+  .v16-right #v24Decision .v24-pattern-grid{
+    gap:2px!important;
+  }
+  .v16-right #v24Decision .v24-p{
+    padding:2px 3px!important;
+  }
+  .v16-right #v24Decision .v24-p span{
+    font-size:5.5px!important;
+  }
+  .v16-right #v24Decision .v24-p b{
+    font-size:7px!important;
+  }
+  .v16-right #v24Decision .v24-detail-title,
+  .v16-right #v24Decision .v24-detail-grid,
+  .v16-right #v24Decision #v24Diagnostics{
+    display:none!important;
+  }
+
+  /* 五路統一分析：保留五路方向＋50/100 回測＋偏差警告 */
+  .v16-right #v241Unified{
+    padding:5px!important;
+  }
+  .v16-right #v241Unified .uh{
+    font-size:8px!important;
+    margin-bottom:3px!important;
+  }
+  .v16-right #v241Unified .decision{
+    grid-template-columns:48px 1fr!important;
+    gap:4px!important;
+  }
+  .v16-right #v241Unified .orb{
+    height:43px!important;
+    border-width:4px!important;
+    font-size:10px!important;
+  }
+  .v16-right #v241Unified .sum{
+    padding:3px!important;
+  }
+  .v16-right #v241Unified .pick{
+    font-size:10px!important;
+  }
+  .v16-right #v241Unified .meta{
+    font-size:5.5px!important;
+    line-height:1.1!important;
+  }
+  .v16-right #v241Unified .grid{
+    grid-template-columns:repeat(5,minmax(0,1fr))!important;
+    gap:2px!important;
+    margin-top:3px!important;
+  }
+  .v16-right #v241Unified .m{
+    padding:2px!important;
+    font-size:5px!important;
+    line-height:1.05!important;
+  }
+  .v16-right #v241Unified .m b{
+    font-size:6px!important;
+    margin-bottom:1px!important;
+  }
+  .v16-right #v241Unified .stats{
+    gap:2px!important;
+    margin-top:3px!important;
+  }
+  .v16-right #v241Unified .st{
+    padding:2px!important;
+  }
+  .v16-right #v241Unified .st span{
+    font-size:5px!important;
+  }
+  .v16-right #v241Unified .st b{
+    font-size:6px!important;
+  }
+  .v16-right #v241Unified .warn{
+    margin-top:3px!important;
+    padding:3px!important;
+    font-size:5.3px!important;
+    line-height:1.1!important;
+  }
+
+  /* 最佳路：完整保留五路排名 */
+  .v16-right .road-ai-panel{
+    padding:5px!important;
+  }
+  .v16-right .road-ai-title{
+    font-size:9px!important;
+    margin-bottom:3px!important;
+  }
+  .v16-right .road-ai-best{
+    padding:4px!important;
+    margin-bottom:3px!important;
+  }
+  .v16-right .road-ai-label{
+    font-size:5.5px!important;
+  }
+  .v16-right .road-ai-name{
+    font-size:9px!important;
+  }
+  .v16-right .road-ai-pick{
+    padding:4px 7px!important;
+    font-size:8px!important;
+  }
+  .v16-right .road-ai-grid{
+    flex:1 1 auto!important;
+    display:grid!important;
+    grid-template-columns:repeat(5,minmax(0,1fr))!important;
+    gap:2px!important;
+    min-height:0!important;
+  }
+  .v16-right .road-ai-item{
+    padding:3px 2px!important;
+    min-width:0!important;
+  }
+  .v16-right .road-ai-item span{
+    font-size:5.5px!important;
+  }
+  .v16-right .road-ai-item b{
+    font-size:7px!important;
+  }
+  .v16-right .road-ai-item em{
+    font-size:5.5px!important;
+  }
+  .v16-right .road-ai-reason{
+    margin-top:3px!important;
+    padding:3px!important;
+    font-size:5.5px!important;
+    line-height:1.1!important;
+  }
+
+  /* 若還有舊的開始分析按鈕，不佔平板右欄高度 */
+  .v16-right > .center-analysis-btn{
+    display:none!important;
+  }
 }
 </style>
 
@@ -5242,62 +5386,6 @@ window.V24_CONFIG={symmetricThreshold:true,noBetZone:0.045,derivedRoadCorrelatio
 })();
 </script>
 
-
-<script id="v244-tablet-tabs-js">
-(function(){
-  function isTablet(){return window.matchMedia("(min-width:760px) and (max-width:1400px)").matches}
-  function setup(){
-    const right=document.querySelector(".v16-right");
-    if(!right||!isTablet())return;
-    const ai=document.getElementById("v24Decision");
-    const five=document.getElementById("v241Unified");
-    const best=right.querySelector(".road-ai-panel");
-    if(!ai||!five||!best)return;
-
-    let tabs=document.getElementById("v244RightTabs");
-    if(!tabs){
-      tabs=document.createElement("div");
-      tabs.id="v244RightTabs";
-      tabs.innerHTML=`
-        <button type="button" data-v244="ai">AI決策</button>
-        <button type="button" data-v244="five">五路分析</button>
-        <button type="button" data-v244="best">最佳路</button>`;
-      right.insertBefore(tabs,right.firstChild);
-      tabs.addEventListener("click",e=>{
-        const b=e.target.closest("button[data-v244]");
-        if(!b)return;
-        show(b.dataset.v244);
-      });
-    }
-    right.classList.add("v244-tabs-ready");
-    if(!right.classList.contains("v244-show-ai")&&!right.classList.contains("v244-show-five")&&!right.classList.contains("v244-show-best")){
-      show("ai");
-    }
-  }
-  function show(name){
-    const right=document.querySelector(".v16-right");
-    const tabs=document.getElementById("v244RightTabs");
-    if(!right||!tabs)return;
-    right.classList.remove("v244-show-ai","v244-show-five","v244-show-best");
-    right.classList.add("v244-show-"+name);
-    tabs.querySelectorAll("button").forEach(b=>b.classList.toggle("active",b.dataset.v244===name));
-  }
-  document.addEventListener("DOMContentLoaded",()=>{
-    setTimeout(setup,350);
-    setTimeout(setup,900);
-    setInterval(setup,1500);
-  });
-  window.addEventListener("resize",()=>{
-    const right=document.querySelector(".v16-right");
-    const tabs=document.getElementById("v244RightTabs");
-    if(!right)return;
-    if(!isTablet()){
-      right.classList.remove("v244-tabs-ready","v244-show-ai","v244-show-five","v244-show-best");
-      if(tabs)tabs.remove();
-    }else setup();
-  });
-})();
-</script>
 
 </body>
 </html>
