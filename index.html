@@ -1468,6 +1468,24 @@ body,.app,.v16-shell{
 }
 </style>
 
+
+<style id="v233-fast-card-pad-css">
+#v19HandInput .v19-cards,#v19HandInput .v19-manual{display:none!important}
+.v233-side-pad{margin-top:5px}
+.v233-slots{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;margin-bottom:5px}
+.v233-slot{min-height:42px;border:1px dashed rgba(255,255,255,.35);border-radius:7px;background:rgba(0,0,0,.32);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:900;color:#fff}
+.v233-slot.filled{border-style:solid;background:rgba(0,0,0,.55)}
+.v233-pad{display:grid;grid-template-columns:repeat(7,1fr);gap:3px}
+.v233-pad button{min-height:31px;padding:2px;border-radius:6px;border:1px solid rgba(255,255,255,.28);background:#06131f;color:#fff;font-size:10px;font-weight:900}
+.v233-pad button:active{transform:scale(.96)}
+.v233-pad .del{background:#253849}
+.v233-actions{display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-top:5px}
+.v233-actions button{min-height:30px;border-radius:6px;border:1px solid rgba(255,255,255,.25);font-size:9px;font-weight:900;color:#fff;background:#16384e}
+#v233AutoSave{background:#0c654e}
+#v233FastResult{margin:6px 0 4px;padding:7px;border:1px solid #24566d;border-radius:7px;background:#06131e;text-align:center;font-size:10px;font-weight:900;color:#dff7ff}
+#v19SaveHand{min-height:38px!important;font-size:11px!important}
+</style>
+
 </head>
 
 <body>
@@ -4426,6 +4444,101 @@ document.addEventListener("DOMContentLoaded",()=>{
     // render() 可能因輸入資料重畫，但外框/白底比例仍固定
     setInterval(applyCasinoRoadSize,1500);
   });
+})();
+</script>
+
+
+<script id="v233-fast-card-pad-js">
+(function(){
+ const $=id=>document.getElementById(id);
+ const sides=["P","B"];
+ let active={P:0,B:0}, autoSave=false, lock=false;
+ const ranks=["A","2","3","4","5","6","7","8","9","10","J","Q","K"];
+
+ function existing(prefix,i){return $("v19"+prefix+i)}
+ function cards(prefix){return [1,2,3].map(i=>existing(prefix,i)?.value||"")}
+ function points(a){
+   const v=x=>x==="A"?1:(["10","J","Q","K"].includes(x)?0:(+x||0));
+   const u=a.filter(Boolean); return u.length>=2?u.reduce((n,x)=>n+v(x),0)%10:null;
+ }
+ function paint(prefix){
+   const a=cards(prefix);
+   a.forEach((v,i)=>{
+     const e=$("v233"+prefix+"S"+i); if(!e)return;
+     e.textContent=v||(["第1張","第2張","補牌"][i]);
+     e.classList.toggle("filled",!!v);
+   });
+   const p=points(cards("P")),b=points(cards("B")),r=$("v233FastResult");
+   if(r){
+     if(p==null||b==null)r.textContent="輸入雙方前兩張牌，系統自動算點與結果";
+     else{
+       const win=p>b?"閒":b>p?"莊":"和";
+       r.textContent=`${win}｜閒 ${p} 點 ・ 莊 ${b} 點`;
+       r.style.color=win==="閒"?"#65cfff":win==="莊"?"#ff7885":"#6ce2a8";
+     }
+   }
+ }
+ function sync(){
+   try{ if(typeof refresh==="function")refresh() }catch(e){}
+   sides.forEach(p=>paint(p));
+ }
+ function put(prefix,rank){
+   const a=cards(prefix);
+   let i=a.findIndex(x=>!x);
+   if(i<0)i=Math.min(active[prefix],2);
+   const sel=existing(prefix,i+1); if(sel){sel.value=rank;sel.dispatchEvent(new Event("change",{bubbles:true}))}
+   active[prefix]=Math.min(i+1,2);
+   sync(); maybeSave();
+ }
+ function del(prefix){
+   const a=cards(prefix); let i=2;
+   while(i>=0&&!a[i])i--;
+   if(i>=0){const sel=existing(prefix,i+1);sel.value="";sel.dispatchEvent(new Event("change",{bubbles:true}));active[prefix]=i}
+   sync();
+ }
+ function clearSide(prefix){
+   [1,2,3].forEach(i=>{const e=existing(prefix,i);if(e)e.value=""}); active[prefix]=0; sync();
+ }
+ function maybeSave(){
+   if(!autoSave||lock)return;
+   const p=cards("P"),b=cards("B");
+   if(p[0]&&p[1]&&b[0]&&b[1]){
+     // Auto-save only when user explicitly enabled it; short delay allows a third card to be entered.
+     lock=true;
+     setTimeout(()=>{
+       if(autoSave && $("v19SaveHand")) $("v19SaveHand").click();
+       lock=false; sync();
+     },900);
+   }
+ }
+ function makeSide(prefix,host){
+   const wrap=document.createElement("div");wrap.className="v233-side-pad";
+   const slots=document.createElement("div");slots.className="v233-slots";
+   for(let i=0;i<3;i++){
+     const e=document.createElement("button");e.type="button";e.className="v233-slot";e.id=`v233${prefix}S${i}`;
+     e.onclick=()=>{active[prefix]=i}; slots.appendChild(e);
+   }
+   const pad=document.createElement("div");pad.className="v233-pad";
+   ranks.forEach(r=>{const b=document.createElement("button");b.type="button";b.textContent=r;b.onclick=()=>put(prefix,r);pad.appendChild(b)});
+   const d=document.createElement("button");d.type="button";d.textContent="⌫";d.className="del";d.onclick=()=>del(prefix);pad.appendChild(d);
+   const actions=document.createElement("div");actions.className="v233-actions";
+   const c=document.createElement("button");c.type="button";c.textContent="清除此方";c.onclick=()=>clearSide(prefix);
+   const u=document.createElement("button");u.type="button";u.textContent="重選上一張";u.onclick=()=>del(prefix);
+   actions.append(c,u);wrap.append(slots,pad,actions);host.appendChild(wrap);
+ }
+ function install(){
+   const hand=$("v19HandInput"); if(!hand||$("v233FastResult"))return;
+   const ps=hand.querySelector(".v19-side.player"),bs=hand.querySelector(".v19-side.banker");
+   if(ps)makeSide("P",ps); if(bs)makeSide("B",bs);
+   const result=document.createElement("div");result.id="v233FastResult";
+   const old=$("v19HandResult"); old?.parentNode.insertBefore(result,old);
+   const auto=document.createElement("button");auto.type="button";auto.id="v233AutoSave";auto.textContent="自動記錄：關";
+   auto.onclick=()=>{autoSave=!autoSave;auto.textContent="自動記錄："+(autoSave?"開":"關");auto.style.opacity=autoSave?"1":".65"};
+   $("v19SaveHand")?.parentNode.insertBefore(auto,$("v19SaveHand"));
+   const clear=$("v19ClearHand"); if(clear)clear.textContent="全部清空";
+   sync();
+ }
+ document.addEventListener("DOMContentLoaded",()=>setTimeout(install,300));
 })();
 </script>
 
