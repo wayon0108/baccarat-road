@@ -2276,6 +2276,83 @@ button{
 }
 </style>
 
+
+<style id="v257-landscape-fill-space">
+/* V25.7 — fill the large center blank area seen in the user's landscape screen.
+   Keep the 3-column positions, but let the center roadmap consume the full working height. */
+@media (min-width:900px){
+  .v16-shell{
+    align-items:stretch!important;
+    min-height:calc(100vh - 12px)!important;
+  }
+  .v16-left,.v16-center,.v16-right{
+    align-self:stretch!important;
+    min-height:calc(100vh - 24px)!important;
+  }
+
+  /* Center becomes a full-height roadmap board instead of two short rows at the top. */
+  .v16-center{
+    display:flex!important;
+    flex-direction:column!important;
+    height:calc(100vh - 24px)!important;
+    min-height:620px!important;
+    overflow:hidden!important;
+  }
+  .v16-center .roads{
+    flex:1 1 auto!important;
+    display:grid!important;
+    grid-template-columns:1fr 1fr!important;
+    grid-template-rows:minmax(300px,1.65fr) minmax(210px,1fr)!important;
+    gap:6px!important;
+    width:100%!important;
+    height:100%!important;
+    min-height:0!important;
+  }
+  .v16-center .roads>.road{
+    height:100%!important;
+    min-height:0!important;
+    overflow:hidden!important;
+  }
+  .v16-center .minis{
+    grid-column:1/-1!important;
+    display:grid!important;
+    grid-template-columns:repeat(4,minmax(0,1fr))!important;
+    gap:6px!important;
+    width:100%!important;
+    height:100%!important;
+    min-height:0!important;
+  }
+  .v16-center .minis>.road{
+    height:100%!important;
+    min-height:0!important;
+    overflow:hidden!important;
+  }
+  .v16-center .canvaswrap{
+    height:calc(100% - 27px)!important;
+    min-height:0!important;
+  }
+
+  /* Stretch the right column visually through the available height without covering panels. */
+  .v16-right{
+    min-height:calc(100vh - 24px)!important;
+    align-content:start!important;
+  }
+
+  /* Left column stays natural; no artificial blank fixed panel blocks. */
+  .v16-left{
+    height:auto!important;
+    min-height:0!important;
+  }
+}
+
+/* Very wide landscape displays: devote a little more room to roads. */
+@media (min-width:1200px) and (orientation:landscape){
+  .v16-shell{
+    grid-template-columns:minmax(250px,21%) minmax(0,1fr) minmax(330px,28%)!important;
+  }
+}
+</style>
+
 </head>
 
 <body>
@@ -4889,7 +4966,7 @@ document.addEventListener("DOMContentLoaded",function(){
 document.addEventListener("DOMContentLoaded",()=>{
  setTimeout(()=>{
    const bc=document.querySelector(".brand-cn");
-   if(bc)bc.textContent="BACCARAT 智能分析工作台 V25.6 LANDSCAPE";
+   if(bc)bc.textContent="BACCARAT 智能分析工作台 V25.7 LANDSCAPE FULL";
    const be=document.querySelector(".brand-en");
    if(be)be.textContent="AI演算法 × 影像辨識 × 即時數據 × 歷史回測 × 模型分析";
  },120);
@@ -6045,7 +6122,7 @@ window.V24_CONFIG={symmetricThreshold:true,noBetZone:0.045,derivedRoadCorrelatio
     const right=document.querySelector(".v16-right");if(!right||$("v241Unified"))return;
     const box=document.createElement("section");box.id="v241Unified";
     box.innerHTML=`
-      <div class="uh"><span>V25.6 橫向完整介面＋資料庫</span><span id="v241State">資料建立中</span></div>
+      <div class="uh"><span>V25.7 橫向滿版＋資料庫</span><span id="v241State">資料建立中</span></div>
       <div class="decision">
         <div class="orb" id="v241Orb">觀望</div>
         <div class="sum">
