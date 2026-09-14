@@ -2712,6 +2712,29 @@ button{
 }
 </style>
 
+
+<style id="v259-visual-database-css">
+.v259-visual-shoe{border:1px solid #294a60;border-radius:10px;background:#091b29;margin:8px 0;padding:10px}
+.v259-road-title{display:flex;justify-content:space-between;gap:8px;align-items:center;margin-bottom:7px;font-weight:900}
+.v259-road-title small{font-size:11px;color:#8faabd;font-weight:600}
+.v259-bead{display:grid;grid-auto-flow:column;grid-template-rows:repeat(6,34px);grid-auto-columns:34px;gap:3px;overflow-x:auto;padding:7px;background:#f4f4ef;border-radius:8px;border:1px solid #496272;min-height:218px}
+.v259-ball{width:31px;height:31px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:900;box-sizing:border-box;background:#fff}
+.v259-ball.B{border:3px solid #e64343;color:#d62f2f}
+.v259-ball.P{border:3px solid #378eea;color:#2775c5}
+.v259-ball.T{border:3px solid #34a86d;color:#218751}
+.v259-rounds{margin-top:8px;display:flex;flex-wrap:wrap;gap:4px}
+.v259-chip{min-width:31px;height:27px;border-radius:6px;display:flex;align-items:center;justify-content:center;padding:0 5px;font-size:11px;font-weight:900;border:1px solid #355268;background:#102333}
+.v259-chip.B{color:#ff7777}.v259-chip.P{color:#72b9ff}.v259-chip.T{color:#61d79b}
+.v259-detail{display:none;margin-top:8px;padding:8px;border-radius:7px;background:#06131d;border:1px solid #243e51;font-size:11px;line-height:1.55;color:#b9d0df}
+.v259-detail.show{display:block}
+#v255DbRaw{display:none!important}
+.v259-db-note{color:#7fa3b9;font-size:11px;margin-top:5px}
+@media(max-width:700px){
+ .v259-bead{grid-template-rows:repeat(6,30px);grid-auto-columns:30px;min-height:194px}
+ .v259-ball{width:27px;height:27px;font-size:11px}
+}
+</style>
+
 </head>
 
 <body>
@@ -5325,7 +5348,7 @@ document.addEventListener("DOMContentLoaded",function(){
 document.addEventListener("DOMContentLoaded",()=>{
  setTimeout(()=>{
    const bc=document.querySelector(".brand-cn");
-   if(bc)bc.textContent="BACCARAT 智能分析工作台 V25.8 WORKSTATION";
+   if(bc)bc.textContent="BACCARAT 智能分析工作台 V25.9 VISUAL DATABASE";
    const be=document.querySelector(".brand-en");
    if(be)be.textContent="AI演算法 × 影像辨識 × 即時數據 × 歷史回測 × 模型分析";
  },120);
@@ -6481,7 +6504,7 @@ window.V24_CONFIG={symmetricThreshold:true,noBetZone:0.045,derivedRoadCorrelatio
     const right=document.querySelector(".v16-right");if(!right||$("v241Unified"))return;
     const box=document.createElement("section");box.id="v241Unified";
     box.innerHTML=`
-      <div class="uh"><span>V25.8 橫向工作台＋資料庫</span><span id="v241State">資料建立中</span></div>
+      <div class="uh"><span>V25.9 橫向工作台＋圖形資料庫</span><span id="v241State">資料建立中</span></div>
       <div class="decision">
         <div class="orb" id="v241Orb">觀望</div>
         <div class="sum">
@@ -6951,9 +6974,8 @@ document.addEventListener('DOMContentLoaded',()=>{
       <div><span>儲存項目</span><b id="v255DbKeys">0</b></div>
     </div>
     <div class="v255-db-actions">
-      <button onclick="v255DbShow('shoes')">歷史靴資料</button>
-      <button onclick="v255DbShow('current')">目前本靴</button>
-      <button onclick="v255DbShow('storage')">全部 localStorage</button>
+      <button onclick="v255DbShow('shoes')">歷史靴圖表</button>
+      <button onclick="v255DbShow('current')">目前本靴圖表</button>
       <button onclick="v255ExportDatabase()">匯出備份 JSON</button>
     </div>
     <div id="v255DbInfo" class="v255-db-info">選擇上方項目查看資料。</div>
@@ -6982,26 +7004,67 @@ document.addEventListener('DOMContentLoaded',()=>{
   window.openV255Database=function(){stats();const m=document.getElementById('v255DbModal');if(m){m.classList.add('show');m.setAttribute('aria-hidden','false')}v255DbShow('shoes')};
   window.closeV255Database=function(){const m=document.getElementById('v255DbModal');if(m){m.classList.remove('show');m.setAttribute('aria-hidden','true')}};
 
+
+  function v259Result(rec){
+    const v=typeof rec==='string'?rec:(rec?.r??rec?.result??'');
+    const c=String(v).toUpperCase().charAt(0);
+    return c==='B'||c==='P'||c==='T'?c:'?';
+  }
+  function v259Name(r){return r==='B'?'莊':r==='P'?'閒':r==='T'?'和':'?'}
+  function v259Visual(title,rows,meta=''){
+    const arr=Array.isArray(rows)?rows:[];
+    const box=document.createElement('div');box.className='v259-visual-shoe';
+    const counts={B:0,P:0,T:0};
+    arr.forEach(x=>{const r=v259Result(x);if(counts[r]!=null)counts[r]++});
+    box.innerHTML=`<div class="v259-road-title"><span>${esc(title)}</span><small>${arr.length} 局｜莊 ${counts.B}｜閒 ${counts.P}｜和 ${counts.T}</small></div>${meta?`<div class="v259-db-note">${meta}</div>`:''}`;
+    const bead=document.createElement('div');bead.className='v259-bead';
+    arr.forEach((x,i)=>{
+      const r=v259Result(x),d=document.createElement('div');
+      d.className='v259-ball '+r;d.textContent=v259Name(r);d.title=`第 ${i+1} 局：${v259Name(r)}`;
+      bead.appendChild(d);
+    });
+    box.appendChild(bead);
+    const chips=document.createElement('div');chips.className='v259-rounds';
+    arr.forEach((x,i)=>{
+      const r=v259Result(x),c=document.createElement('div');
+      c.className='v259-chip '+r;c.textContent=`${i+1}${v259Name(r)}`;
+      chips.appendChild(c);
+    });
+    box.appendChild(chips);
+    return box;
+  }
   window.v255DbShow=function(mode){
     stats();
     const list=document.getElementById('v255DbList'),raw=document.getElementById('v255DbRaw'),info=document.getElementById('v255DbInfo');
     if(!list||!raw||!info)return;
     list.innerHTML='';raw.textContent='';raw.style.display='none';
+
     if(mode==='shoes'){
-      const sh=getShoes();info.textContent=`歷史資料庫目前有 ${sh.length} 靴，共 ${totalRounds(sh)} 局。`;
+      const sh=getShoes();
+      info.textContent=`歷史資料庫：${sh.length} 靴，共 ${totalRounds(sh)} 局。下面直接用圖顯示，不再顯示程式碼。`;
       if(!sh.length){list.innerHTML='<div class="v255-db-shoe">目前還沒有已封存的歷史靴。</div>';return}
       sh.slice().reverse().forEach((shoe,rev)=>{
-        const idx=sh.length-1-rev,cnt=Array.isArray(shoe?.data)?shoe.data.length:(Number(shoe?.count)||0),dt=shoe?.createdAt?new Date(shoe.createdAt).toLocaleString():'';
-        const div=document.createElement('div');div.className='v255-db-shoe';
-        div.innerHTML=`<div class="v255-db-shoe-head"><span>第 ${idx+1} 靴</span><span>${cnt} 局</span></div><div class="v255-db-shoe-meta">莊 ${Number(shoe?.banker)||0}｜閒 ${Number(shoe?.player)||0}｜和 ${Number(shoe?.tie)||0}<br>Shoe ID：${esc(shoe?.sourceShoeId||shoe?.id||'—')}<br>桌號：${esc(shoe?.table||'—')}｜儲存：${esc(dt||'—')}<br>結束原因：${esc(shoe?.autoReason||(shoe?.autoArchived?'自動封存':'手動儲存'))}</div><button onclick="v255ViewShoeRaw(${idx})">查看這靴原始資料</button>`;
-        list.appendChild(div);
-      });return;
+        const idx=sh.length-1-rev;
+        const dt=shoe?.createdAt?new Date(shoe.createdAt).toLocaleString():'';
+        const meta=`${esc(shoe?.sourceShoeId||shoe?.id||'')} ${dt?'｜'+esc(dt):''}`;
+        list.appendChild(v259Visual(`第 ${idx+1} 靴`,shoe?.data||[],meta));
+      });
+      return;
     }
-    if(mode==='current'){const cur=getData();info.textContent=`目前這一靴共有 ${cur.length} 局。`;raw.style.display='block';raw.textContent=JSON.stringify(cur,null,2);return}
-    if(mode==='storage'){const obj={};for(const k of keys()){let v=localStorage.getItem(k);try{v=JSON.parse(v)}catch(e){}obj[k]=v}info.textContent=`目前此網站共有 ${Object.keys(obj).length} 個 localStorage 儲存項目。`;raw.style.display='block';raw.textContent=JSON.stringify(obj,null,2)}
-  };
 
-  window.v255ViewShoeRaw=function(idx){const shoe=getShoes()[idx],raw=document.getElementById('v255DbRaw'),info=document.getElementById('v255DbInfo');if(!shoe||!raw)return;if(info)info.textContent=`第 ${idx+1} 靴原始資料`;raw.style.display='block';raw.textContent=JSON.stringify(shoe,null,2);raw.scrollIntoView({behavior:'smooth',block:'nearest'})};
+    if(mode==='current'){
+      const cur=getData();
+      info.textContent=`目前本靴：${cur.length} 局。`;
+      list.appendChild(v259Visual('目前本靴',cur,'即時資料'));
+    }
+  };
+  window.v255ViewShoeRaw=function(idx){
+    const shoe=getShoes()[idx],list=document.getElementById('v255DbList'),info=document.getElementById('v255DbInfo');
+    if(!shoe||!list)return;
+    list.innerHTML='';
+    if(info)info.textContent=`第 ${idx+1} 靴圖表`;
+    list.appendChild(v259Visual(`第 ${idx+1} 靴`,shoe.data||[],''));
+  };
 
   window.v255ExportDatabase=function(){
     const obj={exportedAt:new Date().toISOString(),version:'V25.5',currentShoe:getData(),shoes:getShoes(),localStorage:{}};
