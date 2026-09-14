@@ -1751,6 +1751,41 @@ body,.app,.v16-shell{
 #v241Unified .warn{margin-top:5px;padding:5px;border-radius:5px;background:#332909;color:#ffd66d;font-size:7px;line-height:1.3}
 </style>
 
+
+<style id="v243-tablet-right-scroll">
+/* V24.3：平板不再縮到很小，改成右側欄獨立上下滑動 */
+@media (min-width:760px) and (max-width:1400px){
+  .v16-right{
+    max-height:calc(100vh - 120px)!important;
+    overflow-y:auto!important;
+    overflow-x:hidden!important;
+    -webkit-overflow-scrolling:touch!important;
+    overscroll-behavior:contain!important;
+    padding-right:5px!important;
+    scrollbar-width:thin;
+  }
+  .v16-right::-webkit-scrollbar{width:5px}
+  .v16-right::-webkit-scrollbar-thumb{background:#34566a;border-radius:999px}
+  .v16-right::-webkit-scrollbar-track{background:transparent}
+
+  /* 保持可讀尺寸，只做很輕微的間距壓縮 */
+  .v16-right #v24Decision,
+  .v16-right #v241Unified{margin-top:5px!important}
+  .v16-right #v241Unified{padding:6px!important}
+  .v16-right #v241Unified .grid{gap:3px!important}
+  .v16-right #v241Unified .stats{gap:3px!important}
+
+  /* 右側第一個決策區固定在頂部，往下滑仍看得到主要決策 */
+  .v16-right #v24Decision{
+    position:sticky!important;
+    top:0!important;
+    z-index:60!important;
+    background:#071a27!important;
+    box-shadow:0 5px 12px rgba(0,0,0,.32);
+  }
+}
+</style>
+
 </head>
 
 <body>
