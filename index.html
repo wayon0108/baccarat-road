@@ -1066,6 +1066,137 @@ body{margin:0!important}
 }
 </style>
 
+
+<style id="v19-gap-fix-css">
+/* Match the approved compact reference: three columns end at nearly the same height. */
+.app{
+  background:#003d37!important;
+}
+.v16-shell{
+  align-items:start!important;
+  grid-auto-rows:auto!important;
+}
+.v16-left,.v16-center,.v16-right{
+  height:auto!important;
+  min-height:0!important;
+  align-self:start!important;
+}
+
+/* LEFT: user-requested order = quick input first, full-hand input second. */
+#v26InputDock{display:flex!important;flex-direction:column!important}
+#v26QuickPane{order:1!important;border-top:0!important;border-bottom:1px solid #1c5068!important}
+#v26ManualPane{order:2!important;border-bottom:1px solid #1c5068!important}
+#v26VisionPane{order:3!important}
+#v26QuickPane:before{content:"快速輸入"!important}
+#v26ManualPane:before{content:"完整牌局輸入"!important}
+
+/* Keep quick entry compact. */
+#v26QuickPane .result-btn{
+  display:inline-block!important;
+  width:31.6%!important;
+  min-height:48px!important;
+  margin:0 1% 5px 0!important;
+  font-size:20px!important;
+}
+#v26QuickPane .twobtn,
+#v26QuickPane .checks{display:none!important}
+#v26QuickPane .undo{height:32px!important;font-size:11px!important}
+#v26QuickPane .actions{display:grid!important;grid-template-columns:repeat(3,1fr)!important;gap:4px!important}
+#v26QuickPane .actions button{height:30px!important}
+
+/* CENTER: no oversized green area. Roads occupy a tight fixed block. */
+.v16-center{
+  display:block!important;
+  height:auto!important;
+  min-height:0!important;
+  background:#031824!important;
+}
+.v16-center .roads{
+  height:414px!important;
+  grid-template-rows:254px 153px!important;
+  margin:0!important;
+}
+.v16-center .road,
+.v16-center .minis{
+  margin:0!important;
+}
+.v16-center:after{
+  content:"";
+  display:none!important;
+}
+
+/* RIGHT: hide secondary diagnostics that made the column much taller than the roads.
+   Core decision + best-road analysis remain visible and functional. */
+#v24Decision{
+  margin:0 0 6px!important;
+}
+#v24Decision .v24-detail-title,
+#v24Decision .v24-detail-grid,
+#v24Decision details{
+  display:none!important;
+}
+#v24Pattern{
+  margin-top:4px!important;
+}
+.v24-pattern-grid{
+  grid-template-columns:repeat(3,1fr)!important;
+}
+.v24-p{
+  min-height:34px!important;
+}
+.road-ai-panel{
+  margin-top:5px!important;
+}
+.road-ai-grid{
+  grid-template-columns:1fr 1fr!important;
+  gap:4px!important;
+}
+.road-ai-item{
+  min-height:42px!important;
+}
+.v19-road-desc{
+  display:none!important;
+}
+#v19BestText{
+  display:none!important;
+}
+.road-ai-reason{
+  font-size:8px!important;
+  padding-top:4px!important;
+}
+
+/* Hide duplicated/off-screen legacy analysis elements completely. */
+.analysis-full>.analysis-head,
+.analysis-full>.analysis-body,
+.analysis-full>.analysis-note{
+  display:none!important;
+}
+
+/* Bottom connector sits immediately below the compact three-column block. */
+.panel.connect{
+  margin-top:7px!important;
+}
+
+/* Remove any green "floor" effect between content blocks. */
+body,.app,.v16-shell{
+  background-color:#03151f!important;
+}
+.v16-shell{
+  background:transparent!important;
+}
+
+/* Desktop reference width: keep all three columns in one row on iPad landscape/desktop. */
+@media(min-width:1000px){
+  .v16-shell{
+    grid-template-columns:315px minmax(560px,1fr) 390px!important;
+    gap:7px!important;
+  }
+  .v16-right{
+    display:block!important;
+  }
+}
+</style>
+
 </head>
 
 <body>
@@ -3181,6 +3312,25 @@ document.addEventListener("DOMContentLoaded",()=>{
    const be=document.querySelector(".brand-en");
    if(be)be.textContent="AI演算法 × 影像辨識 × 即時數據 × 歷史回測 × 模型分析";
  },120);
+});
+</script>
+
+
+<script id="v19-gap-fix-js">
+document.addEventListener("DOMContentLoaded",()=>{
+  setTimeout(()=>{
+    // Remove accidental empty spacer elements in the three main columns.
+    document.querySelectorAll(".v16-left,.v16-center,.v16-right").forEach(col=>{
+      [...col.children].forEach(el=>{
+        const txt=(el.textContent||"").trim();
+        const cs=getComputedStyle(el);
+        if(!txt && !el.querySelector("canvas,input,button,select,video") &&
+           (parseFloat(cs.minHeight)||0)>80){
+          el.style.display="none";
+        }
+      });
+    });
+  },180);
 });
 </script>
 
