@@ -1197,6 +1197,191 @@ body,.app,.v16-shell{
 }
 </style>
 
+
+<style id="v19-real-equal-height-fix">
+:root{--workspace-h:760px}
+
+/* Main 3 columns are one equal-height row */
+.v16-shell{
+  display:grid!important;
+  grid-template-columns:315px minmax(560px,1fr) 390px!important;
+  gap:7px!important;
+  align-items:stretch!important;
+}
+.v16-left,.v16-center,.v16-right{
+  height:var(--workspace-h)!important;
+  min-height:var(--workspace-h)!important;
+  max-height:var(--workspace-h)!important;
+  overflow:hidden!important;
+  box-sizing:border-box!important;
+}
+
+/* LEFT — compact all controls so they fit the same height */
+#v26InputDock{height:100%!important;display:flex!important;flex-direction:column!important}
+#v26QuickPane{order:1!important;flex:0 0 auto!important;padding:5px!important}
+#v26ManualPane{order:2!important;flex:0 0 auto!important;padding:5px!important}
+#v26VisionPane{order:3!important;flex:1 1 auto!important;min-height:0!important;padding:5px!important;overflow:hidden!important}
+#v19Vision{height:100%!important;max-height:none!important;overflow:hidden!important}
+#v19VisionWrap{height:135px!important}
+#v19VisionCanvas{height:135px!important;max-height:135px!important;object-fit:contain!important}
+.vtemplate{display:none!important}
+#v19Vision .vroiList{margin-top:3px!important}
+#v19VisionResult{max-height:45px!important;overflow:auto!important}
+#v26QuickPane .result-btn{min-height:43px!important}
+#v19HandInput .v19-side{padding:4px!important}
+#v19HandInput .v19-cards{gap:2px!important}
+#v19HandInput select{min-height:25px!important}
+#v19SaveHand{min-height:30px!important}
+
+/* CENTER — roads really stretch to fill the entire column */
+.v16-center{
+  display:grid!important;
+  grid-template-rows:minmax(0,1fr)!important;
+  padding:6px!important;
+}
+.v16-center .roads{
+  height:100%!important;
+  min-height:0!important;
+  display:grid!important;
+  grid-template-columns:1fr 1fr!important;
+  grid-template-rows:minmax(0,1.65fr) minmax(0,1fr)!important;
+  gap:7px!important;
+}
+.v16-center .roads>.road:nth-child(1),
+.v16-center .roads>.road:nth-child(2){
+  height:auto!important;min-height:0!important;
+}
+.v16-center .minis{
+  grid-column:1/-1!important;
+  height:auto!important;
+  min-height:0!important;
+  display:grid!important;
+  grid-template-columns:repeat(4,minmax(0,1fr))!important;
+  gap:7px!important;
+}
+.v16-center .minis>.road{
+  height:100%!important;min-height:0!important;
+}
+.v16-center .canvaswrap{
+  height:calc(100% - 31px)!important;
+  min-height:0!important;
+}
+.v16-center canvas{
+  width:100%!important;
+  height:100%!important;
+}
+
+/* RIGHT — use the same height and distribute both analysis blocks */
+.v16-right{
+  display:grid!important;
+  grid-template-rows:minmax(0,1.05fr) minmax(0,.95fr)!important;
+  gap:6px!important;
+}
+#v24Decision,.road-ai-panel{
+  height:100%!important;
+  min-height:0!important;
+  margin:0!important;
+  overflow:hidden!important;
+  box-sizing:border-box!important;
+}
+#v24Decision{
+  display:flex!important;
+  flex-direction:column!important;
+}
+#v24Decision .v24-main{flex:0 0 auto!important}
+#v24Decision #v24Pattern{flex:1 1 auto!important;min-height:0!important}
+.road-ai-panel{
+  display:flex!important;
+  flex-direction:column!important;
+}
+.road-ai-grid{
+  flex:1 1 auto!important;
+  min-height:0!important;
+  overflow:hidden!important;
+}
+
+/* Connector starts immediately after the equal-height workspace */
+.panel.connect{margin-top:7px!important}
+
+/* On the actual iPad/desktop width keep this exact layout */
+@media(min-width:1000px) and (max-height:900px){
+  :root{--workspace-h:700px}
+}
+@media(min-width:1000px) and (min-height:901px){
+  :root{--workspace-h:760px}
+}
+@media(max-width:999px){
+  :root{--workspace-h:auto}
+  .v16-shell{display:flex!important;flex-direction:column!important}
+  .v16-left,.v16-center,.v16-right{
+    height:auto!important;min-height:0!important;max-height:none!important;overflow:visible!important
+  }
+  .v16-center .roads{min-height:650px!important}
+  .v16-right{display:block!important}
+  #v24Decision,.road-ai-panel{height:auto!important;margin-bottom:7px!important}
+}
+</style>
+
+
+<style id="v20-feed-pro-css">
+.feed-pro-wrap{padding:8px;border-top:1px solid #1c5268;background:#061826}
+.feed-pro-top{display:grid;grid-template-columns:1.1fr .9fr .9fr .9fr;gap:6px}
+.feed-pro-card{border:1px solid #1c5268;border-radius:8px;background:#081c2a;padding:7px;min-width:0}
+.feed-pro-card span{display:block;font-size:8px;color:#7899aa}
+.feed-pro-card b{display:block;margin-top:2px;font-size:11px;color:#e9f8ff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.feed-pro-card b.good{color:#69e0a0}.feed-pro-card b.warn{color:#ffd76a}
+.feed-pro-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:5px;margin-top:6px}
+.feed-pro-mini{padding:6px;border:1px solid #173e52;border-radius:7px;background:#071722}
+.feed-pro-mini span{display:block;font-size:8px;color:#718fa1}.feed-pro-mini b{font-size:10px;color:#dff4ff}
+.feed-schema{margin-top:6px;padding:6px;border:1px solid #173e52;border-radius:7px;background:#07131e;font-size:8.5px;line-height:1.5;color:#8faaba}
+.feed-schema b{color:#dff7ff}.feed-schema code{color:#7cd8ff}
+.feed-tools{display:flex;gap:5px;flex-wrap:wrap;margin-top:6px}
+.feed-tools button{min-height:30px;padding:4px 8px;border-radius:6px;border:1px solid #28566f;background:#0b2b3e;color:#e7f7ff;font-size:9px;font-weight:800}
+#feedAutoDetect{background:#0c5f7f}#feedTestParse{background:#0e5d4c;border-color:#26775f}
+#feedRawPreview{margin-top:6px;max-height:110px;overflow:auto;padding:6px;border:1px solid #17384a;border-radius:7px;background:#030b11;color:#7fa5b8;font:8px/1.4 ui-monospace,monospace;white-space:pre-wrap}
+@media(max-width:900px){.feed-pro-top,.feed-pro-grid{grid-template-columns:1fr 1fr}}
+</style>
+
+
+<style id="v21-feed-intelligence-css">
+.feed-map{margin-top:7px;padding:7px;border:1px solid #1b4e65;border-radius:8px;background:#071722}
+.feed-map h4{margin:0 0 6px;font-size:10px;color:#eaf8ff}
+.feed-map-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:5px}
+.feed-map-item label{display:block;font-size:8px;color:#7898aa;margin-bottom:2px}
+.feed-map-item input{width:100%;min-height:29px;box-sizing:border-box;background:#04111b;color:#eaf7ff;border:1px solid #28516a;border-radius:6px;padding:4px 6px;font-size:9px}
+.feed-quality{margin-top:7px;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:5px}
+.feed-quality>div{padding:6px;border:1px solid #173e52;border-radius:7px;background:#07131e}
+.feed-quality span{display:block;font-size:8px;color:#7594a6}
+.feed-quality b{display:block;margin-top:2px;font-size:10px;color:#e7f5ff}
+.feed-quality b.good{color:#6de2a8}.feed-quality b.warn{color:#ffd36a}.feed-quality b.bad{color:#ff7c86}
+.feed-feature{margin-top:7px;padding:7px;border:1px solid #1d5168;border-radius:8px;background:#061924}
+.feed-feature-title{display:flex;justify-content:space-between;gap:8px;align-items:center}
+.feed-feature-title b{font-size:10px;color:#eaf8ff}.feed-feature-title span{font-size:8px;color:#7e9dae}
+.feed-feature-grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:4px;margin-top:5px}
+.feed-feature-grid div{padding:5px;border:1px solid #173b4d;border-radius:6px;background:#06131d}
+.feed-feature-grid span{display:block;font-size:7.5px;color:#7692a3}.feed-feature-grid b{font-size:9.5px;color:#dff4ff}
+#feedMappingStatus{margin-top:5px;font-size:8.5px;color:#87a6b7}
+#feedApplyMap{margin-top:6px;min-height:30px;border-radius:6px;border:1px solid #27836a;background:#0b5d4b;color:#fff;font-size:9px;font-weight:900;padding:4px 9px}
+@media(max-width:1000px){
+ .feed-map-grid{grid-template-columns:1fr 1fr}
+ .feed-quality{grid-template-columns:1fr 1fr 1fr}
+ .feed-feature-grid{grid-template-columns:1fr 1fr 1fr}
+}
+</style>
+
+
+<style id="v22-auto-everything-css">
+.auto-all{margin-top:7px;padding:7px;border:1px solid #1d526a;border-radius:8px;background:#061824}
+.auto-all-head{display:flex;justify-content:space-between;gap:8px;align-items:center}
+.auto-all-head b{font-size:10px;color:#eaf8ff}.auto-all-head span{font-size:8px;color:#7e9cad}
+.auto-all-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:5px;margin-top:6px}
+.auto-all-card{padding:6px;border:1px solid #173f53;border-radius:7px;background:#07131e}
+.auto-all-card span{display:block;font-size:7.5px;color:#7895a6}.auto-all-card b{font-size:9.5px;color:#dff5ff}
+.auto-all-card b.good{color:#6ee0aa}.auto-all-card b.warn{color:#ffd36b}
+#autoAllToggle{min-height:30px;padding:4px 9px;border-radius:6px;border:1px solid #2d8c70;background:#0d624f;color:#fff;font-size:9px;font-weight:900}
+#autoAllLog{margin-top:6px;padding:6px;border:1px solid #173b4e;border-radius:7px;background:#040d14;color:#86a7b8;font:8px/1.4 ui-monospace,monospace;max-height:90px;overflow:auto}
+</style>
+
 </head>
 
 <body>
@@ -1362,7 +1547,83 @@ color:#c9d6e3;font-size:12px;text-align:center">
       <button onclick="document.getElementById('importFile').click()">匯入資料</button>
     </div>
     <input id="importFile" type="file" accept=".json,.csv" style="display:none" onchange="importDataFile(event)">
-    <div id="log" class="log">[系統] 程式已就緒，現在可手動輸入莊/閒/和；或連接平台資料後開始自動更新。</div>
+    
+<div class="feed-pro-wrap" id="feedProPanel">
+  <div class="feed-pro-top">
+    <div class="feed-pro-card"><span>資料格式</span><b id="feedFormat">等待資料</b></div>
+    <div class="feed-pro-card"><span>走勢辨識</span><b id="feedTrendState">未偵測</b></div>
+    <div class="feed-pro-card"><span>點數辨識</span><b id="feedPointState">未偵測</b></div>
+    <div class="feed-pro-card"><span>牌面辨識</span><b id="feedCardState">未偵測</b></div>
+  </div>
+  <div class="feed-pro-grid">
+    <div class="feed-pro-mini"><span>已接收局數</span><b id="feedRounds">0</b></div>
+    <div class="feed-pro-mini"><span>完整牌面局數</span><b id="feedDetailRounds">0</b></div>
+    <div class="feed-pro-mini"><span>最近點數</span><b id="feedLastPoints">—</b></div>
+    <div class="feed-pro-mini"><span>最近牌型</span><b id="feedLastType">—</b></div>
+  </div>
+  <div class="feed-tools">
+    <button type="button" id="feedAutoDetect">自動偵測欄位</button>
+    <button type="button" id="feedTestParse">測試解析目前資料</button>
+    <button type="button" id="feedToggleRaw">顯示/隱藏原始資料</button>
+  </div>
+  <div class="feed-schema" id="feedSchema">
+    <b>自動欄位：</b> 尚未收到資料。收到後會自動辨識 <code>結果 / 莊閒點數 / 每張牌 / 補牌 / 桌號 / 局號</code>。
+  </div>
+  <pre id="feedRawPreview" style="display:none">尚未收到資料</pre>
+<div class="feed-map">
+  <h4>欄位對應｜自動偵測不準時可手動指定</h4>
+  <div class="feed-map-grid">
+    <div class="feed-map-item"><label>結果欄位</label><input id="mapResult" placeholder="例如 winner"></div>
+    <div class="feed-map-item"><label>閒點數</label><input id="mapPPoints" placeholder="例如 playerScore"></div>
+    <div class="feed-map-item"><label>莊點數</label><input id="mapBPoints" placeholder="例如 bankerScore"></div>
+    <div class="feed-map-item"><label>閒牌面</label><input id="mapPCards" placeholder="例如 playerCards"></div>
+    <div class="feed-map-item"><label>莊牌面</label><input id="mapBCards" placeholder="例如 bankerCards"></div>
+    <div class="feed-map-item"><label>桌號</label><input id="mapTable" placeholder="例如 tableId"></div>
+    <div class="feed-map-item"><label>局號</label><input id="mapRound" placeholder="例如 roundId"></div>
+    <div class="feed-map-item"><label>歷史走勢</label><input id="mapTrend" placeholder="例如 results"></div>
+  </div>
+  <button type="button" id="feedApplyMap">套用欄位對應</button>
+  <div id="feedMappingStatus">目前使用自動偵測。</div>
+</div>
+
+<div class="feed-quality">
+  <div><span>資料完整率</span><b id="dqComplete">0%</b></div>
+  <div><span>重複資料</span><b id="dqDup">0</b></div>
+  <div><span>缺少局號</span><b id="dqMissingRound">0</b></div>
+  <div><span>異常點數</span><b id="dqBadPoints">0</b></div>
+  <div><span>即時資料品質</span><b id="dqOverall">等待資料</b></div>
+</div>
+
+<div class="feed-feature">
+  <div class="feed-feature-title"><b>即時牌面特徵</b><span>最近 50 局詳細資料</span></div>
+  <div class="feed-feature-grid">
+    <div><span>閒平均點數</span><b id="ffAvgP">—</b></div>
+    <div><span>莊平均點數</span><b id="ffAvgB">—</b></div>
+    <div><span>閒補牌率</span><b id="ffPDraw">—</b></div>
+    <div><span>莊補牌率</span><b id="ffBDraw">—</b></div>
+    <div><span>自然牌率</span><b id="ffNatural">—</b></div>
+    <div><span>詳細樣本</span><b id="ffN">0</b></div>
+  </div>
+</div>
+<div class="auto-all" id="autoAll">
+  <div class="auto-all-head">
+    <div><b>全自動模式</b><span> 連線後自動偵測、解析、去重、分析、更新</span></div>
+    <button type="button" id="autoAllToggle">已開啟</button>
+  </div>
+  <div class="auto-all-grid">
+    <div class="auto-all-card"><span>欄位偵測</span><b id="aaSchema">自動</b></div>
+    <div class="auto-all-card"><span>資料去重</span><b id="aaDedupe">自動</b></div>
+    <div class="auto-all-card"><span>牌面解析</span><b id="aaCards">自動</b></div>
+    <div class="auto-all-card"><span>AI 更新</span><b id="aaAI">自動</b></div>
+    <div class="auto-all-card"><span>異常保護</span><b id="aaGuard">開啟</b></div>
+  </div>
+  <div id="autoAllLog">等待資料...</div>
+</div>
+
+
+</div>
+
+<div id="log" class="log">[系統] 程式已就緒，現在可手動輸入莊/閒/和；或連接平台資料後開始自動更新。</div>
   </div>
 </div>
 
@@ -3332,6 +3593,484 @@ document.addEventListener("DOMContentLoaded",()=>{
     });
   },180);
 });
+</script>
+
+
+<script id="v19-ai-watchdog-fix">
+(function(){
+ const $=id=>document.getElementById(id);
+ const clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
+ function getSeq(){
+   try{
+     if(typeof data!=="undefined"&&Array.isArray(data))
+       return data.map(x=>typeof x==="string"?x:(x&&x.r)||"").map(x=>String(x).charAt(0)).filter(x=>x==="B"||x==="P");
+   }catch(e){}
+   return [];
+ }
+ function score(hist){
+   const n=hist.length;if(!n)return {score:0,agree:0,votes:[]};
+   const votes=[];
+   function add(name,v,w){if(Number.isFinite(v))votes.push({name,v:clamp(v,-1,1),w})}
+   const rate=k=>{let a=hist.slice(-k),b=a.filter(x=>x==="B").length;return a.length?(b/a.length-.5)*2:0};
+   add("近20局",rate(20),1.0); add("近50局",rate(50),.9); add("全局分布",rate(n),.55);
+   if(n>=5){
+     let last=hist[n-1],same=0,opp=0;
+     for(let i=1;i<n-1;i++)if(hist[i-1]===last){hist[i]===last?same++:opp++}
+     if(same+opp)add("轉移模型",(last==="B"?1:-1)*(((same+1)/(same+opp+2)-.5)*2),1.05);
+   }
+   if(n){
+     let last=hist[n-1],run=1;for(let i=n-2;i>=0&&hist[i]===last;i--)run++;
+     add("連續模型",(last==="B"?1:-1)*Math.min(.5,run*.08),.55);
+   }
+   if(n>=5){
+     for(let k=Math.min(5,n-2);k>=1;k--){
+       let key=hist.slice(-k).join(""),B=0,P=0;
+       for(let i=k;i<n;i++)if(hist.slice(i-k,i).join("")===key){hist[i]==="B"?B++:P++}
+       if(B+P>=3){add("N-gram",((B+1)/(B+P+2)-.5)*2,1.15);break}
+     }
+   }
+   let den=votes.reduce((a,v)=>a+v.w,0)||1, sc=votes.reduce((a,v)=>a+v.v*v.w,0)/den;
+   let dir=votes.filter(v=>Math.abs(v.v)>=.06),sg=sc>=0?1:-1;
+   let ag=dir.length?dir.filter(v=>Math.sign(v.v)===sg).length/dir.length:0;
+   return {score:sc,agree:ag,votes};
+ }
+ function backtest(seq,limit){
+   let out=[];
+   for(let i=Math.max(12,seq.length-limit-40);i<seq.length;i++){
+     let p=score(seq.slice(0,i));
+     if(Math.abs(p.score)<.06||p.agree<.5)continue;
+     out.push((p.score>0?"B":"P")===seq[i]);
+   }
+   if(!out.length)return null;
+   return out.slice(-limit).filter(Boolean).length/Math.min(limit,out.length);
+ }
+ function update(){
+   const seq=getSeq(),n=seq.length;if(!n)return;
+   const p=score(seq),edge=Math.abs(p.score),conf=Math.round(clamp(50+edge*28,50,68));
+   const pick=edge>=.06&&p.agree>=.5?(p.score>0?"莊":"閒"):"觀望";
+   const agree=Math.round(p.agree*100),a50=backtest(seq,50),a100=backtest(seq,100);
+   const sample=n>=200?"高":n>=60?"中":n>=12?"初步":"低";
+
+   // Update both hidden source fields and the visible ULTIMATE center.
+   const set=(id,val)=>{let e=$(id);if(e)e.textContent=val};
+   set("v13Pick",pick);set("v13Confidence",conf+"%");set("v13Consensus",agree+"%");
+   set("v13Sample",sample);set("v13Acc50",a50==null?"—":(a50*100).toFixed(1)+"%");
+   set("v13Acc100",a100==null?"—":(a100*100).toFixed(1)+"%");
+   set("v24Pick",pick);set("v24Strength","信號 "+conf+"%");set("v24Agree",agree+"%");
+   set("v24Reliability",sample);set("v24Bt50",a50==null?"—":(a50*100).toFixed(1)+"%");
+   set("v24Bt100",a100==null?"—":(a100*100).toFixed(1)+"%");set("v24N",n);
+
+   let bar=$("v24Bar");if(bar)bar.style.width=conf+"%";
+   let gauge=$("v24Gauge");if(gauge)gauge.style.background=`conic-gradient(#1eb7f2 ${conf*3.6}deg,#16394b ${conf*3.6}deg)`;
+
+   // Model diagnostics are useful even when final decision remains observe.
+   const models=$("v13Models");
+   if(models)models.innerHTML=p.votes.map(v=>{
+     const q=Math.abs(v.v)<.06?"觀望":v.v>0?"莊":"閒";
+     return `<div class="v13-model">${v.name}：<b>${q}</b> ${Math.round(Math.abs(v.v)*100)}%</div>`;
+   }).join("");
+
+   const alert=$("v24Alert");
+   if(alert){
+     alert.className="v24-alert";
+     if(n<12){alert.textContent=`樣本 ${n} 局｜先累積資料`;alert.classList.add("warn")}
+     else if(pick==="觀望"){alert.textContent=`模型已運作｜目前 ${n} 局，但方向分歧，所以維持觀望`;alert.classList.add("stop")}
+     else{alert.textContent=`模型已運作｜目前偏${pick}｜一致度 ${agree}%｜統計訊號非保證`;alert.classList.add("good")}
+   }
+ }
+ document.addEventListener("DOMContentLoaded",()=>{
+   setTimeout(update,100);
+   setInterval(update,800); // watchdog: localStorage/import/manual/API changes all refresh
+ });
+})();
+</script>
+
+
+<script id="v20-feed-pro-js">
+(function(){
+  const $=id=>document.getElementById(id);
+  let lastPayload=null, feedCount=0, detailCount=0;
+
+  const aliases={
+    result:["result","winner","side","gameResult","game_result","outcome","win","resultCode","result_code","status"],
+    table:["table","tableId","table_id","tableNo","table_no","desk","room","deskNo","desk_no"],
+    round:["id","gameId","game_id","roundId","round_id","serial","issue","shoeRound","shoe_round","handNo","hand_no"],
+    pPoints:["playerPoints","player_points","playerPoint","player_point","pPoint","p_point","playerScore","player_score","pScore"],
+    bPoints:["bankerPoints","banker_points","bankerPoint","banker_point","bPoint","b_point","bankerScore","banker_score","bScore"],
+    pCards:["playerCards","player_cards","pCards","p_cards","playerHandCards","player_hand_cards","playerHand","player_hand"],
+    bCards:["bankerCards","banker_cards","bCards","b_cards","bankerHandCards","banker_hand_cards","bankerHand","banker_hand"]
+  };
+  function pickDeep(o,names){
+    if(!o||typeof o!=="object")return undefined;
+    for(const n of names)if(o[n]!=null)return o[n];
+    for(const v of Object.values(o)){
+      if(v&&typeof v==="object"&&!Array.isArray(v)){
+        const x=pickDeep(v,names); if(x!=null)return x;
+      }
+    }
+  }
+  function detectSchema(payload){
+    let rows=[];
+    try{rows=typeof deepRows==="function"?deepRows(payload):[]}catch(e){}
+    const r=rows.find(x=>x&&typeof x==="object")||(payload&&typeof payload==="object"?payload:{});
+    const found={};
+    for(const [k,names] of Object.entries(aliases)){
+      const direct=names.find(n=>r[n]!=null);
+      const v=pickDeep(r,names);
+      if(v!=null)found[k]=direct||"nested";
+    }
+    return {found,row:r};
+  }
+  function trendFromRow(row){
+    const v=pickDeep(row,["trend","history","road","results","resultList","result_list","recentResults","recent_results"]);
+    if(v==null)return [];
+    if(Array.isArray(v))return v.map(x=>typeof normalizeResult==="function"?normalizeResult(x):null).filter(Boolean);
+    if(typeof v==="string")return v.split(/[,\s|/;>\-]+/).map(x=>normalizeResult(x)).filter(Boolean);
+    return [];
+  }
+  function cardType(d){
+    if(!d||d.playerPoints==null||d.bankerPoints==null)return "—";
+    const pNat=!d.playerDraw&&d.playerPoints>=8, bNat=!d.bankerDraw&&d.bankerPoints>=8;
+    if(pNat||bNat)return `自然牌 ${pNat?"閒":""}${pNat&&bNat?"+":""}${bNat?"莊":""}`;
+    if(d.playerDraw&&d.bankerDraw)return "雙方補牌";
+    if(d.playerDraw)return "閒補牌";
+    if(d.bankerDraw)return "莊補牌";
+    return "雙方兩張牌";
+  }
+  function updatePanel(payload,row,d){
+    lastPayload=payload; feedCount++;
+    if(d&&d.playerPoints!=null&&d.bankerPoints!=null)detailCount++;
+    const sch=detectSchema(payload), trend=trendFromRow(row||{});
+    const pointOk=!!(d&&d.playerPoints!=null&&d.bankerPoints!=null);
+    const cardOk=!!(d&&d.playerCards?.length&&d.bankerCards?.length);
+    const fmt=Array.isArray(payload)?"JSON Array":typeof payload==="string"?"Text / CSV":"JSON Object";
+
+    const state=(id,ok,txt)=>{const e=$(id);if(!e)return;e.textContent=txt;e.className=ok?"good":"warn"};
+    $("feedFormat").textContent=fmt;
+    state("feedTrendState",trend.length>0,trend.length?`已辨識 ${trend.length} 筆`:"單局模式");
+    state("feedPointState",pointOk,pointOk?`閒${d.playerPoints} / 莊${d.bankerPoints}`:"未偵測");
+    state("feedCardState",cardOk,cardOk?"完整牌面":"未偵測");
+    $("feedRounds").textContent=feedCount;
+    $("feedDetailRounds").textContent=detailCount;
+    $("feedLastPoints").textContent=pointOk?`閒${d.playerPoints} / 莊${d.bankerPoints}`:"—";
+    $("feedLastType").textContent=cardType(d);
+
+    const f=sch.found;
+    $("feedSchema").innerHTML=`<b>自動欄位：</b> 結果 <code>${f.result||"—"}</code> ・ 點數 <code>${f.pPoints||"—"} / ${f.bPoints||"—"}</code> ・ 牌面 <code>${f.pCards||"—"} / ${f.bCards||"—"}</code> ・ 桌號 <code>${f.table||"—"}</code> ・ 局號 <code>${f.round||"—"}</code>`;
+    $("feedRawPreview").textContent=JSON.stringify(payload,null,2).slice(0,12000);
+  }
+
+  function wrapProcess(){
+    if(typeof window.processPayload!=="function"||window.processPayload.__feedProWrapped)return;
+    const base=window.processPayload;
+    const wrapped=function(payload){
+      try{
+        const rows=typeof deepRows==="function"?deepRows(payload):[];
+        const row=rows.find(x=>x&&typeof x==="object")||{};
+        const d=typeof detailFromRow==="function"?detailFromRow(row):{};
+        updatePanel(payload,row,d);
+      }catch(e){console.warn("feed preview",e)}
+      return base(payload);
+    };
+    wrapped.__feedProWrapped=true;
+    window.processPayload=wrapped;
+  }
+
+  document.addEventListener("DOMContentLoaded",()=>{
+    setTimeout(wrapProcess,300);
+    setInterval(wrapProcess,2000);
+
+    $("feedToggleRaw")?.addEventListener("click",()=>{
+      const p=$("feedRawPreview");p.style.display=p.style.display==="none"?"block":"none";
+    });
+    $("feedAutoDetect")?.addEventListener("click",()=>{
+      if(!lastPayload){alert("目前還沒有收到資料");return}
+      const sch=detectSchema(lastPayload);
+      $("feedSchema").innerHTML=`<b>偵測完成：</b> ${Object.entries(sch.found).map(([k,v])=>`${k}=<code>${v}</code>`).join(" ・ ")||"未找到可辨識欄位"}`;
+    });
+    $("feedTestParse")?.addEventListener("click",()=>{
+      if(!lastPayload){alert("目前還沒有收到資料");return}
+      try{
+        const rows=deepRows(lastPayload), row=rows.find(x=>x&&typeof x==="object")||{};
+        const d=detailFromRow(row);
+        const raw=pickDeep(row,aliases.result);
+        const r=normalizeResult(raw)||resultFromDetail(d);
+        updatePanel(lastPayload,row,d);
+        alert(`解析結果：${r||"未知"}｜閒 ${d.playerPoints??"—"} 點｜莊 ${d.bankerPoints??"—"} 點｜${cardType(d)}`);
+      }catch(e){alert("解析失敗："+e.message)}
+    });
+  });
+
+  window.feedFeatureSummary=function(){
+    let rows=[];
+    try{if(typeof data!=="undefined"&&Array.isArray(data))rows=data.filter(x=>x&&typeof x==="object")}catch(e){}
+    const d=rows.filter(x=>Number.isFinite(Number(x.playerPoints))&&Number.isFinite(Number(x.bankerPoints)));
+    const last=d.slice(-50), avg=a=>a.length?a.reduce((s,x)=>s+x,0)/a.length:0;
+    return {
+      detailed:d.length,
+      recent:last.length,
+      avgPlayer:+avg(last.map(x=>Number(x.playerPoints))).toFixed(2),
+      avgBanker:+avg(last.map(x=>Number(x.bankerPoints))).toFixed(2),
+      playerDrawRate:last.length?+(last.filter(x=>x.playerDraw).length/last.length*100).toFixed(1):0,
+      bankerDrawRate:last.length?+(last.filter(x=>x.bankerDraw).length/last.length*100).toFixed(1):0,
+      naturalRate:last.length?+(last.filter(x=>x.natural).length/last.length*100).toFixed(1):0
+    };
+  };
+})();
+</script>
+
+
+<script id="v21-feed-intelligence-js">
+(function(){
+  const $=id=>document.getElementById(id);
+  const mapKeys=["result","pPoints","bPoints","pCards","bCards","table","round","trend"];
+  const ids={result:"mapResult",pPoints:"mapPPoints",bPoints:"mapBPoints",pCards:"mapPCards",bCards:"mapBCards",table:"mapTable",round:"mapRound",trend:"mapTrend"};
+  let seenRoundIds=new Set(), dup=0, missingRound=0, badPoints=0, received=0, complete=0;
+
+  function getByPath(obj,path){
+    if(!obj||!path)return undefined;
+    return path.split(".").reduce((o,k)=>o&&o[k]!=null?o[k]:undefined,obj);
+  }
+  function currentMap(){
+    let m={};
+    mapKeys.forEach(k=>{const v=$(ids[k])?.value.trim();if(v)m[k]=v});
+    return m;
+  }
+  function saveMap(){
+    const m=currentMap();
+    try{localStorage.setItem("baccaratFeedFieldMap",JSON.stringify(m))}catch(e){}
+    $("feedMappingStatus").textContent=Object.keys(m).length?`已套用 ${Object.keys(m).length} 個手動欄位`:"目前使用自動偵測。";
+  }
+  function loadMap(){
+    try{
+      const m=JSON.parse(localStorage.getItem("baccaratFeedFieldMap")||"{}");
+      Object.entries(m).forEach(([k,v])=>{if($(ids[k]))$(ids[k]).value=v});
+      $("feedMappingStatus").textContent=Object.keys(m).length?`已載入 ${Object.keys(m).length} 個手動欄位`:"目前使用自動偵測。";
+    }catch(e){}
+  }
+  function updateFeatureSummary(){
+    if(typeof window.feedFeatureSummary!=="function")return;
+    const f=window.feedFeatureSummary();
+    $("ffAvgP").textContent=f.recent?f.avgPlayer:"—";
+    $("ffAvgB").textContent=f.recent?f.avgBanker:"—";
+    $("ffPDraw").textContent=f.recent?f.playerDrawRate+"%":"—";
+    $("ffBDraw").textContent=f.recent?f.bankerDrawRate+"%":"—";
+    $("ffNatural").textContent=f.recent?f.naturalRate+"%":"—";
+    $("ffN").textContent=f.recent||0;
+  }
+  function quality(row,d){
+    received++;
+    const rid=(row&&(row.roundId??row.round_id??row.gameId??row.game_id??row.id??row.serial??row.issue));
+    if(rid==null)missingRound++;
+    else{
+      const k=String(rid);
+      if(seenRoundIds.has(k))dup++; else seenRoundIds.add(k);
+    }
+    if(d&&d.playerPoints!=null&&d.bankerPoints!=null){
+      if(d.playerPoints<0||d.playerPoints>9||d.bankerPoints<0||d.bankerPoints>9)badPoints++;
+      else complete++;
+    }
+    const pct=received?Math.round(complete/received*100):0;
+    $("dqComplete").textContent=pct+"%";
+    $("dqDup").textContent=dup;
+    $("dqMissingRound").textContent=missingRound;
+    $("dqBadPoints").textContent=badPoints;
+    const overall=$("dqOverall");
+    if(pct>=80&&badPoints===0){overall.textContent="良好";overall.className="good"}
+    else if(pct>=50){overall.textContent="普通";overall.className="warn"}
+    else{overall.textContent="不足";overall.className="bad"}
+  }
+
+  function wrap(){
+    if(typeof window.processPayload!=="function"||window.processPayload.__v21Wrapped)return;
+    const base=window.processPayload;
+    const wrapped=function(payload){
+      try{
+        const rows=typeof deepRows==="function"?deepRows(payload):[];
+        const row=rows.find(x=>x&&typeof x==="object")||{};
+        const map=currentMap();
+
+        // If user supplied explicit field mappings, mirror them into a normalized row
+        // so the existing robust parser can read them without breaking auto-detection.
+        if(Object.keys(map).length){
+          const clone=JSON.parse(JSON.stringify(row));
+          if(map.result) clone.result=getByPath(row,map.result);
+          if(map.pPoints) clone.playerPoints=getByPath(row,map.pPoints);
+          if(map.bPoints) clone.bankerPoints=getByPath(row,map.bPoints);
+          if(map.pCards) clone.playerCards=getByPath(row,map.pCards);
+          if(map.bCards) clone.bankerCards=getByPath(row,map.bCards);
+          if(map.table) clone.table=getByPath(row,map.table);
+          if(map.round) clone.roundId=getByPath(row,map.round);
+          payload=Array.isArray(payload)?payload.map((x,i)=>i===0?clone:x):clone;
+        }
+
+        const rr=(typeof deepRows==="function"?deepRows(payload):[]).find(x=>x&&typeof x==="object")||{};
+        const d=typeof detailFromRow==="function"?detailFromRow(rr):{};
+        quality(rr,d);
+      }catch(e){console.warn("v21 quality",e)}
+      const r=base(payload);
+      setTimeout(updateFeatureSummary,20);
+      return r;
+    };
+    wrapped.__feedProWrapped=base.__feedProWrapped;
+    wrapped.__v21Wrapped=true;
+    window.processPayload=wrapped;
+  }
+
+  document.addEventListener("DOMContentLoaded",()=>{
+    loadMap();
+    $("feedApplyMap")?.addEventListener("click",saveMap);
+    setTimeout(wrap,700);
+    setInterval(()=>{wrap();updateFeatureSummary()},1500);
+  });
+})();
+</script>
+
+
+<script id="v22-auto-everything-js">
+(function(){
+  const $=id=>document.getElementById(id);
+  let enabled=true;
+  let lastHash="", autoSeen=new Set(), autoStats={recv:0,accepted:0,rejected:0,dup:0,detail:0};
+
+  function log(t){
+    const e=$("autoAllLog"); if(!e)return;
+    const ts=new Date().toLocaleTimeString();
+    e.textContent=`[${ts}] ${t}\n`+e.textContent;
+  }
+  function hashObj(o){
+    try{
+      const s=JSON.stringify(o);
+      let h=2166136261;
+      for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619)}
+      return (h>>>0).toString(16);
+    }catch(e){return String(Date.now())}
+  }
+  function rowId(row){
+    if(!row||typeof row!=="object")return "";
+    return String(
+      row.roundId??row.round_id??row.gameId??row.game_id??row.id??row.serial??row.issue??
+      row.handNo??row.hand_no??hashObj(row)
+    );
+  }
+  function autoMapFromPayload(payload){
+    // Reuse V20/V21 schema detection indirectly by inspecting likely keys.
+    const rows=typeof deepRows==="function"?deepRows(payload):[];
+    const row=rows.find(x=>x&&typeof x==="object")||{};
+    const find=(cands)=>{
+      for(const k of cands) if(row[k]!=null) return k;
+      for(const [k,v] of Object.entries(row)){
+        if(v&&typeof v==="object"&&!Array.isArray(v)){
+          for(const c of cands) if(v[c]!=null) return `${k}.${c}`;
+        }
+      }
+      return "";
+    };
+    const map={
+      result:find(["result","winner","side","gameResult","game_result","outcome","win","resultCode","result_code"]),
+      pPoints:find(["playerPoints","player_points","playerPoint","player_point","pPoint","p_point","playerScore","player_score","pScore"]),
+      bPoints:find(["bankerPoints","banker_points","bankerPoint","banker_point","bPoint","b_point","bankerScore","banker_score","bScore"]),
+      pCards:find(["playerCards","player_cards","pCards","p_cards","playerHandCards","player_hand_cards"]),
+      bCards:find(["bankerCards","banker_cards","bCards","b_cards","bankerHandCards","banker_hand_cards"]),
+      table:find(["table","tableId","table_id","tableNo","table_no","desk","room"]),
+      round:find(["id","gameId","game_id","roundId","round_id","serial","issue","handNo","hand_no"]),
+      trend:find(["trend","history","road","results","resultList","result_list","recentResults","recent_results"])
+    };
+    // Auto-fill visible mapping inputs only when user hasn't manually set them.
+    const ids={result:"mapResult",pPoints:"mapPPoints",bPoints:"mapBPoints",pCards:"mapPCards",bCards:"mapBCards",table:"mapTable",round:"mapRound",trend:"mapTrend"};
+    Object.entries(map).forEach(([k,v])=>{const el=$(ids[k]); if(el&&!el.value&&v) el.value=v});
+    if($("feedMappingStatus")){
+      const n=Object.values(map).filter(Boolean).length;
+      $("feedMappingStatus").textContent=`全自動偵測完成：${n}/8 個欄位`;
+    }
+    return map;
+  }
+  function validDetail(d){
+    if(!d)return false;
+    const pp=d.playerPoints,bp=d.bankerPoints;
+    if(pp!=null&&(pp<0||pp>9))return false;
+    if(bp!=null&&(bp<0||bp>9))return false;
+    return true;
+  }
+  function normalizePayload(payload){
+    const rows=typeof deepRows==="function"?deepRows(payload):[];
+    if(!rows.length)return payload;
+    const out=[];
+    for(const row of rows){
+      if(!row||typeof row!=="object")continue;
+      const id=rowId(row);
+      if(autoSeen.has(id)){autoStats.dup++;continue}
+      autoSeen.add(id);
+
+      const d=typeof detailFromRow==="function"?detailFromRow(row):null;
+      if(!validDetail(d)){autoStats.rejected++;continue}
+      out.push(row);
+      autoStats.accepted++;
+      if(d&&d.playerPoints!=null&&d.bankerPoints!=null)autoStats.detail++;
+    }
+    return Array.isArray(payload)?out:(out[0]??payload);
+  }
+  function updateStatus(){
+    const set=(id,t,cls)=>{const e=$(id);if(!e)return;e.textContent=t;e.className=cls||""};
+    set("aaSchema","自動","good");
+    set("aaDedupe",`${autoStats.dup} 重複`,"good");
+    set("aaCards",`${autoStats.detail} 完整`,"good");
+    set("aaAI","即時更新","good");
+    set("aaGuard",`${autoStats.rejected} 擋下`,"good");
+  }
+
+  function wrap(){
+    if(typeof window.processPayload!=="function"||window.processPayload.__v22AutoWrapped)return;
+    const base=window.processPayload;
+    const wrapped=function(payload){
+      if(!enabled)return base(payload);
+      autoStats.recv++;
+      try{
+        autoMapFromPayload(payload);
+        const cleaned=normalizePayload(payload);
+        log(`收到資料 #${autoStats.recv}｜接受 ${autoStats.accepted}｜重複 ${autoStats.dup}｜完整牌面 ${autoStats.detail}`);
+        const r=base(cleaned);
+        // Force all analysis layers to update after ingestion.
+        setTimeout(()=>{
+          try{ if(typeof render==="function")render() }catch(e){}
+          try{ if(typeof window.updateV13==="function")window.updateV13() }catch(e){}
+          try{ if(typeof updateRoadRecommendations==="function")updateRoadRecommendations() }catch(e){}
+          try{
+            if(typeof window.feedFeatureSummary==="function"){
+              const f=window.feedFeatureSummary();
+              if($("ffAvgP"))$("ffAvgP").textContent=f.recent?f.avgPlayer:"—";
+              if($("ffAvgB"))$("ffAvgB").textContent=f.recent?f.avgBanker:"—";
+              if($("ffPDraw"))$("ffPDraw").textContent=f.recent?f.playerDrawRate+"%":"—";
+              if($("ffBDraw"))$("ffBDraw").textContent=f.recent?f.bankerDrawRate+"%":"—";
+              if($("ffNatural"))$("ffNatural").textContent=f.recent?f.naturalRate+"%":"—";
+              if($("ffN"))$("ffN").textContent=f.recent||0;
+            }
+          }catch(e){}
+        },30);
+        updateStatus();
+        return r;
+      }catch(e){
+        console.error("auto mode",e);
+        log("自動解析失敗，已回退原始解析："+e.message);
+        return base(payload);
+      }
+    };
+    wrapped.__v22AutoWrapped=true;
+    window.processPayload=wrapped;
+  }
+
+  document.addEventListener("DOMContentLoaded",()=>{
+    $("autoAllToggle")?.addEventListener("click",()=>{
+      enabled=!enabled;
+      const b=$("autoAllToggle");
+      b.textContent=enabled?"已開啟":"已關閉";
+      b.style.background=enabled?"#0d624f":"#3b2b32";
+      log(enabled?"全自動模式開啟":"全自動模式關閉");
+    });
+    setTimeout(wrap,900);
+    setInterval(()=>{wrap();updateStatus()},1500);
+  });
+})();
 </script>
 
 </body>
