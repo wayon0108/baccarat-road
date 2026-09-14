@@ -644,7 +644,181 @@ a{color:#64b5ff!important}
 }
 </style>
 
+
+<style id="v24-ultimate-css">
+/* V19 ULTIMATE — decision-focused workstation */
+.v16-shell{grid-template-columns:230px minmax(0,1fr) 370px!important;gap:8px!important}
+.v16-left .controls{top:8px!important}
+.v16-right{top:8px!important}
+#v24Decision{margin-bottom:8px;background:linear-gradient(180deg,#071c2c,#04131f);border:1px solid #1b6689;border-radius:12px;padding:10px;box-shadow:0 10px 28px rgba(0,0,0,.25)}
+.v24-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.v24-head b{font-size:14px;color:#dff8ff}.v24-head span{font-size:10px;color:#7f9db1}
+.v24-main{display:grid;grid-template-columns:118px 1fr;gap:10px;align-items:center}
+.v24-gauge{width:112px;height:112px;border-radius:50%;display:grid;place-items:center;position:relative;background:conic-gradient(#1eb7f2 0deg,#16394b 0deg);box-shadow:0 0 24px rgba(30,183,242,.15)}
+.v24-gauge:before{content:"";position:absolute;inset:10px;border-radius:50%;background:#061725;border:1px solid #17445c}
+.v24-gauge-inner{z-index:1;text-align:center}.v24-gauge-inner strong{display:block;font-size:34px;color:white}.v24-gauge-inner small{color:#9ab5c6;font-size:10px}
+.v24-summary{display:grid;grid-template-columns:1fr 1fr;gap:5px}
+.v24-metric{background:#081725;border:1px solid #173e54;border-radius:8px;padding:7px;min-height:52px}
+.v24-metric span{display:block;font-size:9px;color:#829eb1}.v24-metric b{display:block;font-size:16px;color:#fff;margin-top:3px}
+.v24-signal{margin-top:7px;padding:7px;border-radius:8px;background:#081725;border:1px solid #173e54}
+.v24-bar{height:7px;background:#132d3c;border-radius:99px;overflow:hidden;margin-top:5px}.v24-bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#1c8dca,#50d4ff);border-radius:99px}
+.v24-alert{margin-top:7px;padding:7px 8px;border-radius:8px;font-size:10px;font-weight:700;background:#122231;border:1px solid #27485d;color:#cfe4ef}
+.v24-alert.good{background:#08251d;border-color:#227258;color:#83f0c2}.v24-alert.warn{background:#2b220b;border-color:#765d1f;color:#f0d574}.v24-alert.stop{background:#2b1115;border-color:#7b303b;color:#ff9ca7}
+#v24Pattern{margin-top:8px;background:#071824;border:1px solid #17435b;border-radius:10px;padding:8px}
+.v24-pattern-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:5px}.v24-p{background:#091d2b;border:1px solid #173b50;border-radius:7px;padding:6px}.v24-p span{font-size:9px;color:#7898ab;display:block}.v24-p b{font-size:12px;color:#fff}
+#v24Diagnostics{margin-top:8px}.v24-toggle{width:100%;min-height:34px;border-radius:8px;background:#0a2940!important;border:1px solid #1c6385!important;color:#dff8ff!important;font-weight:800}
+#v24DiagBody{display:none;margin-top:6px}.v24-open #v24DiagBody{display:block}
+.v24-diag{display:grid;grid-template-columns:1fr 1fr;gap:5px}.v24-d{padding:6px;border-radius:7px;background:#081725;border:1px solid #173e54}.v24-d span{font-size:9px;color:#809caf;display:block}.v24-d b{font-size:12px;color:#fff}
+.v13-panel{display:none!important} /* replaced by stronger consolidated decision center */
+.road-ai-panel{margin-top:8px!important}
+.v16-bottom .analysis-head,.v16-bottom .analysis-body,.v16-bottom .analysis-note{display:none!important}
+.v16-bottom .analysis-full{padding:0!important;border:0!important;background:transparent!important;box-shadow:none!important}
+@media(max-width:1050px){.v16-shell{grid-template-columns:210px minmax(0,1fr)!important}.v16-right{grid-column:1/-1!important;position:static!important}.v24-main{grid-template-columns:130px 1fr!important}}
+@media(max-width:720px){.v16-shell{display:flex!important;flex-direction:column!important}.v16-left,.v16-center,.v16-right{width:100%!important;position:static!important}.v24-main{grid-template-columns:112px 1fr!important}}
+</style>
+
+
+<style id="v19-compact-roadtext-css">
+/* Compact Best-Road Analysis: percentage + short dynamic explanation */
+.road-ai-panel{
+  padding:8px!important;
+  border-radius:10px!important;
+  margin-top:7px!important;
+}
+.road-ai-title{font-size:13px!important;margin-bottom:6px!important}
+.road-ai-best{
+  min-height:58px!important;
+  padding:7px 9px!important;
+  border-radius:8px!important;
+}
+.road-ai-grid{
+  display:grid!important;
+  grid-template-columns:1fr 1fr!important;
+  gap:5px!important;
+}
+.road-ai-item{
+  min-height:72px!important;
+  padding:7px!important;
+  border-radius:8px!important;
+  display:grid!important;
+  grid-template-columns:1fr auto!important;
+  grid-template-areas:"name score" "pick score" "desc desc"!important;
+  align-items:center!important;
+}
+.road-ai-item .road-name{grid-area:name!important}
+.road-ai-item .road-pick{grid-area:pick!important}
+.road-ai-item .road-conf{grid-area:score!important;font-size:16px!important;font-weight:900!important}
+.v19-road-desc{
+  grid-area:desc;
+  margin-top:4px;
+  padding-top:5px;
+  border-top:1px solid rgba(120,170,200,.16);
+  font-size:9.5px;
+  line-height:1.45;
+  color:#9fb4c2;
+}
+.v19-road-desc strong{color:#d8edf8}
+#v19BestText{
+  margin-top:5px;
+  font-size:10px;
+  line-height:1.5;
+  color:#b7cbd7;
+}
+#v19BestText b{color:#ffd77b}
+@media(max-width:720px){
+ .road-ai-grid{grid-template-columns:1fr!important}
+}
+</style>
+
+
+<style id="v19-handinput-css">
+#v19HandInput{display:block!important;visibility:visible!important;
+  margin-top:7px;padding:8px;border:1px solid #22556f;border-radius:10px;
+  background:linear-gradient(180deg,#071a28,#06131f);color:#eaf7ff
+}
+.v19-hi-title{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.v19-hi-title b{font-size:13px;color:#fff}.v19-hi-title:before{content:"NEW";font-size:8px;font-weight:900;color:#07131e;background:#f3c969;border-radius:4px;padding:2px 4px;margin-right:5px}.v19-hi-title span{font-size:9px;color:#7899ad}
+.v19-side{border:1px solid #183d52;border-radius:8px;padding:6px;margin-top:5px;background:#081725}
+.v19-side-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:5px}
+.v19-side-head b{font-size:11px}.v19-side-head .pts{font-size:14px;font-weight:900}
+.v19-side.player .v19-side-head b,.v19-side.player .pts{color:#5dc8ff}
+.v19-side.banker .v19-side-head b,.v19-side.banker .pts{color:#ff6f7d}
+.v19-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:4px}
+.v19-cardbox label,.v19-manual label{display:block;font-size:8px;color:#7898aa;margin-bottom:2px}
+.v19-cardbox select,.v19-manual select{
+  width:100%;min-height:31px;background:#07131e;color:#fff;border:1px solid #28516a;border-radius:6px;
+  font-size:11px;padding:3px
+}
+.v19-hi-meta{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-top:5px}
+.v19-meta-card{background:#091a27;border:1px solid #193f54;border-radius:7px;padding:5px;text-align:center}
+.v19-meta-card span{display:block;font-size:8px;color:#7898aa}.v19-meta-card b{font-size:11px;color:#fff}
+#v19HandResult{margin-top:6px;padding:6px;border-radius:7px;background:#0a2233;border:1px solid #1b526f;text-align:center;font-size:11px;font-weight:800;color:#dff7ff}
+#v19SaveHand{width:100%;min-height:36px;margin-top:6px;border-radius:8px;border:1px solid #2c8eb7;background:linear-gradient(180deg,#1579a4,#0d5e82);color:white;font-weight:900}
+#v19ClearHand{width:100%;min-height:30px;margin-top:4px;border-radius:7px;border:1px solid #3b5060;background:#101e29;color:#a9c0ce}
+.v19-hi-note{margin-top:5px;font-size:8.5px;line-height:1.35;color:#6f8ea1}
+</style>
+
+
+<style id="v19-detailmodels-css">
+.v24-detail-title{margin-top:7px;padding-top:7px;border-top:1px solid rgba(105,181,220,.16);font-size:10px;font-weight:900;color:#e7f7ff}
+.v24-detail-title small{font-weight:500;color:#7898aa;margin-left:5px}
+.v24-detail-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px;margin-top:5px}
+.v24-detail{min-width:0;padding:6px;border:1px solid #173f55;border-radius:7px;background:#071925}
+.v24-detail>span{display:block;font-size:8px;color:#7898aa}
+.v24-detail>b{display:block;margin-top:2px;font-size:11px;color:#dbeeff}
+.v24-detail>b.B{color:#ff7482}.v24-detail>b.P{color:#62cfff}.v24-detail>b.neutral{color:#a9bbc7}
+.v24-detail>small{display:block;margin-top:3px;font-size:8px;line-height:1.35;color:#718d9e}
+@media(max-width:720px){.v24-detail-grid{grid-template-columns:1fr}}
+</style>
+
+
+<style id="v19-stage2-css">
+.v24-detail-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+@media(max-width:980px){.v24-detail-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
+@media(max-width:620px){.v24-detail-grid{grid-template-columns:1fr!important}}
+</style>
+
+
+<style id="v19-auto-detail-css">
+.auto-detail-status{margin-top:5px;padding:6px 8px;border:1px solid #1f5870;border-radius:7px;background:#071a27;display:flex;justify-content:space-between;gap:8px;align-items:center}
+.auto-detail-status b{font-size:9px;color:#65d6ff}.auto-detail-status span{font-size:8px;color:#87a6b8;text-align:right}
+#v19AutoLatest{margin-top:5px;padding:6px;border:1px solid #173f55;border-radius:7px;background:#071925;font-size:8.5px;line-height:1.45;color:#8faaba}
+#v19AutoLatest b{color:#dff7ff}
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+<style id="v19-screen-vision-css">
+#v19Vision{margin-top:8px;padding:8px;border:1px solid #22556f;border-radius:10px;background:#071823;color:#dff7ff}
+#v19Vision .vh{display:flex;justify-content:space-between;gap:8px;align-items:center;margin-bottom:6px}
+#v19Vision .vh b{font-size:12px}.vstat{font-size:8px;color:#7fa0b3}
+.vvisionBtns{display:grid;grid-template-columns:1fr 1fr;gap:5px}
+.vvisionBtns button{min-height:34px;border-radius:7px;border:1px solid #285873;background:#0c2638;color:#e9f7ff;font-weight:800;font-size:10px}
+#v19VisionStart{background:linear-gradient(180deg,#137da7,#0c5d80)}
+#v19VisionStop{background:#24161c;border-color:#6d2e3b}
+#v19VisionWrap{margin-top:6px;position:relative;border:1px solid #173f55;border-radius:8px;overflow:hidden;background:#02080d}
+#v19VisionVideo{display:none}
+#v19VisionCanvas{display:block;width:100%;height:auto;max-height:260px;object-fit:contain;touch-action:none;cursor:crosshair}
+#v19VisionStep{margin-top:5px;padding:5px 6px;border-radius:6px;background:#0a2232;font-size:9px;color:#9fc9dc}
+.vvisionOpts{display:flex;gap:8px;flex-wrap:wrap;margin-top:5px;font-size:9px;color:#91aebe}
+.vvisionOpts label{display:flex;align-items:center;gap:4px}
+#v19VisionResult{margin-top:5px;padding:6px;border:1px solid #173f55;border-radius:7px;background:#07131e;font-size:9px;line-height:1.45;color:#9ab5c4}
+#v19VisionResult b{color:#eaf7ff}
+.vroiList{margin-top:5px;display:grid;grid-template-columns:repeat(3,1fr);gap:3px}
+.vroi{padding:4px;border:1px solid #17394d;border-radius:5px;font-size:8px;color:#6f8e9f;text-align:center}
+.vroi.ok{color:#7ce0b0;border-color:#24694d}
+</style>
+
+<style id="v19-template-css">
+.vtemplate{margin-top:6px;padding:6px;border:1px solid #234c61;border-radius:7px;background:#081722}
+.vtemplate-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:5px}
+.vtemplate-head b{font-size:9px;color:#dff7ff}.vtemplate-head span{font-size:8px;color:#78d6a6}
+.vtemplate-row{display:grid;grid-template-columns:.65fr .75fr 1.6fr 1fr;gap:4px}
+.vtemplate-row select,.vtemplate-row button{min-height:30px;border-radius:6px;border:1px solid #28516a;background:#07131e;color:#eef8ff;font-size:9px;padding:3px}
+#v19TemplateLearn{background:#0d604e;border-color:#26866b}.vtemplate-note{margin-top:4px;font-size:8px;line-height:1.35;color:#7692a3}
+.vconf{display:inline-block;margin-left:4px;padding:1px 4px;border-radius:4px;background:#102b3b;color:#a9d9ed;font-size:8px}
+</style>
 </head>
+
 <body>
 
 <div id="v15Badge" style="
@@ -701,7 +875,7 @@ box-shadow:0 10px 30px rgba(0,0,0,.18)">
       <div>
         
 <section class="v13-panel" id="v13Control">
-  <div class="v13-title">V18 模型控制中心｜1億局背景＋即時回測＋信心校準</div>
+  <div class="v13-title">V18.1 模型控制中心｜1億局背景＋即時回測＋信心校準</div>
   <div class="v13-grid">
     <div class="v13-card"><span class="v13-sub">下一局建議</span><b id="v13Pick">資料不足</b></div>
     <div class="v13-card"><span class="v13-sub">校準後信號</span><b id="v13Confidence">—</b></div>
@@ -711,6 +885,13 @@ box-shadow:0 10px 30px rgba(0,0,0,.18)">
     <div class="v13-card"><span class="v13-sub">樣本可信度</span><b id="v13Sample">低</b></div>
   </div>
   <div class="v13-models" id="v13Models"></div>
+<div id="v18LiveStatus" style="
+margin-top:8px;padding:8px 10px;border-radius:8px;
+background:#071522;border:1px solid #31506d;
+color:#c9d6e3;font-size:12px;text-align:center">
+分析引擎已啟動｜目前等待輸入牌局
+</div>
+
   <div class="v13-sub" style="margin-top:8px">信號不足或模型分歧時自動「觀望」。百分比代表模型信號/回測校準，不代表下一局真實勝率。</div>
   <div class="v13-sub" style="margin-top:6px">1億局模擬：8副牌｜標準補牌規則｜約 1,405,060 靴｜莊 45.867135%｜閒 44.614958%｜和 9.517907%</div>
 </section>
@@ -776,7 +957,7 @@ box-shadow:0 10px 30px rgba(0,0,0,.18)">
     <div class="connect-head">
       <div>
         <div class="connect-title">◉ 百家樂即時資料接入</div>
-        <div class="connect-sub">支援 HTTP / JSON / CSV / WebSocket · 連線後自動抓新局、更新五路分析與最佳路建議</div>
+        <div class="connect-sub">支援 HTTP / JSON / CSV / WebSocket · 自動抓莊閒結果、每張牌、點數、補牌並更新走勢與 AI 分析</div>
       </div>
       <div class="status">● <span id="connStatus">未連線</span></div>
     </div>
@@ -784,6 +965,10 @@ box-shadow:0 10px 30px rgba(0,0,0,.18)">
     <div class="connect-grid">
       <select id="sourceType"><option value="http">HTTP / JSON / CSV</option><option value="ws">WebSocket</option></select>
       <input id="endpoint" placeholder="貼上 API 或 WebSocket 網址">
+      <div id="autoDetailStatus" class="auto-detail-status">
+        <b>自動牌面解析：開啟</b>
+        <span id="autoDetailInfo">等待連線資料</span>
+      </div>
       <div class="connbtns"><button class="start" onclick="connectSource()">▶ 開始連線</button><button class="stop" onclick="disconnectSource()">■ 停止</button></div>
       <input id="tableFilter" value="B219" placeholder="桌號，例如 B219">
     </div>
@@ -1508,7 +1693,14 @@ function legacyRenderPrediction(){
   let B=0,P=0;for(let n=1;n<=3;n++){const pat=a.slice(-n).join('');for(let i=0;i<a.length-n;i++)if(a.slice(i,i+n).join('')===pat){a[i+n]==='B'?B++:P++}}
   const total=B+P;confidence.textContent=(total?Math.min(90,Math.round(50+Math.abs(B-P)/total*40)):0)+'%'
 }
-function render(){drawBead();drawBig();drawDerived('eye',derived(1),'circle');drawDerived('small',derived(2),'dot');drawDerived('cock',derived(3),'slash');drawAsk();stats();updateRecommendation()}
+function render(){
+  drawBead();drawBig();
+  drawDerived('eye',derived(1),'circle');
+  drawDerived('small',derived(2),'dot');
+  drawDerived('cock',derived(3),'slash');
+  drawAsk();stats();updateRecommendation();
+  if(typeof window.updateV13==='function') setTimeout(window.updateV13,0);
+}
 window.addEventListener('resize',render);
 
 function normalizeResult(v){
@@ -1555,12 +1747,155 @@ function deepRows(payload){
   return [payload];
 }
 
+
+function cardRank(v){
+  if(v==null)return "";
+  if(typeof v==="object"){
+    v=pick(v,["rank","value","card","point","number","face","name"]) ?? "";
+  }
+  let x=String(v).trim().toUpperCase();
+  x=x.replace(/[♠♥♦♣SHDC]/g,"").trim();
+  if(/^A(CE)?$/.test(x))return "A";
+  if(/^10$/.test(x))return "10";
+  if(/^J(ACK)?$/.test(x))return "J";
+  if(/^Q(UEEN)?$/.test(x))return "Q";
+  if(/^K(ING)?$/.test(x))return "K";
+  if(/^[2-9]$/.test(x))return x;
+  // numeric card encodings
+  const n=Number(x);
+  if(Number.isFinite(n)){
+    if(n===1)return "A";
+    if(n>=2&&n<=9)return String(n);
+    if(n===10)return "10";
+    if(n===11)return "J";
+    if(n===12)return "Q";
+    if(n===13)return "K";
+  }
+  return "";
+}
+function parseCards(v){
+  if(v==null)return [];
+  if(Array.isArray(v))return v.map(cardRank).filter(Boolean).slice(0,3);
+  if(typeof v==="object"){
+    const arr=pick(v,["cards","hand","values","list"]);
+    if(arr!=null)return parseCards(arr);
+  }
+  const str=String(v).trim();
+  if(!str)return [];
+  return str.split(/[,\s|/;]+/).map(cardRank).filter(Boolean).slice(0,3);
+}
+function baccaratPoints(cards){
+  const cv=r=>r==="A"?1:(["10","J","Q","K"].includes(r)?0:(parseInt(r)||0));
+  if(!cards.length)return null;
+  return cards.reduce((a,r)=>a+cv(r),0)%10;
+}
+function numPoint(v){
+  if(v==null||v==="")return null;
+  const n=parseInt(String(v).replace(/[^\d-]/g,""),10);
+  return Number.isFinite(n)?((n%10)+10)%10:null;
+}
+function detailFromRow(row){
+  // common nested structures
+  const playerObj=pick(row,["player","playerHand","player_hand","pHand","p_hand"]);
+  const bankerObj=pick(row,["banker","bankerHand","banker_hand","bHand","b_hand"]);
+
+  let pc=parseCards(
+    pick(row,["playerCards","player_cards","pCards","p_cards","playerCard","player_card","playerHandCards"]) ??
+    (playerObj&&pick(playerObj,["cards","hand","cardList","card_list"]))
+  );
+  let bc=parseCards(
+    pick(row,["bankerCards","banker_cards","bCards","b_cards","bankerCard","banker_card","bankerHandCards"]) ??
+    (bankerObj&&pick(bankerObj,["cards","hand","cardList","card_list"]))
+  );
+
+  // fallback separate card fields
+  if(!pc.length){
+    pc=[pick(row,["playerCard1","player_card1","p1"]),pick(row,["playerCard2","player_card2","p2"]),pick(row,["playerCard3","player_card3","p3"])]
+      .map(cardRank).filter(Boolean);
+  }
+  if(!bc.length){
+    bc=[pick(row,["bankerCard1","banker_card1","b1"]),pick(row,["bankerCard2","banker_card2","b2"]),pick(row,["bankerCard3","banker_card3","b3"])]
+      .map(cardRank).filter(Boolean);
+  }
+
+  let pp=numPoint(
+    pick(row,["playerPoints","player_points","playerPoint","player_point","pPoint","p_point","playerScore","player_score"]) ??
+    (playerObj&&pick(playerObj,["points","point","score"]))
+  );
+  let bp=numPoint(
+    pick(row,["bankerPoints","banker_points","bankerPoint","banker_point","bPoint","b_point","bankerScore","banker_score"]) ??
+    (bankerObj&&pick(bankerObj,["points","point","score"]))
+  );
+
+  if(pp===null&&pc.length)pp=baccaratPoints(pc);
+  if(bp===null&&bc.length)bp=baccaratPoints(bc);
+
+  return {
+    playerCards:pc,bankerCards:bc,
+    playerPoints:pp,bankerPoints:bp,
+    playerDraw:pc.length>=3?1:0,bankerDraw:bc.length>=3?1:0
+  };
+}
+function resultFromDetail(d){
+  if(d.playerPoints===null||d.bankerPoints===null)return null;
+  return d.playerPoints>d.bankerPoints?"P":d.bankerPoints>d.playerPoints?"B":"T";
+}
+function updateAutoLatest(d,r){
+  const info=document.getElementById("autoDetailInfo");
+  if(!info)return;
+  const show=a=>a&&a.length?a.join("・"):"—";
+  const label=r==="B"?"莊":r==="P"?"閒":r==="T"?"和":"—";
+  info.textContent=`${label}｜閒 ${d.playerPoints??"—"} 點 / 莊 ${d.bankerPoints??"—"} 點`;
+  const p=document.getElementById("v19AutoLatest");
+  if(p)p.innerHTML=`<b>最新自動牌局：</b> 閒 ${show(d.playerCards)}（${d.playerPoints??"—"}點）｜莊 ${show(d.bankerCards)}（${d.bankerPoints??"—"}點）`;
+}
+
 function processPayload(payload){
-  const target=(tableFilter.value||tableMirror.value||'').trim().toLowerCase();let added=0;
-  for(const row of deepRows(payload)){if(!row||typeof row!=='object')continue;const table=pick(row,['table','tableId','table_id','tableNo','desk','room']);if(target&&String(table??'').toLowerCase()!==target)continue;
-    const rf=resultField.value.trim();const raw=rf?row[rf]:pick(row,['result','winner','side','gameResult','game_result','outcome','win']);const r=normalizeResult(raw);if(!r)continue;
-    const id=pick(row,['id','gameId','game_id','roundId','round_id','serial','issue'])??JSON.stringify(row);const key=String(id);if(seen.has(key))continue;seen.add(key);scorePendingPrediction(r);data.push({r,source:'auto',ts:Date.now(),table:table??''});added++}
-  if(added){persist();render();logmsg(`新增 ${added} 局，自動更新走勢＋五路最佳路分析`)}
+  const target=(tableFilter.value||tableMirror.value||'').trim().toLowerCase();
+  let added=0,detailAdded=0;
+  for(const row of deepRows(payload)){
+    if(!row||typeof row!=='object')continue;
+    const table=pick(row,['table','tableId','table_id','tableNo','desk','room']);
+    if(target&&String(table??'').toLowerCase()!==target)continue;
+
+    const d=detailFromRow(row);
+    const rf=resultField.value.trim();
+    const raw=rf?row[rf]:pick(row,['result','winner','side','gameResult','game_result','outcome','win']);
+    let r=normalizeResult(raw);
+    if(!r)r=resultFromDetail(d);
+    if(!r)continue;
+
+    const id=pick(row,['id','gameId','game_id','roundId','round_id','serial','issue'])??JSON.stringify(row);
+    const key=String(id);
+    if(seen.has(key))continue;
+    seen.add(key);
+
+    scorePendingPrediction(r);
+    const rec={r,source:'auto',ts:Date.now(),table:table??''};
+
+    if(d.playerPoints!==null)rec.playerPoints=d.playerPoints;
+    if(d.bankerPoints!==null)rec.bankerPoints=d.bankerPoints;
+    if(d.playerCards.length)rec.playerCards=d.playerCards;
+    if(d.bankerCards.length)rec.bankerCards=d.bankerCards;
+    rec.playerDraw=d.playerDraw;
+    rec.bankerDraw=d.bankerDraw;
+    rec.playerCardCount=d.playerCards.length;
+    rec.bankerCardCount=d.bankerCards.length;
+    if(d.playerPoints!==null&&d.bankerPoints!==null){
+      rec.pointGap=Math.abs(d.playerPoints-d.bankerPoints);
+      rec.natural=((!d.playerDraw&&d.playerPoints>=8)||(!d.bankerDraw&&d.bankerPoints>=8));
+      rec.detailInput=true;
+      detailAdded++;
+    }
+
+    data.push(rec);
+    updateAutoLatest(d,r);
+    added++;
+  }
+  if(added){
+    persist();render();
+    logmsg(`新增 ${added} 局｜其中 ${detailAdded} 局含點數/牌面，自動更新走勢＋牌型＋AI分析`);
+  }
 }
 function logmsg(m){const t=new Date().toLocaleTimeString('zh-TW',{hour12:false});log.innerHTML+=`<div>[${t}] ${m}</div>`;log.scrollTop=log.scrollHeight}
 async function poll(){
@@ -1629,10 +1964,20 @@ render();
 <script id="v13-model-layer">
 (function(){
   const $=id=>document.getElementById(id);
-  const bp=()=> (Array.isArray(window.data)?window.data:[]).map(x=>{
-    const v=typeof x==="string"?x:(x&&x.r);
-    return v==="B"||v==="P"?v:null;
-  }).filter(Boolean);
+  const bp=()=> {
+    let src=[];
+    try{
+      if(typeof data!=="undefined" && Array.isArray(data)) src=data;
+      else if(Array.isArray(window.data)) src=window.data;
+    }catch(e){
+      if(Array.isArray(window.data)) src=window.data;
+    }
+    return src.map(x=>{
+      const v=typeof x==="string"?x:(x&&x.r);
+      const b=typeof v==="string"?v.charAt(0):v;
+      return b==="B"||b==="P"?b:null;
+    }).filter(Boolean);
+  };
   const clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
   function vote(name,score,weight){ return {name,score:clamp(score,-1,1),weight}; }
   function rateScore(s,n){
@@ -1671,7 +2016,83 @@ render();
     }
     return 0;
   }
-  function modelVotes(s){
+  function cleanRows(rows){
+    return (rows||[]).map(x=>typeof x==="string"?{r:x}:x).filter(x=>{
+      const r=x&&x.r?String(x.r).charAt(0):"";
+      return r==="B"||r==="P";
+    });
+  }
+  function allRows(){
+    try{
+      if(typeof data!=="undefined" && Array.isArray(data)) return cleanRows(data);
+      if(Array.isArray(window.data)) return cleanRows(window.data);
+    }catch(e){}
+    return [];
+  }
+  const binPoint=n=>n<=3?"L":n<=6?"M":"H";
+  function hasDetail(r){
+    return r && Number.isFinite(Number(r.playerPoints)) && Number.isFinite(Number(r.bankerPoints));
+  }
+  function detailConditional(rows,name,keyFn,weight){
+    rows=cleanRows(rows);
+    const last=rows[rows.length-1];
+    if(!hasDetail(last)) return vote(name,0,weight);
+    const key=keyFn(last);
+    if(!key) return vote(name,0,weight);
+    let B=0,P=0,matches=0;
+    for(let i=0;i<rows.length-1;i++){
+      if(!hasDetail(rows[i]) || keyFn(rows[i])!==key) continue;
+      const next=String(rows[i+1].r||"").charAt(0);
+      if(next==="B"){B++;matches++}
+      else if(next==="P"){P++;matches++}
+    }
+    if(matches<3) return {...vote(name,0,weight),matches};
+    const pB=(B+2)/(matches+4);                 // conservative shrinkage
+    const reliability=Math.min(1,matches/18);
+    return {...vote(name,(pB-.5)*2*reliability,weight),matches};
+  }
+  function detailVotes(rows){
+    rows=cleanRows(rows);
+    const pointKey=r=>{
+      if(!hasDetail(r))return "";
+      const p=Number(r.playerPoints),b=Number(r.bankerPoints);
+      const gap=Math.abs(p-b);
+      return `${binPoint(p)}${binPoint(b)}-G${gap<=2?0:gap<=5?1:2}`;
+    };
+    const drawKey=r=>{
+      if(!hasDetail(r))return "";
+      const pd=Number(r.playerDraw||0),bd=Number(r.bankerDraw||0);
+      return `P${pd}-B${bd}`;
+    };
+    const cardKey=r=>{
+      if(!hasDetail(r))return "";
+      const pd=Number(r.playerDraw||0),bd=Number(r.bankerDraw||0);
+      const pn=Number(r.playerPoints),bn=Number(r.bankerPoints);
+      const natural=((!pd&&pn>=8)||(!bd&&bn>=8))?"N":"X";
+      return `${natural}-P${pd?3:2}-B${bd?3:2}`;
+    };
+    const exactCardKey=r=>{
+      if(!hasDetail(r))return "";
+      const norm=a=>(Array.isArray(a)?a:[]).map(x=>["10","J","Q","K"].includes(String(x))?"0":String(x)).join(".");
+      const pc=norm(r.playerCards),bc=norm(r.bankerCards);
+      if(!pc||!bc)return "";
+      return `P:${pc}|B:${bc}`;
+    };
+    const thirdCardKey=r=>{
+      if(!hasDetail(r))return "";
+      const pc=Array.isArray(r.playerCards)?r.playerCards:[],bc=Array.isArray(r.bankerCards)?r.bankerCards:[];
+      const pv=pc[2]?String(pc[2]):"N",bv=bc[2]?String(bc[2]):"N";
+      return `P3:${pv}|B3:${bv}`;
+    };
+    return [
+      detailConditional(rows,"點數模型",pointKey,.72),
+      detailConditional(rows,"補牌模型",drawKey,.66),
+      detailConditional(rows,"牌型模型",cardKey,.68),
+      detailConditional(rows,"逐張牌模型",exactCardKey,.48),
+      detailConditional(rows,"第三張模型",thirdCardKey,.54)
+    ];
+  }
+  function modelVotes(s,rows){
     let bgVote=0;
     try{
       const bg=bgPatternProb(s,6);
@@ -1685,24 +2106,27 @@ render();
       vote("轉移模型",transitionScore(s),1.1),
       vote("連續型態",streakScore(s),.7),
       vote("交替型態",alternateScore(s),.65),
-      vote("N-gram",ngramScore(s),1.2)
+      vote("N-gram",ngramScore(s),1.2),
+      ...detailVotes(rows||[])
     ];
   }
-  function rawPrediction(s){
-    let vs=modelVotes(s), den=vs.reduce((a,v)=>a+v.weight,0);
+  function rawPrediction(s,rows){
+    let vs=modelVotes(s,rows), den=vs.reduce((a,v)=>a+v.weight,0);
     let score=vs.reduce((a,v)=>a+v.score*v.weight,0)/den;
     let directional=vs.filter(v=>Math.abs(v.score)>=.08);
     let sign=score>=0?1:-1;
     let agree=directional.length?directional.filter(v=>Math.sign(v.score)===sign).length/directional.length:0;
     return {vs,score,agree};
   }
-  function walkForward(s){
+  function walkForward(rows){
+    rows=cleanRows(rows);
     let out=[];
-    for(let i=12;i<s.length;i++){
-      let p=rawPrediction(s.slice(0,i));
+    for(let i=12;i<rows.length;i++){
+      let hist=rows.slice(0,i), seq=hist.map(x=>String(x.r).charAt(0));
+      let p=rawPrediction(seq,hist);
       if(Math.abs(p.score)<.08||p.agree<.6)continue;
       let pred=p.score>0?"B":"P";
-      out.push({ok:pred===s[i],strength:Math.abs(p.score),agree:p.agree});
+      out.push({ok:pred===String(rows[i].r).charAt(0),strength:Math.abs(p.score),agree:p.agree});
     }
     return out;
   }
@@ -1721,9 +2145,9 @@ render();
     return clamp(.5+r*.18,.5,.68);
   }
   function render(){
-    let s=bp(), raw=rawPrediction(s), bt=walkForward(s);
+    let rows=allRows(), s=rows.map(x=>String(x.r).charAt(0)), raw=rawPrediction(s,rows), bt=walkForward(rows);
     let conf=calibratedStrength(raw,bt);
-    let enough=s.length>=20, decisive=Math.abs(raw.score)>=.10 && raw.agree>=.62;
+    let enough=s.length>=3, decisive=Math.abs(raw.score)>=.08 && raw.agree>=.55;
     let pick= enough&&decisive ? (raw.score>0?"莊":"閒") : "觀望";
     if($("v13Pick")) $("v13Pick").textContent=pick;
     if($("v13Confidence")) $("v13Confidence").textContent=s.length?Math.round(conf*100)+"%":"—";
@@ -1731,7 +2155,14 @@ render();
     let a50=acc(bt,50),a100=acc(bt,100);
     if($("v13Acc50")) $("v13Acc50").textContent=a50==null?"—":(a50*100).toFixed(1)+"%";
     if($("v13Acc100")) $("v13Acc100").textContent=a100==null?"—":(a100*100).toFixed(1)+"%";
-    if($("v13Sample")) $("v13Sample").textContent=s.length>=200?"高":s.length>=60?"中":"低";
+    if($("v13Sample")) $("v13Sample").textContent=s.length>=200?"高":s.length>=60?"中":s.length>=12?"初步":"低";
+    const live=$("v18LiveStatus");
+    if(live){
+      live.textContent = s.length
+        ? `分析引擎運作中｜有效莊閒樣本 ${s.length} 局｜每新增一局自動重算`
+        : "分析引擎已啟動｜目前等待輸入牌局";
+      live.style.color = s.length ? "#ffffff" : "#c9d6e3";
+    }
     if($("v13Models")){
       $("v13Models").innerHTML=raw.vs.map(v=>{
         let p=Math.abs(v.score)<.08?"觀望":v.score>0?"莊":"閒";
@@ -1794,7 +2225,7 @@ document.addEventListener("DOMContentLoaded",function(){
 
   const title=document.createElement("div");
   title.className="v16-titlebar";
-  title.innerHTML='<strong>BACCARAT 智能分析工作台 V18</strong><span>1億局背景 · 標準五路 · 即時回測 · 模型校準</span>';
+  title.innerHTML='<strong>BACCARAT 智能分析工作台 V18.1</strong><span>1億局背景 · 標準五路 · 即時回測 · 模型校準</span>';
   main.parentNode.insertBefore(title,main);
 
   const shell=document.createElement("div");
@@ -1837,6 +2268,594 @@ document.addEventListener("DOMContentLoaded",function(){
     right.insertBefore(analyzeBtn,roadAI.nextSibling);
   }
 });
+</script>
+
+
+<script id="v24-ultimate-js">
+(function(){
+ const $=id=>document.getElementById(id);
+ const clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
+ function seq(){
+   try{return data.map(x=>(typeof x==="string"?x:x.r)||"").map(x=>x.charAt(0)).filter(x=>x==="B"||x==="P")}catch(e){return[]}
+ }
+ function entropy(s){
+   if(!s.length)return 1;
+   let b=s.filter(x=>x==="B").length/s.length,p=1-b;
+   let h=0;[b,p].forEach(q=>{if(q>0)h-=q*Math.log2(q)});return h;
+ }
+ function runInfo(s){
+   if(!s.length)return {side:"—",len:0};
+   let side=s[s.length-1],len=1;for(let i=s.length-2;i>=0&&s[i]===side;i--)len++;
+   return {side:side==="B"?"莊":"閒",len};
+ }
+ function alternation(s,n=10){
+   let a=s.slice(-n);if(a.length<2)return 0;let k=0;for(let i=1;i<a.length;i++)if(a[i]!==a[i-1])k++;return k/(a.length-1);
+ }
+ function drift(s){
+   if(s.length<20)return 0;
+   const score=a=>{let b=a.filter(x=>x==="B").length;return b/a.length-.5};
+   return Math.abs(score(s.slice(-10))-score(s.slice(-30,-10)));
+ }
+ function getRoadBest(){
+   let n=$("bestRoadName")?.textContent||"—",p=$("bestRoadPick")?.textContent||"—";
+   return {n,p};
+ }
+ function build(){
+   const right=document.querySelector(".v16-right"); if(!right||$("v24Decision"))return;
+   const box=document.createElement("section");box.id="v24Decision";
+   box.innerHTML=`
+   <div class="v24-head"><b>AI 決策中心 ULTIMATE</b><span>每局自動重算</span></div>
+   <div class="v24-main">
+    <div class="v24-gauge" id="v24Gauge"><div class="v24-gauge-inner"><strong id="v24Pick">觀望</strong><small id="v24Strength">信號 —</small></div></div>
+    <div>
+     <div class="v24-summary">
+      <div class="v24-metric"><span>模型一致度</span><b id="v24Agree">—</b></div>
+      <div class="v24-metric"><span>樣本可信度</span><b id="v24Reliability">低</b></div>
+      <div class="v24-metric"><span>近50回測</span><b id="v24Bt50">—</b></div>
+      <div class="v24-metric"><span>近100回測</span><b id="v24Bt100">—</b></div>
+     </div>
+     <div class="v24-signal"><span style="font-size:9px;color:#829eb1">決策信號</span><div class="v24-bar"><i id="v24Bar"></i></div></div>
+    </div>
+   </div>
+   <div class="v24-alert" id="v24Alert">等待牌局資料</div>
+   <div id="v24Pattern"><div class="v24-pattern-grid">
+    <div class="v24-p"><span>目前型態</span><b id="v24Run">—</b></div>
+    <div class="v24-p"><span>交替程度</span><b id="v24Alt">—</b></div>
+    <div class="v24-p"><span>隨機度</span><b id="v24Entropy">—</b></div>
+    <div class="v24-p"><span>近期漂移</span><b id="v24Drift">—</b></div>
+    <div class="v24-p"><span>最佳路</span><b id="v24Best">—</b></div>
+    <div class="v24-p"><span>有效樣本</span><b id="v24N">0</b></div>
+   </div></div>
+   <div class="v24-detail-title">牌面資料分析 <small>有足夠歷史樣本才參與投票</small></div>
+   <div class="v24-detail-grid">
+     <div class="v24-detail"><span>點數模型</span><b id="v24PointModel">等待資料</b><small id="v24PointText">依雙方點數區間與點差比對</small></div>
+     <div class="v24-detail"><span>補牌模型</span><b id="v24DrawModel">等待資料</b><small id="v24DrawText">依莊閒是否補第3張比對</small></div>
+     <div class="v24-detail"><span>牌型模型</span><b id="v24CardModel">等待資料</b><small id="v24CardText">依自然牌與2/3張組合比對</small></div>
+     <div class="v24-detail"><span>逐張牌模型</span><b id="v24ExactModel">等待資料</b><small id="v24ExactText">比對雙方每張牌值的歷史相似局</small></div>
+     <div class="v24-detail"><span>第三張模型</span><b id="v24ThirdModel">等待資料</b><small id="v24ThirdText">分析補牌第3張牌值與後續結果</small></div>
+     <div class="v24-detail"><span>牌面資料完整度</span><b id="v24DetailCoverage">0%</b><small id="v24CoverageText">完整牌面越多，細部模型才會啟用</small></div>
+   </div>
+   <div id="v24Diagnostics"><button class="v24-toggle" id="v24Toggle">查看模型診斷</button><div id="v24DiagBody">
+    <div class="v24-diag">
+     <div class="v24-d"><span>1億背景偏差</span><b id="v24Bg">—</b></div>
+     <div class="v24-d"><span>尾型匹配階數</span><b id="v24Order">—</b></div>
+     <div class="v24-d"><span>Brier Score</span><b id="v24Brier">—</b></div>
+     <div class="v24-d"><span>市場狀態</span><b id="v24Regime">—</b></div>
+    </div>
+   </div></div>`;
+   right.insertBefore(box,right.firstChild);
+   $("v24Toggle").onclick=()=>{$("v24Diagnostics").classList.toggle("v24-open");$("v24Toggle").textContent=$("v24Diagnostics").classList.contains("v24-open")?"收合模型診斷":"查看模型診斷"};
+ }
+ function update(){
+   if(!$("v24Decision"))return;
+   const s=seq(), n=s.length;
+   let pick=$("v13Pick")?.textContent||"觀望", conf=parseFloat($("v13Confidence")?.textContent)||0;
+   let agree=parseFloat($("v13Consensus")?.textContent)||0;
+   $("v24Pick").textContent=pick;$("v24Strength").textContent="信號 "+(n?conf+"%":"—");
+   $("v24Agree").textContent=n?agree+"%":"—";$("v24Reliability").textContent=$("v13Sample")?.textContent||"低";
+   $("v24Bt50").textContent=$("v13Acc50")?.textContent||"—";$("v24Bt100").textContent=$("v13Acc100")?.textContent||"—";
+   $("v24Bar").style.width=clamp(conf,0,100)+"%";
+   const deg=clamp(conf,0,100)*3.6;$("v24Gauge").style.background=`conic-gradient(#1eb7f2 ${deg}deg,#16394b ${deg}deg)`;
+   let r=runInfo(s), alt=alternation(s), ent=entropy(s.slice(-30)), dr=drift(s), rb=getRoadBest();
+   $("v24Run").textContent=r.len?r.side+"連"+r.len:"—";$("v24Alt").textContent=n>=2?Math.round(alt*100)+"%":"—";
+   $("v24Entropy").textContent=n?Math.round(ent*100)+"%":"—";$("v24Drift").textContent=n>=20?(dr*100).toFixed(1)+"%":"—";
+   $("v24Best").textContent=rb.n+(rb.p&&rb.p!=="—"?" "+rb.p:"");$("v24N").textContent=n;
+
+   // Detailed-hand models: read the same model outputs that participate in the ensemble.
+   const detailEls=[...document.querySelectorAll("#v13Models .v13-model")];
+   function detailModel(name,target,textTarget){
+     const el=detailEls.find(x=>(x.textContent||"").includes(name));
+     const out=$(target), tx=$(textTarget); if(!out)return;
+     if(!el){out.textContent="等待資料";return}
+     const t=(el.textContent||"").replace(/\s+/g," ").trim();
+     const m=t.match(/：(莊|閒|觀望)\s*(\d+)%/);
+     if(!m){out.textContent="等待資料";return}
+     out.textContent=m[1]+" "+m[2]+"%";
+     out.className=m[1]==="莊"?"B":m[1]==="閒"?"P":"neutral";
+     if(tx){
+       const v=parseInt(m[2])||0;
+       tx.textContent=m[1]==="觀望"||v<8
+         ?"相似歷史樣本不足，目前不強行加入方向"
+         :`目前歷史條件較偏${m[1]}，會以保守權重加入綜合模型`;
+     }
+   }
+   detailModel("點數模型","v24PointModel","v24PointText");
+   detailModel("補牌模型","v24DrawModel","v24DrawText");
+   detailModel("牌型模型","v24CardModel","v24CardText");
+   detailModel("逐張牌模型","v24ExactModel","v24ExactText");
+   detailModel("第三張模型","v24ThirdModel","v24ThirdText");
+   try{
+     let src=[];
+     if(typeof data!=="undefined"&&Array.isArray(data))src=data;
+     else if(Array.isArray(window.data))src=window.data;
+     const bpRows=src.filter(x=>x&&typeof x==="object"&&(String(x.r||"").charAt(0)==="B"||String(x.r||"").charAt(0)==="P"));
+     const detailed=bpRows.filter(x=>Array.isArray(x.playerCards)&&x.playerCards.length>=2&&Array.isArray(x.bankerCards)&&x.bankerCards.length>=2).length;
+     const cov=bpRows.length?Math.round(detailed/bpRows.length*100):0;
+     $("v24DetailCoverage").textContent=cov+"%";
+     $("v24CoverageText").textContent=`${detailed}/${bpRows.length} 局具有完整雙方牌面；舊資料仍可供原模型使用`;
+   }catch(e){}
+   let regime=n<12?"資料建立中":ent>.94?"高隨機":alt>.72?"高交替":r.len>=4?"長連":dr>.15?"近期轉態":"一般混合";
+   $("v24Regime").textContent=regime;
+   let bg=.5,ord="—";try{bg=bgBaseProb();let x=bgPatternProb(s,6);if(x&&x.used&&x.used.length)ord=Math.max(...x.used.map(z=>parseInt((z.name.match(/\d+/)||[0])[0])) )+"階"}catch(e){}
+   $("v24Bg").textContent=((bg-.5)*100).toFixed(2)+"%";$("v24Order").textContent=ord;
+   try{let bt=walkForwardBacktest(s);$("v24Brier").textContent=bt.count?bt.brier.toFixed(3):"—"}catch(e){$("v24Brier").textContent="—"}
+   const a=$("v24Alert");a.className="v24-alert";
+   if(n<12){a.textContent="樣本仍少｜先累積資料，不把早期波動當成強訊號";a.classList.add("warn")}
+   else if(pick==="觀望"||conf<55||agree<55){a.textContent="觀望區｜模型分歧或信號不足，避免硬做方向判斷";a.classList.add("stop")}
+   else if(regime==="高隨機"){a.textContent="高隨機區｜目前型態辨識度低，降低對走勢模型的依賴";a.classList.add("warn")}
+   else {a.textContent=`有效信號｜${pick}｜一致度 ${agree}%｜仍屬統計訊號，不是保證結果`;a.classList.add("good")}
+ }
+ document.addEventListener("DOMContentLoaded",()=>{build();setTimeout(update,50);new MutationObserver(()=>{clearTimeout(window.__v24);window.__v24=setTimeout(update,40)}).observe(document.body,{childList:true,subtree:true,characterData:true})});
+})();
+</script>
+
+
+<script id="v19-compact-roadtext-js">
+(function(){
+ const $=id=>document.getElementById(id);
+ const roadMap=[
+  ["roadBeadPick","roadBeadConf","珠盤路"],
+  ["roadBigPick","roadBigConf","大路"],
+  ["roadEyePick","roadEyeConf","大眼仔"],
+  ["roadSmallPick","roadSmallConf","小路"],
+  ["roadCockPick","roadCockConf","曱甴路"]
+ ];
+ function wording(name,pick,conf){
+   let c=parseFloat(conf)||0;
+   if(!pick || pick==="—" || pick==="觀望" || c<1)
+     return "資料仍不足，先累積牌局後再判斷。";
+   let level=c>=75?"強":c>=62?"中強":c>=52?"中等":"偏弱";
+   let tail="";
+   if(name==="珠盤路") tail="近期原始結果分布";
+   else if(name==="大路") tail="主路連續與轉折結構";
+   else if(name==="大眼仔") tail="大路結構整齊度";
+   else if(name==="小路") tail="中短期結構變化";
+   else tail="較深層結構變化";
+   if(c<52) return `${tail}暫偏${pick}，但訊號${level}，建議只作輔助參考。`;
+   if(c<62) return `${tail}目前偏向${pick}，訊號${level}，仍需搭配其他路確認。`;
+   if(c<75) return `${tail}對${pick}有較明顯支持，與其他模型一致時參考價值較高。`;
+   return `${tail}目前明顯支持${pick}，屬五路中較強訊號，仍非下一局保證。`;
+ }
+ function findItem(el){
+   if(!el)return null;
+   return el.closest(".road-ai-item") || el.parentElement;
+ }
+ function install(){
+   roadMap.forEach(([pid,cid,name])=>{
+     let p=$(pid), c=$(cid), item=findItem(p);
+     if(!item || item.querySelector(".v19-road-desc")) return;
+     let d=document.createElement("div");
+     d.className="v19-road-desc";
+     d.dataset.road=name;
+     item.appendChild(d);
+   });
+   const best=$("bestRoadName");
+   if(best){
+     let host=best.closest(".road-ai-best")||best.parentElement;
+     if(host && !$("v19BestText")){
+       let x=document.createElement("div");x.id="v19BestText";host.appendChild(x);
+     }
+   }
+ }
+ function update(){
+   install();
+   roadMap.forEach(([pid,cid,name])=>{
+     let p=$(pid)?.textContent?.trim()||"—";
+     let c=$(cid)?.textContent?.trim()||"0%";
+     let item=findItem($(pid)), d=item?.querySelector(".v19-road-desc");
+     if(d)d.innerHTML="<strong>分析：</strong>"+wording(name,p,c);
+   });
+   let bn=$("bestRoadName")?.textContent?.trim()||"—";
+   let bp=$("bestRoadPick")?.textContent?.trim()||"—";
+   let box=$("v19BestText");
+   if(box){
+     box.innerHTML=(bn==="—"||bp==="—"||bp==="觀望")
+       ? "五路正在比較中，資料增加後會自動選出目前訊號最完整的一路。"
+       : `目前以 <b>${bn}</b> 的 <b>${bp}</b> 訊號最完整；系統會每輸入一局重新比較五路。`;
+   }
+ }
+ document.addEventListener("DOMContentLoaded",()=>{
+   install(); update();
+   let obs=new MutationObserver(()=>{clearTimeout(window.__v19rt);window.__v19rt=setTimeout(update,50)});
+   obs.observe(document.body,{subtree:true,childList:true,characterData:true});
+ });
+})();
+</script>
+
+
+<script id="v19-handinput-js">
+(function(){
+  const ranks=[
+    ["","未輸入"],["A","A"],["2","2"],["3","3"],["4","4"],["5","5"],["6","6"],["7","7"],
+    ["8","8"],["9","9"],["10","10"],["J","J"],["Q","Q"],["K","K"]
+  ];
+  const val=r=>r==="A"?1:(["10","J","Q","K"].includes(r)?0:(parseInt(r)||0));
+  const cardOptions=()=>ranks.map(([v,l])=>`<option value="${v}">${l}</option>`).join("");
+  function calc(cards){
+    const used=cards.filter(Boolean);
+    if(!used.length)return null;
+    return used.reduce((s,r)=>s+val(r),0)%10;
+  }
+  function build(){
+    const controls=document.querySelector(".v16-left .controls")||document.querySelector(".controls");
+    if(!controls||document.getElementById("v19HandInput"))return;
+    const box=document.createElement("div");
+    box.id="v19HandInput";
+    box.innerHTML=`
+      <div class="v19-hi-title"><b>完整牌局輸入</b><span>牌值・點數・補牌</span></div>
+
+      <div class="v19-side player">
+        <div class="v19-side-head"><b>閒 Player</b><span class="pts" id="v19PPoints">— 點</span></div>
+        <div class="v19-cards">
+          <div class="v19-cardbox"><label>第1張</label><select id="v19P1">${cardOptions()}</select></div>
+          <div class="v19-cardbox"><label>第2張</label><select id="v19P2">${cardOptions()}</select></div>
+          <div class="v19-cardbox"><label>補牌</label><select id="v19P3">${cardOptions()}</select></div>
+        </div>
+        <div class="v19-manual" style="margin-top:4px"><label>只知道最後點數時可直接選</label>
+          <select id="v19PManual"><option value="">依牌自動算</option>${[0,1,2,3,4,5,6,7,8,9].map(n=>`<option value="${n}">${n}點</option>`).join("")}</select>
+        </div>
+      </div>
+
+      <div class="v19-side banker">
+        <div class="v19-side-head"><b>莊 Banker</b><span class="pts" id="v19BPoints">— 點</span></div>
+        <div class="v19-cards">
+          <div class="v19-cardbox"><label>第1張</label><select id="v19B1">${cardOptions()}</select></div>
+          <div class="v19-cardbox"><label>第2張</label><select id="v19B2">${cardOptions()}</select></div>
+          <div class="v19-cardbox"><label>補牌</label><select id="v19B3">${cardOptions()}</select></div>
+        </div>
+        <div class="v19-manual" style="margin-top:4px"><label>只知道最後點數時可直接選</label>
+          <select id="v19BManual"><option value="">依牌自動算</option>${[0,1,2,3,4,5,6,7,8,9].map(n=>`<option value="${n}">${n}點</option>`).join("")}</select>
+        </div>
+      </div>
+
+      <div class="v19-hi-meta">
+        <div class="v19-meta-card"><span>閒補牌</span><b id="v19PDraw">—</b></div>
+        <div class="v19-meta-card"><span>莊補牌</span><b id="v19BDraw">—</b></div>
+      </div>
+      <div id="v19HandResult">請輸入雙方點數或牌面</div>
+      <div id="v19CardPreview" style="margin-top:4px;font-size:8.5px;line-height:1.4;color:#7f9eaf;text-align:center">牌面預覽：—</div>
+      <button type="button" id="v19SaveHand">記錄這一局</button>
+      <button type="button" id="v19ClearHand">清空輸入</button>
+      <div class="v19-hi-note">有輸入牌面時系統自動算點；第3張有牌即記為補1張。若只知道最後幾點，可直接使用「最後點數」。</div><div id="v19AutoLatest"><b>最新自動牌局：</b> 尚未收到自動資料</div>
+<div id="v19Vision">
+  <div class="vh"><b>螢幕影像辨識</b><span class="vstat" id="v19VisionStatus">未啟動</span></div>
+  <div class="vvisionBtns">
+    <button type="button" id="v19VisionStart">開始螢幕擷取</button>
+    <button type="button" id="v19VisionStop">停止辨識</button>
+    <button type="button" id="v19VisionCalibrate">重新框選 6 個位置</button>
+    <button type="button" id="v19VisionScan">立即辨識一次</button>
+  </div>
+  <div id="v19VisionWrap">
+    <video id="v19VisionVideo" autoplay muted playsinline></video>
+    <canvas id="v19VisionCanvas" width="640" height="360"></canvas>
+  </div>
+  <div id="v19VisionStep">先按「開始螢幕擷取」，再依序框選：閒1、閒2、閒3、莊1、莊2、莊3。</div>
+  <div class="vroiList">
+    <div class="vroi" data-slot="P1">閒1</div><div class="vroi" data-slot="P2">閒2</div><div class="vroi" data-slot="P3">閒3</div>
+    <div class="vroi" data-slot="B1">莊1</div><div class="vroi" data-slot="B2">莊2</div><div class="vroi" data-slot="B3">莊3</div>
+  </div>
+  <div class="vvisionOpts">
+    <label><input type="checkbox" id="v19VisionAuto" checked> 每 2 秒自動辨識</label>
+    <label><input type="checkbox" id="v19VisionAutoSave"> 穩定後自動記錄</label>
+    <label><input type="checkbox" id="v19UseTemplate" checked> 優先模板比對</label>
+  </div>
+  <div class="vtemplate">
+    <div class="vtemplate-head"><b>牌面模板學習</b><span id="v19TemplateCount">0 / 13</span></div>
+    <div class="vtemplate-row">
+      <select id="v19TemplateRank">
+        <option>A</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option>
+        <option>7</option><option>8</option><option>9</option><option>10</option><option>J</option><option>Q</option><option>K</option>
+      </select>
+      <select id="v19TemplateSlot">
+        <option value="P1">閒1</option><option value="P2">閒2</option><option value="P3">閒3</option>
+        <option value="B1">莊1</option><option value="B2">莊2</option><option value="B3">莊3</option>
+      </select>
+      <button type="button" id="v19TemplateLearn">把目前牌面學成模板</button>
+      <button type="button" id="v19TemplateClear">清除模板</button>
+    </div>
+    <div class="vtemplate-note">同一平台先各學一次 A～K。之後固定牌框可直接圖片比對，不必完全依賴 OCR。</div>
+  </div>
+  <div id="v19VisionResult"><b>辨識結果：</b> 尚未辨識</div>
+</div>
+`;
+    const h=controls.querySelector("h3");
+    if(h && h.nextSibling) controls.insertBefore(box,h.nextSibling);
+    else controls.insertBefore(box,controls.firstChild);
+
+    ["v19P1","v19P2","v19P3","v19B1","v19B2","v19B3","v19PManual","v19BManual"].forEach(id=>{
+      document.getElementById(id).addEventListener("change",refresh);
+    });
+    document.getElementById("v19SaveHand").addEventListener("click",save);
+    document.getElementById("v19ClearHand").addEventListener("click",clear);
+    refresh();
+  }
+  function readSide(prefix){
+    const cards=[1,2,3].map(i=>document.getElementById("v19"+prefix+i).value);
+    const manual=document.getElementById("v19"+prefix+"Manual").value;
+    const points=manual!==""?parseInt(manual):calc(cards);
+    const entered=cards.filter(Boolean).length;
+    const draw=cards[2]?1:0;
+    return {cards,points,entered,draw};
+  }
+  function refresh(){
+    const p=readSide("P"),b=readSide("B");
+    document.getElementById("v19PPoints").textContent=p.points===null?"— 點":p.points+" 點";
+    document.getElementById("v19BPoints").textContent=b.points===null?"— 點":b.points+" 點";
+    document.getElementById("v19PDraw").textContent=p.entered?`起手${Math.min(2,p.entered)}＋補${p.draw}`:"—";
+    document.getElementById("v19BDraw").textContent=b.entered?`起手${Math.min(2,b.entered)}＋補${b.draw}`:"—";
+    const r=document.getElementById("v19HandResult");
+    if(p.points===null||b.points===null){r.textContent="請輸入雙方點數或牌面";r.style.color="#dff7ff";return}
+    let result=p.points>b.points?"閒贏":b.points>p.points?"莊贏":"和";
+    r.textContent=`${result}｜閒 ${p.points} 點・莊 ${b.points} 點`;
+    r.style.color=result==="閒贏"?"#62cfff":result==="莊贏"?"#ff7482":"#69e0a0";
+    const pv=document.getElementById("v19CardPreview");
+    if(pv){
+      const show=a=>a.filter(Boolean).join("・")||"—";
+      pv.textContent=`牌面預覽｜閒：${show(p.cards)}　莊：${show(b.cards)}`;
+    }
+  }
+  function save(){
+    const p=readSide("P"),b=readSide("B");
+    if(p.points===null||b.points===null){
+      alert("請先輸入莊、閒雙方的牌面或最後點數");
+      return;
+    }
+    const result=p.points>b.points?"P":b.points>p.points?"B":"T";
+    try{
+      if(typeof add==="function"){
+        add(result);
+        if(typeof data!=="undefined" && Array.isArray(data) && data.length){
+          const row=data[data.length-1];
+          if(row && typeof row==="object"){
+            row.playerPoints=p.points;
+            row.bankerPoints=b.points;
+            row.playerCards=p.cards.filter(Boolean);
+            row.bankerCards=b.cards.filter(Boolean);
+            row.playerDraw=p.draw;
+            row.bankerDraw=b.draw;
+            row.playerCardCount=p.cards.filter(Boolean).length;
+            row.bankerCardCount=b.cards.filter(Boolean).length;
+            row.pointGap=Math.abs(p.points-b.points);
+            row.natural=((!p.draw&&p.points>=8)||(!b.draw&&b.points>=8));
+            row.detailInput=true;
+          }
+          if(typeof persist==="function")persist();
+          if(typeof render==="function")render();
+        }
+      }else{
+        alert("找不到原本的牌局記錄功能");
+        return;
+      }
+      clear();
+    }catch(e){
+      console.error(e);
+      alert("記錄失敗，請重新輸入");
+    }
+  }
+  function clear(){
+    ["v19P1","v19P2","v19P3","v19B1","v19B2","v19B3","v19PManual","v19BManual"].forEach(id=>{
+      document.getElementById(id).value="";
+    });
+    refresh();
+  }
+  document.addEventListener("DOMContentLoaded",build);
+})();
+</script>
+
+
+<script id="v19-screen-vision-js">
+(function(){
+  const slots=["P1","P2","P3","B1","B2","B3"];
+  let stream=null,timer=null,rois={},calIndex=0,dragStart=null,lastSig="",stableCount=0,lastSavedSig="";
+  const $=id=>document.getElementById(id);
+  const video=()=> $("v19VisionVideo"), canvas=()=> $("v19VisionCanvas"), ctx=()=>canvas().getContext("2d");
+
+  function status(t){const e=$("v19VisionStatus");if(e)e.textContent=t}
+  function step(t){const e=$("v19VisionStep");if(e)e.textContent=t}
+  function saveRois(){try{localStorage.setItem("v19VisionROIs",JSON.stringify(rois))}catch(e){}}
+  function loadRois(){try{rois=JSON.parse(localStorage.getItem("v19VisionROIs")||"{}")||{}}catch(e){rois={}};paintRoiState()}
+
+  let templates={};
+  function loadTemplates(){
+    try{templates=JSON.parse(localStorage.getItem("v19CardTemplates")||"{}")||{}}catch(e){templates={}}
+    updateTemplateCount();
+  }
+  function saveTemplates(){try{localStorage.setItem("v19CardTemplates",JSON.stringify(templates))}catch(e){} updateTemplateCount()}
+  function updateTemplateCount(){
+    const n=Object.keys(templates).filter(k=>Array.isArray(templates[k])&&templates[k].length).length;
+    const e=$("v19TemplateCount");if(e)e.textContent=n+" / 13";
+  }
+  function featureFromCanvas(c){
+    const W=28,H=36,o=document.createElement("canvas");o.width=W;o.height=H;
+    const x=o.getContext("2d");x.drawImage(c,0,0,W,H);
+    const d=x.getImageData(0,0,W,H).data,out=[];
+    for(let i=0;i<d.length;i+=4){
+      const g=(d[i]*.299+d[i+1]*.587+d[i+2]*.114)/255;
+      out.push(Math.round(g*1000)/1000);
+    }
+    return out;
+  }
+  function templateMatch(c){
+    const f=featureFromCanvas(c);let best="",bestScore=-1;
+    for(const [rank,t] of Object.entries(templates)){
+      if(!Array.isArray(t)||t.length!==f.length)continue;
+      let err=0;
+      for(let i=0;i<f.length;i++)err+=Math.abs(f[i]-t[i]);
+      const score=Math.max(0,1-err/f.length);
+      if(score>bestScore){bestScore=score;best=rank}
+    }
+    return {rank:best,confidence:bestScore};
+  }
+  function learnTemplate(){
+    const rank=$("v19TemplateRank")?.value,slot=$("v19TemplateSlot")?.value;
+    if(!stream){status("請先開始螢幕擷取");return}
+    if(!rois[slot]){status("該位置尚未框選");return}
+    const c=crop(rois[slot]);templates[rank]=featureFromCanvas(c);saveTemplates();
+    status(`已學習 ${rank} 模板`);
+  }
+
+  function paintRoiState(){
+    document.querySelectorAll("#v19Vision .vroi").forEach(el=>el.classList.toggle("ok",!!rois[el.dataset.slot]));
+  }
+  function fitCanvas(){
+    if(!video().videoWidth)return;
+    const maxW=900,w=video().videoWidth,h=video().videoHeight,scale=Math.min(1,maxW/w);
+    canvas().width=Math.round(w*scale);canvas().height=Math.round(h*scale);
+  }
+  function drawFrame(){
+    if(!stream||!video().videoWidth)return;
+    fitCanvas();
+    ctx().drawImage(video(),0,0,canvas().width,canvas().height);
+    ctx().save();ctx().lineWidth=2;ctx().font="12px sans-serif";
+    for(const [k,r] of Object.entries(rois)){
+      ctx().strokeStyle="#66d7ff";ctx().strokeRect(r.x,r.y,r.w,r.h);
+      ctx().fillStyle="#66d7ff";ctx().fillText(k,r.x+3,Math.max(12,r.y+12));
+    }
+    if(dragStart&&dragStart.cur){
+      const a=dragStart,b=dragStart.cur;
+      ctx().strokeStyle="#ffd66b";ctx().strokeRect(Math.min(a.x,b.x),Math.min(a.y,b.y),Math.abs(b.x-a.x),Math.abs(b.y-a.y));
+    }
+    ctx().restore();
+  }
+  async function start(){
+    try{
+      if(!navigator.mediaDevices?.getDisplayMedia){alert("這個瀏覽器不支援螢幕擷取 API");return}
+      stream=await navigator.mediaDevices.getDisplayMedia({video:{frameRate:{ideal:5,max:10}},audio:false});
+      video().srcObject=stream;await video().play();
+      status("螢幕擷取中");
+      stream.getVideoTracks()[0].addEventListener("ended",stop);
+      const loop=()=>{if(stream){drawFrame();requestAnimationFrame(loop)}};loop();
+      if(Object.keys(rois).length<6)beginCalibrate();
+      if(timer)clearInterval(timer);
+      timer=setInterval(()=>{if($("v19VisionAuto")?.checked)scan()},2000);
+    }catch(e){status("未取得螢幕權限");console.error(e)}
+  }
+  function stop(){
+    if(timer){clearInterval(timer);timer=null}
+    if(stream){stream.getTracks().forEach(t=>t.stop());stream=null}
+    status("已停止");
+  }
+  function beginCalibrate(){
+    rois={};calIndex=0;saveRois();paintRoiState();
+    step("請框選「閒1」牌面位置");
+  }
+  function pos(ev){
+    const r=canvas().getBoundingClientRect();
+    return {x:(ev.clientX-r.left)*canvas().width/r.width,y:(ev.clientY-r.top)*canvas().height/r.height};
+  }
+  function down(ev){if(!stream||calIndex>=slots.length)return;dragStart=pos(ev);canvas().setPointerCapture?.(ev.pointerId)}
+  function move(ev){if(!dragStart)return;dragStart.cur=pos(ev)}
+  function up(ev){
+    if(!dragStart||calIndex>=slots.length)return;
+    const b=pos(ev),x=Math.min(dragStart.x,b.x),y=Math.min(dragStart.y,b.y),w=Math.abs(b.x-dragStart.x),h=Math.abs(b.y-dragStart.y);
+    dragStart=null;if(w<8||h<8)return;
+    const key=slots[calIndex++];rois[key]={x,y,w,h};saveRois();paintRoiState();
+    if(calIndex<slots.length)step(`已儲存 ${key}，請框選「${slots[calIndex].replace("P","閒").replace("B","莊")}」`);
+    else step("6 個位置完成。可按「立即辨識一次」測試。");
+  }
+  function crop(r){
+    const c=document.createElement("canvas");c.width=Math.max(1,Math.round(r.w));c.height=Math.max(1,Math.round(r.h));
+    c.getContext("2d").drawImage(canvas(),r.x,r.y,r.w,r.h,0,0,c.width,c.height);
+    // upscale + grayscale/contrast to help OCR
+    const o=document.createElement("canvas");o.width=c.width*3;o.height=c.height*3;
+    const oc=o.getContext("2d");oc.imageSmoothingEnabled=false;oc.drawImage(c,0,0,o.width,o.height);
+    const im=oc.getImageData(0,0,o.width,o.height),d=im.data;
+    for(let i=0;i<d.length;i+=4){
+      const g=(d[i]+d[i+1]+d[i+2])/3;
+      const v=g>145?255:0;d[i]=d[i+1]=d[i+2]=v;
+    }oc.putImageData(im,0,0);return o;
+  }
+  function rankFromText(t){
+    t=String(t||"").toUpperCase().replace(/[^A-Z0-9]/g,"");
+    if(!t)return "";
+    if(t.includes("10"))return "10";
+    if(t.includes("A"))return "A";
+    if(t.includes("J"))return "J";
+    if(t.includes("Q"))return "Q";
+    if(t.includes("K"))return "K";
+    const m=t.match(/[2-9]/);return m?m[0]:"";
+  }
+  async function recognizeRank(slot){
+    if(!rois[slot])return {rank:"",confidence:0,method:"none"};
+    const c=crop(rois[slot]);
+    if($("v19UseTemplate")?.checked && Object.keys(templates).length){
+      const tm=templateMatch(c);
+      if(tm.rank && tm.confidence>=0.80)return {rank:tm.rank,confidence:tm.confidence,method:"模板"};
+    }
+    if(!window.Tesseract)return {rank:"",confidence:0,method:"OCR未載入"};
+    const {data}=await Tesseract.recognize(c,"eng",{logger:()=>{}});
+    const r=rankFromText(data.text);
+    const conf=(data.confidence||0)/100;
+    return {rank:r,confidence:conf,method:"OCR"};
+  }
+  function setSelect(id,v){const e=$(id);if(e&&v)e.value=v}
+  function points(cards){
+    const cv=r=>r==="A"?1:(["10","J","Q","K"].includes(r)?0:(parseInt(r)||0));
+    const a=cards.filter(Boolean);return a.length>=2?a.reduce((s,r)=>s+cv(r),0)%10:null;
+  }
+  async function scan(){
+    if(!stream){status("請先開始螢幕擷取");return}
+    if(Object.keys(rois).length<6){status("請先完成 6 個 ROI 框選");return}
+    status("辨識中…");
+    try{
+      const vals={},meta={};
+      for(const sl of slots){ const rr=await recognizeRank(sl); vals[sl]=rr.rank; meta[sl]=rr; }
+      ["P1","P2","P3","B1","B2","B3"].forEach(sl=>setSelect("v19"+sl,vals[sl]));
+      if(typeof refresh==="function")refresh();
+
+      const pc=[vals.P1,vals.P2,vals.P3].filter(Boolean),bc=[vals.B1,vals.B2,vals.B3].filter(Boolean);
+      const pp=points(pc),bp=points(bc);
+      const res=(pp===null||bp===null)?"—":pp>bp?"閒":bp>pp?"莊":"和";
+      const sig=slots.map(k=>vals[k]||"-").join("|");
+      if(sig===lastSig)stableCount++; else {lastSig=sig;stableCount=1}
+      const used=slots.filter(k=>vals[k]);
+      const avg=used.length?used.reduce((a,k)=>a+(meta[k]?.confidence||0),0)/used.length:0;
+      const methods=[...new Set(used.map(k=>meta[k]?.method).filter(Boolean))].join("+")||"—";
+      $("v19VisionResult").innerHTML=`<b>辨識結果：</b> 閒 ${pc.join("・")||"—"}（${pp??"—"}點）｜莊 ${bc.join("・")||"—"}（${bp??"—"}點）｜${res}<span class="vconf">${methods} ${Math.round(avg*100)}%</span>`;
+      status(`完成・穩定 ${stableCount}/2`);
+
+      if($("v19VisionAutoSave")?.checked && stableCount>=2 && avg>=.82 && pp!==null && bp!==null && sig!==lastSavedSig){
+        const pMan=$("v19PManual"),bMan=$("v19BManual");
+        if(pMan)pMan.value="";if(bMan)bMan.value="";
+        if(typeof save==="function"){save();lastSavedSig=sig;stableCount=0;status("已自動記錄")}
+      }
+    }catch(e){
+      console.error(e);status("辨識失敗");$("v19VisionResult").innerHTML="<b>辨識失敗：</b> "+e.message;
+    }
+  }
+  document.addEventListener("DOMContentLoaded",()=>{
+    loadRois();loadTemplates();
+    $("v19TemplateLearn")?.addEventListener("click",learnTemplate);
+    $("v19TemplateClear")?.addEventListener("click",()=>{if(confirm("確定清除所有牌面模板？")){templates={};saveTemplates();status("模板已清除")}});
+    $("v19VisionStart")?.addEventListener("click",start);
+    $("v19VisionStop")?.addEventListener("click",stop);
+    $("v19VisionCalibrate")?.addEventListener("click",beginCalibrate);
+    $("v19VisionScan")?.addEventListener("click",scan);
+    canvas()?.addEventListener("pointerdown",down);
+    canvas()?.addEventListener("pointermove",move);
+    canvas()?.addEventListener("pointerup",up);
+  });
+})();
 </script>
 
 </body>
