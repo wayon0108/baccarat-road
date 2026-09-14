@@ -1559,6 +1559,240 @@ body,.app,.v16-shell{
 }
 </style>
 
+
+<style id="v237-responsive-all-visible-css">
+/* ===== V23.7：平板 / 手機完整可見修正版 ===== */
+
+/* 不再讓左欄把完整牌局底部裁掉 */
+.v16-left,
+#v26InputDock,
+#v26ManualPane,
+#v19HandInput{
+  overflow:visible!important;
+  max-height:none!important;
+}
+
+/* 記錄鍵、補牌狀態、牌面預覽永遠保留 */
+#v233RecordFixed,
+#v233RecordHint,
+.v19-hi-meta,
+#v233FastResult,
+#v19CardPreview,
+#v233AutoSave{
+  display:block!important;
+  visibility:visible!important;
+}
+
+/* 平板橫向 / 小筆電：取消先前固定 700px 高度 */
+@media (min-width: 760px) and (max-width: 1400px){
+  .v16-shell{
+    align-items:start!important;
+  }
+
+  .v16-left{
+    height:auto!important;
+    min-height:0!important;
+    max-height:none!important;
+    overflow:visible!important;
+  }
+
+  /* 中央與右欄可維持緊湊，不再反過來限制左欄高度 */
+  .v16-center,
+  .v16-right{
+    height:auto!important;
+    min-height:0!important;
+    max-height:none!important;
+    overflow:visible!important;
+  }
+
+  /* 完整牌局整體縮 10~18%，避免 iPad Safari 被網址列吃掉高度 */
+  #v26ManualPane{padding:4px!important}
+  #v19HandInput{padding:0!important}
+  .v19-side{padding:4px!important;margin-top:3px!important}
+  .v19-side-head{margin-bottom:2px!important}
+  .v19-side-head b{font-size:10px!important}
+  .v19-side-head .pts{font-size:12px!important}
+
+  .v233-slots{
+    gap:3px!important;
+    margin-bottom:3px!important;
+  }
+  .v233-slot{
+    min-height:34px!important;
+    font-size:11px!important;
+  }
+  .v233-slot.filled{font-size:15px!important}
+
+  .v233-pad{
+    gap:2px!important;
+  }
+  .v233-pad button{
+    min-height:25px!important;
+    font-size:9px!important;
+    border-radius:5px!important;
+  }
+
+  .v233-actions{
+    gap:3px!important;
+    margin-top:3px!important;
+  }
+  .v233-actions button{
+    min-height:25px!important;
+    font-size:8px!important;
+  }
+
+  #v233InputReady{
+    margin:0 0 4px!important;
+    padding:4px 6px!important;
+    font-size:7.5px!important;
+    line-height:1.3!important;
+  }
+
+  #v233FastResult{
+    padding:5px!important;
+    margin:3px 0!important;
+    font-size:9px!important;
+  }
+
+  #v233AutoSave{
+    min-height:26px!important;
+    margin:3px 0!important;
+    font-size:8px!important;
+  }
+
+  #v233RecordFixed{
+    min-height:36px!important;
+    margin:5px 0 3px!important;
+    font-size:11px!important;
+  }
+  #v233RecordHint{
+    font-size:7.5px!important;
+    margin:0 0 3px!important;
+  }
+
+  .v19-hi-meta{
+    display:grid!important;
+    grid-template-columns:1fr 1fr!important;
+    gap:3px!important;
+    margin-top:3px!important;
+  }
+  .v19-meta-card{
+    padding:4px!important;
+    min-height:38px!important;
+  }
+  .v19-meta-card span{font-size:7px!important}
+  .v19-meta-card b{font-size:9px!important}
+
+  #v19CardPreview{
+    margin-top:3px!important;
+    font-size:7.5px!important;
+    line-height:1.25!important;
+  }
+
+  /* 影像辨識不要卡在固定高度；完整顯示在牌局輸入下方 */
+  #v26VisionPane{
+    height:auto!important;
+    min-height:0!important;
+    max-height:none!important;
+    overflow:visible!important;
+  }
+  #v19Vision{
+    height:auto!important;
+    min-height:0!important;
+    max-height:none!important;
+    overflow:visible!important;
+  }
+  #v19VisionWrap{
+    height:auto!important;
+    max-height:180px!important;
+  }
+  #v19VisionCanvas{
+    height:auto!important;
+    max-height:180px!important;
+  }
+}
+
+/* iPad 橫向：三欄仍保留，但把左欄略放寬，避免牌面鍵盤過擠 */
+@media (min-width: 1000px) and (max-width: 1300px){
+  .v16-shell{
+    grid-template-columns:300px minmax(500px,1fr) 330px!important;
+    gap:6px!important;
+  }
+}
+
+/* 手機：全部單欄，所有內容自然往下排，不裁切 */
+@media (max-width: 759px){
+  html,body{overflow-x:hidden!important}
+  .app{padding:4px!important}
+
+  .v16-shell{
+    display:flex!important;
+    flex-direction:column!important;
+    gap:6px!important;
+  }
+  .v16-left,.v16-center,.v16-right{
+    width:100%!important;
+    height:auto!important;
+    min-height:0!important;
+    max-height:none!important;
+    overflow:visible!important;
+    position:static!important;
+  }
+
+  /* 手機的牌面鍵盤維持大觸控面積 */
+  .v233-slot{min-height:46px!important;font-size:16px!important}
+  .v233-pad button{min-height:42px!important;font-size:13px!important}
+  .v233-actions button{min-height:40px!important;font-size:11px!important}
+  #v233RecordFixed{min-height:48px!important;font-size:14px!important}
+
+  .v19-hi-meta{
+    display:grid!important;
+    grid-template-columns:1fr 1fr!important;
+    gap:6px!important;
+  }
+
+  /* 五路區在手機改成單欄／兩欄，避免橫向被截 */
+  .v16-center .roads{
+    display:grid!important;
+    grid-template-columns:1fr!important;
+    grid-template-rows:auto!important;
+    height:auto!important;
+    min-height:0!important;
+  }
+  .v16-center .minis{
+    display:grid!important;
+    grid-template-columns:1fr 1fr!important;
+    gap:6px!important;
+  }
+
+  /* 全自動資料中心也不再橫向溢出 */
+  .v23-main,
+  .v23-upload,
+  .v23-grid,
+  .feed-pro-top,
+  .feed-pro-grid,
+  .feed-map-grid,
+  .feed-quality,
+  .feed-feature-grid,
+  .auto-all-grid{
+    grid-template-columns:1fr!important;
+  }
+
+  #v23Url,
+  .v23-upload input{
+    grid-column:auto!important;
+  }
+}
+
+/* 很矮的平板橫向視窗再多壓一點 */
+@media (min-width:760px) and (max-height:760px){
+  .v233-slot{min-height:30px!important}
+  .v233-pad button{min-height:23px!important;font-size:8.5px!important}
+  .v233-actions button{min-height:23px!important}
+  #v233RecordFixed{min-height:34px!important}
+}
+</style>
+
 </head>
 
 <body>
@@ -4780,6 +5014,40 @@ document.addEventListener("DOMContentLoaded",()=>{
       $(id)?.addEventListener("change",refreshButton);
     });
   });
+})();
+</script>
+
+
+<script id="v237-responsive-all-visible-js">
+(function(){
+  function applyResponsiveFix(){
+    const w=window.innerWidth||0,h=window.innerHeight||0;
+    document.documentElement.dataset.deviceMode =
+      w<760 ? "phone" : (w<=1400 ? "tablet" : "desktop");
+
+    /* 之前版本可能用 inline style 把左欄鎖死，這裡直接解除 */
+    const left=document.querySelector(".v16-left");
+    if(left && w<=1400){
+      left.style.setProperty("height","auto","important");
+      left.style.setProperty("min-height","0","important");
+      left.style.setProperty("max-height","none","important");
+      left.style.setProperty("overflow","visible","important");
+    }
+
+    ["v26InputDock","v26ManualPane","v19HandInput","v26VisionPane","v19Vision"].forEach(id=>{
+      const e=document.getElementById(id);
+      if(e && w<=1400){
+        e.style.setProperty("max-height","none","important");
+        e.style.setProperty("overflow","visible","important");
+      }
+    });
+  }
+  document.addEventListener("DOMContentLoaded",()=>{
+    setTimeout(applyResponsiveFix,300);
+    setTimeout(applyResponsiveFix,900);
+  });
+  window.addEventListener("resize",applyResponsiveFix,{passive:true});
+  window.addEventListener("orientationchange",()=>setTimeout(applyResponsiveFix,250),{passive:true});
 })();
 </script>
 
