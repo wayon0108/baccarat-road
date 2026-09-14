@@ -1525,6 +1525,40 @@ body,.app,.v16-shell{
 #v233RecordHint{font-size:8px;color:#8fb0c0;text-align:center;margin-bottom:4px}
 </style>
 
+
+<style id="v236-record-visible-css">
+/* 記錄鍵直接放在莊家牌面下方、補牌狀態上方，保證看得到 */
+#v233RecordFixed{
+  display:block!important;
+  visibility:visible!important;
+  width:100%!important;
+  min-height:44px!important;
+  margin:7px 0 6px!important;
+  border:1px solid #62f0aa!important;
+  border-radius:8px!important;
+  background:linear-gradient(180deg,#16c977,#079153)!important;
+  color:#fff!important;
+  font-size:13px!important;
+  font-weight:900!important;
+  position:relative!important;
+  z-index:999!important;
+  pointer-events:auto!important;
+  opacity:1!important;
+}
+#v233RecordFixed.waiting{
+  background:#173748!important;
+  border-color:#31566a!important;
+  color:#9bb5c3!important;
+}
+#v233RecordHint{
+  display:block!important;
+  margin:-2px 0 5px!important;
+  text-align:center!important;
+  font-size:8px!important;
+  color:#8fb0c0!important;
+}
+</style>
+
 </head>
 
 <body>
@@ -4682,6 +4716,70 @@ document.addEventListener("DOMContentLoaded",()=>{
    update();
  }
  document.addEventListener("DOMContentLoaded",()=>setTimeout(install,550));
+})();
+</script>
+
+
+<script id="v236-record-visible-js">
+(function(){
+  const $=id=>document.getElementById(id);
+
+  function vals(p){return [1,2,3].map(i=>$("v19"+p+i)?.value||"")}
+  function ready(){
+    const p=vals("P"), b=vals("B");
+    return !!(p[0]&&p[1]&&b[0]&&b[1]);
+  }
+  function refreshButton(){
+    const b=$("v233RecordFixed"), h=$("v233RecordHint");
+    if(!b)return;
+    const ok=ready();
+    b.disabled=!ok;
+    b.classList.toggle("waiting",!ok);
+    b.textContent=ok ? "✓ 記錄這一局" : "請先輸入閒2張＋莊2張";
+    if(h)h.textContent=ok ? "按下後會立即更新走勢、統計與 AI 分析" : "至少輸入雙方前兩張牌後才可記錄";
+  }
+  function forcePosition(){
+    const hand=$("v19HandInput"), old=$("v19SaveHand");
+    if(!hand||!old)return;
+
+    let b=$("v233RecordFixed");
+    let h=$("v233RecordHint");
+    if(!b){
+      b=document.createElement("button");
+      b.type="button";
+      b.id="v233RecordFixed";
+      b.addEventListener("click",()=>{
+        if(!ready())return;
+        old.click();
+        setTimeout(refreshButton,100);
+      });
+    }
+    if(!h){
+      h=document.createElement("div");
+      h.id="v233RecordHint";
+    }
+
+    /* 關鍵修正：不再 append 到最底下，直接插在補牌狀態框前面 */
+    const meta=hand.querySelector(".v19-hi-meta");
+    if(meta){
+      hand.insertBefore(b,meta);
+      hand.insertBefore(h,meta);
+    }else{
+      hand.insertBefore(b,old);
+      hand.insertBefore(h,old);
+    }
+
+    old.style.display="none";
+    refreshButton();
+  }
+
+  document.addEventListener("DOMContentLoaded",()=>{
+    setTimeout(forcePosition,650);
+    setTimeout(forcePosition,1200);
+    ["v19P1","v19P2","v19P3","v19B1","v19B2","v19B3"].forEach(id=>{
+      $(id)?.addEventListener("change",refreshButton);
+    });
+  });
 })();
 </script>
 
