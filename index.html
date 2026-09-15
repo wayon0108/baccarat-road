@@ -2735,6 +2735,27 @@ button{
 }
 </style>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style id="v26-cloud-css">
+.v26-cloud-modal{position:fixed;inset:0;z-index:100000;display:none;align-items:center;justify-content:center;padding:14px;background:rgba(0,0,0,.8)}
+.v26-cloud-modal.show{display:flex}
+.v26-cloud-box{width:min(720px,96vw);max-height:92vh;overflow:auto;background:#071622;border:1px solid #315c75;border-radius:14px;color:#eaf7ff}
+.v26-cloud-head{position:sticky;top:0;z-index:2;display:flex;justify-content:space-between;align-items:center;padding:13px;background:#0a2030;border-bottom:1px solid #31536a}
+.v26-cloud-head b{color:#ffd75e;font-size:18px}
+.v26-cloud-body{padding:13px}
+.v26-cloud-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.v26-cloud-field{margin-bottom:8px}
+.v26-cloud-field label{display:block;font-size:11px;color:#8fadc0;margin-bottom:4px}
+.v26-cloud-field input{width:100%;min-height:40px;box-sizing:border-box;border:1px solid #31536a;border-radius:7px;background:#07111a;color:#fff;padding:7px}
+.v26-cloud-actions{display:flex;flex-wrap:wrap;gap:6px;margin:9px 0}
+.v26-cloud-actions button{min-height:42px;padding:7px 10px}
+.v26-cloud-status{padding:9px;border:1px solid #28495e;border-radius:8px;background:#081b28;line-height:1.5;font-size:12px}
+.v26-cloud-ok{color:#6ce0a0}.v26-cloud-warn{color:#ffd16b}.v26-cloud-bad{color:#ff8383}
+.v26-cloud-note{margin-top:9px;font-size:11px;color:#86a6ba;line-height:1.55}
+@media(max-width:650px){.v26-cloud-grid{grid-template-columns:1fr}}
+</style>
+
 </head>
 
 <body>
@@ -2772,7 +2793,7 @@ box-shadow:0 10px 30px rgba(0,0,0,.18)">
       <div class="twobtn"><button onclick="add('B6')">莊 6</button><button onclick="add('P6')">閒 6</button></div>
       <div class="checks"><label><input type="checkbox" id="bp"> 莊對</label><label><input type="checkbox" id="pp"> 閒對</label></div>
       <button class="undo" onclick="undo()">上一步</button>
-      <div class="actions"><button class="save" onclick="finishAndSaveShoe()">結束本靴並儲存</button><button onclick="openShoeHistory()">歷史靴</button><button onclick="openV255Database()">資料庫</button><button id="v255SoundBtn" onclick="toggleV255Sound()">🔊 按鍵音：開</button><button class="clear" onclick="clearCurrentShoe()">清空本靴</button></div>
+      <div class="actions"><button class="save" onclick="finishAndSaveShoe()">結束本靴並儲存</button><button onclick="openShoeHistory()">歷史靴</button><button onclick="openV255Database()">資料庫</button><button onclick="openV26Cloud()">☁️ 雲端同步</button><button id="v255SoundBtn" onclick="toggleV255Sound()">🔊 按鍵音：開</button><button class="clear" onclick="clearCurrentShoe()">清空本靴</button></div>
     </div>
 
     <div class="roads">
@@ -5348,7 +5369,7 @@ document.addEventListener("DOMContentLoaded",function(){
 document.addEventListener("DOMContentLoaded",()=>{
  setTimeout(()=>{
    const bc=document.querySelector(".brand-cn");
-   if(bc)bc.textContent="BACCARAT 智能分析工作台 V25.9 VISUAL DATABASE";
+   if(bc)bc.textContent="BACCARAT 智能分析工作台 V26.1 CLOUD READY";
    const be=document.querySelector(".brand-en");
    if(be)be.textContent="AI演算法 × 影像辨識 × 即時數據 × 歷史回測 × 模型分析";
  },120);
@@ -6504,7 +6525,7 @@ window.V24_CONFIG={symmetricThreshold:true,noBetZone:0.045,derivedRoadCorrelatio
     const right=document.querySelector(".v16-right");if(!right||$("v241Unified"))return;
     const box=document.createElement("section");box.id="v241Unified";
     box.innerHTML=`
-      <div class="uh"><span>V25.9 橫向工作台＋圖形資料庫</span><span id="v241State">資料建立中</span></div>
+      <div class="uh"><span>V26.1 雲端已連線＋圖形資料庫</span><span id="v241State">資料建立中</span></div>
       <div class="decision">
         <div class="orb" id="v241Orb">觀望</div>
         <div class="sum">
@@ -7089,6 +7110,178 @@ document.addEventListener('DOMContentLoaded',()=>{
 
   document.addEventListener('pointerdown',e=>{const b=e.target.closest?.('button');if(b)play(b)},true);
   document.addEventListener('DOMContentLoaded',()=>{updateBtn();const m=document.getElementById('v255DbModal');if(m)m.addEventListener('click',e=>{if(e.target===m)closeV255Database()})});
+})();
+</script>
+
+
+<div id="v26CloudModal" class="v26-cloud-modal" aria-hidden="true">
+ <div class="v26-cloud-box">
+  <div class="v26-cloud-head"><b>☁️ V26.1 雲端同步｜已連線</b><button onclick="closeV26Cloud()">✕ 關閉</button></div>
+  <div class="v26-cloud-body">
+   <div class="v26-cloud-grid">
+    <div class="v26-cloud-field"><label>Supabase Project URL</label><input id="v26CloudUrl" value="https://qcpzvmkduxpnxqsjjabl.supabase.co" readonly></div>
+    <div class="v26-cloud-field"><label>Publishable Key（不要放 Secret / service_role）</label><input id="v26CloudKey" value="sb_publishable_V27weVkj0r6ivX1GagkEdg_MyCKXIHz" readonly></div>
+    <div class="v26-cloud-field"><label>Email</label><input id="v26CloudEmail" type="email" autocomplete="username" placeholder="你的登入 Email"></div>
+    <div class="v26-cloud-field"><label>密碼</label><input id="v26CloudPassword" type="password" autocomplete="current-password" placeholder="Supabase 帳號密碼"></div>
+   </div>
+   <div class="v26-cloud-actions">
+    <button onclick="v261CheckCloud()">✓ 檢查雲端連線</button>
+    <button onclick="v26CloudSignUp()">建立帳號</button>
+    <button onclick="v26CloudLogin()">登入</button>
+    <button onclick="v26CloudLogout()">登出</button>
+   </div>
+   <div class="v26-cloud-actions">
+    <button onclick="v26CloudPushAll()">⬆️ 上傳本機資料</button>
+    <button onclick="v26CloudPullAll()">⬇️ 下載雲端資料</button>
+    <button onclick="v26CloudSyncNow()">🔄 雙向同步</button>
+   </div>
+   <div id="v26CloudStatus" class="v26-cloud-status">尚未設定雲端。</div>
+   <div class="v26-cloud-note">Supabase 專案已經預先連線完成。平常仍先存 localStorage；登入後會把完成的歷史靴同步到你的雲端帳號。不同手機、iPad、電腦登入同一帳號後，可下載同一份歷史靴。斷網時本機資料不受影響，恢復連線後可再次同步。</div>
+  </div>
+ </div>
+</div>
+
+
+<script id="v26-cloud-js">
+(function(){
+ const CFG='baccaratCloudConfig_v26', DB='baccaratShoes_v251';
+ let client=null,user=null,syncTimer=null,syncBusy=false;
+
+ const $=id=>document.getElementById(id);
+ function status(t,kind=''){const e=$('v26CloudStatus');if(e){e.className='v26-cloud-status '+(kind?'v26-cloud-'+kind:'');e.textContent=t}}
+ function cfg(){try{const x=JSON.parse(localStorage.getItem(CFG)||'{}');return {url:x.url||'https://qcpzvmkduxpnxqsjjabl.supabase.co',key:x.key||'sb_publishable_V27weVkj0r6ivX1GagkEdg_MyCKXIHz'}}catch(e){return {url:'https://qcpzvmkduxpnxqsjjabl.supabase.co',key:'sb_publishable_V27weVkj0r6ivX1GagkEdg_MyCKXIHz'}}}
+ function shoes(){try{const x=JSON.parse(localStorage.getItem(DB)||'[]');return Array.isArray(x)?x:[]}catch(e){return []}}
+ function saveShoes(x){localStorage.setItem(DB,JSON.stringify(x))}
+ function validConfig(c){return /^https:\/\/.+\.supabase\.co\/?$/.test(c.url||'') && !!c.key}
+ function init(){
+   const c=cfg();
+   if($('v26CloudUrl'))$('v26CloudUrl').value=c.url||'';
+   if($('v26CloudKey'))$('v26CloudKey').value=c.key||'';
+   if(!validConfig(c)||!window.supabase?.createClient){client=null;return null}
+   try{
+     client=window.supabase.createClient(c.url,c.key,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
+     client.auth.getSession().then(({data})=>{
+       user=data?.session?.user||null;
+       if(user){status('已登入｜'+(user.email||user.id),'ok');startAuto()}
+     });
+     return client;
+   }catch(e){status('連線初始化失敗：'+e.message,'bad');return null}
+ }
+
+ function v261EnsureProjectConfig(){
+   const c=cfg();
+   localStorage.setItem(CFG,JSON.stringify({url:'https://qcpzvmkduxpnxqsjjabl.supabase.co',key:'sb_publishable_V27weVkj0r6ivX1GagkEdg_MyCKXIHz'}));
+ }
+ window.v261CheckCloud=async function(){
+   v261EnsureProjectConfig();init();
+   if(!client){status('Supabase 初始化失敗。','bad');return}
+   try{
+     const {data,error}=await client.auth.getSession();
+     if(error)throw error;
+     const u=data?.session?.user;
+     status(u?'雲端連線正常｜已登入 '+(u.email||u.id):'雲端連線正常｜請建立帳號或登入。','ok');
+   }catch(e){status('連線失敗：'+e.message,'bad')}
+ };
+ window.openV26Cloud=function(){const m=$('v26CloudModal');if(m){m.classList.add('show');m.setAttribute('aria-hidden','false')}init();if(!client)status('先填入 Supabase Project URL 與 Publishable Key。','warn')};
+ window.closeV26Cloud=function(){const m=$('v26CloudModal');if(m){m.classList.remove('show');m.setAttribute('aria-hidden','true')}};
+ window.v26SaveCloudConfig=function(){
+   const url=($('v26CloudUrl')?.value||'').trim().replace(/\/$/,''),key=($('v26CloudKey')?.value||'').trim();
+   if(!/^https:\/\/.+\.supabase\.co$/.test(url)){status('Project URL 格式不正確。','bad');return}
+   if(!key){status('請填 Publishable Key。','bad');return}
+   if(/service_role|sb_secret_/i.test(key)){status('安全攔截：瀏覽器不能使用 Secret / service_role key。請改用 Publishable Key。','bad');return}
+   localStorage.setItem(CFG,JSON.stringify({url,key}));
+   init();status('連線設定已存在這台瀏覽器。接著建立帳號或登入。','ok');
+ };
+ async function ensure(){
+   if(!client)init();
+   if(!client){status('尚未設定 Supabase。','bad');return false}
+   const {data,error}=await client.auth.getUser();
+   if(error||!data?.user){user=null;status('請先登入雲端帳號。','warn');return false}
+   user=data.user;return true
+ }
+ window.v26CloudSignUp=async function(){
+   if(!client)init(); if(!client){status('請先儲存 Supabase 連線設定。','bad');return}
+   const email=($('v26CloudEmail')?.value||'').trim(),password=$('v26CloudPassword')?.value||'';
+   if(!email||password.length<6){status('請輸入 Email，密碼至少 6 碼。','warn');return}
+   status('建立帳號中…');
+   const {data,error}=await client.auth.signUp({email,password});
+   if(error){status('建立失敗：'+error.message,'bad');return}
+   user=data?.user||null;status(data?.session?'帳號建立並已登入。':'帳號已建立；若專案要求 Email 驗證，請先到信箱完成驗證。','ok');
+ };
+ window.v26CloudLogin=async function(){
+   if(!client)init(); if(!client){status('請先儲存 Supabase 連線設定。','bad');return}
+   const email=($('v26CloudEmail')?.value||'').trim(),password=$('v26CloudPassword')?.value||'';
+   status('登入中…');
+   const {data,error}=await client.auth.signInWithPassword({email,password});
+   if(error){status('登入失敗：'+error.message,'bad');return}
+   user=data.user;status('已登入｜'+(user.email||user.id),'ok');startAuto();
+ };
+ window.v26CloudLogout=async function(){if(client)await client.auth.signOut();user=null;if(syncTimer)clearInterval(syncTimer);syncTimer=null;status('已登出。')};
+
+ function cloudRows(){
+   return shoes().map(sh=>({
+     user_id:user.id,
+     shoe_id:String(sh.id||sh.sourceShoeId||('shoe_'+Date.now()+'_'+Math.random().toString(36).slice(2))),
+     created_at:sh.createdAt||new Date().toISOString(),
+     table_id:String(sh.table||''),
+     source_shoe_id:String(sh.sourceShoeId||''),
+     round_count:Array.isArray(sh.data)?sh.data.length:(Number(sh.count)||0),
+     banker_count:Number(sh.banker)||0,
+     player_count:Number(sh.player)||0,
+     tie_count:Number(sh.tie)||0,
+     payload:sh,
+     updated_at:new Date().toISOString()
+   }));
+ }
+ window.v26CloudPushAll=async function(silent=false){
+   if(syncBusy)return false;if(!(await ensure()))return false;
+   syncBusy=true;if(!silent)status('上傳中…');
+   try{
+     const rows=cloudRows();
+     if(!rows.length){if(!silent)status('目前沒有歷史靴需要上傳。','warn');return true}
+     const {error}=await client.from('baccarat_shoes').upsert(rows,{onConflict:'user_id,shoe_id'});
+     if(error)throw error;
+     localStorage.setItem('baccaratCloudLastSync_v26',String(Date.now()));
+     if(!silent)status(`上傳完成｜${rows.length} 靴`,'ok');
+     return true;
+   }catch(e){if(!silent)status('上傳失敗：'+e.message,'bad');return false}
+   finally{syncBusy=false}
+ };
+ window.v26CloudPullAll=async function(silent=false){
+   if(syncBusy)return false;if(!(await ensure()))return false;
+   syncBusy=true;if(!silent)status('下載中…');
+   try{
+     const {data:rows,error}=await client.from('baccarat_shoes').select('shoe_id,payload,updated_at').order('created_at',{ascending:true});
+     if(error)throw error;
+     const local=shoes(),map=new Map();
+     local.forEach(x=>map.set(String(x.id||x.sourceShoeId||''),x));
+     (rows||[]).forEach(r=>{if(r?.payload)map.set(String(r.shoe_id),r.payload)});
+     const merged=[...map.values()];
+     saveShoes(merged);
+     localStorage.setItem('baccaratCloudLastSync_v26',String(Date.now()));
+     if(typeof openV255Database==='function' && $('v255DbModal')?.classList.contains('show'))v255DbShow('shoes');
+     if(!silent)status(`下載完成｜雲端 ${(rows||[]).length} 靴｜合併後 ${merged.length} 靴`,'ok');
+     return true;
+   }catch(e){if(!silent)status('下載失敗：'+e.message,'bad');return false}
+   finally{syncBusy=false}
+ };
+ window.v26CloudSyncNow=async function(){
+   if(!(await ensure()))return;
+   status('雙向同步中…');
+   const a=await v26CloudPushAll(true),b=await v26CloudPullAll(true);
+   status(a&&b?'雙向同步完成。':'同步未完全成功，請查看連線/資料表設定。',a&&b?'ok':'bad');
+ };
+ function startAuto(){
+   if(syncTimer)clearInterval(syncTimer);
+   syncTimer=setInterval(()=>{if(navigator.onLine&&user&&!syncBusy)v26CloudPushAll(true)},60000);
+ }
+ window.addEventListener('online',()=>{if(user)v26CloudSyncNow()});
+ document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'&&user&&navigator.onLine)v26CloudPullAll(true)});
+ document.addEventListener('DOMContentLoaded',()=>{
+   v261EnsureProjectConfig();
+   init();
+   const m=$('v26CloudModal');if(m)m.addEventListener('click',e=>{if(e.target===m)closeV26Cloud()});
+ });
 })();
 </script>
 
