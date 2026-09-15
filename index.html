@@ -2763,6 +2763,12 @@ button{
 <style id="v27-css">
 #v27SimpleLogin{border-top:1px solid rgba(255,255,255,.08);padding-top:8px}
 #v27SimpleStatus{margin:6px 0 10px}
+</style><style id="v272-css">
+.v272-modebox{margin:10px 0;padding:10px;border:1px solid rgba(255,255,255,.12);border-radius:10px}
+.v272-title{font-weight:800;margin-bottom:8px}
+.v272-modes{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px}
+.v272-modes button{min-height:44px}
+.v272-modes button.v272-active{outline:2px solid #ffd84d;box-shadow:0 0 12px rgba(255,216,77,.22)}
 </style></head>
 
 <body>
@@ -5376,7 +5382,7 @@ document.addEventListener("DOMContentLoaded",function(){
 document.addEventListener("DOMContentLoaded",()=>{
  setTimeout(()=>{
    const bc=document.querySelector(".brand-cn");
-   if(bc)bc.textContent="BACCARAT 智能分析工作台 V27 CENTRAL CLOUD";
+   if(bc)bc.textContent="BACCARAT 智能分析工作台 V27.3 AUTO SHOE LOOP";
    const be=document.querySelector(".brand-en");
    if(be)be.textContent="AI演算法 × 影像辨識 × 即時數據 × 歷史回測 × 模型分析";
  },120);
@@ -6532,7 +6538,7 @@ window.V24_CONFIG={symmetricThreshold:true,noBetZone:0.045,derivedRoadCorrelatio
     const right=document.querySelector(".v16-right");if(!right||$("v241Unified"))return;
     const box=document.createElement("section");box.id="v241Unified";
     box.innerHTML=`
-      <div class="uh"><span>V27 三地中央資料庫＋防重複＋簡易登入</span><span id="v241State">資料建立中</span></div>
+      <div class="uh"><span>V27.3 手動結靴上傳＋自動洗牌結靴上傳</span><span id="v241State">資料建立中</span></div>
       <div class="decision">
         <div class="orb" id="v241Orb">觀望</div>
         <div class="sum">
@@ -7123,7 +7129,7 @@ document.addEventListener('DOMContentLoaded',()=>{
 
 <div id="v26CloudModal" class="v26-cloud-modal" aria-hidden="true">
  <div class="v26-cloud-box">
-  <div class="v26-cloud-head"><b>☁️ V27 三地中央雲端｜簡易登入</b><button onclick="closeV26Cloud()">✕ 關閉</button></div>
+  <div class="v26-cloud-head"><b>☁️ V27.3 自動靴循環｜洗牌即上傳</b><button onclick="closeV26Cloud()">✕ 關閉</button></div>
   <div class="v26-cloud-body">
    <div class="v26-cloud-grid">
     <div class="v26-cloud-field"><label>Supabase Project URL</label><input id="v26CloudUrl" value="https://qcpzvmkduxpnxqsjjabl.supabase.co" readonly></div>
@@ -7150,6 +7156,14 @@ document.addEventListener('DOMContentLoaded',()=>{
    <details style="margin:8px 0"><summary>進階雲端設定</summary>
     <div style="padding:8px 2px;font-size:12px;color:#aeb9c7">一般使用不需要碰 Supabase URL / Key / Email。若尚未完成專案初始化，才使用下方原本設定。</div>
    </details>
+   <div class="v272-modebox">
+    <div class="v272-title">雲端上傳模式</div>
+    <div class="v272-modes">
+      <button id="v272ManualBtn" onclick="v272SetMode('manual')">✍️ 手動輸入區</button>
+      <button id="v272AutoBtn" onclick="v272SetMode('auto')">⚡ 自動資料中心</button>
+    </div>
+    <div id="v272ModeText" class="v26-cloud-status"></div>
+   </div>
    <div class="v26-cloud-grid" style="margin-top:8px">
     <div class="v26-cloud-field"><label>即時同步頻道／桌號</label><input id="v263Channel" placeholder="例如 B201；多台要填一樣"></div>
     <div class="v26-cloud-field"><label>即時狀態</label><div id="v263LiveStatus" class="v26-cloud-status">尚未啟動</div></div>
@@ -7430,7 +7444,18 @@ document.addEventListener('DOMContentLoaded',()=>{
      roundId:(rec.payload?.roundId??rec.payload?.round_id??key),
      roundNo:(rec.payload?.roundNo??rec.payload?.round_no??rec.round_no)
    });
-   if(idx>=0)arr[idx]=item; else arr.push(item);
+   if(idx>=0){
+     const old=arr[idx];
+     const sameResult=resultOf(old)===resultOf(item);
+     const sameRound=String(old?.roundNo??old?.round_no??'')===String(item?.roundNo??item?.round_no??'');
+     if(sameResult && sameRound){
+       liveStatus(`雲端已確認｜${channel()}｜目前 ${arr.length} 局`);
+       return; // sender echo / duplicate remote event: never render as a new hand
+     }
+     arr[idx]=item;
+   } else {
+     arr.push(item);
+   }
    arr.sort((x,y)=>(Number(x.roundNo)||999999)-(Number(y.roundNo)||999999));
    setRows(arr);renderAll();
    liveStatus(`即時接收中｜${channel()}｜目前 ${arr.length} 局`);
@@ -7448,7 +7473,7 @@ document.addEventListener('DOMContentLoaded',()=>{
      const a=rows();
      if(!a.length){if(lastLen>0){newShoe();lastLen=0;lastSig=''}return}
      const sig=a.length+'|'+roundKey(a[a.length-1],a.length-1)+'|'+resultOf(a[a.length-1]);
-     if(sig!==lastSig && navigator.onLine)v263SyncLiveNow(true);
+     /* V27.3: completed-shoe uploads only */
    },2000);
    await v263SyncLiveNow(true);
  };
@@ -7548,6 +7573,187 @@ document.addEventListener('DOMContentLoaded',()=>{
    if(code&&pass)setTimeout(()=>v27SimpleLogin(),1600);
  });
  window.addEventListener('online',()=>setTimeout(()=>v27FlushOffline(),500));
+})();
+</script>
+
+
+<script id="v271-loop-guard">
+(function(){
+  window.__v271CloudApplying=false;
+  window.__v271LastLocalSig='';
+  function rows(){try{if(typeof data!=='undefined'&&Array.isArray(data))return data;if(Array.isArray(window.data))return window.data}catch(e){}return []}
+  function res(x){const v=typeof x==='string'?x:(x?.r??x?.result??'');return String(v).toUpperCase().charAt(0)}
+  function sig(){
+    const a=rows(); if(!a.length)return '0';
+    const x=a[a.length-1];
+    return a.length+'|'+String(x?.roundId??x?.round_id??x?.roundNo??x?.round_no??a.length)+'|'+res(x);
+  }
+  // Wrap cloud merge so its UI refresh cannot be mistaken for a fresh local input.
+  if(typeof window.v263StartRealtime==='function'){
+    const originalStart=window.v263StartRealtime;
+    window.v263StartRealtime=async function(){
+      window.__v271LastLocalSig=sig();
+      return await originalStart.apply(this,arguments);
+    };
+  }
+  // Keep a baseline whenever a cloud sync succeeds.
+  const hook=()=>{
+    if(typeof window.v263SyncLiveNow!=='function')return;
+    const original=window.v263SyncLiveNow;
+    if(original.__v271wrapped)return;
+    const wrapped=async function(silent=false){
+      if(window.__v271CloudApplying)return true;
+      const before=sig();
+      const ok=await original.apply(this,arguments);
+      if(ok)window.__v271LastLocalSig=before;
+      return ok;
+    };
+    wrapped.__v271wrapped=true;
+    window.v263SyncLiveNow=wrapped;
+  };
+  document.addEventListener('DOMContentLoaded',()=>setTimeout(hook,100));
+})();
+</script>
+
+
+<script id="v272-dual-cloud-mode">
+(function(){
+ const KEY='baccaratCloudMode_v272';
+ const $=id=>document.getElementById(id);
+ window.__v272CloudMode=localStorage.getItem(KEY)||'manual';
+
+ function paint(){
+   const m=window.__v272CloudMode;
+   const t=$('v272ModeText'), mb=$('v272ManualBtn'), ab=$('v272AutoBtn');
+   if(mb)mb.classList.toggle('v272-active',m==='manual');
+   if(ab)ab.classList.toggle('v272-active',m==='auto');
+   if(t)t.innerHTML=m==='manual'
+     ? '✍️ 手動輸入：輸入過程只存在本機；按「結束本靴並儲存」後，整靴一次上傳雲端。'
+     : '⚡ 自動資料中心：持續偵測；確認洗牌或 Shoe ID 換新後，自動結束上一靴、整靴上傳，再繼續偵測下一靴。';
+ }
+ window.v272SetMode=function(m){
+   if(!['manual','auto'].includes(m))return;
+   window.__v272CloudMode=m;localStorage.setItem(KEY,m);paint();
+ };
+
+ async function uploadFinishedSnapshot(snapshot){
+   // v263SyncLiveNow reads the current shoe. Finish/save may clear it, so restore only temporarily if needed.
+   if(!snapshot?.length || typeof window.v263SyncLiveNow!=='function')return;
+   let ref=null, old=null;
+   try{
+     if(typeof data!=='undefined'&&Array.isArray(data)){ref='lex';old=data;data=snapshot}
+     else {ref='win';old=window.data;window.data=snapshot}
+     await window.v263SyncLiveNow(false);
+   }finally{
+     try{if(ref==='lex')data=old;else if(ref==='win')window.data=old}catch(e){}
+   }
+ }
+
+ // Manual mode: only the "finish shoe and save" action uploads.
+ function hookFinish(){
+   if(typeof window.finishAndSaveShoe!=='function'||window.finishAndSaveShoe.__v272)return;
+   const original=window.finishAndSaveShoe;
+   const wrapped=async function(){
+     let snap=[];
+     try{
+       if(typeof data!=='undefined'&&Array.isArray(data))snap=JSON.parse(JSON.stringify(data));
+       else if(Array.isArray(window.data))snap=JSON.parse(JSON.stringify(window.data));
+     }catch(e){}
+     const result=await original.apply(this,arguments);
+     if(window.__v272CloudMode==='manual' && snap.length){
+       await uploadFinishedSnapshot(snap);
+     }
+     return result;
+   };
+   wrapped.__v272=true;window.finishAndSaveShoe=wrapped;
+ }
+
+ // Auto-data-center imports should upload immediately even when manual UI mode is selected.
+ // We hook the common incoming-data functions that exist in the inherited versions.
+ function wrapAuto(name){
+   const fn=window[name];if(typeof fn!=='function'||fn.__v272)return;
+   const w=async function(){
+     const r=await fn.apply(this,arguments);
+     /* V27.3: auto center uploads only after confirmed shoe boundary */
+     return r;
+   };w.__v272=true;window[name]=w;
+ }
+ function hooks(){
+   hookFinish();
+   ['v254ProcessIncoming','v253ProcessIncoming','processIncoming','handleIncomingData','processApiData','processWsData'].forEach(wrapAuto);
+ }
+ document.addEventListener('DOMContentLoaded',()=>{paint();setTimeout(hooks,500);setTimeout(hooks,1800)});
+})();
+</script>
+
+
+<script id="v273-auto-shoe-loop">
+(function(){
+ const STATE='baccaratAutoShoeState_v273', DONE='baccaratUploadedShoes_v273';
+ let processing=false;
+ const rows=()=>{try{if(typeof data!=='undefined'&&Array.isArray(data))return data;if(Array.isArray(window.data))return window.data}catch(e){}return []};
+ const clone=a=>{try{return JSON.parse(JSON.stringify(a))}catch(e){return a.slice()}};
+ const load=()=>{try{return JSON.parse(localStorage.getItem(STATE)||'{}')}catch(e){return {}}};
+ const save=x=>localStorage.setItem(STATE,JSON.stringify(x));
+ const done=()=>{try{return new Set(JSON.parse(localStorage.getItem(DONE)||'[]'))}catch(e){return new Set()}};
+ function mark(k){const z=done();z.add(k);localStorage.setItem(DONE,JSON.stringify([...z].slice(-1000)))}
+ function shoe(p){
+   p=p?.data??p;
+   for(const x of [p?.shoeId,p?.shoe_id,p?.shoeNo,p?.shoe_no,p?.shoe,p?.game?.shoeId,p?.game?.shoe_id])
+     if(x!==undefined&&x!==null&&String(x).trim())return String(x).trim();
+   return '';
+ }
+ function shuffled(p){
+   p=p?.data??p;
+   return [p?.event,p?.type,p?.status,p?.phase,p?.action,p?.gameStatus,p?.game_status]
+    .filter(Boolean).some(x=>/shuffle|shuffling|new.?shoe|shoe.?change|洗牌|新靴/i.test(String(x)));
+ }
+ const table=()=>String(document.getElementById('v263Channel')?.value||localStorage.getItem('baccaratRealtimeChannel_v263')||'default').trim();
+
+ async function upload(snapshot,shoeKey){
+   if(!snapshot.length)return true;
+   const key=table()+'|'+shoeKey;if(done().has(key))return true;
+   let kind='',old;
+   try{
+     if(typeof data!=='undefined'&&Array.isArray(data)){kind='lex';old=data;data=snapshot}
+     else{kind='win';old=window.data;window.data=snapshot}
+     const ok=await window.v263SyncLiveNow?.(false);
+     if(ok)mark(key);
+     return !!ok;
+   }finally{try{if(kind==='lex')data=old;else if(kind==='win')window.data=old}catch(e){}}
+ }
+ async function rollover(prev,next){
+   if(processing)return;processing=true;
+   try{
+     const snap=clone(rows());if(!snap.length)return;
+     if(!await upload(snap,prev||'unknown'))return; // upload first; never clear on failure
+     if(typeof window.finishAndSaveShoe==='function'){
+       const m=window.__v272CloudMode;window.__v272CloudMode='auto';
+       try{await window.finishAndSaveShoe()}catch(e){}
+       window.__v272CloudMode=m;
+     }
+     next=next||('auto_'+Date.now().toString(36));
+     localStorage.setItem('baccaratRealtimeShoe_v263',next);
+     const st=load();st.currentShoe=next;st.lastBoundaryAt=Date.now();save(st);
+     const e=document.getElementById('v272ModeText');
+     if(e)e.textContent='⚡ 上一靴已完整上傳；新靴 '+next+' 已開始，正在繼續自動偵測。';
+   }finally{processing=false}
+ }
+ window.v273ObserveAutoPayload=async function(payload){
+   if(window.__v272CloudMode!=='auto')return;
+   const st=load(),inc=shoe(payload),isShuffle=shuffled(payload);
+   let cur=st.currentShoe||localStorage.getItem('baccaratRealtimeShoe_v263')||'';
+   if(!cur&&inc){st.currentShoe=inc;save(st);localStorage.setItem('baccaratRealtimeShoe_v263',inc);return}
+   if(inc&&cur&&inc!==cur){await rollover(cur,inc);return}
+   if(isShuffle&&cur&&rows().length)await rollover(cur,inc&&inc!==cur?inc:'auto_'+Date.now().toString(36));
+ };
+ function wrap(name){
+   const fn=window[name];if(typeof fn!=='function'||fn.__v273)return;
+   const w=async function(){await window.v273ObserveAutoPayload(arguments[0]);return await fn.apply(this,arguments)};
+   w.__v273=true;window[name]=w;
+ }
+ function hooks(){['v254ProcessIncoming','v253ProcessIncoming','processIncoming','handleIncomingData','processApiData','processWsData'].forEach(wrap)}
+ document.addEventListener('DOMContentLoaded',()=>{setTimeout(hooks,700);setTimeout(hooks,2200)});
 })();
 </script>
 
