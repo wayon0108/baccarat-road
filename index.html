@@ -2756,7 +2756,14 @@ button{
 @media(max-width:650px){.v26-cloud-grid{grid-template-columns:1fr}}
 </style>
 
-</head>
+<style id="v263-realtime-css">
+#v263LiveStatus{min-height:40px;display:flex;align-items:center}
+.v263-live-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#54dc91;margin-right:6px}
+</style>
+<style id="v27-css">
+#v27SimpleLogin{border-top:1px solid rgba(255,255,255,.08);padding-top:8px}
+#v27SimpleStatus{margin:6px 0 10px}
+</style></head>
 
 <body>
 
@@ -5369,7 +5376,7 @@ document.addEventListener("DOMContentLoaded",function(){
 document.addEventListener("DOMContentLoaded",()=>{
  setTimeout(()=>{
    const bc=document.querySelector(".brand-cn");
-   if(bc)bc.textContent="BACCARAT 智能分析工作台 V26.2 CLOUD AUTH";
+   if(bc)bc.textContent="BACCARAT 智能分析工作台 V27 CENTRAL CLOUD";
    const be=document.querySelector(".brand-en");
    if(be)be.textContent="AI演算法 × 影像辨識 × 即時數據 × 歷史回測 × 模型分析";
  },120);
@@ -6525,7 +6532,7 @@ window.V24_CONFIG={symmetricThreshold:true,noBetZone:0.045,derivedRoadCorrelatio
     const right=document.querySelector(".v16-right");if(!right||$("v241Unified"))return;
     const box=document.createElement("section");box.id="v241Unified";
     box.innerHTML=`
-      <div class="uh"><span>V26.2 雲端驗證修正＋圖形資料庫</span><span id="v241State">資料建立中</span></div>
+      <div class="uh"><span>V27 三地中央資料庫＋防重複＋簡易登入</span><span id="v241State">資料建立中</span></div>
       <div class="decision">
         <div class="orb" id="v241Orb">觀望</div>
         <div class="sum">
@@ -7116,7 +7123,7 @@ document.addEventListener('DOMContentLoaded',()=>{
 
 <div id="v26CloudModal" class="v26-cloud-modal" aria-hidden="true">
  <div class="v26-cloud-box">
-  <div class="v26-cloud-head"><b>☁️ V26.2 雲端同步｜驗證修正版</b><button onclick="closeV26Cloud()">✕ 關閉</button></div>
+  <div class="v26-cloud-head"><b>☁️ V27 三地中央雲端｜簡易登入</b><button onclick="closeV26Cloud()">✕ 關閉</button></div>
   <div class="v26-cloud-body">
    <div class="v26-cloud-grid">
     <div class="v26-cloud-field"><label>Supabase Project URL</label><input id="v26CloudUrl" value="https://qcpzvmkduxpnxqsjjabl.supabase.co" readonly></div>
@@ -7130,6 +7137,27 @@ document.addEventListener('DOMContentLoaded',()=>{
     <button onclick="v26CloudLogin()">登入</button>
     <button onclick="v262ResendVerification()">重新寄驗證信</button>
     <button onclick="v26CloudLogout()">登出</button>
+   </div>
+   <div id="v27SimpleLogin" class="v26-cloud-grid" style="margin-top:8px">
+    <div class="v26-cloud-field"><label>工作室代碼</label><input id="v27Studio" autocomplete="username" placeholder="例如 WAYON01"></div>
+    <div class="v26-cloud-field"><label>密碼</label><input id="v27Pass" type="password" autocomplete="current-password" placeholder="至少 6 碼"></div>
+   </div>
+   <div class="v26-cloud-actions">
+    <button onclick="v27SimpleLogin()">🔑 一鍵登入／首次建立</button>
+    <button onclick="v27ForgetLogin()">忘記這台裝置</button>
+   </div>
+   <div id="v27SimpleStatus" class="v26-cloud-status">第一次輸入工作室代碼＋密碼；之後這台裝置自動登入。</div>
+   <details style="margin:8px 0"><summary>進階雲端設定</summary>
+    <div style="padding:8px 2px;font-size:12px;color:#aeb9c7">一般使用不需要碰 Supabase URL / Key / Email。若尚未完成專案初始化，才使用下方原本設定。</div>
+   </details>
+   <div class="v26-cloud-grid" style="margin-top:8px">
+    <div class="v26-cloud-field"><label>即時同步頻道／桌號</label><input id="v263Channel" placeholder="例如 B201；多台要填一樣"></div>
+    <div class="v26-cloud-field"><label>即時狀態</label><div id="v263LiveStatus" class="v26-cloud-status">尚未啟動</div></div>
+   </div>
+   <div class="v26-cloud-actions">
+    <button onclick="v263StartRealtime()">▶ 啟動即時接收</button>
+    <button onclick="v263StopRealtime()">■ 停止即時接收</button>
+    <button onclick="v263SyncLiveNow()">⚡ 立即同步目前本靴</button>
    </div>
    <div class="v26-cloud-actions">
     <button onclick="v26CloudPushAll()">⬆️ 上傳本機資料</button>
@@ -7165,7 +7193,7 @@ document.addEventListener('DOMContentLoaded',()=>{
    if($('v26CloudKey'))$('v26CloudKey').value=c.key||'';
    if(!validConfig(c)||!window.supabase?.createClient){client=null;return null}
    try{
-     client=window.supabase.createClient(c.url,c.key,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
+     client=window.supabase.createClient(c.url,c.key,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}}); window.v26CloudClient=client;
      client.auth.getSession().then(({data})=>{
        user=data?.session?.user||null;
        if(user){status('已登入｜'+(user.email||user.id),'ok');startAuto()}
@@ -7318,6 +7346,208 @@ document.addEventListener('DOMContentLoaded',()=>{
    }catch(e){}
    const m=$('v26CloudModal');if(m)m.addEventListener('click',e=>{if(e.target===m)closeV26Cloud()});
  });
+})();
+</script>
+
+
+<script id="v263-realtime-js">
+(function(){
+ const CH='baccaratRealtimeChannel_v263';
+ const SH='baccaratRealtimeShoe_v263';
+ const DEV='baccaratDeviceId_v263';
+ let sub=null,timer=null,busy=false,lastSig='',lastLen=0;
+
+ const $=id=>document.getElementById(id);
+ function client(){return window.v26CloudClient||null}
+ function rows(){try{if(typeof data!=='undefined'&&Array.isArray(data))return data;if(Array.isArray(window.data))return window.data}catch(e){}return []}
+ function setRows(v){try{if(typeof data!=='undefined'){data=v}else window.data=v}catch(e){window.data=v}}
+ function renderAll(){
+   try{if(typeof persist==='function')persist()}catch(e){}
+   try{if(typeof render==='function')render()}catch(e){}
+   try{if(typeof updateRecommendation==='function')updateRecommendation()}catch(e){}
+   try{if(typeof updateRoadRecommendations==='function')updateRoadRecommendations()}catch(e){}
+ }
+ function device(){
+   let x=localStorage.getItem(DEV);
+   if(!x){x='dev_'+Date.now().toString(36)+'_'+Math.random().toString(36).slice(2,8);localStorage.setItem(DEV,x)}
+   return x
+ }
+ function channel(){
+   const e=$('v263Channel');
+   const v=(e?.value||localStorage.getItem(CH)||'default').trim()||'default';
+   localStorage.setItem(CH,v);return v
+ }
+ function shoe(){
+   let x=localStorage.getItem(SH);
+   if(!x){x='live_'+Date.now().toString(36)+'_'+Math.random().toString(36).slice(2,8);localStorage.setItem(SH,x)}
+   return x
+ }
+ function newShoe(){const x='live_'+Date.now().toString(36)+'_'+Math.random().toString(36).slice(2,8);localStorage.setItem(SH,x);return x}
+ function liveStatus(t,ok=true){const e=$('v263LiveStatus');if(e)e.innerHTML=(ok?'<span class="v263-live-dot"></span>':'')+t}
+ function resultOf(x){const v=typeof x==='string'?x:(x?.r??x?.result??'');const c=String(v).toUpperCase().charAt(0);return ['B','P','T'].includes(c)?c:''}
+ function roundKey(x,i){
+   return String(x?._cloudRoundKey||x?.roundId||x?.round_id||x?.id||(x?.ts?'ts_'+x.ts:'idx_'+(i+1)));
+ }
+ async function auth(){
+   const c=client();if(!c){liveStatus('請先開一次「雲端同步」並登入',false);return null}
+   const {data:d,error}=await c.auth.getUser();
+   if(error||!d?.user){liveStatus('尚未登入雲端帳號',false);return null}
+   return d.user
+ }
+ window.v263SyncLiveNow=async function(silent=false){
+   if(busy)return false;
+   const c=client(),u=await auth();if(!c||!u)return false;
+   busy=true;
+   try{
+     const a=rows(),ch=channel(),sh=shoe(),dev=device();
+     if(!a.length){if(!silent)liveStatus('目前本靴 0 局，沒有資料要同步');return true}
+     const now=new Date().toISOString();
+     const payload=a.map((x,i)=>({
+       user_id:u.id,table_id:ch,shoe_id:sh,round_key:roundKey(x,i),
+       round_no:Number(x?.roundNo??x?.round_no??i+1)||i+1,
+       result:resultOf(x)||'?',
+       payload:(typeof x==='string'?{r:x}:x),
+       device_id:dev,updated_at:now
+     })).filter(x=>x.result!=='?');
+     const {error}=await c.from('baccarat_live_rounds').upsert(payload,{onConflict:'user_id,table_id,shoe_id,round_key'});
+     if(error)throw error;
+     lastLen=a.length;lastSig=a.length+'|'+roundKey(a[a.length-1],a.length-1)+'|'+resultOf(a[a.length-1]);
+     if(!silent)liveStatus(`即時同步完成｜${ch}｜${a.length} 局`);
+     return true;
+   }catch(e){liveStatus('即時同步失敗：'+e.message,false);return false}
+   finally{busy=false}
+ };
+ function mergeRemote(rec){
+   if(!rec||rec.table_id!==channel())return;
+   let localShoe=localStorage.getItem(SH);
+   const a=rows();
+   if(!localShoe || a.length===0){localStorage.setItem(SH,rec.shoe_id);localShoe=rec.shoe_id}
+   if(rec.shoe_id!==localShoe)return; // never mix different shoes into one roadmap
+   const key=String(rec.round_key),arr=a.slice();
+   const idx=arr.findIndex((x,i)=>roundKey(x,i)===key);
+   const item=Object.assign({},rec.payload||{r:rec.result},{
+     _cloudRoundKey:key,_cloudShoeId:rec.shoe_id,_cloudTable:rec.table_id,
+     roundId:(rec.payload?.roundId??rec.payload?.round_id??key),
+     roundNo:(rec.payload?.roundNo??rec.payload?.round_no??rec.round_no)
+   });
+   if(idx>=0)arr[idx]=item; else arr.push(item);
+   arr.sort((x,y)=>(Number(x.roundNo)||999999)-(Number(y.roundNo)||999999));
+   setRows(arr);renderAll();
+   liveStatus(`即時接收中｜${channel()}｜目前 ${arr.length} 局`);
+ }
+ window.v263StartRealtime=async function(){
+   const c=client(),u=await auth();if(!c||!u)return;
+   channel();
+   if(sub){try{await c.removeChannel(sub)}catch(e){}sub=null}
+   sub=c.channel('baccarat-live-'+u.id+'-'+channel())
+     .on('postgres_changes',{event:'*',schema:'public',table:'baccarat_live_rounds',filter:'user_id=eq.'+u.id},
+       p=>{const rec=p.new||p.old;if(rec&&rec.table_id===channel())mergeRemote(rec)})
+     .subscribe(st=>liveStatus(st==='SUBSCRIBED'?`即時接收已啟動｜${channel()}`:`連線狀態：${st}`,st!=='CHANNEL_ERROR'));
+   if(timer)clearInterval(timer);
+   timer=setInterval(()=>{
+     const a=rows();
+     if(!a.length){if(lastLen>0){newShoe();lastLen=0;lastSig=''}return}
+     const sig=a.length+'|'+roundKey(a[a.length-1],a.length-1)+'|'+resultOf(a[a.length-1]);
+     if(sig!==lastSig && navigator.onLine)v263SyncLiveNow(true);
+   },2000);
+   await v263SyncLiveNow(true);
+ };
+ window.v263StopRealtime=async function(){
+   const c=client();if(timer)clearInterval(timer);timer=null;
+   if(c&&sub){try{await c.removeChannel(sub)}catch(e){}}
+   sub=null;liveStatus('即時接收已停止',false);
+ };
+ document.addEventListener('DOMContentLoaded',()=>{
+   const e=$('v263Channel');if(e)e.value=localStorage.getItem(CH)||'default';
+   setTimeout(async()=>{
+     const c=client();if(!c)return;
+     try{const {data:d}=await c.auth.getSession();if(d?.session?.user)v263StartRealtime()}catch(e){}
+   },1200);
+ });
+ window.addEventListener('online',()=>{if(sub)v263SyncLiveNow(true)});
+})();
+</script>
+
+
+<script id="v27-central-cloud">
+(function(){
+ const ST='baccaratStudio_v27', PW='baccaratStudioPass_v27', Q='baccaratOfflineQueue_v27';
+ const $=id=>document.getElementById(id);
+ const st=(t,ok=true)=>{const e=$('v27SimpleStatus');if(e)e.textContent=t};
+ function norm(x){return String(x||'').trim().toUpperCase().replace(/[^A-Z0-9_-]/g,'').slice(0,32)}
+ function emailFor(code){return 'studio.'+code.toLowerCase()+'@baccarat.local'}
+ function client(){return window.v26CloudClient||null}
+ function table(){return String($('v263Channel')?.value||localStorage.getItem('baccaratRealtimeChannel_v263')||'default').trim()}
+ function currentRows(){try{if(typeof data!=='undefined'&&Array.isArray(data))return data;if(Array.isArray(window.data))return window.data}catch(e){}return []}
+ function result(x){const z=typeof x==='string'?x:(x?.r??x?.result??'');const c=String(z).toUpperCase().charAt(0);return ['B','P','T'].includes(c)?c:''}
+ function stableRound(x,i){
+   // Same table + same shoe + same explicit round ID/number => one central record on every device.
+   const rid=x?.roundId??x?.round_id??x?.gameId??x?.game_id??x?.issue??x?.roundNo??x?.round_no;
+   return String(rid!=null&&rid!==''?rid:(i+1));
+ }
+ function shoeId(){
+   return String(localStorage.getItem('baccaratRealtimeShoe_v263')||'live_current');
+ }
+ function qget(){try{return JSON.parse(localStorage.getItem(Q)||'[]')}catch(e){return []}}
+ function qset(a){localStorage.setItem(Q,JSON.stringify(a.slice(-2000)))}
+ window.v27SimpleLogin=async function(){
+   let code=norm($('v27Studio')?.value||localStorage.getItem(ST));
+   let pass=String($('v27Pass')?.value||localStorage.getItem(PW)||'');
+   if(!code||pass.length<6){st('請輸入工作室代碼，密碼至少 6 碼。',false);return}
+   const c=client(); if(!c){st('雲端尚未初始化；請先完成一次進階雲端設定。',false);return}
+   st('連線中…');
+   const email=emailFor(code);
+   let r=await c.auth.signInWithPassword({email,password:pass});
+   if(r.error){
+     const cr=await c.auth.signUp({email,password:pass});
+     if(cr.error){st('登入／建立失敗：'+cr.error.message,false);return}
+     // If confirmations are disabled this immediately has a session.
+     if(!cr.data?.session){st('Supabase 仍要求 Email 驗證。請在 Auth 關閉 Confirm email，之後工作室代碼即可直接建立。',false);return}
+   }
+   localStorage.setItem(ST,code); localStorage.setItem(PW,pass);
+   if($('v27Studio'))$('v27Studio').value=code;
+   st('已登入工作室 '+code+'｜這台裝置已記住');
+   try{await window.v263StartRealtime?.();await window.v27FlushOffline?.()}catch(e){}
+ };
+ window.v27ForgetLogin=async function(){
+   try{await client()?.auth.signOut()}catch(e){}
+   localStorage.removeItem(ST);localStorage.removeItem(PW);
+   if($('v27Studio'))$('v27Studio').value='';if($('v27Pass'))$('v27Pass').value='';
+   st('已清除這台裝置的自動登入資料。',false)
+ };
+ window.v27FlushOffline=async function(){
+   if(!navigator.onLine)return;
+   const c=client();if(!c)return;
+   const {data:u}=await c.auth.getUser();if(!u?.user)return;
+   let q=qget();if(!q.length)return;
+   const {error}=await c.from('baccarat_live_rounds').upsert(q,{onConflict:'user_id,table_id,shoe_id,round_key'});
+   if(!error){qset([]);st('離線暫存已補傳完成')}
+ };
+ // Override V26.3 uploader: central DB is authoritative; device is never part of uniqueness.
+ window.v263SyncLiveNow=async function(silent=false){
+   const c=client();if(!c)return false;
+   const {data:u,error:ue}=await c.auth.getUser();if(ue||!u?.user){if(!silent)st('請先登入工作室',false);return false}
+   const a=currentRows(),tb=table(),sh=shoeId(),now=new Date().toISOString();
+   const dev=localStorage.getItem('baccaratDeviceId_v263')||('dev_'+Math.random().toString(36).slice(2));
+   localStorage.setItem('baccaratDeviceId_v263',dev);
+   const payload=a.map((x,i)=>({
+     user_id:u.user.id,table_id:tb,shoe_id:sh,round_key:stableRound(x,i),
+     round_no:Number(x?.roundNo??x?.round_no??i+1)||i+1,result:result(x)||'?',
+     payload:(typeof x==='string'?{r:x}:x),device_id:dev,updated_at:now
+   })).filter(x=>x.result!=='?');
+   if(!payload.length)return true;
+   if(!navigator.onLine){qset(qget().concat(payload));if(!silent)st('目前離線，已先安全暫存在本機，連線後自動補傳');return true}
+   const {error}=await c.from('baccarat_live_rounds').upsert(payload,{onConflict:'user_id,table_id,shoe_id,round_key'});
+   if(error){qset(qget().concat(payload));if(!silent)st('雲端暫時失敗，資料已放入補傳佇列：'+error.message,false);return false}
+   if(!silent)st(`中央資料庫已更新｜${tb}｜${payload.length} 局`);
+   return true
+ };
+ document.addEventListener('DOMContentLoaded',()=>{
+   const code=localStorage.getItem(ST)||'',pass=localStorage.getItem(PW)||'';
+   if($('v27Studio'))$('v27Studio').value=code;if($('v27Pass'))$('v27Pass').value=pass;
+   if(code&&pass)setTimeout(()=>v27SimpleLogin(),1600);
+ });
+ window.addEventListener('online',()=>setTimeout(()=>v27FlushOffline(),500));
 })();
 </script>
 
