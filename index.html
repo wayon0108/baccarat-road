@@ -5369,7 +5369,7 @@ document.addEventListener("DOMContentLoaded",function(){
 document.addEventListener("DOMContentLoaded",()=>{
  setTimeout(()=>{
    const bc=document.querySelector(".brand-cn");
-   if(bc)bc.textContent="BACCARAT 智能分析工作台 V26.1 CLOUD READY";
+   if(bc)bc.textContent="BACCARAT 智能分析工作台 V26.2 CLOUD AUTH";
    const be=document.querySelector(".brand-en");
    if(be)be.textContent="AI演算法 × 影像辨識 × 即時數據 × 歷史回測 × 模型分析";
  },120);
@@ -6525,7 +6525,7 @@ window.V24_CONFIG={symmetricThreshold:true,noBetZone:0.045,derivedRoadCorrelatio
     const right=document.querySelector(".v16-right");if(!right||$("v241Unified"))return;
     const box=document.createElement("section");box.id="v241Unified";
     box.innerHTML=`
-      <div class="uh"><span>V26.1 雲端已連線＋圖形資料庫</span><span id="v241State">資料建立中</span></div>
+      <div class="uh"><span>V26.2 雲端驗證修正＋圖形資料庫</span><span id="v241State">資料建立中</span></div>
       <div class="decision">
         <div class="orb" id="v241Orb">觀望</div>
         <div class="sum">
@@ -7116,7 +7116,7 @@ document.addEventListener('DOMContentLoaded',()=>{
 
 <div id="v26CloudModal" class="v26-cloud-modal" aria-hidden="true">
  <div class="v26-cloud-box">
-  <div class="v26-cloud-head"><b>☁️ V26.1 雲端同步｜已連線</b><button onclick="closeV26Cloud()">✕ 關閉</button></div>
+  <div class="v26-cloud-head"><b>☁️ V26.2 雲端同步｜驗證修正版</b><button onclick="closeV26Cloud()">✕ 關閉</button></div>
   <div class="v26-cloud-body">
    <div class="v26-cloud-grid">
     <div class="v26-cloud-field"><label>Supabase Project URL</label><input id="v26CloudUrl" value="https://qcpzvmkduxpnxqsjjabl.supabase.co" readonly></div>
@@ -7128,6 +7128,7 @@ document.addEventListener('DOMContentLoaded',()=>{
     <button onclick="v261CheckCloud()">✓ 檢查雲端連線</button>
     <button onclick="v26CloudSignUp()">建立帳號</button>
     <button onclick="v26CloudLogin()">登入</button>
+    <button onclick="v262ResendVerification()">重新寄驗證信</button>
     <button onclick="v26CloudLogout()">登出</button>
    </div>
    <div class="v26-cloud-actions">
@@ -7135,7 +7136,12 @@ document.addEventListener('DOMContentLoaded',()=>{
     <button onclick="v26CloudPullAll()">⬇️ 下載雲端資料</button>
     <button onclick="v26CloudSyncNow()">🔄 雙向同步</button>
    </div>
-   <div id="v26CloudStatus" class="v26-cloud-status">尚未設定雲端。</div>
+   <div id="v26CloudStatus" class="v26-cloud-status">Supabase 已連線。請建立帳號或登入。</div>
+   <div class="v26-cloud-status" style="margin-top:7px">
+    <b style="color:#ffd75e">Email 驗證：</b>
+    若驗證信點開跑到 localhost，請先到 Supabase → Authentication → URL Configuration，
+    將 Site URL 設成你的 GitHub Pages 網址，再按「重新寄驗證信」。
+   </div>
    <div class="v26-cloud-note">Supabase 專案已經預先連線完成。平常仍先存 localStorage；登入後會把完成的歷史靴同步到你的雲端帳號。不同手機、iPad、電腦登入同一帳號後，可下載同一份歷史靴。斷網時本機資料不受影響，恢復連線後可再次同步。</div>
   </div>
  </div>
@@ -7204,7 +7210,11 @@ document.addEventListener('DOMContentLoaded',()=>{
    const email=($('v26CloudEmail')?.value||'').trim(),password=$('v26CloudPassword')?.value||'';
    if(!email||password.length<6){status('請輸入 Email，密碼至少 6 碼。','warn');return}
    status('建立帳號中…');
-   const {data,error}=await client.auth.signUp({email,password});
+   const signUpOptions={};
+   if(location.protocol==='https:' && location.hostname && location.hostname!=='localhost'){
+     signUpOptions.emailRedirectTo=location.origin+location.pathname;
+   }
+   const {data,error}=await client.auth.signUp({email,password,options:signUpOptions});
    if(error){status('建立失敗：'+error.message,'bad');return}
    user=data?.user||null;status(data?.session?'帳號建立並已登入。':'帳號已建立；若專案要求 Email 驗證，請先到信箱完成驗證。','ok');
  };
@@ -7215,6 +7225,25 @@ document.addEventListener('DOMContentLoaded',()=>{
    const {data,error}=await client.auth.signInWithPassword({email,password});
    if(error){status('登入失敗：'+error.message,'bad');return}
    user=data.user;status('已登入｜'+(user.email||user.id),'ok');startAuto();
+ };
+
+ window.v262ResendVerification=async function(){
+   if(!client)init();
+   if(!client){status('雲端尚未初始化。','bad');return}
+   const email=($('v26CloudEmail')?.value||'').trim();
+   if(!email){status('請先輸入建立帳號時使用的 Email。','warn');return}
+   status('重新寄送驗證信中…');
+   try{
+     const opts={};
+     if(location.protocol==='https:' && location.hostname && location.hostname!=='localhost'){
+       opts.emailRedirectTo=location.origin+location.pathname;
+     }
+     const {error}=await client.auth.resend({type:'signup',email,options:opts});
+     if(error)throw error;
+     status('新的驗證信已寄出。請使用最新一封驗證信。','ok');
+   }catch(e){
+     status('重新寄送失敗：'+e.message,'bad');
+   }
  };
  window.v26CloudLogout=async function(){if(client)await client.auth.signOut();user=null;if(syncTimer)clearInterval(syncTimer);syncTimer=null;status('已登出。')};
 
@@ -7280,6 +7309,13 @@ document.addEventListener('DOMContentLoaded',()=>{
  document.addEventListener('DOMContentLoaded',()=>{
    v261EnsureProjectConfig();
    init();
+   try{
+     const u=new URL(location.href);
+     const err=u.searchParams.get('error_description')||u.searchParams.get('error');
+     if(err) setTimeout(()=>status('Email 驗證回傳錯誤：'+decodeURIComponent(err),'bad'),300);
+     else if(location.hash && /access_token|refresh_token/.test(location.hash))
+       setTimeout(()=>status('Email 驗證已回到程式，正在確認登入狀態…','ok'),300);
+   }catch(e){}
    const m=$('v26CloudModal');if(m)m.addEventListener('click',e=>{if(e.target===m)closeV26Cloud()});
  });
 })();
