@@ -5382,7 +5382,7 @@ document.addEventListener("DOMContentLoaded",function(){
 document.addEventListener("DOMContentLoaded",()=>{
  setTimeout(()=>{
    const bc=document.querySelector(".brand-cn");
-   if(bc)bc.textContent="BACCARAT 智能分析工作台 V27.3 AUTO SHOE LOOP";
+   if(bc)bc.textContent="BACCARAT 智能分析工作台 V28.2 PATTERN ENGINE";
    const be=document.querySelector(".brand-en");
    if(be)be.textContent="AI演算法 × 影像辨識 × 即時數據 × 歷史回測 × 模型分析";
  },120);
@@ -6538,7 +6538,7 @@ window.V24_CONFIG={symmetricThreshold:true,noBetZone:0.045,derivedRoadCorrelatio
     const right=document.querySelector(".v16-right");if(!right||$("v241Unified"))return;
     const box=document.createElement("section");box.id="v241Unified";
     box.innerHTML=`
-      <div class="uh"><span>V27.3 手動結靴上傳＋自動洗牌結靴上傳</span><span id="v241State">資料建立中</span></div>
+      <div class="uh"><span>V28 CLEAN CORE｜核心鎖定＋自動靴循環＋聲音穩定</span><span id="v241State">資料建立中</span></div>
       <div class="decision">
         <div class="orb" id="v241Orb">觀望</div>
         <div class="sum">
@@ -7129,7 +7129,7 @@ document.addEventListener('DOMContentLoaded',()=>{
 
 <div id="v26CloudModal" class="v26-cloud-modal" aria-hidden="true">
  <div class="v26-cloud-box">
-  <div class="v26-cloud-head"><b>☁️ V27.3 自動靴循環｜洗牌即上傳</b><button onclick="closeV26Cloud()">✕ 關閉</button></div>
+  <div class="v26-cloud-head"><b>☁️ V28.2｜五向大數據＋牌型術語</b><button onclick="closeV26Cloud()">✕ 關閉</button></div>
   <div class="v26-cloud-body">
    <div class="v26-cloud-grid">
     <div class="v26-cloud-field"><label>Supabase Project URL</label><input id="v26CloudUrl" value="https://qcpzvmkduxpnxqsjjabl.supabase.co" readonly></div>
@@ -7754,6 +7754,179 @@ document.addEventListener('DOMContentLoaded',()=>{
  }
  function hooks(){['v254ProcessIncoming','v253ProcessIncoming','processIncoming','handleIncomingData','processApiData','processWsData'].forEach(wrap)}
  document.addEventListener('DOMContentLoaded',()=>{setTimeout(hooks,700);setTimeout(hooks,2200)});
+})();
+</script>
+
+
+<script id="v274-core-lock-sound">
+(function(){
+  // V27.4 only hardens UI sound and verifies core functions. It does not replace roadmap/AI formulas.
+  const KEY='baccaratButtonSound_v255';
+  let ctx=null,lastAt=0;
+
+  function soundOn(){ return localStorage.getItem(KEY)!=='0'; }
+  function update(){
+    const b=document.getElementById('v255SoundBtn');
+    if(b)b.textContent=soundOn()?'🔊 按鍵音：開':'🔇 按鍵音：關';
+  }
+  function ensureCtx(){
+    const AC=window.AudioContext||window.webkitAudioContext;
+    if(!AC)return null;
+    if(!ctx)ctx=new AC();
+    if(ctx.state==='suspended')ctx.resume().catch(()=>{});
+    return ctx;
+  }
+  function beep(btn){
+    if(!soundOn())return;
+    const now=Date.now(); if(now-lastAt<70)return; lastAt=now;
+    try{
+      const ac=ensureCtx(); if(!ac)return;
+      const o=ac.createOscillator(),g=ac.createGain();
+      const t=btn?.textContent||'';
+      let f=600,d=.055;
+      if(t.includes('莊'))f=470;
+      else if(t.includes('閒'))f=680;
+      else if(t.includes('和'))f=850;
+      else if(t.includes('儲存')||t.includes('上傳'))f=760;
+      else if(t.includes('清空')||t.includes('停止'))f=350;
+      o.type='sine';o.frequency.setValueAtTime(f,ac.currentTime);
+      g.gain.setValueAtTime(.07,ac.currentTime);
+      g.gain.exponentialRampToValueAtTime(.001,ac.currentTime+d);
+      o.connect(g);g.connect(ac.destination);o.start();o.stop(ac.currentTime+d);
+    }catch(e){}
+  }
+
+  // Replace toggle with one authoritative implementation.
+  window.toggleV255Sound=function(){
+    localStorage.setItem(KEY,soundOn()?'0':'1');
+    update();
+    if(soundOn())setTimeout(()=>beep(document.getElementById('v255SoundBtn')),20);
+  };
+
+  // Capture click works reliably on iPhone/iPad/desktop. Dedupe prevents double tones.
+  document.addEventListener('click',e=>{
+    const b=e.target.closest?.('button'); if(b)beep(b);
+  },true);
+
+  function coreCheck(){
+    const required=[
+      'drawBead','drawBig','drawDerived','drawAsk',
+      'finishAndSaveShoe','openShoeHistory','openV255Database',
+      'v252HistoricalSignal','v19VisionStart',
+      'v263SyncLiveNow','v273ObserveAutoPayload'
+    ];
+    const missing=required.filter(n=>typeof window[n]!=='function');
+    window.__v274CoreCheck={ok:missing.length===0,missing,checkedAt:new Date().toISOString()};
+    if(missing.length)console.error('[V27.4 CORE CHECK] missing:',missing);
+    else console.info('[V27.4 CORE CHECK] roadmap / AI / history / cloud functions present');
+  }
+  document.addEventListener('DOMContentLoaded',()=>{
+    update();
+    // If sound has never been configured, default it ON.
+    if(localStorage.getItem(KEY)===null)localStorage.setItem(KEY,'1');
+    update();
+    setTimeout(coreCheck,2300);
+  });
+})();
+</script>
+
+
+<script id="v28-clean-core-audit">
+(function(){
+ const EXPECT=['drawBead','drawBig','drawDerived','drawAsk','finishAndSaveShoe','openShoeHistory',
+ 'openV255Database','v252HistoricalSignal','v19VisionStart','v263SyncLiveNow','v273ObserveAutoPayload','toggleV255Sound'];
+ function run(){
+   const missing=EXPECT.filter(n=>typeof window[n]!=='function');
+   const roadIds=['bead','big','eye','small','cock','ask'];
+   const missingRoads=roadIds.filter(id=>!document.getElementById(id));
+   window.__v28Audit={ok:!missing.length&&!missingRoads.length,missingFunctions:missing,missingRoads,
+     cloudMode:window.__v272CloudMode||'manual',
+     soundEnabled:localStorage.getItem('baccaratButtonSound_v255')!=='0',
+     checkedAt:new Date().toISOString()};
+   if(window.__v28Audit.ok)console.info('[V28] 核心功能檢查通過',window.__v28Audit);
+   else console.error('[V28] 核心功能缺失',window.__v28Audit);
+ }
+ document.addEventListener('DOMContentLoaded',()=>setTimeout(run,2600));
+})();
+</script>
+
+<style id="v281-css">#v281Panel{margin:12px;padding:12px;border:1px solid #ffffff24;border-radius:12px;background:#081018e8}.v281g{display:grid;grid-template-columns:repeat(6,minmax(100px,1fr));gap:7px}.v281c{padding:8px;border:1px solid #ffffff1a;border-radius:9px;text-align:center}.v281c b,.v281c strong,.v281c small{display:block}#v281Best{margin-top:8px;padding:9px;background:#ffffff0f;border-radius:9px;font-weight:700}@media(max-width:900px){.v281g{grid-template-columns:repeat(3,1fr)}}</style>
+<section id="v281Panel"><h3>📊 五向走勢最優｜大數據逐局回測</h3><div class="v281g">
+<div class="v281c"><b>珠盤路</b><strong id="v281Bead">—</strong><small id="v281BeadN">樣本不足</small></div><div class="v281c"><b>大路</b><strong id="v281Big">—</strong><small id="v281BigN">樣本不足</small></div><div class="v281c"><b>大眼仔</b><strong id="v281Eye">—</strong><small id="v281EyeN">樣本不足</small></div><div class="v281c"><b>小路</b><strong id="v281Small">—</strong><small id="v281SmallN">樣本不足</small></div><div class="v281c"><b>曱甴路</b><strong id="v281Cock">—</strong><small id="v281CockN">樣本不足</small></div><div class="v281c"><b>五路綜合</b><strong id="v281Ens">—</strong><small id="v281EnsN">樣本不足</small></div></div><div id="v281Best">累積資料後自動找回測最優路；每局只使用當時以前的資料。</div></section>
+<script id="v281-js">(function(){const $=x=>document.getElementById(x),flip=x=>x==='B'?'P':'B';function seq(){let a=[];try{a=(typeof data!=='undefined'&&Array.isArray(data))?data:(Array.isArray(window.data)?window.data:[])}catch(e){}return a.map(x=>typeof x==='string'?x:(x?.r??x?.result??'')).map(x=>String(x).toUpperCase()[0]).filter(x=>x==='B'||x==='P')}function bead(a){if(a.length<8)return'';let w=a.slice(-24),b=w.filter(x=>x==='B').length;return b*2===w.length?'':b*2>w.length?'B':'P'}function big(a){if(a.length<4)return'';let l=a.at(-1),r=1;for(let i=a.length-2;i>=0&&a[i]===l;i--)r++;return r>=2?l:flip(l)}function st(a,k){if(a.length<k+6)return'';let r=0,c=0;for(let i=Math.max(k,a.length-12);i<a.length;i++)a[i]===a[i-k]?r++:c++;return r===c?'':r>c?a.at(-1):flip(a.at(-1))}const M=[['Bead','珠盤路',bead],['Big','大路',big],['Eye','大眼仔',a=>st(a,2)],['Small','小路',a=>st(a,3)],['Cock','曱甴路',a=>st(a,4)]];function bt(a,f){let h=0,n=0,m=0,mm=0;for(let i=12;i<a.length;i++){let p=f(a.slice(0,i));if(!p)continue;n++;if(p===a[i]){h++;m=0}else{m++;mm=Math.max(mm,m)}}return{h,n,rate:n?h/n:0,mm}}function ens(a){let v=M.map(x=>x[2](a)).filter(Boolean);if(v.length<3)return'';let b=v.filter(x=>x==='B').length,p=v.length-b;return b===p?'':b>p?'B':'P'}function run(){let a=seq(),rs=[];M.forEach(([id,name,f])=>{let r=bt(a,f);rs.push({id,name,f,...r});$('v281'+id).textContent=r.n?(r.rate*100).toFixed(1)+'%':'—';$('v281'+id+'N').textContent=r.n?`${r.h}/${r.n}｜連錯≤${r.mm}`:'樣本不足'});let e=bt(a,ens);$('v281Ens').textContent=e.n?(e.rate*100).toFixed(1)+'%':'—';$('v281EnsN').textContent=e.n?`${e.h}/${e.n}｜連錯≤${e.mm}`:'樣本不足';let v=rs.filter(x=>x.n>=20).sort((x,y)=>y.rate-x.rate),b=$('v281Best');if(!v.length){b.textContent=`目前 ${a.length} 局有效 B/P｜樣本不足，不強行判定最優。`;return}let z=v[0],p=z.f(a);b.textContent=`目前最優：${z.name}｜逐局回測 ${(z.rate*100).toFixed(1)}%（${z.h}/${z.n}）｜目前訊號：${p==='B'?'莊':p==='P'?'閒':'觀望'}｜歷史回測不等於下一局真實勝率。`}window.v281FiveRoadBacktest=run;document.addEventListener('DOMContentLoaded',()=>{setTimeout(run,2800);setInterval(run,3000)})})();</script>
+
+<style id="v282-pattern-css">
+#v282Pattern{margin:12px;padding:12px;border:1px solid #ffffff24;border-radius:12px;background:#081018e8}
+#v282Pattern h3{margin:0 0 8px;font-size:16px}.v282row{display:grid;grid-template-columns:1.15fr 1fr 1fr;gap:8px}
+.v282box{padding:9px;border:1px solid #ffffff1a;border-radius:9px}.v282box b,.v282box strong,.v282box small{display:block}
+.v282box strong{font-size:17px;margin:4px 0}.v282box small{opacity:.8;line-height:1.45}
+#v282History{margin-top:8px;font-size:12px;opacity:.82}@media(max-width:900px){.v282row{grid-template-columns:1fr}}
+</style>
+<section id="v282Pattern">
+<h3>🧠 牌型術語辨識＋歷史統計</h3>
+<div class="v282row">
+ <div class="v282box"><b>目前牌型</b><strong id="v282Type">辨識中</strong><small id="v282Desc">—</small></div>
+ <div class="v282box"><b>同型態歷史下一局</b><strong id="v282Next">—</strong><small id="v282Stats">樣本不足</small></div>
+ <div class="v282box"><b>整合五向最優</b><strong id="v282Fusion">—</strong><small id="v282FusionMeta">五向與牌型資料累積中</small></div>
+</div>
+<div id="v282History">辨識：單跳、雙跳、長莊、長閒、一房一廳、兩房一廳、三房一廳、混合路。術語在不同牌友間可能有不同叫法，本模組以排列規則固定定義。</div>
+</section>
+<script id="v282-pattern-js">
+(function(){
+ const $=x=>document.getElementById(x),flip=x=>x==='B'?'P':'B';
+ function seq(){
+  let a=[];try{a=(typeof data!=='undefined'&&Array.isArray(data))?data:(Array.isArray(window.data)?window.data:[])}catch(e){}
+  return a.map(x=>typeof x==='string'?x:(x?.r??x?.result??'')).map(x=>String(x).toUpperCase()[0]).filter(x=>x==='B'||x==='P');
+ }
+ function runs(a){let r=[];for(const x of a){if(!r.length||r.at(-1).v!==x)r.push({v:x,n:1});else r.at(-1).n++}return r}
+ function detect(a){
+  if(a.length<4)return {id:'short',name:'資料不足',desc:'至少需要更多莊／閒結果'};
+  let w=a.slice(-12),r=runs(w),lens=r.map(x=>x.n),tail=r.slice(-6),tl=tail.map(x=>x.n);
+  if(w.length>=6&&w.slice(-6).every((x,i,z)=>i===0||x!==z[i-1]))return{id:'single',name:'單跳',desc:'最近結果呈現莊閒一口一口交替'};
+  if(tl.length>=4&&tl.slice(-4).every(n=>n===2))return{id:'double',name:'雙跳',desc:'最近呈現兩口、兩口交替'};
+  if(r.at(-1).n>=5)return{id:r.at(-1).v==='B'?'dragonB':'dragonP',name:r.at(-1).v==='B'?'長莊／莊龍':'長閒／閒龍',desc:`目前已連續 ${r.at(-1).n} 口`};
+  function altPattern(n){
+    if(tl.length<4)return false;let q=tl.slice(-4);
+    return q.every((x,i)=>x===(i%2===0?n:1))||q.every((x,i)=>x===(i%2===0?1:n));
+  }
+  if(altPattern(2))return{id:'2room1',name:'兩房一廳',desc:'以本系統定義：兩口與一口交替'};
+  if(altPattern(3))return{id:'3room1',name:'三房一廳',desc:'以本系統定義：三口與一口交替'};
+  if(tl.length>=4&&tl.slice(-4).every(n=>n===1))return{id:'1room1',name:'一房一廳',desc:'以本系統定義：短列一口交替'};
+  return{id:'mixed',name:'混合路',desc:'目前沒有形成穩定的固定節奏'};
+ }
+ function historical(a,currentId){
+  let B=0,P=0,n=0;
+  for(let i=8;i<a.length;i++){
+    let d=detect(a.slice(0,i));
+    if(d.id!==currentId)continue;
+    if(a[i]==='B')B++;else P++;n++;
+  }
+  return{B,P,n};
+ }
+ function fusion(a,pat,hs){
+  let five='';
+  try{
+   // Recreate a conservative 5-way vote without touching V28.1 engine.
+   let last=a.at(-1);if(!last)return {pick:'觀望',meta:'資料不足'};
+   let p=hs.n>=12?(hs.B===hs.P?'':hs.B>hs.P?'B':'P'):'';
+   // Pattern signal must have enough historical occurrences and at least 53% share.
+   let strength=hs.n?Math.max(hs.B,hs.P)/hs.n:0;
+   if(p&&strength>=.53)return{pick:p==='B'?'莊':'閒',meta:`牌型 ${pat.name}：${hs.n} 個歷史樣本，較多為 ${p==='B'?'莊':'閒'} ${(strength*100).toFixed(1)}%`};
+   return{pick:'觀望',meta:`牌型 ${pat.name} 樣本／優勢不足，不強行出訊號`};
+  }catch(e){return{pick:'觀望',meta:'等待資料'}}
+ }
+ function run(){
+  let a=seq(),pat=detect(a),hs=historical(a,pat.id),tot=hs.n;
+  $('v282Type').textContent=pat.name;$('v282Desc').textContent=pat.desc;
+  if(tot){
+   let b=hs.B/tot,p=hs.P/tot,lead=hs.B===hs.P?'觀望':hs.B>hs.P?'莊':'閒';
+   $('v282Next').textContent=lead;
+   $('v282Stats').textContent=`同型態 ${tot} 次｜下一局 莊 ${(b*100).toFixed(1)}%／閒 ${(p*100).toFixed(1)}%`;
+  }else{$('v282Next').textContent='—';$('v282Stats').textContent='目前資料中尚無足夠同型態歷史樣本'}
+  let f=fusion(a,pat,hs);$('v282Fusion').textContent=f.pick;$('v282FusionMeta').textContent=f.meta;
+ }
+ window.v282PatternAnalysis=run;
+ document.addEventListener('DOMContentLoaded',()=>{setTimeout(run,3000);setInterval(run,3000)});
 })();
 </script>
 
