@@ -5382,7 +5382,7 @@ document.addEventListener("DOMContentLoaded",function(){
 document.addEventListener("DOMContentLoaded",()=>{
  setTimeout(()=>{
    const bc=document.querySelector(".brand-cn");
-   if(bc)bc.textContent="BACCARAT 智能分析工作台 V28.2 PATTERN ENGINE";
+   if(bc)bc.textContent="BACCARAT 智能分析工作台 V28.5 PATTERN PANEL LAYOUT";
    const be=document.querySelector(".brand-en");
    if(be)be.textContent="AI演算法 × 影像辨識 × 即時數據 × 歷史回測 × 模型分析";
  },120);
@@ -7129,7 +7129,7 @@ document.addEventListener('DOMContentLoaded',()=>{
 
 <div id="v26CloudModal" class="v26-cloud-modal" aria-hidden="true">
  <div class="v26-cloud-box">
-  <div class="v26-cloud-head"><b>☁️ V28.2｜五向大數據＋牌型術語</b><button onclick="closeV26Cloud()">✕ 關閉</button></div>
+  <div class="v26-cloud-head"><b>☁️ V28.5｜牌型術語併入五向區</b><button onclick="closeV26Cloud()">✕ 關閉</button></div>
   <div class="v26-cloud-body">
    <div class="v26-cloud-grid">
     <div class="v26-cloud-field"><label>Supabase Project URL</label><input id="v26CloudUrl" value="https://qcpzvmkduxpnxqsjjabl.supabase.co" readonly></div>
@@ -7927,6 +7927,151 @@ document.addEventListener('DOMContentLoaded',()=>{
  }
  window.v282PatternAnalysis=run;
  document.addEventListener('DOMContentLoaded',()=>{setTimeout(run,3000);setInterval(run,3000)});
+})();
+</script>
+
+
+<style id="v283-css">
+#v283Fusion{margin:12px;padding:12px;border:1px solid #ffffff24;border-radius:12px;background:#081018e8}
+#v283Fusion h3{margin:0 0 8px}.v283g{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.v283b{padding:9px;border:1px solid #ffffff1a;border-radius:9px;text-align:center}.v283b b,.v283b strong,.v283b small{display:block}
+.v283b strong{font-size:18px;margin:4px 0}#v283Why{margin-top:8px;padding:9px;background:#ffffff0f;border-radius:9px;line-height:1.45}
+@media(max-width:900px){.v283g{grid-template-columns:repeat(2,1fr)}}
+</style>
+<section id="v283Fusion">
+<h3>🎯 最佳路分析 × 五向走勢最優｜融合決策</h3>
+<div class="v283g">
+ <div class="v283b"><b>最佳路分析</b><strong id="v283BestRoad">—</strong><small id="v283BestRoadMeta">讀取中</small></div>
+ <div class="v283b"><b>五向最優</b><strong id="v283Five">—</strong><small id="v283FiveMeta">讀取中</small></div>
+ <div class="v283b"><b>牌型訊號</b><strong id="v283Pattern">—</strong><small id="v283PatternMeta">讀取中</small></div>
+ <div class="v283b"><b>最終最優</b><strong id="v283Final">觀望</strong><small id="v283Conf">等待有效訊號</small></div>
+</div>
+<div id="v283Why">融合規則：優先採用經逐局回測有樣本支持、且多模組方向一致的訊號；衝突或樣本不足時觀望。</div>
+</section>
+<script id="v283-js">
+(function(){
+ const $=id=>document.getElementById(id);
+ function txt(id){return ($(id)?.textContent||'').trim()}
+ function pickFrom(t){if(/莊/.test(t)&&!/閒/.test(t))return'B';if(/閒/.test(t)&&!/莊/.test(t))return'P';return''}
+ function pct(t){let m=String(t).match(/(\d+(?:\.\d+)?)%/);return m?+m[1]:0}
+ function bestRoad(){
+   // Read the existing Best Road panel rather than replacing its algorithm.
+   const ids=['bestRoad','bestRoadPick','bestRoadResult','bestRoadAnalysis','v19BestRoad','v24BestRoad'];
+   for(const id of ids){let e=$(id);if(e&&e.textContent.trim()){let t=e.textContent.trim();return{p:pickFrom(t),text:t,score:pct(t)}}}
+   // fallback: search visible elements whose text identifies 最佳路
+   const all=[...document.querySelectorAll('div,span,strong,b')];
+   for(const e of all){let t=(e.textContent||'').trim();if(t.length<180&&/最佳路/.test(t)&&!/融合決策/.test(t)){let p=pickFrom(t);if(p)return{p,text:t,score:pct(t)}}}
+   return{p:'',text:'最佳路目前無明確方向',score:0};
+ }
+ function five(){
+   const t=txt('v281Best'),p=pickFrom((t.match(/目前訊號[：:]\s*(莊|閒|觀望)/)||[])[1]||'');
+   return{p,text:t||'五向資料不足',score:pct(t)};
+ }
+ function pattern(){
+   let t=txt('v282Next'),meta=txt('v282Stats'),p=pickFrom(t);
+   let m=meta.match(/莊\s*(\d+(?:\.\d+)?)%.*閒\s*(\d+(?:\.\d+)?)%/);
+   let score=m?Math.max(+m[1],+m[2]):0;
+   return{p,text:(txt('v282Type')||'牌型')+'｜'+(meta||'樣本不足'),score};
+ }
+ function run(){
+   const b=bestRoad(),f=five(),p=pattern();
+   $('v283BestRoad').textContent=b.p==='B'?'莊':b.p==='P'?'閒':'觀望';$('v283BestRoadMeta').textContent=b.text.slice(0,110);
+   $('v283Five').textContent=f.p==='B'?'莊':f.p==='P'?'閒':'觀望';$('v283FiveMeta').textContent=f.text.slice(0,110);
+   $('v283Pattern').textContent=p.p==='B'?'莊':p.p==='P'?'閒':'觀望';$('v283PatternMeta').textContent=p.text.slice(0,110);
+   // Conservative weighted fusion: Best Road 40%, Five-way 45%, pattern 15%.
+   const signals=[{...b,w:.40,name:'最佳路'},{...f,w:.45,name:'五向最優'},{...p,w:.15,name:'牌型'}].filter(x=>x.p);
+   let B=0,P=0,active=0;
+   for(const x of signals){let reliability=x.score?Math.min(1,Math.max(.55,x.score/55)):.70;let w=x.w*reliability;active+=w;x.p==='B'?B+=w:P+=w}
+   let total=B+P,edge=total?Math.abs(B-P)/total:0,final='';
+   if(signals.length>=2&&edge>=.18)final=B>P?'B':'P';
+   const agree=signals.filter(x=>x.p===final).map(x=>x.name);
+   $('v283Final').textContent=final==='B'?'莊':final==='P'?'閒':'觀望';
+   $('v283Conf').textContent=final?`融合一致度 ${(Math.max(B,P)/total*100).toFixed(1)}%｜${agree.join('＋')}`:'訊號衝突／不足，不強行下注';
+   $('v283Why').textContent=final
+    ?`最終最優採 ${final==='B'?'莊':'閒'}：最佳路 40%＋五向逐局回測 45%＋牌型歷史 15% 加權；目前支持模組：${agree.join('、')}。`
+    :'目前最佳路、五向最優與牌型沒有形成足夠一致優勢，因此最優決策為觀望。歷史回測訊號不代表下一局真實勝率。';
+ }
+ window.v283OptimalFusion=run;
+ document.addEventListener('DOMContentLoaded',()=>{setTimeout(run,3500);setInterval(run,3000)});
+})();
+</script>
+
+
+<script id="v284-ios-sound-fix">
+(function(){
+ const KEY='baccaratButtonSound_v255';
+ let ac=null,unlocked=false,last=0;
+ function on(){return localStorage.getItem(KEY)!=='0'}
+ function button(){return document.getElementById('v255SoundBtn')}
+ function label(){const b=button();if(b)b.textContent=on()?'🔊 按鍵音：開':'🔇 按鍵音：關'}
+ function audio(){
+   const AC=window.AudioContext||window.webkitAudioContext;
+   if(!AC)return null;
+   if(!ac)ac=new AC();
+   return ac;
+ }
+ async function unlock(){
+   try{
+     const c=audio();if(!c)return false;
+     if(c.state==='suspended')await c.resume();
+     // iOS unlock: play a silent buffer inside the real user gesture.
+     const buf=c.createBuffer(1,1,22050),src=c.createBufferSource();
+     src.buffer=buf;src.connect(c.destination);src.start(0);
+     unlocked=c.state==='running';return unlocked;
+   }catch(e){return false}
+ }
+ function tone(el){
+   if(!on())return;
+   const now=performance.now();if(now-last<90)return;last=now;
+   try{
+     const c=audio();if(!c||c.state!=='running')return;
+     const o=c.createOscillator(),g=c.createGain(),t=(el?.textContent||'');
+     let f=620;if(t.includes('莊'))f=480;else if(t.includes('閒'))f=720;else if(t.includes('和'))f=880;
+     else if(t.includes('清空')||t.includes('停止'))f=360;else if(t.includes('儲存')||t.includes('記錄'))f=780;
+     o.type='sine';o.frequency.value=f;
+     g.gain.setValueAtTime(.16,c.currentTime);
+     g.gain.exponentialRampToValueAtTime(.001,c.currentTime+.075);
+     o.connect(g);g.connect(c.destination);o.start();o.stop(c.currentTime+.08);
+   }catch(e){}
+ }
+ async function gesture(e){
+   const b=e.target.closest?.('button');if(!b)return;
+   if(!unlocked)await unlock();
+   tone(b);
+ }
+ // pointerdown is a direct user gesture and is more reliable on iOS Safari than delayed click audio.
+ document.addEventListener('pointerdown',gesture,true);
+ document.addEventListener('touchstart',gesture,{capture:true,passive:true});
+
+ window.toggleV255Sound=async function(){
+   const next=!on();localStorage.setItem(KEY,next?'1':'0');label();
+   if(next){await unlock();tone(button())}
+ };
+ document.addEventListener('DOMContentLoaded',()=>{
+   if(localStorage.getItem(KEY)===null)localStorage.setItem(KEY,'1');
+   label();
+ });
+})();
+</script>
+
+
+<style id="v285-pattern-layout">
+#v281Panel{margin-bottom:0!important}
+#v282Pattern{margin:0 12px 12px!important;border-top-left-radius:0!important;border-top-right-radius:0!important;border-top-color:rgba(255,255,255,.08)!important}
+#v282Pattern h3{font-size:15px!important;margin-bottom:7px!important}
+#v282Pattern .v282row{grid-template-columns:1.15fr 1fr 1fr!important}
+@media(max-width:900px){#v282Pattern .v282row{grid-template-columns:repeat(3,minmax(0,1fr))!important}}
+</style>
+<script id="v285-pattern-move">
+(function(){
+ function move(){
+   const five=document.getElementById('v281Panel');
+   const pattern=document.getElementById('v282Pattern');
+   if(!five||!pattern)return;
+   five.insertAdjacentElement('afterend',pattern);
+   pattern.dataset.v285Moved='1';
+ }
+ document.addEventListener('DOMContentLoaded',()=>{move();setTimeout(move,500);setTimeout(move,1800)});
 })();
 </script>
 
