@@ -5382,7 +5382,7 @@ document.addEventListener("DOMContentLoaded",function(){
 document.addEventListener("DOMContentLoaded",()=>{
  setTimeout(()=>{
    const bc=document.querySelector(".brand-cn");
-   if(bc)bc.textContent="BACCARAT 智能分析工作台 V29 ULTIMATE FUSION";
+   if(bc)bc.textContent="BACCARAT 智能分析工作台 V30 CLEAN REBUILD";
    const be=document.querySelector(".brand-en");
    if(be)be.textContent="AI演算法 × 影像辨識 × 即時數據 × 歷史回測 × 模型分析";
  },120);
@@ -7129,7 +7129,7 @@ document.addEventListener('DOMContentLoaded',()=>{
 
 <div id="v26CloudModal" class="v26-cloud-modal" aria-hidden="true">
  <div class="v26-cloud-box">
-  <div class="v26-cloud-head"><b>☁️ V29｜六大分析終極融合</b><button onclick="closeV26Cloud()">✕ 關閉</button></div>
+  <div class="v26-cloud-head"><b>☁️ V30 CLEAN｜三核心分析</b><button onclick="closeV26Cloud()">✕ 關閉</button></div>
   <div class="v26-cloud-body">
    <div class="v26-cloud-grid">
     <div class="v26-cloud-field"><label>Supabase Project URL</label><input id="v26CloudUrl" value="https://qcpzvmkduxpnxqsjjabl.supabase.co" readonly></div>
@@ -8075,8 +8075,181 @@ document.addEventListener('DOMContentLoaded',()=>{
 })();
 </script>
 
-<style id="v29-css">#v29Ultimate{margin:12px;padding:12px;border:1px solid #ffffff28;border-radius:12px;background:#07111bea}#v29Ultimate h3{margin:0 0 9px}.v29top{display:grid;grid-template-columns:150px 1fr;gap:9px}.v29dec,.v29s,.v29m{padding:9px;border:1px solid #ffffff1a;border-radius:9px}.v29dec{text-align:center}.v29dec strong{display:block;font-size:30px}.v29stats{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}.v29s b,.v29s strong,.v29s small{display:block}.v29s strong{font-size:17px}.v29mods{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:8px}.v29m b,.v29m small{display:block}#v29Why{margin-top:8px;padding:9px;background:#ffffff0f;border-radius:9px}@media(max-width:900px){.v29stats,.v29mods{grid-template-columns:repeat(2,1fr)}}</style>
-<section id="v29Ultimate"><h3>🧠 終極融合分析中心｜六大模型動態加權</h3><div class="v29top"><div class="v29dec"><small>最終決策</small><strong id="v29Pick">觀望</strong><small id="v29Strength">等待資料</small></div><div class="v29stats"><div class="v29s"><b>模型一致度</b><strong id="v29Agree">—</strong><small>有效模型</small></div><div class="v29s"><b>訊號強度</b><strong id="v29Signal">—</strong><small>非真實勝率</small></div><div class="v29s"><b>有效樣本</b><strong id="v29Samples">—</strong><small>回測資料</small></div><div class="v29s"><b>參考靴</b><strong id="v29Shoes">—</strong><small>歷史靴</small></div></div></div><div class="v29mods"><div class="v29m"><b>1 AI 決策中心</b><strong id="v29m1">—</strong><small id="v29w1">等待訊號</small></div><div class="v29m"><b>2 五路統一決策</b><strong id="v29m2">—</strong><small id="v29w2">等待訊號</small></div><div class="v29m"><b>3 Walk-Forward 跨靴</b><strong id="v29m3">—</strong><small id="v29w3">等待訊號</small></div><div class="v29m"><b>4 最佳路分析</b><strong id="v29m4">—</strong><small id="v29w4">等待訊號</small></div><div class="v29m"><b>5 五向走勢最優</b><strong id="v29m5">—</strong><small id="v29w5">等待訊號</small></div><div class="v29m"><b>6 牌型歷史</b><strong id="v29m6">—</strong><small id="v29w6">等待訊號</small></div></div><div id="v29Why">六個底層分析保留運算；終極中心依有效訊號與可讀回測表現動態融合，衝突時觀望。</div></section>
-<script id="v29-js">(function(){const $=x=>document.getElementById(x),tx=x=>($(x)?.textContent||'').trim();function pk(t){t=String(t||'');let mb=t.match(/目前訊號[：:]\s*(莊|閒)/);if(mb)return mb[1]==='莊'?'B':'P';if(/觀望/.test(t))return'';if(/(^|[｜\s])莊([｜\s]|$)/.test(t))return'B';if(/(^|[｜\s])閒([｜\s]|$)/.test(t))return'P';return''}function pct(t){let a=[...String(t).matchAll(/(\d+(?:\.\d+)?)%/g)].map(x=>+x[1]);return a.length?Math.max(...a):0}function find(re){for(const e of document.querySelectorAll('section,div')){if(e.closest('#v29Ultimate'))continue;let t=(e.innerText||'').trim();if(t.length&&t.length<600&&re.test(t))return t}return''}function shoes(){for(const k of ['baccaratShoes_v251','baccaratShoes','shoeHistory'])try{let a=JSON.parse(localStorage.getItem(k)||'[]');if(Array.isArray(a)&&a.length)return a.length}catch(e){}return 0}function run(){let S=[['AI',find(/AI 決策中心|模型一致度/),.20],['五路',find(/五路統一決策|統一決策/),.18],['跨靴',find(/Walk-Forward|跨靴/),.18],['最佳路',find(/最佳路分析/),.16],['五向',tx('v281Best'),.18],['牌型',tx('v282Next')+'｜'+tx('v282Stats'),.10]].map((x,i)=>{let p=pk(x[1]),q=pct(x[1]),rel=q?Math.max(.55,Math.min(1,q/60)):.62,w=x[2]*rel;$('v29m'+(i+1)).textContent=p==='B'?'莊':p==='P'?'閒':'—';$('v29w'+(i+1)).textContent=p?`動態權重 ${(w*100).toFixed(1)}%${q?'｜回測 '+q.toFixed(1)+'%':''}`:'目前無明確訊號';return{p,w,q}});let V=S.filter(x=>x.p),B=0,P=0;V.forEach(x=>x.p==='B'?B+=x.w:P+=x.w);let T=B+P,R=T?Math.max(B,P)/T:0,F=V.length>=3&&R>=.60?(B>P?'B':'P'):'',A=F?V.filter(x=>x.p===F).length:Math.max(V.filter(x=>x.p==='B').length,V.filter(x=>x.p==='P').length);$('v29Pick').textContent=F==='B'?'莊':F==='P'?'閒':'觀望';$('v29Strength').textContent=F?`${A}/${V.length} 模型同向`:'訊號衝突或不足';$('v29Agree').textContent=V.length?`${A}/${V.length}`:'—';$('v29Signal').textContent=T?(R*100).toFixed(1)+'%':'—';let nums=[...document.body.innerText.matchAll(/有效樣本\s*(\d+)/g)].map(x=>+x[1]);$('v29Samples').textContent=nums.length?Math.max(...nums):'—';$('v29Shoes').textContent=shoes()||'—';$('v29Why').textContent=F?`六大分析動態加權後支持「${F==='B'?'莊':'閒'}」，融合一致強度 ${(R*100).toFixed(1)}%。這是模型一致性，不是下一局真實勝率。`:'六大分析目前沒有形成足夠一致優勢，維持觀望；至少 3 個有效模型且加權同向達 60% 才輸出莊／閒。'}window.v29UltimateFusion=run;document.addEventListener('DOMContentLoaded',()=>{setTimeout(run,4200);setInterval(run,3000)})})();</script>
+
+<style id="v30-clean-css">
+/* V30: old engines keep calculating, duplicate analysis UI is hidden */
+#v24Decision,#v281Panel,#v282Pattern,#v283Fusion,.road-ai-panel{display:none!important}
+#v30Clean{margin:0 0 12px;padding:10px;border:1px solid #ffffff28;border-radius:12px;background:#07121dea}
+#v30Clean h3{margin:0 0 8px;font-size:16px}
+.v30sec{border:1px solid #ffffff20;border-radius:10px;padding:9px;margin-top:8px;background:#ffffff08}
+.v30head{display:flex;justify-content:space-between;gap:8px;align-items:center;margin-bottom:7px}
+.v30head b{font-size:14px}.v30badge{padding:3px 7px;border-radius:999px;background:#ffffff12;font-size:11px}
+.v30grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+.v30box{border:1px solid #ffffff18;border-radius:8px;padding:7px;min-width:0}
+.v30box span,.v30box strong,.v30box small{display:block}.v30box span{font-size:10px;opacity:.72}.v30box strong{font-size:15px;margin:2px 0}.v30box small{font-size:10px;opacity:.72;line-height:1.35}
+#v30Final{text-align:center;font-size:30px;margin:3px 0}.v30why{margin-top:7px;padding:7px;border-radius:8px;background:#ffffff0d;font-size:11px;line-height:1.45}
+#v30PatternList{font-size:11px;line-height:1.5}
+@media(max-width:950px){.v30grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+</style>
+
+<section id="v30Clean">
+<h3>🧠 V30 CLEAN｜三核心分析中心</h3>
+
+<div class="v30sec">
+ <div class="v30head"><b>① 牌路 ＋ 牌型結構</b><span class="v30badge" id="v30RoadState">等待牌局</span></div>
+ <div class="v30grid">
+  <div class="v30box"><span>五路最佳路</span><strong id="v30BestRoad">—</strong><small id="v30BestMeta">讀取五路底層引擎</small></div>
+  <div class="v30box"><span>目前主要牌型</span><strong id="v30Pattern">—</strong><small id="v30PatternMeta">依大路欄長與近期節奏辨識</small></div>
+  <div class="v30box"><span>牌型結構</span><div id="v30PatternList">—</div></div>
+ </div>
+</div>
+
+<div class="v30sec">
+ <div class="v30head"><b>② 歷史相似度 ＋ Walk-Forward 大數據</b><span class="v30badge" id="v30HistoryState">等待歷史靴</span></div>
+ <div class="v30grid">
+  <div class="v30box"><span>歷史資料來源</span><strong id="v30Shoes">0 靴</strong><small id="v30Cloud">本機歷史載入中</small></div>
+  <div class="v30box"><span>Top 相似片段</span><strong id="v30Similarity">—</strong><small id="v30SimN">尚無有效樣本</small></div>
+  <div class="v30box"><span>相似片段下一局</span><strong id="v30SimilarNext">—</strong><small id="v30SimilarStats">莊／閒分布等待計算</small></div>
+  <div class="v30box"><span>跨靴 Walk-Forward</span><strong id="v30WF">—</strong><small id="v30WFMeta">只讀取當時以前資料</small></div>
+  <div class="v30box"><span>同型態歷史</span><strong id="v30PatternNext">—</strong><small id="v30PatternStats">跨完整歷史靴搜尋</small></div>
+  <div class="v30box"><span>有效歷史片段</span><strong id="v30Segments">0</strong><small>不同靴不會首尾串接</small></div>
+ </div>
+</div>
+
+<div class="v30sec">
+ <div class="v30head"><b>③ 最終自適應融合</b><span class="v30badge">衝突就觀望</span></div>
+ <div id="v30Final">觀望</div>
+ <div class="v30grid">
+  <div class="v30box"><span>融合一致度</span><strong id="v30Agree">—</strong><small>有效且相對獨立的訊號</small></div>
+  <div class="v30box"><span>訊號強度</span><strong id="v30Strength">—</strong><small>不是下一局真實勝率</small></div>
+  <div class="v30box"><span>主要依據</span><strong id="v30Basis">資料不足</strong><small id="v30Weights">等待有效樣本</small></div>
+ </div>
+ <div class="v30why" id="v30Why">先累積本靴與完整歷史靴；樣本不足時不強行給方向。</div>
+</div>
+</section>
+
+<script id="v30-clean-js">
+(function(){
+ const $=id=>document.getElementById(id);
+ const S={cloudShoes:[],cloudOK:false,lastCloud:0};
+ function seqFromData(){
+  let a=[];try{a=(typeof data!=='undefined'&&Array.isArray(data))?data:(Array.isArray(window.data)?window.data:[])}catch(e){}
+  return norm(a);
+ }
+ function norm(a){return (a||[]).map(x=>typeof x==='string'?x:(x?.r??x?.result??x?.winner??'')).map(x=>String(x).toUpperCase()[0]).filter(x=>x==='B'||x==='P')}
+ function runs(a){let r=[];for(const x of a){if(!r.length||r.at(-1).v!==x)r.push({v:x,n:1});else r.at(-1).n++}return r}
+ function detect(a){
+  if(a.length<4)return{name:'資料不足',id:'short',tags:[]};
+  let r=runs(a.slice(-24)), lens=r.map(x=>x.n), last=r.at(-1), tags=[];
+  let tail=a.slice(-8);
+  let alt=tail.length>=6&&tail.every((x,i,z)=>i===0||x!==z[i-1]);
+  if(alt)tags.push('單跳');
+  if(lens.length>=4&&lens.slice(-4).every(n=>n===2))tags.push('雙跳');
+  if(last.n>=5)tags.push(last.v==='B'?'長莊／莊龍':'長閒／閒龍');
+  function cyc(n){let q=lens.slice(-6);if(q.length<4)return false;return q.every((x,i)=>x===(i%2?n:1))||q.every((x,i)=>x===(i%2?1:n))}
+  if(cyc(2))tags.push('兩房一廳');
+  if(cyc(3))tags.push('三房一廳');
+  if(lens.length>=4&&lens.slice(-4).every(n=>n===1))tags.push('一房一廳');
+  let q=lens.slice(-4);
+  if(q.length===4&&q.every((x,i)=>i===0||x>=q[i-1]))tags.push('斜坡／遞增');
+  if(q.length===4&&new Set(q).size===1&&q[0]>1)tags.push('齊腳');
+  if(lens.length>=5){
+    let odd=lens.slice(-5).filter((_,i)=>i%2===0),even=lens.slice(-5).filter((_,i)=>i%2===1);
+    if(odd.every(n=>n===1)&&even.every(n=>n>=2))tags.push('一邊跳、一邊連');
+  }
+  let name=tags[0]||'混合路';
+  return{name,id:name,tags:tags.length?tags:['混合／轉型'],run:last};
+ }
+ function localShoes(){
+  let out=[];
+  for(const k of ['baccaratShoes_v251','baccaratShoes','shoeHistory']){
+   try{let a=JSON.parse(localStorage.getItem(k)||'[]');if(Array.isArray(a))for(const x of a){let q=norm(x?.data||x?.rows||x?.results||[]);if(q.length>=8)out.push({id:x.id||x.shoe_id||('L'+out.length),table:x.table_id||'',seq:q,src:'local'})}}catch(e){}
+  }
+  let seen=new Set();return out.filter(x=>{let k=x.id+'|'+x.seq.join('');if(seen.has(k))return false;seen.add(k);return true})
+ }
+ function allShoes(){let a=localShoes().concat(S.cloudShoes);let seen=new Set();return a.filter(x=>{let k=(x.table||'')+'|'+x.id;if(seen.has(k))return false;seen.add(k);return true})}
+ async function cloud(){
+  if(Date.now()-S.lastCloud<15000)return;S.lastCloud=Date.now();
+  try{
+   let c=window.v26CloudClient;if(!c||!c.from)return;
+   let r=await c.from('baccarat_live_rounds').select('table_id,shoe_id,round_key,round_no,result,payload').order('round_no',{ascending:true}).limit(10000);
+   if(r.error)throw r.error;
+   let g=new Map();
+   for(const z of (r.data||[])){
+    let result=String(z.result??z.payload?.result??z.payload?.r??'').toUpperCase()[0];
+    if(result!=='B'&&result!=='P')continue;
+    let key=(z.table_id||'')+'|'+(z.shoe_id||'');
+    if(!g.has(key))g.set(key,{id:z.shoe_id||key,table:z.table_id||'',rows:new Map(),src:'cloud'});
+    let rk=String(z.round_key??z.round_no??g.get(key).rows.size);
+    if(!g.get(key).rows.has(rk))g.get(key).rows.set(rk,{n:+z.round_no||999999,r:result});
+   }
+   S.cloudShoes=[...g.values()].map(x=>({id:x.id,table:x.table,src:'cloud',seq:[...x.rows.values()].sort((a,b)=>a.n-b.n).map(y=>y.r)})).filter(x=>x.seq.length>=8);
+   S.cloudOK=true;
+  }catch(e){S.cloudOK=false}
+ }
+ function similarity(cur,shoes){
+  let lens=[20,15,10,6].filter(n=>cur.length>=n), hits=[];
+  for(const sh of shoes)for(const L of lens){
+   let target=cur.slice(-L);
+   for(let end=L;end<sh.seq.length;end++){
+    let w=sh.seq.slice(end-L,end),same=0;for(let i=0;i<L;i++)if(w[i]===target[i])same++;
+    let score=same/L;
+    if(score>=.70)hits.push({score,L,next:sh.seq[end],shoe:sh.id});
+   }
+  }
+  hits.sort((a,b)=>(b.score*b.L)-(a.score*a.L));
+  let top=hits.slice(0,60),B=top.filter(x=>x.next==='B').length,P=top.filter(x=>x.next==='P').length;
+  return{hits,top,B,P,best:top[0]?.score||0};
+ }
+ function patternHistory(cur,shoes){
+  let id=detect(cur).id,B=0,P=0,n=0;
+  for(const sh of shoes)for(let i=8;i<sh.seq.length;i++){if(detect(sh.seq.slice(0,i)).id===id){n++;sh.seq[i]==='B'?B++:P++}}
+  return{id,B,P,n};
+ }
+ function bestRoad(){
+  let p=($('bestRoadPick')?.textContent||'').trim(),name=($('bestRoadName')?.textContent||'').trim(),conf=parseFloat($('roadBeadConf')?.textContent)||0;
+  return{p:/莊/.test(p)?'B':/閒/.test(p)?'P':'',name:name||'—',conf};
+ }
+ function wf(){
+  let p=($('v252Pick')?.textContent||'').trim(),bt=($('v252Bt')?.textContent||'').trim(),m=bt.match(/(\d+(?:\.\d+)?)%/);
+  return{p:/莊/.test(p)?'B':/閒/.test(p)?'P':'',rate:m?+m[1]:0,text:bt||'—'};
+ }
+ function run(){
+  let cur=seqFromData(),pat=detect(cur),sh=allShoes(),sim=similarity(cur,sh),ph=patternHistory(cur,sh),br=bestRoad(),w=wf();
+  $('v30RoadState').textContent=cur.length?`本靴 ${cur.length} 局`:'等待牌局';
+  $('v30BestRoad').textContent=br.p?(br.name+'｜'+(br.p==='B'?'莊':'閒')):'—';
+  $('v30BestMeta').textContent='五路底層引擎即時重算';
+  $('v30Pattern').textContent=pat.name;$('v30PatternMeta').textContent=pat.run?`目前連續 ${pat.run.n} 口｜${pat.run.v==='B'?'莊':'閒'}`:'等待更多資料';
+  $('v30PatternList').textContent=pat.tags.join('・');
+  $('v30Shoes').textContent=sh.length+' 靴';$('v30Cloud').textContent=S.cloudOK?`雲端 ${S.cloudShoes.length} 靴＋本機 ${localShoes().length} 靴`:`本機 ${localShoes().length} 靴｜雲端未連線/讀取中`;
+  $('v30HistoryState').textContent=sh.length?`已載入 ${sh.length} 靴`:'等待歷史靴';
+  $('v30Similarity').textContent=sim.top.length?(sim.best*100).toFixed(1)+'%':'—';$('v30SimN').textContent=sim.top.length?`Top ${sim.top.length} 個相似片段｜門檻 70%`:'尚無 ≥70% 相似片段';
+  let st=sim.B+sim.P,sp=st?(sim.B===sim.P?'觀望':sim.B>sim.P?'莊':'閒'):'—';
+  $('v30SimilarNext').textContent=sp;$('v30SimilarStats').textContent=st?`莊 ${sim.B}/${st}｜閒 ${sim.P}/${st}`:'樣本不足';
+  $('v30Segments').textContent=sim.hits.length;
+  $('v30WF').textContent=w.p?(w.p==='B'?'莊':'閒'):'—';$('v30WFMeta').textContent=w.text;
+  let pn=ph.B+ph.P,pp=pn?(ph.B===ph.P?'觀望':ph.B>ph.P?'莊':'閒'):'—';
+  $('v30PatternNext').textContent=pp;$('v30PatternStats').textContent=pn?`${pat.name} 歷史 ${pn} 次｜莊 ${(ph.B/pn*100).toFixed(1)}%／閒 ${(ph.P/pn*100).toFixed(1)}%`:'同型態歷史不足';
+  // Four evidence families; weights are reliability-adjusted, not fixed "votes".
+  let sig=[];
+  if(br.p)sig.push({p:br.p,w:.24,name:'五路最佳路'});
+  if(st>=20){let edge=Math.abs(sim.B-sim.P)/st;if(edge>=.08)sig.push({p:sim.B>sim.P?'B':'P',w:.34*Math.min(1,st/60),name:'歷史相似片段'})}
+  if(pn>=20){let edge=Math.abs(ph.B-ph.P)/pn;if(edge>=.08)sig.push({p:ph.B>ph.P?'B':'P',w:.22*Math.min(1,pn/80),name:'同型態歷史'})}
+  if(w.p&&w.rate>=50)sig.push({p:w.p,w:.20*Math.max(.55,Math.min(1,w.rate/55)),name:'跨靴WF'});
+  let B=0,P=0;sig.forEach(x=>x.p==='B'?B+=x.w:P+=x.w);let T=B+P,R=T?Math.max(B,P)/T:0,F=sig.length>=2&&R>=.62?(B>P?'B':'P'):'';
+  let agree=F?sig.filter(x=>x.p===F):[];
+  $('v30Final').textContent=F==='B'?'莊':F==='P'?'閒':'觀望';$('v30Agree').textContent=sig.length?(F?`${agree.length}/${sig.length}`:'分歧'):'—';$('v30Strength').textContent=T?(R*100).toFixed(1)+'%':'—';
+  $('v30Basis').textContent=F?agree.map(x=>x.name).join('＋'):'資料不足／訊號衝突';
+  $('v30Weights').textContent=sig.length?sig.map(x=>`${x.name} ${(x.w*100).toFixed(0)}%`).join('｜'):'尚無有效權重';
+  $('v30Why').textContent=F?`目前融合方向為「${F==='B'?'莊':'閒'}」。歷史相似度、牌型歷史與 Walk-Forward 只有在樣本達門檻時才參與；不同牌靴不首尾串接。訊號強度是模型一致性，不是下一局真實勝率。`:'目前沒有至少兩個足夠可靠且同向的證據，或融合一致度未達 62%，所以維持觀望。';
+ }
+ function install(){
+  let right=document.querySelector('.v16-right'),box=$('v30Clean');if(right&&box)right.insertBefore(box,right.firstChild);
+  run();cloud();setInterval(()=>{run();cloud()},4000);
+ }
+ window.v30CleanRun=run;document.addEventListener('DOMContentLoaded',()=>setTimeout(install,3200));
+})();
+</script>
+
 </body>
 </html>
