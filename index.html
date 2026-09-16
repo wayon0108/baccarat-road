@@ -5382,7 +5382,7 @@ document.addEventListener("DOMContentLoaded",function(){
 document.addEventListener("DOMContentLoaded",()=>{
  setTimeout(()=>{
    const bc=document.querySelector(".brand-cn");
-   if(bc)bc.textContent="BACCARAT 智能分析工作台 V30 CLEAN REBUILD";
+   if(bc)bc.textContent="BACCARAT 智能分析工作台 V31.4 CLOUD VALIDATION LOG";
    const be=document.querySelector(".brand-en");
    if(be)be.textContent="AI演算法 × 影像辨識 × 即時數據 × 歷史回測 × 模型分析";
  },120);
@@ -7129,7 +7129,7 @@ document.addEventListener('DOMContentLoaded',()=>{
 
 <div id="v26CloudModal" class="v26-cloud-modal" aria-hidden="true">
  <div class="v26-cloud-box">
-  <div class="v26-cloud-head"><b>☁️ V30 CLEAN｜三核心分析</b><button onclick="closeV26Cloud()">✕ 關閉</button></div>
+  <div class="v26-cloud-head"><b>🧊 V31.1｜凍結驗證＋基準ID鎖</b><button onclick="closeV26Cloud()">✕ 關閉</button></div>
   <div class="v26-cloud-body">
    <div class="v26-cloud-grid">
     <div class="v26-cloud-field"><label>Supabase Project URL</label><input id="v26CloudUrl" value="https://qcpzvmkduxpnxqsjjabl.supabase.co" readonly></div>
@@ -8248,6 +8248,337 @@ document.addEventListener('DOMContentLoaded',()=>{
   run();cloud();setInterval(()=>{run();cloud()},4000);
  }
  window.v30CleanRun=run;document.addEventListener('DOMContentLoaded',()=>setTimeout(install,3200));
+})();
+</script>
+
+
+<script id="v301-dual-cloud-history">
+(function(){
+ const OLD=window.v30CleanRun;
+ window.__v301={shoes:[],live:[],ok:false,updated:0};
+
+ function norm(a){
+   return (a||[]).map(x=>{
+     if(typeof x==='string') return x;
+     return x?.r ?? x?.result ?? x?.winner ?? x?.side ?? '';
+   }).map(x=>{
+     let v=String(x||'').trim().toUpperCase();
+     if(v==='莊'||v==='BANKER') return 'B';
+     if(v==='閒'||v==='PLAYER') return 'P';
+     if(v==='和'||v==='TIE') return 'T';
+     return v[0]||'';
+   }).filter(x=>x==='B'||x==='P'||x==='T');
+ }
+ function extractPayload(p){
+   if(!p) return [];
+   if(Array.isArray(p)) return norm(p);
+   return norm(p.data||p.rows||p.results||p.rounds||p.history||[]);
+ }
+ async function load(){
+   const c=window.v26CloudClient;
+   if(!c||!c.from) return;
+   try{
+     const [A,B]=await Promise.all([
+       c.from('baccarat_shoes').select('shoe_id,table_id,source_shoe_id,round_count,payload,created_at,updated_at').order('created_at',{ascending:true}).limit(5000),
+       c.from('baccarat_live_rounds').select('table_id,shoe_id,round_key,round_no,result,payload,updated_at').order('round_no',{ascending:true}).limit(10000)
+     ]);
+     if(A.error) throw A.error;
+     if(B.error) throw B.error;
+     const complete=(A.data||[]).map(z=>({
+       id:z.shoe_id, table:z.table_id||'', source:'baccarat_shoes',
+       seq:extractPayload(z.payload), round_count:z.round_count||0
+     })).filter(x=>x.seq.length>=8);
+
+     const groups=new Map();
+     for(const z of (B.data||[])){
+       let key=(z.table_id||'')+'|'+(z.shoe_id||'');
+       if(!groups.has(key)) groups.set(key,{id:z.shoe_id||key,table:z.table_id||'',rows:new Map()});
+       let rk=String(z.round_key??z.round_no??groups.get(key).rows.size);
+       if(!groups.get(key).rows.has(rk))
+         groups.get(key).rows.set(rk,{n:+z.round_no||999999,r:norm([z.result??z.payload?.result??z.payload?.r])[0]});
+     }
+     const live=[...groups.values()].map(g=>({
+       id:g.id,table:g.table,source:'baccarat_live_rounds',
+       seq:[...g.rows.values()].sort((a,b)=>a.n-b.n).map(x=>x.r).filter(Boolean)
+     })).filter(x=>x.seq.length>=8);
+
+     window.__v301.shoes=complete;
+     window.__v301.live=live;
+     window.__v301.ok=true;
+     window.__v301.updated=Date.now();
+
+     // Make V30's cloud cache use completed historical shoes first.
+     try{
+       // V30's closure is private, so expose normalized unified history for patched analysis/readouts.
+       window.v301CentralHistory=complete.concat(live);
+     }catch(e){}
+     updateReadout();
+   }catch(e){
+     window.__v301.ok=false;
+     updateReadout(String(e?.message||e));
+   }
+ }
+ function updateReadout(err){
+   let A=window.__v301.shoes||[], L=window.__v301.live||[];
+   let rounds=A.reduce((n,x)=>n+x.seq.length,0);
+   let el=document.getElementById('v30Cloud');
+   let sh=document.getElementById('v30Shoes');
+   if(el) el.textContent=window.__v301.ok
+     ? `完整歷史雲端 ${A.length} 靴／${rounds} 局＋即時雲端 ${L.length} 靴`
+     : `雙雲端讀取中${err?'｜'+err:''}`;
+   if(sh&&window.__v301.ok) sh.textContent=`${A.length} 完整靴`;
+ }
+
+ // V30.1 independent historical analysis against baccarat_shoes payloads.
+ function current(){
+   let a=[];try{a=(typeof data!=='undefined'&&Array.isArray(data))?data:(window.data||[])}catch(e){}
+   return norm(a).filter(x=>x!=='T');
+ }
+ function detect(a){
+   if(a.length<4)return '資料不足';
+   let r=[];for(const x of a){if(!r.length||r.at(-1).v!==x)r.push({v:x,n:1});else r.at(-1).n++}
+   let lens=r.map(x=>x.n),last=r.at(-1),tail=a.slice(-8);
+   if(tail.length>=6&&tail.every((x,i,z)=>i===0||x!==z[i-1]))return '單跳';
+   if(lens.length>=4&&lens.slice(-4).every(n=>n===2))return '雙跳';
+   if(last.n>=5)return last.v==='B'?'長莊／莊龍':'長閒／閒龍';
+   let q=lens.slice(-6);
+   let cyc=n=>q.length>=4&&(q.every((x,i)=>x===(i%2?n:1))||q.every((x,i)=>x===(i%2?1:n)));
+   if(cyc(2))return '兩房一廳'; if(cyc(3))return '三房一廳';
+   return '混合／轉型';
+ }
+ function analyze(){
+   if(!window.__v301.ok)return;
+   let cur=current();
+   let shoes=window.__v301.shoes.map(x=>({...x,seq:x.seq.filter(y=>y!=='T')}));
+   let lens=[20,15,10,6].filter(n=>cur.length>=n),hits=[];
+   for(const sh of shoes) for(const L of lens){
+     let t=cur.slice(-L);
+     for(let end=L;end<sh.seq.length;end++){
+       let w=sh.seq.slice(end-L,end),same=0;
+       for(let i=0;i<L;i++) if(w[i]===t[i])same++;
+       let score=same/L;
+       if(score>=.70)hits.push({score,L,next:sh.seq[end]});
+     }
+   }
+   hits.sort((a,b)=>(b.score*b.L)-(a.score*a.L));
+   let top=hits.slice(0,60),bb=top.filter(x=>x.next==='B').length,pp=top.filter(x=>x.next==='P').length,n=bb+pp;
+   let sim=document.getElementById('v30Similarity'), sn=document.getElementById('v30SimN'),
+       nx=document.getElementById('v30SimilarNext'), ns=document.getElementById('v30SimilarStats'),
+       seg=document.getElementById('v30Segments');
+   if(sim)sim.textContent=top.length?(top[0].score*100).toFixed(1)+'%':'—';
+   if(sn)sn.textContent=top.length?`完整雲端 Top ${top.length} 相似片段｜15 靴搜尋`:'完整雲端尚無 ≥70% 相似片段';
+   if(nx)nx.textContent=n?(bb===pp?'觀望':bb>pp?'莊':'閒'):'—';
+   if(ns)ns.textContent=n?`莊 ${bb}/${n}｜閒 ${pp}/${n}`:'樣本不足';
+   if(seg)seg.textContent=hits.length;
+
+   let id=detect(cur),B=0,P=0,cnt=0;
+   for(const sh of shoes)for(let i=8;i<sh.seq.length;i++){
+     if(detect(sh.seq.slice(0,i))===id){cnt++;sh.seq[i]==='B'?B++:P++}
+   }
+   let pn=document.getElementById('v30PatternNext'),ps=document.getElementById('v30PatternStats');
+   if(pn)pn.textContent=cnt?(B===P?'觀望':B>P?'莊':'閒'):'—';
+   if(ps)ps.textContent=cnt?`${id}｜完整雲端 ${cnt} 次｜莊 ${(B/cnt*100).toFixed(1)}%／閒 ${(P/cnt*100).toFixed(1)}%`:'完整雲端同型態樣本不足';
+
+   let hs=document.getElementById('v30HistoryState');
+   if(hs)hs.textContent=`完整雲端 ${shoes.length} 靴｜${window.__v301.shoes.reduce((n,x)=>n+x.seq.length,0)} 局`;
+ }
+ function tick(){load().then(()=>{updateReadout();analyze()})}
+ document.addEventListener('DOMContentLoaded',()=>setTimeout(tick,5000));
+ setInterval(()=>{updateReadout();analyze(); if(Date.now()-window.__v301.updated>30000)load()},5000);
+ window.v301ReloadCloudHistory=tick;
+})();
+</script>
+
+
+<style id="v31-frozen-css">
+#v31Frozen{margin:10px 12px;padding:11px;border:1px solid #ffffff24;border-radius:12px;background:#07131de8;font-size:12px}
+#v31Frozen .v31h{display:flex;justify-content:space-between;gap:8px;align-items:center;margin-bottom:8px}#v31Frozen .v31h b{font-size:14px}#v31Frozen .v31tag{padding:3px 7px;border:1px solid #ffffff25;border-radius:999px;white-space:nowrap}
+#v31Frozen .v31rule{padding:7px 8px;border-radius:8px;background:#ffffff0b;line-height:1.45;margin-bottom:8px}
+#v31Frozen .v31g{display:grid;grid-template-columns:repeat(5,minmax(70px,1fr));gap:6px}.v31c{padding:7px 5px;text-align:center;border:1px solid #ffffff18;border-radius:8px;background:#ffffff08}.v31c span,.v31c b{display:block}.v31c span{opacity:.72;font-size:10px}.v31c b{font-size:14px;margin-top:2px}
+#v31Frozen .v31now{margin-top:8px;padding:8px;border-radius:8px;background:#ffffff0b}.v31now strong{font-size:15px}.v31meta{opacity:.72;margin-top:5px;line-height:1.4}
+@media(max-width:900px){#v31Frozen .v31g{grid-template-columns:repeat(3,1fr)}}
+</style>
+<script id="v31-frozen-validation">
+(function(){
+'use strict';
+const FREEZE_BASE=15,L=10,SIM=.70,TOP=60,MIN_N=20,MIN_EDGE=.08,HIST=5;
+const BASELINE_IDS=Object.freeze(['shoe_1789430500933_rt1h2','shoe_1789442857300_akprf','shoe_1789461086332_2ulpp','shoe_1789511887156_jchpw','shoe_1789513825701_wxrgw','shoe_1789515956730_h5hg1','shoe_1789517406667_u1lme','shoe_1789518838600_u3a7w','shoe_1789520738994_zc0h7','shoe_1789521896402_zb3kq','shoe_1789525334179_fzxma','shoe_1789526667285_n4lbp','shoe_1789528327221_foyhk','shoe_1789529901627_f6j7p','shoe_1789532007082_abj5o']);
+const RULE_ID='F31-H5-L10-S70-T60-N20-E08-B15';
+const $=id=>document.getElementById(id);
+function seqBP(x){return (x||[]).filter(v=>v==='B'||v==='P')}
+function ensure(){
+ if($('v31Frozen'))return;
+ const box=document.createElement('div');box.id='v31Frozen';box.innerHTML=`
+ <div class="v31h"><b>🧊 V31.4 凍結驗證中心</b><span class="v31tag">參數鎖定・不回頭調參</span></div>
+ <div class="v31rule">固定規則：最近 5 完成靴｜10 局片段｜相似度 ≥70%｜Top 60｜樣本 ≥20｜莊閒差 ≥8%｜否則觀望</div>
+ <div class="v31g">
+  <div class="v31c"><span>研究基準</span><b>前 15 靴</b></div><div class="v31c"><span>新驗證靴</span><b id="v31Shoes">0</b></div>
+  <div class="v31c"><span>有效預測</span><b id="v31N">0</b></div><div class="v31c"><span>中／錯</span><b id="v31HM">0 / 0</b></div><div class="v31c"><span>新資料命中率</span><b id="v31Rate">—</b></div>
+  <div class="v31c"><span>最大連錯</span><b id="v31Loss">0</b></div><div class="v31c"><span>預測莊</span><b id="v31PB">0</b></div><div class="v31c"><span>預測閒</span><b id="v31PP">0</b></div>
+  <div class="v31c"><span>目前歷史靴</span><b id="v31Hist">0</b></div><div class="v31c"><span>狀態</span><b id="v31State">等待雲端</b></div>
+ </div>
+ <div class="v31now">目前下一局：<strong id="v31Pick">觀望</strong><div id="v31NowMeta" class="v31meta">等待至少 10 局目前牌序與雲端歷史。</div></div>
+ <div class="v31meta">注意：這裡的百分比是歷史驗證統計，不代表下一局真實勝率。第 16 靴起只作測試；規則參數固定。<br>規則鎖：<b id="v31RuleId">—</b>｜基準 ID：<b id="v31BaseLock">檢查中</b></div>`;
+ const host=document.querySelector('.v16-right')||document.body;host.insertBefore(box,host.firstChild);
+}
+function predict(prefix,history){
+ prefix=seqBP(prefix); if(prefix.length<L||!history.length)return null;
+ const t=prefix.slice(-L),hits=[];
+ for(const sh of history.slice(-HIST)){
+  const s=seqBP(sh.seq);
+  for(let end=L;end<s.length;end++){
+   let same=0;for(let k=0;k<L;k++)if(s[end-L+k]===t[k])same++;
+   const sim=same/L;if(sim>=SIM)hits.push({sim,next:s[end],ord:sh.ord||0});
+  }
+ }
+ hits.sort((a,b)=>b.sim-a.sim||b.ord-a.ord);
+ const top=hits.slice(0,TOP),b=top.filter(x=>x.next==='B').length,p=top.filter(x=>x.next==='P').length,n=b+p;
+ if(n<MIN_N)return {pick:null,n,b,p,best:top[0]?.sim||0,edge:n?Math.abs(b-p)/n:0};
+ const edge=Math.abs(b-p)/n;if(edge<MIN_EDGE||b===p)return {pick:null,n,b,p,best:top[0]?.sim||0,edge};
+ return {pick:b>p?'B':'P',n,b,p,best:top[0]?.sim||0,edge};
+}
+function evaluate(shoes){
+ let rows=[],maxLoss=0,loss=0;
+ for(let j=FREEZE_BASE;j<shoes.length;j++){
+  const test=seqBP(shoes[j].seq),hist=shoes.slice(0,j);
+  for(let i=L;i<test.length;i++){
+   const q=predict(test.slice(0,i),hist);if(!q||!q.pick)continue;
+   const hit=q.pick===test[i];rows.push({j,i,pick:q.pick,hit});if(hit)loss=0;else{loss++;maxLoss=Math.max(maxLoss,loss)}
+  }
+ }
+ return {rows,maxLoss};
+}
+function currentSeq(){try{const a=(typeof data!=='undefined'&&Array.isArray(data))?data:(Array.isArray(window.data)?window.data:[]);return a.map(x=>String(typeof x==='string'?x:(x?.r??x?.result??'')).toUpperCase().charAt(0)).filter(x=>x==='B'||x==='P')}catch(e){return []}}
+function render(){ensure();const raw=(window.__v301&&Array.isArray(window.__v301.shoes))?window.__v301.shoes:[];const shoes=raw.map((x,i)=>({...x,ord:i+1,seq:seqBP(x.seq)}));
+ const present=new Set(shoes.map(x=>x.id));const missing=BASELINE_IDS.filter(id=>!present.has(id));
+ $('v31RuleId').textContent=RULE_ID;$('v31BaseLock').textContent=missing.length?'缺 '+missing.length+' 靴':'15/15 已鎖定';
+ $('v31Hist').textContent=shoes.length;$('v31Shoes').textContent=Math.max(0,shoes.length-FREEZE_BASE);
+ const ev=evaluate(shoes),r=ev.rows,h=r.filter(x=>x.hit).length,m=r.length-h,pb=r.filter(x=>x.pick==='B').length,pp=r.length-pb;
+ $('v31N').textContent=r.length;$('v31HM').textContent=`${h} / ${m}`;$('v31Rate').textContent=r.length?(h/r.length*100).toFixed(2)+'%':'—';$('v31Loss').textContent=ev.maxLoss;$('v31PB').textContent=pb;$('v31PP').textContent=pp;
+ $('v31State').textContent=missing.length?'基準ID異常':shoes.length<FREEZE_BASE?'基準不足':shoes.length===FREEZE_BASE?'等待第16靴':'驗證中';
+ const cur=currentSeq(),q=predict(cur,shoes);let pick='觀望';if(q?.pick)pick=q.pick==='B'?'莊':'閒';$('v31Pick').textContent=pick;
+ $('v31NowMeta').textContent=q?`歷史樣本 ${q.n}｜莊 ${q.b}／閒 ${q.p}｜票差 ${(q.edge*100).toFixed(1)}%｜最佳相似 ${(q.best*100).toFixed(1)}%`:`目前 B/P ${cur.length} 局｜至少需要 ${L} 局`;
+ window.__v31Frozen={freezeBase:FREEZE_BASE,ruleId:RULE_ID,baselineIds:BASELINE_IDS.slice(),baselineMissing:missing.slice(),params:{history:HIST,length:L,similarity:SIM,top:TOP,minN:MIN_N,minEdge:MIN_EDGE},evaluation:ev,current:q};
+}
+document.addEventListener('DOMContentLoaded',()=>{setTimeout(render,6500);setInterval(render,3000)});
+})();
+</script>
+
+
+<style id="v312-live-css">
+#v312Live{margin-top:8px;padding:8px;border-radius:8px;background:#ffffff0b;line-height:1.5}#v312Live b{font-size:13px}
+</style>
+<script id="v312-live-holdout">
+(function(){
+'use strict';
+const KEY='baccaratV312FrozenLiveLedger';
+const BASE=new Set((window.__v31Frozen?.baselineIds)||['shoe_1789430500933_rt1h2','shoe_1789442857300_akprf','shoe_1789461086332_2ulpp','shoe_1789511887156_jchpw','shoe_1789513825701_wxrgw','shoe_1789515956730_h5hg1','shoe_1789517406667_u1lme','shoe_1789518838600_u3a7w','shoe_1789520738994_zc0h7','shoe_1789521896402_zb3kq','shoe_1789525334179_fzxma','shoe_1789526667285_n4lbp','shoe_1789528327221_foyhk','shoe_1789529901627_f6j7p','shoe_1789532007082_abj5o']);
+function load(){try{return JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){return {}}}
+function save(x){try{localStorage.setItem(KEY,JSON.stringify(x))}catch(e){}}
+function bp(a){return (a||[]).map(x=>String(typeof x==='string'?x:(x?.r??x?.result??'')).toUpperCase().charAt(0)).filter(x=>x==='B'||x==='P')}
+function ensure(){const box=document.getElementById('v31Frozen');if(!box||document.getElementById('v312Live'))return;const d=document.createElement('div');d.id='v312Live';d.innerHTML='<b>第16靴起・即時逐局驗證</b><div id="v312Text">等待即時雲端牌靴</div>';box.appendChild(d)}
+function pred(prefix,history){const f=window.__v31Frozen;if(!f||prefix.length<10)return null;const hits=[],t=prefix.slice(-10);for(const sh of history.slice(-5)){const a=bp(sh.seq);for(let e=10;e<a.length;e++){let same=0;for(let k=0;k<10;k++)if(a[e-10+k]===t[k])same++;let sim=same/10;if(sim>=.70)hits.push({sim,next:a[e]})}}hits.sort((a,b)=>b.sim-a.sim);const top=hits.slice(0,60),B=top.filter(x=>x.next==='B').length,P=top.filter(x=>x.next==='P').length,n=B+P,edge=n?Math.abs(B-P)/n:0;if(n<20||edge<.08||B===P)return {pick:null,n,B,P,edge};return {pick:B>P?'B':'P',n,B,P,edge}}
+function tick(){ensure();const hist=(window.__v301?.shoes||[]).map((x,i)=>({...x,ord:i+1}));const live=window.__v301?.live||[];const led=load();let active=0,scored=0,pending=0;
+ for(const sh of live){if(BASE.has(sh.id))continue;const a=bp(sh.seq);if(!a.length)continue;active++;const rec=led[sh.id]||(led[sh.id]={});for(let i=10;i<a.length;i++){const key=String(i+1);if(rec[key]?.actual)continue;const q=pred(a.slice(0,i),hist);if(q?.pick)rec[key]={pick:q.pick,actual:a[i],hit:q.pick===a[i],n:q.n,edge:q.edge,ts:Date.now()}}
+ const nextNo=a.length+1;if(a.length>=10&&!rec['pending_'+nextNo]){const q=pred(a,hist);if(q?.pick){rec['pending_'+nextNo]={pick:q.pick,n:q.n,edge:q.edge,ts:Date.now()};pending++}}
+ for(const k of Object.keys(rec)){if(!k.startsWith('pending_'))continue;const no=+k.slice(8);if(no<=a.length){const q=rec[k];rec[String(no)]={pick:q.pick,actual:a[no-1],hit:q.pick===a[no-1],n:q.n,edge:q.edge,ts:q.ts};delete rec[k]}}
+ }
+ save(led);for(const r of Object.values(led))for(const [k,v] of Object.entries(r))if(!k.startsWith('pending_')&&v.actual)scored++;
+ const el=document.getElementById('v312Text');if(el)el.textContent=`即時新靴 ${active}｜已鎖定逐局紀錄 ${scored}｜待開結果 ${pending}｜同一 shoe_id＋局號只記一次`;
+ window.__v312LiveLedger=led;
+}
+document.addEventListener('DOMContentLoaded',()=>{setTimeout(tick,7500);setInterval(tick,3000)});
+})();
+</script>
+
+<style id="v313-reconcile-css">
+#v313Recon{margin-top:8px;padding:8px;border-radius:8px;background:#ffffff0b;line-height:1.5}#v313Recon b{font-size:13px}#v313Recon .bad{font-weight:800}
+</style>
+<script id="v313-archive-reconcile">
+(function(){
+'use strict';
+const KEY='baccaratV312FrozenLiveLedger';
+const BASE_IDS=['shoe_1789430500933_rt1h2','shoe_1789442857300_akprf','shoe_1789461086332_2ulpp','shoe_1789511887156_jchpw','shoe_1789513825701_wxrgw','shoe_1789515956730_h5hg1','shoe_1789517406667_u1lme','shoe_1789518838600_u3a7w','shoe_1789520738994_zc0h7','shoe_1789521896402_zb3kq','shoe_1789525334179_fzxma','shoe_1789526667285_n4lbp','shoe_1789528327221_foyhk','shoe_1789529901627_f6j7p','shoe_1789532007082_abj5o'];
+const BASE=new Set(BASE_IDS);
+function load(){try{return JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){return {}}}
+function save(x){try{localStorage.setItem(KEY,JSON.stringify(x))}catch(e){}}
+function bp(a){return (a||[]).map(x=>String(typeof x==='string'?x:(x?.r??x?.result??'')).toUpperCase().charAt(0)).filter(x=>x==='B'||x==='P')}
+function pred(prefix,history){if(prefix.length<10)return null;const hits=[],t=prefix.slice(-10);for(const sh of history.slice(-5)){const a=bp(sh.seq);for(let e=10;e<a.length;e++){let same=0;for(let k=0;k<10;k++)if(a[e-10+k]===t[k])same++;const sim=same/10;if(sim>=.70)hits.push({sim,next:a[e],ord:sh.ord||0})}}hits.sort((a,b)=>b.sim-a.sim||b.ord-a.ord);const top=hits.slice(0,60),B=top.filter(x=>x.next==='B').length,P=top.filter(x=>x.next==='P').length,n=B+P,edge=n?Math.abs(B-P)/n:0;if(n<20||edge<.08||B===P)return {pick:null,n,B,P,edge};return {pick:B>P?'B':'P',n,B,P,edge}}
+function ensure(){const box=document.getElementById('v31Frozen');if(!box||document.getElementById('v313Recon'))return;const d=document.createElement('div');d.id='v313Recon';d.innerHTML='<b>封存核對／防重複</b><div id="v313Text">等待第 16 靴封存後自動核對。</div>';box.appendChild(d)}
+function tick(){ensure();const archived=(window.__v301?.shoes||[]).map((x,i)=>({...x,ord:i+1,seq:bp(x.seq)}));const led=load();let archivedHold=0,checked=0,agree=0,mismatch=0,missing=0;
+ for(let j=0;j<archived.length;j++){const sh=archived[j];if(BASE.has(sh.id))continue;archivedHold++;const a=sh.seq,hist=archived.slice(0,j),rec=led[sh.id]||{};
+  // Once a shoe is archived, stale pending markers are never scored a second time.
+  for(const k of Object.keys(rec))if(k.startsWith('pending_'))delete rec[k];
+  for(let i=10;i<a.length;i++){const q=pred(a.slice(0,i),hist);if(!q?.pick)continue;const no=String(i+1),r=rec[no];if(!r){missing++;continue}checked++;const actual=a[i],ok=(r.pick===q.pick&&r.actual===actual&&Boolean(r.hit)===(q.pick===actual));if(ok)agree++;else mismatch++}
+ }
+ save(led);
+ const el=document.getElementById('v313Text');if(el){if(!archivedHold)el.textContent='尚無第 16 靴以後的封存靴；封存後會用同一 shoe_id＋局號逐筆核對。';else el.innerHTML=`已封存新靴 ${archivedHold}｜可核對 ${checked}｜一致 ${agree}｜<span class="${mismatch?'bad':''}">不一致 ${mismatch}</span>｜即時漏記 ${missing}`;}
+ window.__v313Reconcile={archivedHoldout:archivedHold,checked,agree,mismatch,missing};
+}
+document.addEventListener('DOMContentLoaded',()=>{setTimeout(tick,8500);setInterval(tick,3000)});
+})();
+</script>
+
+
+<script id="v314-cloud-validation-log">
+(function(){
+ const RULE='F31-H5-L10-S70-T60-N20-E08-B15';
+ const TABLE='baccarat_frozen_validation_log';
+ const state={loaded:false,rows:new Map(),lastPush:''};
+ const client=()=>window.v26CloudClient;
+ const uid=async()=>{try{const c=client(); if(!c?.auth)return null; const x=await c.auth.getUser(); return x?.data?.user?.id||null}catch(e){return null}};
+ const key=r=>`${r.shoe_id}|${Number(r.target_round)}`;
+ async function loadCloud(){
+   const c=client(),u=await uid(); if(!c||!u)return;
+   const {data,error}=await c.from(TABLE).select('*').eq('rule_id',RULE).order('predicted_at',{ascending:true});
+   if(error){console.warn('[V31.4] cloud validation load',error);return}
+   state.rows=new Map((data||[]).map(r=>[key(r),r])); state.loaded=true;
+   window.__v314CloudValidation=[...state.rows.values()];
+   try{localStorage.setItem('baccaratV314CloudValidation',JSON.stringify(window.__v314CloudValidation))}catch(e){}
+   refresh();
+ }
+ async function upsertRows(rows){
+   if(!rows?.length)return;
+   const c=client(),u=await uid(); if(!c||!u)return;
+   const payload=rows.map(r=>({
+     user_id:u,rule_id:RULE,shoe_id:String(r.shoe_id||r.shoeId||''),
+     target_round:Number(r.target_round??r.targetRound??r.round??0),
+     prediction:String(r.prediction||r.pred||'').charAt(0).toUpperCase(),
+     actual:r.actual?String(r.actual).charAt(0).toUpperCase():null,
+     status:r.status||(r.actual?(String(r.prediction||r.pred).charAt(0).toUpperCase()===String(r.actual).charAt(0).toUpperCase()?'hit':'miss'):'pending'),
+     sample_n:Number(r.sample_n??r.n??0)||null,banker_votes:Number(r.banker_votes??r.b??0)||null,
+     player_votes:Number(r.player_votes??r.p??0)||null,edge:Number(r.edge??0)||null,
+     best_similarity:Number(r.best_similarity??r.bestSim??0)||null,source:r.source||'live',
+     settled_at:r.actual?new Date().toISOString():null,updated_at:new Date().toISOString()
+   })).filter(r=>r.shoe_id&&r.target_round>0&&(r.prediction==='B'||r.prediction==='P'));
+   if(!payload.length)return;
+   const sig=JSON.stringify(payload.map(x=>[x.shoe_id,x.target_round,x.prediction,x.actual,x.status]));
+   if(sig===state.lastPush)return; state.lastPush=sig;
+   const {error}=await c.from(TABLE).upsert(payload,{onConflict:'user_id,rule_id,shoe_id,target_round'});
+   if(error){console.warn('[V31.4] cloud validation save',error);state.lastPush='';return}
+   await loadCloud();
+ }
+ function discover(){
+   const pools=[window.__v312LiveValidation,window.__v313ReconcileRows,window.__v31ValidationRows,window.v31ValidationRows];
+   const out=[];
+   for(const a of pools)if(Array.isArray(a))for(const r of a)out.push(r);
+   return out;
+ }
+ function refresh(){
+   const rows=[...state.rows.values()],done=rows.filter(x=>x.status==='hit'||x.status==='miss'),hit=done.filter(x=>x.status==='hit').length;
+   const el=document.getElementById('v314CloudState');
+   if(el)el.textContent=`雲端永久驗證：${rows.length} 筆｜已結算 ${done.length}｜中 ${hit}／錯 ${done.length-hit}${done.length?`｜${(hit/done.length*100).toFixed(2)}%`:''}`;
+ }
+ function mount(){
+   if(document.getElementById('v314CloudState'))return;
+   const box=document.createElement('div'); box.style.cssText='margin:10px 12px;padding:10px;border:1px solid #ffffff24;border-radius:10px;background:#081018e8;font-size:13px';
+   box.innerHTML='<b>☁️ V31.4 驗證成績永久保存</b><div id="v314CloudState" style="margin-top:5px">正在讀取雲端驗證紀錄…</div><small style="opacity:.7">規則 '+RULE+'｜同一靴＋局號只保留一筆</small>';
+   (document.querySelector('#v31FrozenValidation')||document.querySelector('#v313Reconcile')||document.body).appendChild(box);
+ }
+ document.addEventListener('DOMContentLoaded',()=>{mount();setTimeout(loadCloud,3500)});
+ setInterval(()=>{const r=discover();if(r.length)upsertRows(r);else if(!state.loaded)loadCloud();refresh()},5000);
+ window.v314ReloadCloudValidation=loadCloud;
+ window.v314SaveValidationRows=upsertRows;
 })();
 </script>
 
