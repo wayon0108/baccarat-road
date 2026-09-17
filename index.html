@@ -1486,6 +1486,79 @@ body,.app,.v16-shell{
 #v19SaveHand{min-height:38px!important;font-size:11px!important}
 </style>
 
+
+<style id="v234-fast-input-fix-css">
+/* 修正實際畫面：不要重複兩次「完整牌局輸入」 */
+#v19HandInput .v19-hi-title{display:none!important}
+
+/* 目前正在輸入哪一張，直接高亮 */
+.v233-slot.active{
+  outline:2px solid #ffd45f!important;
+  border-color:#ffd45f!important;
+  box-shadow:0 0 0 2px rgba(255,212,95,.18) inset!important;
+}
+.v233-slot.filled{font-size:18px!important}
+
+/* 輸入區再壓緊一點，避免左欄太長 */
+.v233-side-pad{margin-top:4px!important}
+.v233-slots{margin-bottom:4px!important}
+.v233-pad{gap:2px!important}
+.v233-pad button{min-height:29px!important}
+.v233-actions{margin-top:4px!important}
+#v233FastResult{margin:4px 0!important;padding:6px!important}
+#v233AutoSave{width:100%;min-height:30px;margin:3px 0 4px;border-radius:6px;border:1px solid #257b65;background:#163a33;color:#dfffee;font-size:9px;font-weight:900}
+#v233InputReady{margin:0 0 5px;padding:5px 7px;border-radius:6px;background:#082233;border:1px solid #1e566e;color:#76dcff;font-size:8.5px}
+</style>
+
+
+<style id="v235-record-button-fix-css">
+/* 記錄鍵固定留在完整牌局輸入區內，不再被擠掉 */
+#v233RecordFixed{
+  display:block!important;width:100%!important;min-height:42px!important;
+  margin:7px 0 5px!important;border:1px solid #51e89a!important;border-radius:8px!important;
+  background:linear-gradient(180deg,#16b86e,#087e4d)!important;color:#fff!important;
+  font-size:13px!important;font-weight:900!important;cursor:pointer!important;
+  position:relative!important;z-index:50!important;pointer-events:auto!important;
+}
+#v233RecordFixed:disabled{opacity:.45!important;cursor:not-allowed!important}
+#v19SaveHand{display:none!important}
+#v233RecordHint{font-size:8px;color:#8fb0c0;text-align:center;margin-bottom:4px}
+</style>
+
+
+<style id="v236-record-visible-css">
+/* 記錄鍵直接放在莊家牌面下方、補牌狀態上方，保證看得到 */
+#v233RecordFixed{
+  display:block!important;
+  visibility:visible!important;
+  width:100%!important;
+  min-height:44px!important;
+  margin:7px 0 6px!important;
+  border:1px solid #62f0aa!important;
+  border-radius:8px!important;
+  background:linear-gradient(180deg,#16c977,#079153)!important;
+  color:#fff!important;
+  font-size:13px!important;
+  font-weight:900!important;
+  position:relative!important;
+  z-index:999!important;
+  pointer-events:auto!important;
+  opacity:1!important;
+}
+#v233RecordFixed.waiting{
+  background:#173748!important;
+  border-color:#31566a!important;
+  color:#9bb5c3!important;
+}
+#v233RecordHint{
+  display:block!important;
+  margin:-2px 0 5px!important;
+  text-align:center!important;
+  font-size:8px!important;
+  color:#8fb0c0!important;
+}
+</style>
+
 </head>
 
 <body>
@@ -4539,6 +4612,174 @@ document.addEventListener("DOMContentLoaded",()=>{
    sync();
  }
  document.addEventListener("DOMContentLoaded",()=>setTimeout(install,300));
+})();
+</script>
+
+
+<script id="v234-fast-input-fix-js">
+(function(){
+ const $=id=>document.getElementById(id);
+
+ function clearManualPoints(){
+   ["v19PManual","v19BManual"].forEach(id=>{
+     const e=$(id);
+     if(e && e.value!==""){
+       e.value="";
+       e.dispatchEvent(new Event("change",{bubbles:true}));
+     }
+   });
+ }
+
+ function highlight(){
+   ["P","B"].forEach(prefix=>{
+     const vals=[1,2,3].map(i=>$("v19"+prefix+i)?.value||"");
+     let activeIndex=vals.findIndex(v=>!v);
+     if(activeIndex<0) activeIndex=2;
+     for(let i=0;i<3;i++){
+       const e=$("v233"+prefix+"S"+i);
+       if(e)e.classList.toggle("active",i===activeIndex);
+     }
+   });
+ }
+
+ function installFix(){
+   const hand=$("v19HandInput");
+   if(!hand)return;
+
+   clearManualPoints();
+
+   if(!$("v233InputReady")){
+     const n=document.createElement("div");
+     n.id="v233InputReady";
+     n.textContent="快速牌面輸入已啟用｜直接按 A～K，會依序填入第1張 → 第2張 → 補牌";
+     hand.insertBefore(n,hand.firstChild);
+   }
+
+   // 選牌時強制使用牌面計算，不讓舊的「最後點數」殘值干擾。
+   hand.addEventListener("click",e=>{
+     if(e.target.closest(".v233-pad button")){
+       clearManualPoints();
+       setTimeout(highlight,0);
+     }
+     if(e.target.closest(".v233-slot")){
+       setTimeout(highlight,0);
+     }
+   });
+
+   ["v19P1","v19P2","v19P3","v19B1","v19B2","v19B3"].forEach(id=>{
+     $(id)?.addEventListener("change",()=>setTimeout(highlight,0));
+   });
+
+   // 重新命名按鈕，避免誤解。
+   const save=$("v19SaveHand");
+   if(save)save.textContent="✓ 記錄這一局";
+
+   highlight();
+ }
+
+ document.addEventListener("DOMContentLoaded",()=>setTimeout(installFix,450));
+})();
+</script>
+
+
+<script id="v235-record-button-fix-js">
+(function(){
+ const $=id=>document.getElementById(id);
+ function vals(p){return [1,2,3].map(i=>$("v19"+p+i)?.value||"")}
+ function ready(){
+   const p=vals("P"),b=vals("B");
+   return !!(p[0]&&p[1]&&b[0]&&b[1]);
+ }
+ function update(){
+   const b=$("v233RecordFixed"),h=$("v233RecordHint");
+   if(!b)return;
+   const ok=ready();
+   b.disabled=!ok;
+   b.textContent=ok?"✓ 記錄這一局":"請先輸入雙方前兩張牌";
+   if(h)h.textContent=ok?"牌面已足夠，可直接記錄並更新走勢／分析":"至少需要閒2張＋莊2張";
+ }
+ function install(){
+   const hand=$("v19HandInput"),old=$("v19SaveHand");
+   if(!hand||!old||$("v233RecordFixed"))return;
+   const b=document.createElement("button"); b.type="button"; b.id="v233RecordFixed";
+   const h=document.createElement("div"); h.id="v233RecordHint";
+   // 放在完整牌局輸入區的底部，但在下一個區塊前
+   hand.appendChild(b); hand.appendChild(h);
+   b.addEventListener("click",()=>{
+     if(!ready())return;
+     old.click();                 // 使用原本 V23 的正式記錄流程
+     setTimeout(update,80);
+   });
+   ["v19P1","v19P2","v19P3","v19B1","v19B2","v19B3"].forEach(id=>{
+     $(id)?.addEventListener("change",update);
+   });
+   update();
+ }
+ document.addEventListener("DOMContentLoaded",()=>setTimeout(install,550));
+})();
+</script>
+
+
+<script id="v236-record-visible-js">
+(function(){
+  const $=id=>document.getElementById(id);
+
+  function vals(p){return [1,2,3].map(i=>$("v19"+p+i)?.value||"")}
+  function ready(){
+    const p=vals("P"), b=vals("B");
+    return !!(p[0]&&p[1]&&b[0]&&b[1]);
+  }
+  function refreshButton(){
+    const b=$("v233RecordFixed"), h=$("v233RecordHint");
+    if(!b)return;
+    const ok=ready();
+    b.disabled=!ok;
+    b.classList.toggle("waiting",!ok);
+    b.textContent=ok ? "✓ 記錄這一局" : "請先輸入閒2張＋莊2張";
+    if(h)h.textContent=ok ? "按下後會立即更新走勢、統計與 AI 分析" : "至少輸入雙方前兩張牌後才可記錄";
+  }
+  function forcePosition(){
+    const hand=$("v19HandInput"), old=$("v19SaveHand");
+    if(!hand||!old)return;
+
+    let b=$("v233RecordFixed");
+    let h=$("v233RecordHint");
+    if(!b){
+      b=document.createElement("button");
+      b.type="button";
+      b.id="v233RecordFixed";
+      b.addEventListener("click",()=>{
+        if(!ready())return;
+        old.click();
+        setTimeout(refreshButton,100);
+      });
+    }
+    if(!h){
+      h=document.createElement("div");
+      h.id="v233RecordHint";
+    }
+
+    /* 關鍵修正：不再 append 到最底下，直接插在補牌狀態框前面 */
+    const meta=hand.querySelector(".v19-hi-meta");
+    if(meta){
+      hand.insertBefore(b,meta);
+      hand.insertBefore(h,meta);
+    }else{
+      hand.insertBefore(b,old);
+      hand.insertBefore(h,old);
+    }
+
+    old.style.display="none";
+    refreshButton();
+  }
+
+  document.addEventListener("DOMContentLoaded",()=>{
+    setTimeout(forcePosition,650);
+    setTimeout(forcePosition,1200);
+    ["v19P1","v19P2","v19P3","v19B1","v19B2","v19B3"].forEach(id=>{
+      $(id)?.addEventListener("change",refreshButton);
+    });
+  });
 })();
 </script>
 
