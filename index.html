@@ -1,337 +1,234 @@
 <!doctype html>
 <html lang="zh-Hant">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Baccarat Lab — Independent Ultimate V6 — Five Roads</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>百家樂走勢</title>
 <style>
-*{box-sizing:border-box}body{margin:0;background:#070b10;color:#e8eef5;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
-header{padding:16px 18px;border-bottom:1px solid #1c2935;background:#0b1118;position:sticky;top:0;z-index:3}
-h1{font-size:18px;margin:0}header small,.muted{color:#8191a2}.wrap{max-width:1180px;margin:auto;padding:14px}
-.grid{display:grid;grid-template-columns:1.05fr .95fr;gap:12px}.card{background:#0c131b;border:1px solid #1c2935;border-radius:14px;padding:13px;margin-bottom:12px}
-.title{font-weight:800;margin-bottom:9px}.buttons{display:flex;gap:8px;flex-wrap:wrap}button{border:0;border-radius:11px;padding:12px 18px;font-weight:800;font-size:16px;color:white;background:#253241}
-button.b{background:#c83345}button.p{background:#2374d8}button.t{background:#27895b}button.alt{font-size:13px;padding:9px 12px}
-.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}.kpi{background:#111b25;border-radius:10px;padding:9px;text-align:center}.kpi small{display:block;color:#8191a2}.kpi b{font-size:18px}
-.pred{font-size:42px;font-weight:900;text-align:center;padding:10px}.pred.B{color:#ff6574}.pred.P{color:#59a5ff}.pred.W{color:#93a0ad}
-.meter{height:9px;background:#17232e;border-radius:9px;overflow:hidden;margin:8px 0}.meter i{display:block;height:100%;background:#8495a6}
-#bead{display:grid;grid-template-columns:repeat(12,28px);gap:5px;min-height:34px}.dot{width:28px;height:28px;border:2px solid;border-radius:50%;display:grid;place-items:center;font-size:11px;font-weight:900}.dot.B{border-color:#e64c5e}.dot.P{border-color:#3c8ff0}.dot.T{border-color:#36a66f}
-table{width:100%;border-collapse:collapse;font-size:12px}th,td{padding:7px;border-bottom:1px solid #1b2833;text-align:right}th:first-child,td:first-child{text-align:left}
-.good{color:#62d596}.warn{color:#f3c65d}.bad{color:#ff7381}.tag{display:inline-block;padding:3px 7px;border-radius:7px;background:#17232e;font-size:11px;margin:2px}
-textarea{width:100%;min-height:70px;background:#080d12;color:#dce7f2;border:1px solid #263542;border-radius:9px;padding:8px}
-@media(max-width:800px){.grid{grid-template-columns:1fr}.kpis{grid-template-columns:repeat(2,1fr)}}
-</style>
-<style id="v6roads">
-.roads{overflow-x:auto}.roadGrid{display:grid;grid-auto-flow:column;grid-template-rows:repeat(6,27px);grid-auto-columns:27px;gap:2px;min-height:172px;align-content:start}
-.roadCell{width:27px;height:27px;border:1px solid #1b2935;border-radius:50%;display:grid;place-items:center;font-size:10px;font-weight:900}
-.roadCell.B{border:2px solid #e94f60;color:#ff7584}.roadCell.P{border:2px solid #3d91f2;color:#68adff}.roadCell.T{border:2px solid #37a870;color:#61d89a}
-.roadCell.fillB{background:#c83345;border-color:#c83345;color:#fff}.roadCell.fillP{background:#2374d8;border-color:#2374d8;color:#fff}
-.roadLegend{font-size:11px;color:#8191a2;margin:5px 0 8px}.miniRoad{grid-template-rows:repeat(6,19px);grid-auto-columns:19px;min-height:124px}.miniRoad .roadCell{width:19px;height:19px;font-size:0}
-.roadTitle{font-size:13px;font-weight:800;margin:8px 0 5px}
+:root{
+  --bg1:#087153; --bg2:#01513d; --deep:#004634; --line:#27c98f;
+  --gold:#ffe28a; --red:#ff2438; --blue:#0b84f6; --tie:#0bb660;
+  --ink:#14242f; --muted:#66747d; --white:#fff; --grid:#d8dedb;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg2);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang TC","Noto Sans TC",Arial,sans-serif;overflow-x:hidden}
+body{color:#fff}
+.app{min-height:100vh;padding:10px;background:linear-gradient(135deg,var(--bg1),var(--bg2))}
+.header{
+  display:grid;grid-template-columns:320px 1fr 145px 145px 145px 175px 58px;
+  gap:10px;align-items:center;margin-bottom:8px
+}
+.brand{display:flex;align-items:center;gap:10px;color:var(--gold);font-weight:900}
+.spade{font-size:60px;line-height:1}.brand-cn{font-size:34px}.brand-en{font-size:13px;letter-spacing:3px}
+.topbox{height:60px;border:2px solid #29c492;border-radius:14px;background:rgba(0,73,55,.65);display:flex;align-items:center;justify-content:center;font-weight:900}
+.current{justify-content:flex-start;padding:0 18px;font-size:22px}
+.counter{font-size:25px;gap:16px}.counter b{font-size:30px}
+.bank{background:linear-gradient(#d71c2c,#a90f1b)}.player{background:linear-gradient(#0f8cf8,#075daf)}.tie{background:linear-gradient(#10b765,#08723f)}
+.clock{flex-direction:column;font-size:13px}.clock b{font-size:24px}
+.settings{font-size:25px}
+
+.main{display:grid;grid-template-columns:290px minmax(0,1fr);gap:8px}
+.controls{background:#fff;color:#111;border:2px solid #2fc890;border-radius:12px;padding:10px}
+.controls h3{margin:0 0 8px;font-size:20px}
+.result-btn{width:100%;height:58px;border:0;border-radius:12px;color:#fff;font-size:30px;font-weight:900;margin-bottom:6px}
+.rb{background:linear-gradient(#ff2f46,#ef2135)}.pb{background:linear-gradient(#1999ff,#0877df)}.tb{background:linear-gradient(#13c66d,#05a654)}
+.twobtn{display:grid;grid-template-columns:1fr 1fr;gap:8px}.twobtn button{height:52px;border:0;border-radius:12px;background:#eef2f6;font-size:22px;font-weight:900;color:#10224a}
+.checks{display:flex;justify-content:space-around;margin:13px 0;font-size:17px}.checks input{width:23px;height:23px;vertical-align:middle}
+.undo{width:100%;height:54px;border:0;border-radius:13px;background:#dff3eb;color:#143547;font-size:24px;font-weight:900}
+.actions{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:8px}.actions button{height:48px;border:0;border-radius:10px;font-weight:900}.save{background:#078c66;color:#fff}.clear{background:#1c2328;color:#fff}
+
+.roads{display:grid;grid-template-columns:1fr 1.45fr;grid-template-rows:305px 178px;gap:8px;min-width:0}
+.road{border:2px solid var(--line);border-radius:12px;overflow:hidden;background:#fff;min-width:0}
+.road h4{height:38px;margin:0;padding:7px 12px;background:linear-gradient(180deg,#0b684f,#00503e);font-size:18px}
+.canvaswrap{height:calc(100% - 38px);overflow:hidden;background:#fff}.canvaswrap canvas{width:100%;height:100%;display:block}
+.minis{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px}
+
+.panel{background:#fff;color:var(--ink);border:2px solid var(--line);border-radius:12px}
+.analysis{margin-top:8px;padding:12px;display:grid;grid-template-columns:300px 170px repeat(5,1fr);align-items:center;gap:12px}
+.analysis-title{font-size:24px;font-weight:900}.analysis-btn{height:56px;border:0;border-radius:10px;background:#78909e;color:#fff;font-size:20px;font-weight:900}
+.metric{padding-left:12px;border-left:1px solid #ccd4d8;font-size:14px}.metric b{font-size:20px}
+
+.connect{margin-top:8px;padding:12px}.connect-head{display:flex;justify-content:space-between;align-items:center}.connect-title{font-size:24px;font-weight:900}.connect-sub{font-size:12px;color:#617079;margin-top:2px}.status{padding:7px 13px;border-radius:20px;background:#f1f4f3}
+.connect-grid{display:grid;grid-template-columns:220px 1fr 165px 165px;gap:8px;margin-top:10px}
+.connect-grid input,.connect-grid select,.subgrid input,.subgrid select{height:42px;border:1px solid #d6dde0;border-radius:10px;padding:0 10px}
+.connbtns{display:grid;grid-template-columns:1fr 1fr;gap:8px}.connbtns button{height:42px;border:0;border-radius:10px;font-weight:900}.start{background:#0a9567;color:#fff}.stop{background:#2f353a;color:#fff}
+.subgrid{display:grid;grid-template-columns:220px 170px 1fr 110px 110px 110px;gap:8px;margin-top:8px}.subgrid button{border:0;border-radius:10px;background:#e9edf0;font-weight:900}
+.log{margin-top:8px;background:#142630;color:#55dfb8;border-radius:8px;min-height:74px;padding:10px;font-size:13px}
+
+@media(max-width:900px){
+  .app{padding:4px}
+  .header{grid-template-columns:1fr 70px 70px 70px;gap:4px}.brand{grid-column:1/-1}.brand-cn{font-size:24px}.spade{font-size:40px}.brand-en{font-size:10px}.current,.clock,.settings{display:none}.topbox{height:44px}.counter{font-size:14px;gap:4px}.counter b{font-size:20px}
+  .main{grid-template-columns:105px minmax(0,1fr);gap:4px}.controls{padding:5px}.controls h3{font-size:12px}.result-btn{height:38px;font-size:20px}.twobtn button{height:34px;font-size:14px}.checks{font-size:11px;margin:5px 0}.checks input{width:14px;height:14px}.undo{height:34px;font-size:14px}.actions{gap:2px}.actions button{height:32px;font-size:11px}
+  .roads{grid-template-columns:1fr 1.45fr;grid-template-rows:180px 100px;gap:4px}.road h4{height:28px;font-size:12px;padding:5px 7px}.canvaswrap{height:calc(100% - 28px)}.minis{gap:4px}
+  .analysis{grid-template-columns:1fr 90px 1fr 1fr;gap:5px;padding:7px}.analysis-title{font-size:15px}.analysis-btn{height:40px;font-size:12px}.metric{font-size:10px;padding-left:4px}.metric b{font-size:13px}
+  .connect{padding:7px}.connect-title{font-size:15px}.connect-sub{font-size:9px}.connect-grid{grid-template-columns:120px 1fr 90px 90px;gap:4px}.connect-grid input,.connect-grid select{height:34px;font-size:11px}.connbtns button{height:34px;font-size:10px}.subgrid{grid-template-columns:120px 90px 1fr 70px 70px 70px;gap:4px}.subgrid input,.subgrid select{height:34px;font-size:11px}.subgrid button{font-size:9px}.log{font-size:9px;min-height:60px}
+}
 </style>
 </head>
 <body>
-<header><h1>BACCARAT LAB <span class="muted">｜Independent Ultimate V6 — Five Roads</span></h1><small>完整獨立版・15靴內建・研究/考試隔離・未來逐局鎖定驗證</small></header>
-<div class="wrap"><div class="grid">
-<section>
-<div class="card"><div class="title">快速輸入</div><div class="buttons">
-<button class="b" onclick="add('B')">莊 B</button><button class="p" onclick="add('P')">閒 P</button><button class="t" onclick="add('T')">和 T</button>
-<button class="alt" onclick="undo()">復原</button><button class="alt" onclick="newShoe()">新靴</button>
-</div></div>
-<div class="card"><div class="title">珠盤</div><div id="bead"></div></div>
+<div class="app">
+  <div class="header">
+    <div class="brand">
+      <div class="spade">♠</div>
+      <div><div class="brand-cn">百家樂走勢</div><div class="brand-en">BACCARAT ROADMAP</div></div>
+    </div>
+    <div class="topbox current">本局結果：<span id="last">- - -</span></div>
+    <div class="topbox counter bank">莊 <b id="bCount">0</b></div>
+    <div class="topbox counter player">閒 <b id="pCount">0</b></div>
+    <div class="topbox counter tie">和 <b id="tCount">0</b></div>
+    <div class="topbox clock"><span id="date"></span><b id="time"></b></div>
+    <div class="topbox settings">⚙</div>
+  </div>
 
-<div class="card"><div class="title">走勢圖｜五路</div>
-<div class="roadLegend">紅＝莊　藍＝閒　綠＝和。大路依連莊／連閒排列；下方三路用大路結構顯示整齊度變化。</div>
-<div class="roadTitle">珠盤路</div><div class="roads"><div id="v6BeadRoad" class="roadGrid"></div></div>
-<div class="roadTitle">大路</div><div class="roads"><div id="v6BigRoad" class="roadGrid"></div></div>
-<div style="display:grid;grid-template-columns:repeat(3,minmax(260px,1fr));gap:8px;overflow-x:auto">
-<div><div class="roadTitle">大眼仔</div><div class="roads"><div id="v6Eye" class="roadGrid miniRoad"></div></div></div>
-<div><div class="roadTitle">小路</div><div class="roads"><div id="v6Small" class="roadGrid miniRoad"></div></div></div>
-<div><div class="roadTitle">曱甴路</div><div class="roads"><div id="v6Cock" class="roadGrid miniRoad"></div></div></div>
-</div></div>
-<div class="card"><div class="title">候選模型實驗室</div>
-<div class="muted" style="font-size:12px;margin-bottom:8px">模型彼此獨立計分；只有通過最低歷史樣本要求才顯示。此處的百分比是回測統計，不是下一局真實機率。</div>
-<table><thead><tr><th>模型</th><th>訊號</th><th>樣本</th><th>回測</th><th>狀態</th></tr></thead><tbody id="models"></tbody></table></div>
-<div class="card"><div class="title">歷史靴資料</div>
-<textarea id="importBox" placeholder="每行一靴，例如：BBPPBPBP...；只接受 B/P/T"></textarea>
-<div class="buttons" style="margin-top:8px"><button class="alt" onclick="importShoes()">匯入歷史</button><button class="alt" onclick="exportData()">匯出資料</button></div>
-<div id="histState" class="muted" style="margin-top:7px"></div></div>
-</section>
-<section>
-<div class="card"><div class="title">決策引擎</div><div id="pred" class="pred W">觀望</div>
-<div id="reason" style="text-align:center;font-size:13px;color:#a9b7c5">等待足夠資料</div><div class="meter"><i id="meter" style="width:0%"></i></div>
-<div id="tags" style="text-align:center"></div></div>
-<div class="card"><div class="title">目前靴</div><div class="kpis">
-<div class="kpi"><small>局數</small><b id="n">0</b></div><div class="kpi"><small>莊</small><b id="nb">0</b></div>
-<div class="kpi"><small>閒</small><b id="np">0</b></div><div class="kpi"><small>和</small><b id="nt">0</b></div></div></div>
-<div class="card"><div class="title">Walk-forward 驗證</div><div class="kpis">
-<div class="kpi"><small>有效預測</small><b id="vn">0</b></div><div class="kpi"><small>中</small><b id="vh">0</b></div>
-<div class="kpi"><small>錯</small><b id="vm">0</b></div><div class="kpi"><small>命中率</small><b id="vr">—</b></div></div>
-<div class="muted" style="font-size:12px;margin-top:8px">驗證時每一靴只能使用它之前的歷史靴，避免偷看未來資料。</div></div>
+  <div class="main">
+    <div class="controls">
+      <h3>輸入本局結果</h3>
+      <button class="result-btn rb" onclick="add('B')">莊</button>
+      <button class="result-btn pb" onclick="add('P')">閒</button>
+      <button class="result-btn tb" onclick="add('T')">和</button>
+      <div class="twobtn"><button onclick="add('B6')">莊 6</button><button onclick="add('P6')">閒 6</button></div>
+      <div class="checks"><label><input type="checkbox" id="bp"> 莊對</label><label><input type="checkbox" id="pp"> 閒對</label></div>
+      <button class="undo" onclick="undo()">上一步</button>
+      <div class="actions"><button class="save" onclick="saveData()">儲存</button><button onclick="loadData()">讀取</button><button class="clear" onclick="clearAll()">清空</button></div>
+    </div>
 
+    <div class="roads">
+      <div class="road"><h4>珠盤路</h4><div class="canvaswrap"><canvas id="bead"></canvas></div></div>
+      <div class="road"><h4>大路</h4><div class="canvaswrap"><canvas id="big"></canvas></div></div>
+      <div class="minis">
+        <div class="road"><h4>大眼仔</h4><div class="canvaswrap"><canvas id="eye"></canvas></div></div>
+        <div class="road"><h4>小路</h4><div class="canvaswrap"><canvas id="small"></canvas></div></div>
+        <div class="road"><h4>甲由路</h4><div class="canvaswrap"><canvas id="cock"></canvas></div></div>
+        <div class="road"><h4>下一手問路</h4><div class="canvaswrap"><canvas id="ask"></canvas></div></div>
+      </div>
+    </div>
+  </div>
 
-<div class="card"><div class="title">環境路由器｜Regime Router</div>
-<div id="regimeNow" class="pred W" style="font-size:24px">辨識中</div>
-<div id="regimeInfo" class="muted" style="text-align:center;font-size:12px"></div>
-<table style="margin-top:8px"><thead><tr><th>目前環境</th><th>候選模型</th><th>該環境測試</th><th>命中率</th><th>使用</th></tr></thead><tbody id="router"></tbody></table>
-</div>
-<div class="card"><div class="title">模型競技場｜自動淘汰</div>
-<div class="muted" style="font-size:12px;margin-bottom:8px">每個模型分開做時間順序 Walk-forward。未達最低測試量不排名；低於基準只標記淘汰，不會參與主決策。</div>
-<table><thead><tr><th>模型</th><th>測試</th><th>中</th><th>命中率</th><th>最大連錯</th><th>判定</th></tr></thead><tbody id="arena"></tbody></table>
-<div id="arenaBest" class="muted" style="margin-top:8px">等待更多完成靴</div></div>
+  <div class="panel analysis">
+    <div class="analysis-title">▮▮ 走勢統計演算法</div>
+    <button class="analysis-btn" onclick="renderPrediction()">開始分析</button>
+    <div class="metric">莊機率<br><b id="probB">50.0%</b></div>
+    <div class="metric">閒機率<br><b id="probP">50.0%</b></div>
+    <div class="metric">和機率<br><b id="probT">0.0%</b></div>
+    <div class="metric">模型信心<br><b id="confidence">0%</b></div>
+    <div class="metric">有效樣本<br><b id="samples">0 局</b></div>
+  </div>
 
-<div class="card"><div class="title">完整研究／考試中心</div>
-<div class="kpis">
-<div class="kpi"><small>研究靴</small><b id="trainShoes">10</b></div>
-<div class="kpi"><small>鎖定考試靴</small><b id="testShoes">5</b></div>
-<div class="kpi"><small>考試有效訊號</small><b id="testN">0</b></div>
-<div class="kpi"><small>考試命中率</small><b id="testRate">—</b></div>
-</div>
-<table style="margin-top:9px"><thead><tr><th>模型</th><th>研究測試</th><th>研究率</th><th>考試訊號</th><th>考試率</th><th>結論</th></tr></thead><tbody id="holdoutTable"></tbody></table>
-<div id="holdoutNote" class="muted" style="font-size:12px;margin-top:8px"></div>
+  <div class="panel connect">
+    <div class="connect-head">
+      <div>
+        <div class="connect-title">◉ Allbet / 百家樂資料接入</div>
+        <div class="connect-sub">支援 HTTP / JSON / CSV / WebSocket · 只要貼上網址即可自動接資料</div>
+      </div>
+      <div class="status">● <span id="connStatus">未連線</span></div>
+    </div>
+
+    <div class="connect-grid">
+      <select id="sourceType"><option value="http">HTTP / JSON / CSV</option><option value="ws">WebSocket</option></select>
+      <input id="endpoint" placeholder="貼上 API 或 WebSocket 網址">
+      <div class="connbtns"><button class="start" onclick="connectSource()">▶ 開始連線</button><button class="stop" onclick="disconnectSource()">■ 停止</button></div>
+      <input id="tableFilter" value="B219" placeholder="桌號，例如 B219">
+    </div>
+
+    <div class="subgrid">
+      <input id="tableMirror" value="B219" placeholder="桌號">
+      <select id="pollMs"><option value="3000">3 秒</option><option value="1000">1 秒</option><option value="5000">5 秒</option></select>
+      <input id="resultField" placeholder="結果欄位名稱（可留空自動辨識）">
+      <button onclick="testFeed()">測試一局</button>
+      <button onclick="exportData()">匯出資料</button>
+      <button onclick="document.getElementById('importFile').click()">匯入資料</button>
+    </div>
+    <input id="importFile" type="file" accept=".json,.csv" style="display:none" onchange="importDataFile(event)">
+    <div id="log" class="log">[系統] 程式已就緒，現在可手動輸入莊/閒/和；或連接平台資料後開始自動更新。</div>
+  </div>
 </div>
 
-<div class="card"><div class="title">未來實測紀錄</div>
-<div class="kpis">
-<div class="kpi"><small>已鎖預測</small><b id="futureN">0</b></div>
-<div class="kpi"><small>已結算</small><b id="futureDone">0</b></div>
-<div class="kpi"><small>中</small><b id="futureHit">0</b></div>
-<div class="kpi"><small>實測率</small><b id="futureRate">—</b></div>
-</div>
-<div class="muted" style="font-size:12px;margin-top:8px">每一局先鎖定預測，結果輸入後才結算；同一靴＋局號只記一次。本機永久保存。</div>
-</div>
-<div class="card"><div class="title">設計原則</div>
-<span class="tag">B/P 分析排除和局</span><span class="tag">拒絕強制猜測</span><span class="tag">模型需最低樣本</span>
-<span class="tag">Walk-forward</span><span class="tag">不把信心當勝率</span><span class="tag">本機保存</span>
-</div></section></div></div>
 <script>
-const K='baccarat_independent_lab_v1';
-let S=JSON.parse(localStorage.getItem(K)||'{"current":[],"shoes":[]}');
-const bp=a=>a.filter(x=>x==='B'||x==='P'), save=()=>localStorage.setItem(K,JSON.stringify(S));
-const PRELOADED_SHOES=["PPBPPPBPPBPPBBBBBPPBBBBPPBBPBBPPPPBBBBBBBBBPBBPP", "PPBPPBPPBBBPPBPPPBPBPPPBPPBBPBPPPPPPPPBBBPPBPPPPBPB", "BBBBBPPPPBBPPPPBPBBBBBBPPPBBBPPPBPPBPPPBPPBPPBPBBBBBP", "PBPBPBPBBBBBBBPBPPBPPPBBPPPPBPPPPPBPPPPPPPBBBBPBBBPBP", "PPPPBPBPPBPBPBPBPPBPBPBBBBBBBPPBBPPPPBPPBPBPPBB", "PPPPBPBBBBPBBBPBBPBPPPBBPPBBBBPBBPBBPBBPPPPBBPPBBBBBPB", "BPPBBPBPBBBPPPBBPPPPPPPPBBPBBPBBPPPPBBPBPBBBPPPBPBPP", "BPBBPPBBBPPBPPPPPBPBBBBBBPPBBBPPPBPPBPBPPBPPPBBPBBPB", "BPPPPBPBBPPBBBBPPBBPPPPBPPPPPPPBPPPPBBPPBBBPPBBBBBPP", "BPBBPPBBPBPPBPBPBBBBBPPBBPBBBBBPBPBBPPPPBPBBPBB", "BPBPBPBPBBPPBPPBPBPBPPPBPBPPBPBBBBBPBBPBBBBPPPPP", "PBBPPPBPBPBPBPBBBBBPPBBBPBPBPPPPBBPBBBPBPPBBPPPPPB", "PPPPBPBBBPBBPBPPBPPBBBPBPBPBPBPBPPBPPPPBPBBPB", "BBBPBBPBPBBBPBBPBBBBBPBBBPPPPBBPPPPBPBPPPPBPBBBPBP", "PBBPBBBBPPBPPBPBPPBPPBPPPPBPPBPPBPBBPBPBBPBPBP"];
-(function preload(){
- if(!localStorage.getItem('baccarat_independent_lab_v4_seeded')){
-   S.shoes=PRELOADED_SHOES.map(x=>[...x]);
-   localStorage.setItem('baccarat_independent_lab_v4_seeded','1');
-   save();
- }
-})();
-function add(x){S.current.push(x);save();if(x==='B'||x==='P')settleFuture();render()} function undo(){S.current.pop();save();render()}
-function newShoe(){if(bp(S.current).length>=8)S.shoes.push([...S.current]);S.current=[];currentShoeId='future_'+Date.now().toString(36);localStorage.setItem('baccarat_independent_v5_shoe_id',currentShoeId);save();render()}
-function importShoes(){let a=document.getElementById('importBox').value.split(/\n+/).map(x=>x.toUpperCase().replace(/[^BPT]/g,'')).filter(x=>bp([...x]).length>=8);S.shoes.push(...a.map(x=>[...x]));save();render()}
-function exportData(){let b=new Blob([JSON.stringify(S,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='baccarat-lab-data.json';a.click()}
-function simModel(cur,hist,L=10){
- cur=bp(cur); if(cur.length<L)return null; let t=cur.slice(-L),hits=[];
- hist.forEach(sh=>{sh=bp(sh);for(let e=L;e<sh.length;e++){let w=sh.slice(e-L,e),same=0;for(let i=0;i<L;i++)same+=w[i]===t[i];let s=same/L;if(s>=.7)hits.push({s,n:sh[e]})}});
- hits.sort((a,b)=>b.s-a.s);let top=hits.slice(0,60),B=top.filter(x=>x.n==='B').length,P=top.length-B,n=B+P,edge=n?Math.abs(B-P)/n:0;
- if(n<20||edge<.08)return {name:'片段相似',pick:null,n,edge,raw:top};
- return {name:'片段相似',pick:B>P?'B':'P',n,edge,raw:top}
-}
-function markov(cur,hist,k){
- cur=bp(cur);if(cur.length<k)return null;let key=cur.slice(-k).join(''),B=0,P=0;
- hist.forEach(sh=>{sh=bp(sh);for(let i=k;i<sh.length;i++)if(sh.slice(i-k,i).join('')===key)sh[i]==='B'?B++:P++});
- let n=B+P,edge=n?Math.abs(B-P)/n:0;return {name:`序列 ${k} 手`,pick:n>=30&&edge>=.10?(B>P?'B':'P'):null,n,edge}
-}
-function runLength(cur,hist){
- cur=bp(cur);if(cur.length<3)return null;let x=cur.at(-1),r=1;for(let i=cur.length-2;i>=0&&cur[i]===x;i--)r++;r=Math.min(r,5);let B=0,P=0;
- hist.forEach(sh=>{sh=bp(sh);for(let i=r;i<sh.length;i++){let ok=true;for(let j=1;j<=r;j++)if(sh[i-j]!==x)ok=false;if(ok)sh[i]==='B'?B++:P++}});
- let n=B+P,edge=n?Math.abs(B-P)/n:0;return {name:`連續結構 ${r}`,pick:n>=30&&edge>=.10?(B>P?'B':'P'):null,n,edge}
-}
-function models(cur,hist){return [simModel(cur,hist,10),markov(cur,hist,1),markov(cur,hist,2),markov(cur,hist,3),markov(cur,hist,4),runLength(cur,hist)].filter(Boolean)}
-function decide(ms){
- let active=ms.filter(x=>x.pick); if(!active.length)return {p:null,why:'所有候選模型都未通過門檻',score:0};
- let B=active.filter(x=>x.pick==='B'),P=active.filter(x=>x.pick==='P'),best=[...active].sort((a,b)=>(b.n*b.edge)-(a.n*a.edge))[0];
- if(active.length===1)return {p:best.pick,why:`只有 ${best.name} 通過門檻`,score:Math.min(.75,best.edge+.45)};
- if(B.length===P.length)return {p:null,why:'有效模型互相衝突',score:0};
- let side=B.length>P.length?'B':'P',agree=Math.max(B.length,P.length)/active.length;
- return agree>=.67?{p:side,why:`${Math.max(B.length,P.length)}/${active.length} 個有效模型同方向`,score:agree}:{p:null,why:'模型共識不足',score:agree}
-}
-function backtest(){
- let n=0,h=0;
- for(let j=5;j<S.shoes.length;j++){let hist=S.shoes.slice(Math.max(0,j-5),j),seq=bp(S.shoes[j]);
-  for(let i=10;i<seq.length;i++){let d=decide(models(seq.slice(0,i),hist));if(d.p){n++;if(d.p===seq[i])h++}}
- } return {n,h}
-}
+let data = JSON.parse(localStorage.getItem('baccaratData')||'[]');
+let timer=null, ws=null, seen=new Set();
+function base(r){return r[0]}
+function color(r){return base(r)==='B'?'#ef2335':base(r)==='P'?'#087cf0':'#08a95b'}
+function add(r){data.push({r,bp:bp.checked,pp:pp.checked});bp.checked=pp.checked=false;persist();render()}
+function undo(){data.pop();persist();render()}
+function clearAll(){if(confirm('確定清空全部資料？')){data=[];persist();render()}}
+function persist(){localStorage.setItem('baccaratData',JSON.stringify(data))}
+function saveData(){persist();alert('已儲存')}
+function loadData(){data=JSON.parse(localStorage.getItem('baccaratData')||'[]');render()}
 
-function modelFactories(cur,hist){
- return [
-  simModel(cur,hist,10),
-  markov(cur,hist,1),markov(cur,hist,2),markov(cur,hist,3),markov(cur,hist,4),
-  runLength(cur,hist)
- ].filter(Boolean)
-}
-function arenaBacktest(){
- const names=['片段相似','序列 1 手','序列 2 手','序列 3 手','序列 4 手'];
- let R={}; names.forEach(x=>R[x]={n:0,h:0,streak:0,max:0});
- for(let j=5;j<S.shoes.length;j++){
-   let hist=S.shoes.slice(Math.max(0,j-5),j),seq=bp(S.shoes[j]);
-   for(let i=10;i<seq.length;i++){
-     let ms=modelFactories(seq.slice(0,i),hist);
-     for(const m of ms){
-       if(!R[m.name])R[m.name]={n:0,h:0,streak:0,max:0};
-       if(!m.pick)continue;
-       let z=R[m.name]; z.n++;
-       if(m.pick===seq[i]){z.h++;z.streak=0}else{z.streak++;z.max=Math.max(z.max,z.streak)}
-     }
-   }
- }
- return R
-}
+function tick(){const d=new Date();date.textContent=d.toLocaleDateString('zh-TW');time.textContent=d.toLocaleTimeString('zh-TW',{hour12:false})}
+setInterval(tick,1000);tick();
 
-function regime(seq){
- seq=bp(seq); if(seq.length<8)return '資料不足';
- let x=seq.slice(-8),chg=0;for(let i=1;i<x.length;i++)if(x[i]!==x[i-1])chg++;
- let run=1;for(let i=x.length-2;i>=0&&x[i]===x.at(-1);i--)run++;
- if(run>=4)return '長連';
- if(chg>=6)return '高切換';
- if(chg<=2)return '低切換';
- return '混合';
+function setup(id,cell){
+  const c=document.getElementById(id),r=c.parentElement.getBoundingClientRect(),d=devicePixelRatio||1;
+  c.width=r.width*d;c.height=r.height*d;const x=c.getContext('2d');x.setTransform(d,0,0,d,0,0);
+  x.fillStyle='#fff';x.fillRect(0,0,r.width,r.height);x.strokeStyle='#d8dedb';x.lineWidth=.7;
+  for(let i=0;i<=r.width;i+=cell){x.beginPath();x.moveTo(i,0);x.lineTo(i,r.height);x.stroke()}
+  for(let i=0;i<=r.height;i+=cell){x.beginPath();x.moveTo(0,i);x.lineTo(r.width,i);x.stroke()}
+  return {x,w:r.width,h:r.height}
 }
-function routerBacktest(){
- let R={};
- for(let j=5;j<S.shoes.length;j++){
-   let hist=S.shoes.slice(Math.max(0,j-5),j),seq=bp(S.shoes[j]);
-   for(let i=10;i<seq.length;i++){
-     let rg=regime(seq.slice(0,i)),ms=modelFactories(seq.slice(0,i),hist);
-     for(const m of ms){if(!m.pick)continue;let k=rg+'|'+m.name,z=R[k]||(R[k]={n:0,h:0});z.n++;if(m.pick===seq[i])z.h++}
-   }
- }
- return R
+function drawBead(){
+  const {x,h}=setup('bead',30),rows=Math.max(1,Math.floor(h/30));
+  data.forEach((v,i)=>{const c=Math.floor(i/rows),r=i%rows,cx=c*30+15,cy=r*30+15;x.fillStyle=color(v.r);x.beginPath();x.arc(cx,cy,12,0,Math.PI*2);x.fill();x.fillStyle='#fff';x.font='bold 14px sans-serif';x.textAlign='center';x.textBaseline='middle';x.fillText(v.r.includes('6')?'6':base(v.r)==='B'?'莊':base(v.r)==='P'?'閒':'和',cx,cy)})
 }
-function routeDecision(cur,hist){
- let rg=regime(cur),R=routerBacktest(),ms=modelFactories(cur,hist).filter(x=>x.pick);
- let ranked=ms.map(m=>{let z=R[rg+'|'+m.name]||{n:0,h:0};return {m,n:z.n,rate:z.n?z.h/z.n:0}})
-   .filter(x=>x.n>=30&&x.rate>=.52).sort((a,b)=>b.rate-a.rate||b.n-a.n);
- if(!ranked.length)return {rg,p:null,why:`${rg}：沒有模型通過該環境最低驗證門檻`,ranked:[]};
- let top=ranked[0];
- return {rg,p:top.m.pick,why:`${rg}：採用 ${top.m.name}｜該環境 ${top.n} 次測試 / ${(top.rate*100).toFixed(2)}%`,ranked}
+function bigPositions(){
+  const arr=data.filter(v=>base(v.r)!=='T');let out=[],col=-1,row=0,last=null;
+  for(const v of arr){const r=base(v.r);if(r!==last){col++;row=0}else row=Math.min(5,row+1);out.push({r,col,row});last=r}
+  return out
 }
-function renderRouter(){
- let hist=S.shoes.slice(-5),d=routeDecision(S.current,hist),R=routerBacktest();
- regimeNow.textContent=d.rg;regimeInfo.textContent=d.why;
- let ms=modelFactories(S.current,hist),names=[...new Set(ms.map(x=>x.name))];
- router.innerHTML=names.map(name=>{let z=R[d.rg+'|'+name]||{n:0,h:0},rate=z.n?z.h/z.n:0,ok=z.n>=30&&rate>=.52;
- return `<tr><td>${d.rg}</td><td>${name}</td><td>${z.n}</td><td>${z.n?(rate*100).toFixed(2)+'%':'—'}</td><td class="${ok?'good':'warn'}">${ok?'候選':'不使用'}</td></tr>`}).join('');
- return d
+function drawBig(){const {x}=setup('big',34);bigPositions().forEach(v=>{const cx=v.col*34+17,cy=v.row*34+17;x.strokeStyle=color(v.r);x.lineWidth=3;x.beginPath();x.arc(cx,cy,12,0,Math.PI*2);x.stroke()})}
+function derived(offset){const a=bigPositions(),out=[];for(let i=offset+2;i<a.length;i++){const p=a[i-1],c=a[i];out.push(((c.row===p.row)||(c.col-p.col===1&&c.row===0))?'R':'B')}return out}
+function drawDerived(id,arr,type){
+  const {x,h}=setup(id,22),rows=Math.max(1,Math.floor(h/22));
+  arr.forEach((v,i)=>{const c=Math.floor(i/rows),r=i%rows,cx=c*22+11,cy=r*22+11;x.strokeStyle=x.fillStyle=v==='R'?'#ef2335':'#087cf0';x.lineWidth=2;
+    if(type==='slash'){x.beginPath();x.moveTo(cx-6,cy+6);x.lineTo(cx+6,cy-6);x.stroke()}
+    else if(type==='dot'){x.beginPath();x.arc(cx,cy,5,0,Math.PI*2);x.fill()}
+    else{x.beginPath();x.arc(cx,cy,7,0,Math.PI*2);x.stroke()}
+  })
 }
+function drawAsk(){const {x}=setup('ask',22);for(let j=0;j<2;j++)for(let i=0;i<10;i++){const cx=i*22+11,cy=j*22+11;x.strokeStyle=(i+j)%2?'#ef2335':'#087cf0';x.lineWidth=2;x.beginPath();x.arc(cx,cy,7,0,Math.PI*2);x.stroke()}}
+function stats(){
+  const B=data.filter(v=>base(v.r)==='B').length,P=data.filter(v=>base(v.r)==='P').length,T=data.filter(v=>base(v.r)==='T').length,n=data.length;
+  bCount.textContent=B;pCount.textContent=P;tCount.textContent=T;
+  last.textContent=n?(base(data[n-1].r)==='B'?'莊':base(data[n-1].r)==='P'?'閒':'和'):'- - -';
+  probB.textContent=(n?B/n*100:50).toFixed(1)+'%';probP.textContent=(n?P/n*100:50).toFixed(1)+'%';probT.textContent=(n?T/n*100:0).toFixed(1)+'%';samples.textContent=n+' 局'
+}
+function renderPrediction(){
+  const a=data.map(v=>base(v.r)).filter(r=>r!=='T');if(a.length<8){confidence.textContent='0%';return}
+  let B=0,P=0;for(let n=1;n<=3;n++){const pat=a.slice(-n).join('');for(let i=0;i<a.length-n;i++)if(a.slice(i,i+n).join('')===pat){a[i+n]==='B'?B++:P++}}
+  const total=B+P;confidence.textContent=(total?Math.min(90,Math.round(50+Math.abs(B-P)/total*40)):0)+'%'
+}
+function render(){drawBead();drawBig();drawDerived('eye',derived(1),'circle');drawDerived('small',derived(2),'dot');drawDerived('cock',derived(3),'slash');drawAsk();stats();renderPrediction()}
+window.addEventListener('resize',render);
 
-function renderArena(){
- const R=arenaBacktest(),rows=Object.entries(R);
- arena.innerHTML=rows.map(([name,z])=>{
-   let rate=z.n?z.h/z.n:0,status=z.n<50?'樣本不足':rate>=.55?'保留':rate<.50?'淘汰':'觀察';
-   let cls=status==='保留'?'good':status==='淘汰'?'bad':'warn';
-   return `<tr><td>${name}</td><td>${z.n}</td><td>${z.h}</td><td>${z.n?(rate*100).toFixed(2)+'%':'—'}</td><td>${z.max}</td><td class="${cls}">${status}</td></tr>`
- }).join('');
- let eligible=rows.filter(([,z])=>z.n>=50).sort((a,b)=>(b[1].h/b[1].n)-(a[1].h/a[1].n));
- arenaBest.textContent=eligible.length?`目前歷史表現最高：${eligible[0][0]} ${(eligible[0][1].h/eligible[0][1].n*100).toFixed(2)}%｜這是回測排名，不代表下一局勝率。`:'至少累積 50 次獨立測試後才開始比較模型。'
+function normalizeResult(v){
+  if(v==null)return null;const s=String(v).trim().toLowerCase();
+  if(['b','banker','莊','庄'].includes(s)||s.includes('banker'))return 'B';
+  if(['p','player','閒','闲'].includes(s)||s.includes('player'))return 'P';
+  if(['t','tie','和'].includes(s)||s.includes('tie'))return 'T';return null
 }
-
-
-const HOLDOUT_TRAIN=10;
-const FUTURE_KEY='baccarat_independent_v5_future_ledger';
-let futureLedger=JSON.parse(localStorage.getItem(FUTURE_KEY)||'[]');
-let currentShoeId=localStorage.getItem('baccarat_independent_v5_shoe_id')||('future_'+Date.now().toString(36));
-localStorage.setItem('baccarat_independent_v5_shoe_id',currentShoeId);
-
-function oneModelStats(targetShoes, historyBeforeIndex){
- let names=['片段相似','序列 1 手','序列 2 手','序列 3 手','序列 4 手','連續結構 1','連續結構 2','連續結構 3','連續結構 4','連續結構 5'],R={};
- names.forEach(n=>R[n]={n:0,h:0});
- for(let jj=0;jj<targetShoes.length;jj++){
-   let absolute=historyBeforeIndex+jj, hist=S.shoes.slice(Math.max(0,absolute-5),absolute), seq=bp(targetShoes[jj]);
-   for(let i=10;i<seq.length;i++)for(const m of modelFactories(seq.slice(0,i),hist)){
-     if(!m.pick)continue;let z=R[m.name]||(R[m.name]={n:0,h:0});z.n++;if(m.pick===seq[i])z.h++;
-   }
- }
- return R
+function pick(o,names){for(const n of names)if(o&&Object.prototype.hasOwnProperty.call(o,n))return o[n]}
+function rows(p){if(Array.isArray(p))return p;if(p&&Array.isArray(p.data))return p.data;if(p&&Array.isArray(p.results))return p.results;if(p&&Array.isArray(p.items))return p.items;return [p]}
+function processPayload(payload){
+  const target=(tableFilter.value||tableMirror.value||'').trim().toLowerCase();let added=0;
+  for(const row of rows(payload)){if(!row||typeof row!=='object')continue;const table=pick(row,['table','tableId','table_id','tableNo','desk','room']);if(target&&String(table??'').toLowerCase()!==target)continue;
+    const rf=resultField.value.trim();const raw=rf?row[rf]:pick(row,['result','winner','side','gameResult','game_result','outcome','win']);const r=normalizeResult(raw);if(!r)continue;
+    const id=pick(row,['id','gameId','game_id','roundId','round_id','serial','issue'])??JSON.stringify(row);const key=String(id);if(seen.has(key))continue;seen.add(key);data.push({r,source:'auto'});added++}
+  if(added){persist();render();logmsg(`新增 ${added} 局，自動更新走勢`)}
 }
-function holdoutValidation(){
- let train=S.shoes.slice(0,HOLDOUT_TRAIN),test=S.shoes.slice(HOLDOUT_TRAIN,15);
- let research=oneModelStats(train.slice(5),5), exam=oneModelStats(test,HOLDOUT_TRAIN);
- let names=[...new Set([...Object.keys(research),...Object.keys(exam)])];
- holdoutTable.innerHTML=names.map(name=>{
-   let a=research[name]||{n:0,h:0},b=exam[name]||{n:0,h:0},ar=a.n?a.h/a.n:0,br=b.n?b.h/b.n:0;
-   let verdict=b.n<20?'樣本不足':br>=.55?'保留觀察':br<.50?'淘汰':'中性';
-   return `<tr><td>${name}</td><td>${a.n}</td><td>${a.n?(ar*100).toFixed(1)+'%':'—'}</td><td>${b.n}</td><td>${b.n?(br*100).toFixed(1)+'%':'—'}</td><td class="${verdict==='保留觀察'?'good':verdict==='淘汰'?'bad':'warn'}">${verdict}</td></tr>`
- }).join('');
- // Frozen router test: at each test position only prior shoes; router historical regime scores also only prior shoes.
- let N=0,H=0;
- for(let j=HOLDOUT_TRAIN;j<Math.min(15,S.shoes.length);j++){
-   let hist=S.shoes.slice(Math.max(0,j-5),j),seq=bp(S.shoes[j]);
-   for(let i=10;i<seq.length;i++){
-     let ms=modelFactories(seq.slice(0,i),hist).filter(x=>x.pick);
-     if(!ms.length)continue;
-     // Conservative: only similarity is accepted in locked holdout unless 2 independent models agree.
-     let sm=ms.find(x=>x.name==='片段相似'), picks=ms.reduce((o,x)=>(o[x.pick]=(o[x.pick]||0)+1,o),{});
-     let p=null;
-     if(sm)p=sm.pick;
-     else if((picks.B||0)>=2 && (picks.B||0)>(picks.P||0))p='B';
-     else if((picks.P||0)>=2 && (picks.P||0)>(picks.B||0))p='P';
-     if(p){N++;if(p===seq[i])H++}
-   }
- }
- testN.textContent=N;testRate.textContent=N?(H/N*100).toFixed(2)+'%':'—';
- holdoutNote.textContent=`前 ${HOLDOUT_TRAIN} 靴只作研究；第 ${HOLDOUT_TRAIN+1}–15 靴作鎖定考試。考試結果不會反過來修改門檻。${N?`目前整體：${H}/${N}。`:''}`;
+function logmsg(m){const t=new Date().toLocaleTimeString('zh-TW',{hour12:false});log.innerHTML+=`<div>[${t}] ${m}</div>`;log.scrollTop=log.scrollHeight}
+async function poll(){
+  try{const res=await fetch(endpoint.value.trim(),{cache:'no-store',credentials:'include'});if(!res.ok)throw new Error('HTTP '+res.status);let payload;const ct=res.headers.get('content-type')||'';payload=ct.includes('json')?await res.json():JSON.parse(await res.text());processPayload(payload);connStatus.textContent='已連線'}catch(e){connStatus.textContent='連線失敗';logmsg(e.message)}
 }
-function futurePick(){
- let hist=S.shoes.slice(-5), ms=modelFactories(S.current,hist).filter(x=>x.pick), sm=ms.find(x=>x.name==='片段相似');
- if(sm)return {pick:sm.pick,model:'片段相似',n:sm.n,edge:sm.edge};
- let B=ms.filter(x=>x.pick==='B').length,P=ms.filter(x=>x.pick==='P').length;
- if(B>=2&&B>P)return {pick:'B',model:'雙模型共識',n:0,edge:0};
- if(P>=2&&P>B)return {pick:'P',model:'雙模型共識',n:0,edge:0};
- return null
+function connectSource(){
+  disconnectSource(false);const url=endpoint.value.trim();if(!url){alert('請先貼上網址');return}
+  if(sourceType.value==='ws'){try{ws=new WebSocket(url);connStatus.textContent='連線中';ws.onopen=()=>{connStatus.textContent='已連線';logmsg('WebSocket 已連線')};ws.onmessage=e=>{try{processPayload(JSON.parse(e.data))}catch{}};ws.onclose=()=>connStatus.textContent='已停止'}catch(e){logmsg(e.message)}}
+  else{poll();timer=setInterval(poll,Number(pollMs.value)||3000);logmsg('開始自動抓取')}
 }
-function settleFuture(){
- let seq=bp(S.current), no=seq.length;
- // settle prediction made for the just-entered B/P round
- let row=futureLedger.find(x=>x.shoe===currentShoeId&&x.round===no&&x.actual==null);
- if(row){row.actual=seq.at(-1);row.hit=row.pick===row.actual;row.settled=Date.now()}
- // lock next prediction after current result exists
- let next=no+1, exists=futureLedger.some(x=>x.shoe===currentShoeId&&x.round===next);
- if(!exists && no>=10){let q=futurePick();if(q)futureLedger.push({shoe:currentShoeId,round:next,pick:q.pick,model:q.model,n:q.n,edge:q.edge,actual:null,hit:null,locked:Date.now()})}
- localStorage.setItem(FUTURE_KEY,JSON.stringify(futureLedger));
- renderFuture()
-}
-function renderFuture(){
- let done=futureLedger.filter(x=>x.actual),hit=done.filter(x=>x.hit).length;
- futureN.textContent=futureLedger.length;futureDone.textContent=done.length;futureHit.textContent=hit;futureRate.textContent=done.length?(hit/done.length*100).toFixed(2)+'%':'—'
-}
-
-
-function beadCoords(a){return a.map((x,i)=>({r:i%6,c:Math.floor(i/6),v:x}))}
-function bigCoords(a){
- let q=bp(a),out=[],col=0,row=0,last=null,occupied=new Set();
- q.forEach(v=>{if(last===null){row=0;col=0}else if(v===last){let nr=row+1;if(nr>5||occupied.has(nr+','+col)){col++;}else row=nr}else{col++;row=0}
- while(occupied.has(row+','+col))col++;occupied.add(row+','+col);out.push({r:row,c:col,v});last=v});return out
-}
-function derived(big,offset){
- let grid=new Map(big.map(x=>[x.r+','+x.c,x])),out=[];
- for(let i=0;i<big.length;i++){let x=big[i];if(x.c<offset+1)continue;
- let same;
- if(x.r===0)same=grid.has('0,'+(x.c-offset))===grid.has('0,'+(x.c-offset-1));
- else same=grid.has(x.r+','+(x.c-offset));
- out.push(same?'B':'P')
- }return bigCoords(out)
-}
-function paintRoad(id,cells,filled=false){
- let el=document.getElementById(id);if(!el)return;let max=Math.max(11,...cells.map(x=>x.c));
- el.style.gridTemplateColumns=`repeat(${max+1},27px)`;
- el.innerHTML=cells.map(x=>`<span class="roadCell ${filled?(x.v==='B'?'fillB':'fillP'):x.v}" style="grid-row:${x.r+1};grid-column:${x.c+1}">${filled?'':x.v}</span>`).join('')
-}
-function renderRoads(){
- let bead=beadCoords(S.current),big=bigCoords(S.current);paintRoad('v6BeadRoad',bead);paintRoad('v6BigRoad',big);
- paintRoad('v6Eye',derived(big,1),true);paintRoad('v6Small',derived(big,2),true);paintRoad('v6Cock',derived(big,3),true)
-}
-
-function render(){
- let a=S.current,B=a.filter(x=>x==='B').length,P=a.filter(x=>x==='P').length,T=a.filter(x=>x==='T').length;
- n.textContent=a.length;nb.textContent=B;np.textContent=P;nt.textContent=T;
- bead.innerHTML=a.map(x=>`<span class="dot ${x}">${x}</span>`).join('');
- histState.textContent=`已保存 ${S.shoes.length} 靴｜${S.shoes.reduce((z,x)=>z+x.length,0)} 局`;
- let hist=S.shoes.slice(-5),ms=models(a,hist),d=decide(ms),pe=document.getElementById('pred');
- pe.textContent=d.p?(d.p==='B'?'莊':'閒'):'觀望';pe.className='pred '+(d.p||'W');reason.textContent=d.why;meter.style.width=(d.score*100)+'%';
- tags.innerHTML=ms.filter(x=>x.pick).map(x=>`<span class="tag">${x.name}→${x.pick==='B'?'莊':'閒'}</span>`).join('');
- modelsEl=document.getElementById('models');modelsEl.innerHTML=ms.map(x=>`<tr><td>${x.name}</td><td>${x.pick?(x.pick==='B'?'莊':'閒'):'—'}</td><td>${x.n}</td><td>${x.n?((.5+x.edge/2)*100).toFixed(1)+'%票差側':'—'}</td><td class="${x.pick?'good':'warn'}">${x.pick?'有效':'觀望'}</td></tr>`).join('');
- let v=backtest();vn.textContent=v.n;vh.textContent=v.h;vm.textContent=v.n-v.h;vr.textContent=v.n?(v.h/v.n*100).toFixed(2)+'%':'—';renderArena();holdoutValidation();renderFuture();
- let rd=renderRouter();pe.textContent=rd.p?(rd.p==='B'?'莊':'閒'):'觀望';pe.className='pred '+(rd.p||'W');reason.textContent=rd.why;
- tags.innerHTML=rd.ranked.slice(0,3).map(x=>`<span class="tag">${x.m.name} ${(x.rate*100).toFixed(1)}%</span>`).join('');renderRoads()
-}
+function disconnectSource(write=true){if(timer){clearInterval(timer);timer=null}if(ws){try{ws.close()}catch{}ws=null}connStatus.textContent='已停止';if(write)logmsg('已停止')}
+function testFeed(){data.push({r:Math.random()>.5?'B':'P'});persist();render()}
+function exportData(){const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='baccarat-data.json';a.click()}
+function importDataFile(e){const f=e.target.files[0];if(!f)return;const rd=new FileReader();rd.onload=()=>{try{const v=JSON.parse(rd.result);if(Array.isArray(v)){data=v;persist();render()}}catch{alert('檔案格式錯誤')}};rd.readAsText(f)}
 render();
-</script></body></html>
+</script>
+</body>
+</html>
