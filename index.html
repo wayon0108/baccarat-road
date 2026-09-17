@@ -2,7 +2,7 @@
 <html lang="zh-Hant">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Baccarat Lab — Independent Research Engine</title>
+<title>Baccarat Lab — Independent Ultimate V6 — Five Roads</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#070b10;color:#e8eef5;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
 header{padding:16px 18px;border-bottom:1px solid #1c2935;background:#0b1118;position:sticky;top:0;z-index:3}
@@ -18,9 +18,18 @@ table{width:100%;border-collapse:collapse;font-size:12px}th,td{padding:7px;borde
 .good{color:#62d596}.warn{color:#f3c65d}.bad{color:#ff7381}.tag{display:inline-block;padding:3px 7px;border-radius:7px;background:#17232e;font-size:11px;margin:2px}
 textarea{width:100%;min-height:70px;background:#080d12;color:#dce7f2;border:1px solid #263542;border-radius:9px;padding:8px}
 @media(max-width:800px){.grid{grid-template-columns:1fr}.kpis{grid-template-columns:repeat(2,1fr)}}
-</style></head>
+</style>
+<style id="v6roads">
+.roads{overflow-x:auto}.roadGrid{display:grid;grid-auto-flow:column;grid-template-rows:repeat(6,27px);grid-auto-columns:27px;gap:2px;min-height:172px;align-content:start}
+.roadCell{width:27px;height:27px;border:1px solid #1b2935;border-radius:50%;display:grid;place-items:center;font-size:10px;font-weight:900}
+.roadCell.B{border:2px solid #e94f60;color:#ff7584}.roadCell.P{border:2px solid #3d91f2;color:#68adff}.roadCell.T{border:2px solid #37a870;color:#61d89a}
+.roadCell.fillB{background:#c83345;border-color:#c83345;color:#fff}.roadCell.fillP{background:#2374d8;border-color:#2374d8;color:#fff}
+.roadLegend{font-size:11px;color:#8191a2;margin:5px 0 8px}.miniRoad{grid-template-rows:repeat(6,19px);grid-auto-columns:19px;min-height:124px}.miniRoad .roadCell{width:19px;height:19px;font-size:0}
+.roadTitle{font-size:13px;font-weight:800;margin:8px 0 5px}
+</style>
+</head>
 <body>
-<header><h1>BACCARAT LAB <span class="muted">｜Independent Research Engine</span></h1><small>獨立設計・先驗證再採用・無有效訊號就觀望</small></header>
+<header><h1>BACCARAT LAB <span class="muted">｜Independent Ultimate V6 — Five Roads</span></h1><small>完整獨立版・15靴內建・研究/考試隔離・未來逐局鎖定驗證</small></header>
 <div class="wrap"><div class="grid">
 <section>
 <div class="card"><div class="title">快速輸入</div><div class="buttons">
@@ -28,6 +37,16 @@ textarea{width:100%;min-height:70px;background:#080d12;color:#dce7f2;border:1px 
 <button class="alt" onclick="undo()">復原</button><button class="alt" onclick="newShoe()">新靴</button>
 </div></div>
 <div class="card"><div class="title">珠盤</div><div id="bead"></div></div>
+
+<div class="card"><div class="title">走勢圖｜五路</div>
+<div class="roadLegend">紅＝莊　藍＝閒　綠＝和。大路依連莊／連閒排列；下方三路用大路結構顯示整齊度變化。</div>
+<div class="roadTitle">珠盤路</div><div class="roads"><div id="v6BeadRoad" class="roadGrid"></div></div>
+<div class="roadTitle">大路</div><div class="roads"><div id="v6BigRoad" class="roadGrid"></div></div>
+<div style="display:grid;grid-template-columns:repeat(3,minmax(260px,1fr));gap:8px;overflow-x:auto">
+<div><div class="roadTitle">大眼仔</div><div class="roads"><div id="v6Eye" class="roadGrid miniRoad"></div></div></div>
+<div><div class="roadTitle">小路</div><div class="roads"><div id="v6Small" class="roadGrid miniRoad"></div></div></div>
+<div><div class="roadTitle">曱甴路</div><div class="roads"><div id="v6Cock" class="roadGrid miniRoad"></div></div></div>
+</div></div>
 <div class="card"><div class="title">候選模型實驗室</div>
 <div class="muted" style="font-size:12px;margin-bottom:8px">模型彼此獨立計分；只有通過最低歷史樣本要求才顯示。此處的百分比是回測統計，不是下一局真實機率。</div>
 <table><thead><tr><th>模型</th><th>訊號</th><th>樣本</th><th>回測</th><th>狀態</th></tr></thead><tbody id="models"></tbody></table></div>
@@ -47,6 +66,38 @@ textarea{width:100%;min-height:70px;background:#080d12;color:#dce7f2;border:1px 
 <div class="kpi"><small>有效預測</small><b id="vn">0</b></div><div class="kpi"><small>中</small><b id="vh">0</b></div>
 <div class="kpi"><small>錯</small><b id="vm">0</b></div><div class="kpi"><small>命中率</small><b id="vr">—</b></div></div>
 <div class="muted" style="font-size:12px;margin-top:8px">驗證時每一靴只能使用它之前的歷史靴，避免偷看未來資料。</div></div>
+
+
+<div class="card"><div class="title">環境路由器｜Regime Router</div>
+<div id="regimeNow" class="pred W" style="font-size:24px">辨識中</div>
+<div id="regimeInfo" class="muted" style="text-align:center;font-size:12px"></div>
+<table style="margin-top:8px"><thead><tr><th>目前環境</th><th>候選模型</th><th>該環境測試</th><th>命中率</th><th>使用</th></tr></thead><tbody id="router"></tbody></table>
+</div>
+<div class="card"><div class="title">模型競技場｜自動淘汰</div>
+<div class="muted" style="font-size:12px;margin-bottom:8px">每個模型分開做時間順序 Walk-forward。未達最低測試量不排名；低於基準只標記淘汰，不會參與主決策。</div>
+<table><thead><tr><th>模型</th><th>測試</th><th>中</th><th>命中率</th><th>最大連錯</th><th>判定</th></tr></thead><tbody id="arena"></tbody></table>
+<div id="arenaBest" class="muted" style="margin-top:8px">等待更多完成靴</div></div>
+
+<div class="card"><div class="title">完整研究／考試中心</div>
+<div class="kpis">
+<div class="kpi"><small>研究靴</small><b id="trainShoes">10</b></div>
+<div class="kpi"><small>鎖定考試靴</small><b id="testShoes">5</b></div>
+<div class="kpi"><small>考試有效訊號</small><b id="testN">0</b></div>
+<div class="kpi"><small>考試命中率</small><b id="testRate">—</b></div>
+</div>
+<table style="margin-top:9px"><thead><tr><th>模型</th><th>研究測試</th><th>研究率</th><th>考試訊號</th><th>考試率</th><th>結論</th></tr></thead><tbody id="holdoutTable"></tbody></table>
+<div id="holdoutNote" class="muted" style="font-size:12px;margin-top:8px"></div>
+</div>
+
+<div class="card"><div class="title">未來實測紀錄</div>
+<div class="kpis">
+<div class="kpi"><small>已鎖預測</small><b id="futureN">0</b></div>
+<div class="kpi"><small>已結算</small><b id="futureDone">0</b></div>
+<div class="kpi"><small>中</small><b id="futureHit">0</b></div>
+<div class="kpi"><small>實測率</small><b id="futureRate">—</b></div>
+</div>
+<div class="muted" style="font-size:12px;margin-top:8px">每一局先鎖定預測，結果輸入後才結算；同一靴＋局號只記一次。本機永久保存。</div>
+</div>
 <div class="card"><div class="title">設計原則</div>
 <span class="tag">B/P 分析排除和局</span><span class="tag">拒絕強制猜測</span><span class="tag">模型需最低樣本</span>
 <span class="tag">Walk-forward</span><span class="tag">不把信心當勝率</span><span class="tag">本機保存</span>
@@ -55,8 +106,16 @@ textarea{width:100%;min-height:70px;background:#080d12;color:#dce7f2;border:1px 
 const K='baccarat_independent_lab_v1';
 let S=JSON.parse(localStorage.getItem(K)||'{"current":[],"shoes":[]}');
 const bp=a=>a.filter(x=>x==='B'||x==='P'), save=()=>localStorage.setItem(K,JSON.stringify(S));
-function add(x){S.current.push(x);save();render()} function undo(){S.current.pop();save();render()}
-function newShoe(){if(bp(S.current).length>=8)S.shoes.push([...S.current]);S.current=[];save();render()}
+const PRELOADED_SHOES=["PPBPPPBPPBPPBBBBBPPBBBBPPBBPBBPPPPBBBBBBBBBPBBPP", "PPBPPBPPBBBPPBPPPBPBPPPBPPBBPBPPPPPPPPBBBPPBPPPPBPB", "BBBBBPPPPBBPPPPBPBBBBBBPPPBBBPPPBPPBPPPBPPBPPBPBBBBBP", "PBPBPBPBBBBBBBPBPPBPPPBBPPPPBPPPPPBPPPPPPPBBBBPBBBPBP", "PPPPBPBPPBPBPBPBPPBPBPBBBBBBBPPBBPPPPBPPBPBPPBB", "PPPPBPBBBBPBBBPBBPBPPPBBPPBBBBPBBPBBPBBPPPPBBPPBBBBBPB", "BPPBBPBPBBBPPPBBPPPPPPPPBBPBBPBBPPPPBBPBPBBBPPPBPBPP", "BPBBPPBBBPPBPPPPPBPBBBBBBPPBBBPPPBPPBPBPPBPPPBBPBBPB", "BPPPPBPBBPPBBBBPPBBPPPPBPPPPPPPBPPPPBBPPBBBPPBBBBBPP", "BPBBPPBBPBPPBPBPBBBBBPPBBPBBBBBPBPBBPPPPBPBBPBB", "BPBPBPBPBBPPBPPBPBPBPPPBPBPPBPBBBBBPBBPBBBBPPPPP", "PBBPPPBPBPBPBPBBBBBPPBBBPBPBPPPPBBPBBBPBPPBBPPPPPB", "PPPPBPBBBPBBPBPPBPPBBBPBPBPBPBPBPPBPPPPBPBBPB", "BBBPBBPBPBBBPBBPBBBBBPBBBPPPPBBPPPPBPBPPPPBPBBBPBP", "PBBPBBBBPPBPPBPBPPBPPBPPPPBPPBPPBPBBPBPBBPBPBP"];
+(function preload(){
+ if(!localStorage.getItem('baccarat_independent_lab_v4_seeded')){
+   S.shoes=PRELOADED_SHOES.map(x=>[...x]);
+   localStorage.setItem('baccarat_independent_lab_v4_seeded','1');
+   save();
+ }
+})();
+function add(x){S.current.push(x);save();if(x==='B'||x==='P')settleFuture();render()} function undo(){S.current.pop();save();render()}
+function newShoe(){if(bp(S.current).length>=8)S.shoes.push([...S.current]);S.current=[];currentShoeId='future_'+Date.now().toString(36);localStorage.setItem('baccarat_independent_v5_shoe_id',currentShoeId);save();render()}
 function importShoes(){let a=document.getElementById('importBox').value.split(/\n+/).map(x=>x.toUpperCase().replace(/[^BPT]/g,'')).filter(x=>bp([...x]).length>=8);S.shoes.push(...a.map(x=>[...x]));save();render()}
 function exportData(){let b=new Blob([JSON.stringify(S,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='baccarat-lab-data.json';a.click()}
 function simModel(cur,hist,L=10){
@@ -91,6 +150,176 @@ function backtest(){
   for(let i=10;i<seq.length;i++){let d=decide(models(seq.slice(0,i),hist));if(d.p){n++;if(d.p===seq[i])h++}}
  } return {n,h}
 }
+
+function modelFactories(cur,hist){
+ return [
+  simModel(cur,hist,10),
+  markov(cur,hist,1),markov(cur,hist,2),markov(cur,hist,3),markov(cur,hist,4),
+  runLength(cur,hist)
+ ].filter(Boolean)
+}
+function arenaBacktest(){
+ const names=['片段相似','序列 1 手','序列 2 手','序列 3 手','序列 4 手'];
+ let R={}; names.forEach(x=>R[x]={n:0,h:0,streak:0,max:0});
+ for(let j=5;j<S.shoes.length;j++){
+   let hist=S.shoes.slice(Math.max(0,j-5),j),seq=bp(S.shoes[j]);
+   for(let i=10;i<seq.length;i++){
+     let ms=modelFactories(seq.slice(0,i),hist);
+     for(const m of ms){
+       if(!R[m.name])R[m.name]={n:0,h:0,streak:0,max:0};
+       if(!m.pick)continue;
+       let z=R[m.name]; z.n++;
+       if(m.pick===seq[i]){z.h++;z.streak=0}else{z.streak++;z.max=Math.max(z.max,z.streak)}
+     }
+   }
+ }
+ return R
+}
+
+function regime(seq){
+ seq=bp(seq); if(seq.length<8)return '資料不足';
+ let x=seq.slice(-8),chg=0;for(let i=1;i<x.length;i++)if(x[i]!==x[i-1])chg++;
+ let run=1;for(let i=x.length-2;i>=0&&x[i]===x.at(-1);i--)run++;
+ if(run>=4)return '長連';
+ if(chg>=6)return '高切換';
+ if(chg<=2)return '低切換';
+ return '混合';
+}
+function routerBacktest(){
+ let R={};
+ for(let j=5;j<S.shoes.length;j++){
+   let hist=S.shoes.slice(Math.max(0,j-5),j),seq=bp(S.shoes[j]);
+   for(let i=10;i<seq.length;i++){
+     let rg=regime(seq.slice(0,i)),ms=modelFactories(seq.slice(0,i),hist);
+     for(const m of ms){if(!m.pick)continue;let k=rg+'|'+m.name,z=R[k]||(R[k]={n:0,h:0});z.n++;if(m.pick===seq[i])z.h++}
+   }
+ }
+ return R
+}
+function routeDecision(cur,hist){
+ let rg=regime(cur),R=routerBacktest(),ms=modelFactories(cur,hist).filter(x=>x.pick);
+ let ranked=ms.map(m=>{let z=R[rg+'|'+m.name]||{n:0,h:0};return {m,n:z.n,rate:z.n?z.h/z.n:0}})
+   .filter(x=>x.n>=30&&x.rate>=.52).sort((a,b)=>b.rate-a.rate||b.n-a.n);
+ if(!ranked.length)return {rg,p:null,why:`${rg}：沒有模型通過該環境最低驗證門檻`,ranked:[]};
+ let top=ranked[0];
+ return {rg,p:top.m.pick,why:`${rg}：採用 ${top.m.name}｜該環境 ${top.n} 次測試 / ${(top.rate*100).toFixed(2)}%`,ranked}
+}
+function renderRouter(){
+ let hist=S.shoes.slice(-5),d=routeDecision(S.current,hist),R=routerBacktest();
+ regimeNow.textContent=d.rg;regimeInfo.textContent=d.why;
+ let ms=modelFactories(S.current,hist),names=[...new Set(ms.map(x=>x.name))];
+ router.innerHTML=names.map(name=>{let z=R[d.rg+'|'+name]||{n:0,h:0},rate=z.n?z.h/z.n:0,ok=z.n>=30&&rate>=.52;
+ return `<tr><td>${d.rg}</td><td>${name}</td><td>${z.n}</td><td>${z.n?(rate*100).toFixed(2)+'%':'—'}</td><td class="${ok?'good':'warn'}">${ok?'候選':'不使用'}</td></tr>`}).join('');
+ return d
+}
+
+function renderArena(){
+ const R=arenaBacktest(),rows=Object.entries(R);
+ arena.innerHTML=rows.map(([name,z])=>{
+   let rate=z.n?z.h/z.n:0,status=z.n<50?'樣本不足':rate>=.55?'保留':rate<.50?'淘汰':'觀察';
+   let cls=status==='保留'?'good':status==='淘汰'?'bad':'warn';
+   return `<tr><td>${name}</td><td>${z.n}</td><td>${z.h}</td><td>${z.n?(rate*100).toFixed(2)+'%':'—'}</td><td>${z.max}</td><td class="${cls}">${status}</td></tr>`
+ }).join('');
+ let eligible=rows.filter(([,z])=>z.n>=50).sort((a,b)=>(b[1].h/b[1].n)-(a[1].h/a[1].n));
+ arenaBest.textContent=eligible.length?`目前歷史表現最高：${eligible[0][0]} ${(eligible[0][1].h/eligible[0][1].n*100).toFixed(2)}%｜這是回測排名，不代表下一局勝率。`:'至少累積 50 次獨立測試後才開始比較模型。'
+}
+
+
+const HOLDOUT_TRAIN=10;
+const FUTURE_KEY='baccarat_independent_v5_future_ledger';
+let futureLedger=JSON.parse(localStorage.getItem(FUTURE_KEY)||'[]');
+let currentShoeId=localStorage.getItem('baccarat_independent_v5_shoe_id')||('future_'+Date.now().toString(36));
+localStorage.setItem('baccarat_independent_v5_shoe_id',currentShoeId);
+
+function oneModelStats(targetShoes, historyBeforeIndex){
+ let names=['片段相似','序列 1 手','序列 2 手','序列 3 手','序列 4 手','連續結構 1','連續結構 2','連續結構 3','連續結構 4','連續結構 5'],R={};
+ names.forEach(n=>R[n]={n:0,h:0});
+ for(let jj=0;jj<targetShoes.length;jj++){
+   let absolute=historyBeforeIndex+jj, hist=S.shoes.slice(Math.max(0,absolute-5),absolute), seq=bp(targetShoes[jj]);
+   for(let i=10;i<seq.length;i++)for(const m of modelFactories(seq.slice(0,i),hist)){
+     if(!m.pick)continue;let z=R[m.name]||(R[m.name]={n:0,h:0});z.n++;if(m.pick===seq[i])z.h++;
+   }
+ }
+ return R
+}
+function holdoutValidation(){
+ let train=S.shoes.slice(0,HOLDOUT_TRAIN),test=S.shoes.slice(HOLDOUT_TRAIN,15);
+ let research=oneModelStats(train.slice(5),5), exam=oneModelStats(test,HOLDOUT_TRAIN);
+ let names=[...new Set([...Object.keys(research),...Object.keys(exam)])];
+ holdoutTable.innerHTML=names.map(name=>{
+   let a=research[name]||{n:0,h:0},b=exam[name]||{n:0,h:0},ar=a.n?a.h/a.n:0,br=b.n?b.h/b.n:0;
+   let verdict=b.n<20?'樣本不足':br>=.55?'保留觀察':br<.50?'淘汰':'中性';
+   return `<tr><td>${name}</td><td>${a.n}</td><td>${a.n?(ar*100).toFixed(1)+'%':'—'}</td><td>${b.n}</td><td>${b.n?(br*100).toFixed(1)+'%':'—'}</td><td class="${verdict==='保留觀察'?'good':verdict==='淘汰'?'bad':'warn'}">${verdict}</td></tr>`
+ }).join('');
+ // Frozen router test: at each test position only prior shoes; router historical regime scores also only prior shoes.
+ let N=0,H=0;
+ for(let j=HOLDOUT_TRAIN;j<Math.min(15,S.shoes.length);j++){
+   let hist=S.shoes.slice(Math.max(0,j-5),j),seq=bp(S.shoes[j]);
+   for(let i=10;i<seq.length;i++){
+     let ms=modelFactories(seq.slice(0,i),hist).filter(x=>x.pick);
+     if(!ms.length)continue;
+     // Conservative: only similarity is accepted in locked holdout unless 2 independent models agree.
+     let sm=ms.find(x=>x.name==='片段相似'), picks=ms.reduce((o,x)=>(o[x.pick]=(o[x.pick]||0)+1,o),{});
+     let p=null;
+     if(sm)p=sm.pick;
+     else if((picks.B||0)>=2 && (picks.B||0)>(picks.P||0))p='B';
+     else if((picks.P||0)>=2 && (picks.P||0)>(picks.B||0))p='P';
+     if(p){N++;if(p===seq[i])H++}
+   }
+ }
+ testN.textContent=N;testRate.textContent=N?(H/N*100).toFixed(2)+'%':'—';
+ holdoutNote.textContent=`前 ${HOLDOUT_TRAIN} 靴只作研究；第 ${HOLDOUT_TRAIN+1}–15 靴作鎖定考試。考試結果不會反過來修改門檻。${N?`目前整體：${H}/${N}。`:''}`;
+}
+function futurePick(){
+ let hist=S.shoes.slice(-5), ms=modelFactories(S.current,hist).filter(x=>x.pick), sm=ms.find(x=>x.name==='片段相似');
+ if(sm)return {pick:sm.pick,model:'片段相似',n:sm.n,edge:sm.edge};
+ let B=ms.filter(x=>x.pick==='B').length,P=ms.filter(x=>x.pick==='P').length;
+ if(B>=2&&B>P)return {pick:'B',model:'雙模型共識',n:0,edge:0};
+ if(P>=2&&P>B)return {pick:'P',model:'雙模型共識',n:0,edge:0};
+ return null
+}
+function settleFuture(){
+ let seq=bp(S.current), no=seq.length;
+ // settle prediction made for the just-entered B/P round
+ let row=futureLedger.find(x=>x.shoe===currentShoeId&&x.round===no&&x.actual==null);
+ if(row){row.actual=seq.at(-1);row.hit=row.pick===row.actual;row.settled=Date.now()}
+ // lock next prediction after current result exists
+ let next=no+1, exists=futureLedger.some(x=>x.shoe===currentShoeId&&x.round===next);
+ if(!exists && no>=10){let q=futurePick();if(q)futureLedger.push({shoe:currentShoeId,round:next,pick:q.pick,model:q.model,n:q.n,edge:q.edge,actual:null,hit:null,locked:Date.now()})}
+ localStorage.setItem(FUTURE_KEY,JSON.stringify(futureLedger));
+ renderFuture()
+}
+function renderFuture(){
+ let done=futureLedger.filter(x=>x.actual),hit=done.filter(x=>x.hit).length;
+ futureN.textContent=futureLedger.length;futureDone.textContent=done.length;futureHit.textContent=hit;futureRate.textContent=done.length?(hit/done.length*100).toFixed(2)+'%':'—'
+}
+
+
+function beadCoords(a){return a.map((x,i)=>({r:i%6,c:Math.floor(i/6),v:x}))}
+function bigCoords(a){
+ let q=bp(a),out=[],col=0,row=0,last=null,occupied=new Set();
+ q.forEach(v=>{if(last===null){row=0;col=0}else if(v===last){let nr=row+1;if(nr>5||occupied.has(nr+','+col)){col++;}else row=nr}else{col++;row=0}
+ while(occupied.has(row+','+col))col++;occupied.add(row+','+col);out.push({r:row,c:col,v});last=v});return out
+}
+function derived(big,offset){
+ let grid=new Map(big.map(x=>[x.r+','+x.c,x])),out=[];
+ for(let i=0;i<big.length;i++){let x=big[i];if(x.c<offset+1)continue;
+ let same;
+ if(x.r===0)same=grid.has('0,'+(x.c-offset))===grid.has('0,'+(x.c-offset-1));
+ else same=grid.has(x.r+','+(x.c-offset));
+ out.push(same?'B':'P')
+ }return bigCoords(out)
+}
+function paintRoad(id,cells,filled=false){
+ let el=document.getElementById(id);if(!el)return;let max=Math.max(11,...cells.map(x=>x.c));
+ el.style.gridTemplateColumns=`repeat(${max+1},27px)`;
+ el.innerHTML=cells.map(x=>`<span class="roadCell ${filled?(x.v==='B'?'fillB':'fillP'):x.v}" style="grid-row:${x.r+1};grid-column:${x.c+1}">${filled?'':x.v}</span>`).join('')
+}
+function renderRoads(){
+ let bead=beadCoords(S.current),big=bigCoords(S.current);paintRoad('v6BeadRoad',bead);paintRoad('v6BigRoad',big);
+ paintRoad('v6Eye',derived(big,1),true);paintRoad('v6Small',derived(big,2),true);paintRoad('v6Cock',derived(big,3),true)
+}
+
 function render(){
  let a=S.current,B=a.filter(x=>x==='B').length,P=a.filter(x=>x==='P').length,T=a.filter(x=>x==='T').length;
  n.textContent=a.length;nb.textContent=B;np.textContent=P;nt.textContent=T;
@@ -100,7 +329,9 @@ function render(){
  pe.textContent=d.p?(d.p==='B'?'莊':'閒'):'觀望';pe.className='pred '+(d.p||'W');reason.textContent=d.why;meter.style.width=(d.score*100)+'%';
  tags.innerHTML=ms.filter(x=>x.pick).map(x=>`<span class="tag">${x.name}→${x.pick==='B'?'莊':'閒'}</span>`).join('');
  modelsEl=document.getElementById('models');modelsEl.innerHTML=ms.map(x=>`<tr><td>${x.name}</td><td>${x.pick?(x.pick==='B'?'莊':'閒'):'—'}</td><td>${x.n}</td><td>${x.n?((.5+x.edge/2)*100).toFixed(1)+'%票差側':'—'}</td><td class="${x.pick?'good':'warn'}">${x.pick?'有效':'觀望'}</td></tr>`).join('');
- let v=backtest();vn.textContent=v.n;vh.textContent=v.h;vm.textContent=v.n-v.h;vr.textContent=v.n?(v.h/v.n*100).toFixed(2)+'%':'—'
+ let v=backtest();vn.textContent=v.n;vh.textContent=v.h;vm.textContent=v.n-v.h;vr.textContent=v.n?(v.h/v.n*100).toFixed(2)+'%':'—';renderArena();holdoutValidation();renderFuture();
+ let rd=renderRouter();pe.textContent=rd.p?(rd.p==='B'?'莊':'閒'):'觀望';pe.className='pred '+(rd.p||'W');reason.textContent=rd.why;
+ tags.innerHTML=rd.ranked.slice(0,3).map(x=>`<span class="tag">${x.m.name} ${(x.rate*100).toFixed(1)}%</span>`).join('');renderRoads()
 }
 render();
 </script></body></html>
