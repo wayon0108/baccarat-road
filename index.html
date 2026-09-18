@@ -21,7 +21,34 @@ function seq(a=D.current){return a.map(x=>x.r)}function bp(a){return a.filter(x=
 function card(s,r){tone();if(H[s].length<3)H[s].push(r);renderCards()}function popCard(s){tone('warn');H[s].pop();renderCards()}function clearCards(){tone('warn');H={B:[],P:[]};renderCards()}function autoResult(){if(H.B.length<2||H.P.length<2)return;let b=pnt(H.B),p=pnt(H.P);add(b>p?'B':p>b?'P':'T')}
 function add(r){tone(r);D.current.push({r,cards:{B:[...H.B],P:[...H.P]},ts:Date.now()});H={B:[],P:[]};save();render()}function undo(){tone('warn');D.current.pop();save();render()}function clearShoe(){if(D.current.length&&confirm('確定清除目前這一靴？')){tone('warn');D.current=[];save();render()}}function saveShoe(){if(!D.current.length)return;tone('ok');D.shoes.push({id:'s'+Date.now(),no:D.no,at:Date.now(),rounds:structuredClone(D.current)});D.no++;D.current=[];H={B:[],P:[]};save();render()}
 function bead(a){return a.map((v,i)=>({r:i%6,c:Math.floor(i/6),v,t:0}))}
-function big(a){let out=[],occ=new Set,last=null,row=0,col=-1,lm=null;for(let v of a){if(v==='T'){if(lm)lm.t=(lm.t||0)+1;continue}if(last===null){col=0;row=0}else if(v===last){let nr=row+1;if(nr<=5&&!occ.has(nr+','+col))row=nr;else{col++;while(occ.has(row+','+col))col++}}else{col++;row=0;while(occ.has(row+','+col))col++}let z={r:row,c:col,v,t:0};out.push(z);occ.add(row+','+col);last=v;lm=z}return out}
+function big(a){
+ let out=[],occ=new Set(),last=null,row=0,col=0,baseCol=-1,lm=null;
+ for(let v of a){
+  if(v==='T'){if(lm)lm.t=(lm.t||0)+1;continue}
+  if(last===null){
+   baseCol=0;col=0;row=0;
+  }else if(v!==last){
+   // New streak always starts one column to the right of the previous streak's
+   // ORIGINAL start column, not one column right of a dragon-tail endpoint.
+   baseCol=baseCol+1;col=baseCol;row=0;
+   // Safety for unusual collision patterns: move right only until row 0 is free.
+   while(occ.has(row+','+col)){col++;baseCol=col}
+  }else{
+   // Same side: go down when possible. At floor/collision, turn right on same row.
+   let nr=row+1;
+   if(nr<=5&&!occ.has(nr+','+col)){
+    row=nr;
+   }else{
+    let nc=col+1;
+    while(occ.has(row+','+nc))nc++;
+    col=nc;
+   }
+  }
+  let z={r:row,c:col,v,t:0,base:baseCol};
+  out.push(z);occ.add(row+','+col);last=v;lm=z;
+ }
+ return out
+}
 function dcoords(a){let o=[],occ=new Set,last=null,row=0,col=-1;for(let v of a){if(last===null){col=0;row=0}else if(v===last){let nr=row+1;if(nr<=5&&!occ.has(nr+','+col))row=nr;else{col++;while(occ.has(row+','+col))col++}}else{col++;row=0;while(occ.has(row+','+col))col++}o.push({r:row,c:col,v});occ.add(row+','+col);last=v}return o}
 function derive(B,k){let g=new Set(B.map(x=>x.r+','+x.c)),raw=[];for(let x of B){if(x.c<k+1)continue;let red;if(x.r===0){let a=0,b=0;for(let r=0;r<6;r++){a+=g.has(r+','+(x.c-1));b+=g.has(r+','+(x.c-1-k))}red=a===b}else red=g.has(x.r+','+(x.c-1-k));raw.push(red?'R':'U')}return dcoords(raw)}
 function draw(id,a,type){let e=document.getElementById(id),mx=Math.max(11,...a.map(x=>x.c));e.style.width=`calc(${mx+1} * var(--c))`;e.innerHTML=a.map(x=>{let z=type==='o'?`<i class="o ${x.v}">${x.t?`<em class="tie">${x.t}</em>`:''}</i>`:type==='bead'?`<i class="o ${x.v}">${x.v}</i>`:type==='eye'?`<i class="eye ${x.v}"></i>`:type==='dot'?`<i class="dot ${x.v}"></i>`:`<i class="slash ${x.v}"></i>`;return `<span class="m" style="left:calc(${x.c}*var(--c));top:calc(${x.r}*var(--c))">${z}</span>`}).join('')}
