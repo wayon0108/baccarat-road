@@ -2,9 +2,15 @@
 <style>
 :root{--c:26px;--bg:#07100d;--p:#0d1915;--l:#294036;--r:#df4052;--b:#347eea;--g:#22a86b}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:#eef5f1;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}.top{position:sticky;top:0;z-index:9;height:52px;background:#091510;border-bottom:1px solid var(--l);display:flex;align-items:center;padding:8px 12px;font-weight:900}.top span{color:#dfb85b}.top button{margin-left:auto}.app{max-width:1500px;margin:auto;padding:8px}.card{background:var(--p);border:1px solid var(--l);border-radius:11px;margin-bottom:8px;overflow:hidden}.hd{padding:8px 10px;background:#102019;border-bottom:1px solid var(--l);font-size:13px;font-weight:850}.body{padding:8px}.hero{display:grid;grid-template-columns:330px 1fr;gap:8px}.btns{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}button{border:0;border-radius:8px;padding:10px;background:#172a22;color:#fff;font-weight:800;touch-action:manipulation}.main{font-size:17px;padding:15px}.B{background:var(--r)}.P{background:var(--b)}.T{background:var(--g)}.tools{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-top:6px;font-size:11px}.decision{display:grid;grid-template-columns:160px 1fr;gap:8px;align-items:center}.pick{text-align:center;font-size:38px;font-weight:950}.pick.Bc{color:#ff6473}.pick.Pc{color:#63a6ff}.pick.Tc{color:#50d493}.muted{font-size:11px;color:#8fa69b;line-height:1.45}.prob{display:grid;grid-template-columns:repeat(3,1fr);gap:5px}.prob div{background:#091510;border-radius:7px;text-align:center;padding:7px}.prob small{display:block;color:#8fa69b}.roads2{display:grid;grid-template-columns:1fr 1.5fr;gap:7px}.roads3{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:7px}.rw{overflow-x:auto;background:#f6f4ed;border:1px solid #c9c8c0}.road{height:calc(var(--c)*6);min-width:100%;position:relative;background-image:linear-gradient(#d5d4ce 1px,transparent 1px),linear-gradient(90deg,#d5d4ce 1px,transparent 1px);background-size:var(--c) var(--c)}.m{position:absolute;width:var(--c);height:var(--c);display:grid;place-items:center}.o{width:19px;height:19px;border:2px solid;border-radius:50%;display:grid;place-items:center;font-size:9px;font-weight:900;position:relative}.o.B{border-color:#df4052;color:#df4052;background:transparent}.o.P{border-color:#347eea;color:#347eea;background:transparent}.o.T{border-color:#22a86b;color:#22a86b;background:transparent}.bead .o.B{background:#df4052;color:#fff}.bead .o.P{background:#347eea;color:#fff}.bead .o.T{background:#22a86b;color:#fff}.bead .o{font-size:7px}.tie{position:absolute;right:-3px;top:-4px;color:#16955c;font-size:8px}.eye{width:15px;height:15px;border:2px solid;border-radius:50%}.dot{width:10px;height:10px;border-radius:50%}.slash{width:17px;height:3px;transform:rotate(-45deg)}.R.eye{border-color:#df4052}.U.eye{border-color:#347eea}.R.dot,.R.slash{background:#df4052}.U.dot,.U.slash{background:#347eea}.ask,.patterns,.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}.ask>div,.pat,.stat{background:#091510;border-radius:8px;padding:7px;text-align:center}.patterns{grid-template-columns:repeat(6,1fr)}.pat b{display:block;font-size:11px}.pat span{font-size:11px;color:#dfb85b}.cards{display:grid;grid-template-columns:1fr 1fr;gap:7px}.hand{background:#091510;padding:7px;border-radius:8px}.ranks{display:grid;grid-template-columns:repeat(7,1fr);gap:3px}.ranks button{padding:7px 1px;font-size:10px}.stats{grid-template-columns:repeat(6,1fr)}.stat small{display:block;color:#8fa69b;font-size:10px}.history{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:6px}.shoe{background:#091510;border-radius:8px;padding:7px}.shoe button{width:100%;margin-top:5px}.lab{font-size:12px}
 @media(max-width:850px){.hero,.roads2{grid-template-columns:1fr}.patterns{grid-template-columns:repeat(3,1fr)}}@media(max-width:600px){:root{--c:23px}.roads3,.cards{grid-template-columns:1fr}.decision{grid-template-columns:1fr}.patterns{grid-template-columns:repeat(2,1fr)}}
+
+.importbox{display:grid;grid-template-columns:220px 1fr;gap:8px}.drop{border:1px dashed #526c61;border-radius:9px;padding:10px;text-align:center;background:#091510}.drop input{width:100%;font-size:11px}.preview{max-width:100%;max-height:180px;border-radius:6px;display:none;margin-top:6px}.detected{display:flex;flex-wrap:wrap;gap:4px;max-height:125px;overflow:auto}.chip{padding:5px 7px;border-radius:6px;font-size:10px;font-weight:900}.chip.B{background:#df4052}.chip.P{background:#347eea}.chip.T{background:#22a86b}.importactions{display:flex;gap:5px;margin-top:7px}.importactions button{flex:1}.warnbox{font-size:11px;color:#dfb85b;margin-top:5px}
+@media(max-width:650px){.importbox{grid-template-columns:1fr}}
 </style></head><body>
 <div class="top">BACCARAT&nbsp;<span>PRO ROAD LAB</span><button id="soundBtn" onclick="toggleSound()">🔊 音效</button></div><div class="app">
-<div class="hero"><div class="card"><div class="hd">本局輸入</div><div class="body"><div class="btns"><button class="main B" onclick="add('B')">莊</button><button class="main P" onclick="add('P')">閒</button><button class="main T" onclick="add('T')">和</button></div><div class="tools"><button onclick="undo()">復原</button><button onclick="saveShoe()">結束存靴</button><button onclick="clearShoe()">清本靴</button><button onclick="historyCard.scrollIntoView()">歷史靴</button></div></div></div>
+<div class="card"><div class="hd">📷 匯入珠盤路圖片｜先辨識、確認後才寫入</div><div class="body importbox">
+<div class="drop"><input id="roadImage" type="file" accept="image/*" onchange="loadRoadImage(event)"><canvas id="scanCanvas" class="preview"></canvas><div class="muted">優先使用「珠盤路」截圖。系統依格線與紅／藍／綠圓形辨識，不直接改資料。</div></div>
+<div><div id="scanStatus" class="muted">尚未選擇圖片。</div><div id="detected" class="detected"></div><div class="importactions"><button onclick="confirmImport()">確認匯入目前靴</button><button onclick="clearScan()">取消辨識</button></div><div class="warnbox">圖片辨識一定可能受截圖角度、亮度、壓縮與其他紅藍元素影響，所以必須先人工確認局序；無法可靠判斷時不自動寫入。</div></div>
+</div></div><div class="hero"><div class="card"><div class="hd">本局輸入</div><div class="body"><div class="btns"><button class="main B" onclick="add('B')">莊</button><button class="main P" onclick="add('P')">閒</button><button class="main T" onclick="add('T')">和</button></div><div class="tools"><button onclick="undo()">復原</button><button onclick="saveShoe()">結束存靴</button><button onclick="clearShoe()">清本靴</button><button onclick="historyCard.scrollIntoView()">歷史靴</button></div></div></div>
 <div class="card"><div class="hd">下一把整合分析</div><div class="body decision"><div><div id="pick" class="pick">觀望</div><div id="sample" class="muted" style="text-align:center">全新資料庫</div></div><div><div class="prob"><div><small>莊 歷史支持</small><b id="pb">—</b></div><div><small>閒 歷史支持</small><b id="pp">—</b></div><div><small>和 歷史支持</small><b id="pt">—</b></div></div><div id="why" class="muted" style="margin-top:6px">沒有舊資料，樣本不足時不製造百分比。</div></div></div></div></div>
 <div class="card"><div class="hd">正規路單｜珠盤路・大路・大眼仔・小路・曱甴路</div><div class="body"><div class="roads2"><div><div class="muted">珠盤路</div><div class="rw"><div id="bead" class="road bead"></div></div></div><div><div class="muted">大路</div><div class="rw"><div id="big" class="road"></div></div></div></div><div class="roads3"><div><div class="muted">大眼仔</div><div class="rw"><div id="eye" class="road"></div></div></div><div><div class="muted">小路</div><div class="rw"><div id="small" class="road"></div></div></div><div><div class="muted">曱甴路</div><div class="rw"><div id="cock" class="road"></div></div></div></div></div></div>
 <div class="card"><div class="hd">下一手路｜Ask Road</div><div class="body ask"><div><b style="color:#ff6473">假設莊</b><div id="askB" class="muted"></div></div><div><b style="color:#63a6ff">假設閒</b><div id="askP" class="muted"></div></div><div><b style="color:#50d493">假設和</b><div class="muted">和不開新大路格；獨立納入三分類分析</div></div></div></div>
@@ -107,5 +113,62 @@ function view(id){let s=D.shoes.find(x=>x.id===id);if(!s)return;let old=D.curren
 function render(doSave=true){let a=seq(),B=big(a),E=deriveFromResults(a,1),S=deriveFromResults(a,2),C=deriveFromResults(a,3);draw('bead',bead(a),'bead');draw('big',B,'o');draw('eye',E,'eye');draw('small',S,'dot');draw('cock',C,'slash');askB.textContent=ask('B');askP.textContent=ask('P');patterns.innerHTML=[['珠盤',pat(a)],['大路',pat(B.map(x=>x.v))],['大眼仔',dpat(E)],['小路',dpat(S)],['曱甴',dpat(C)],['下一手路','B/P/T模擬']].map(x=>`<div class="pat"><b>${x[0]}</b><span>${x[1]}</span></div>`).join('');
 let z=stats(),arr=[['B',z.C.B],['P',z.C.P],['T',z.C.T]].sort((a,b)=>b[1]-a[1]),lead=arr[0],gap=z.n?(lead[1]-arr[1][1])/z.n:0,share=z.n?lead[1]/z.n:0,out=z.n>=20&&share>=.45&&gap>=.08?lead[0]:'W',nm={B:'莊',P:'閒',T:'和',W:'觀望'};pick.textContent=nm[out];pick.className='pick '+(out==='B'?'Bc':out==='P'?'Pc':out==='T'?'Tc':'');sample.textContent=z.n?`相同結構樣本 ${z.n}`:'全新資料庫';pb.textContent=z.n?(z.C.B/z.n*100).toFixed(1)+'%':'—';pp.textContent=z.n?(z.C.P/z.n*100).toFixed(1)+'%':'—';pt.textContent=z.n?(z.C.T/z.n*100).toFixed(1)+'%':'—';why.textContent=z.n<20?`目前只有 ${z.n} 個相同五路結構樣本，未達20，觀望。`:`歷史分布最高 ${nm[lead[0]]} ${(share*100).toFixed(1)}%，領先差 ${(gap*100).toFixed(1)}%。這不是保證勝率。`;
 sn.textContent=a.length;sb.textContent=a.filter(x=>x==='B').length;sp.textContent=a.filter(x=>x==='P').length;st.textContent=a.filter(x=>x==='T').length;spat.textContent=pat(a);sdb.textContent=D.shoes.length+'靴';history.innerHTML=D.shoes.slice().reverse().map(s=>`<div class="shoe"><b>第${s.no}靴</b><div class="muted">${new Date(s.at).toLocaleString()}｜${s.rounds.length}局</div><button onclick="view('${s.id}')">查看完整路圖</button></div>`).join('');empty.style.display=D.shoes.length?'none':'block';soundBtn.textContent=snd?'🔊 音效':'🔇 靜音';renderCards();if(doSave)save()}
+
+let scanned=[];
+function loadRoadImage(ev){
+ tone('tap');const f=ev.target.files&&ev.target.files[0];if(!f)return;
+ const im=new Image(),u=URL.createObjectURL(f);
+ im.onload=()=>{const cv=scanCanvas,ctx=cv.getContext('2d'),max=1200,sc=Math.min(1,max/im.width);cv.width=Math.round(im.width*sc);cv.height=Math.round(im.height*sc);ctx.drawImage(im,0,0,cv.width,cv.height);cv.style.display='block';URL.revokeObjectURL(u);scanBeadImage(cv)};
+ im.src=u;
+}
+function scanBeadImage(cv){
+ const ctx=cv.getContext('2d'),w=cv.width,h=cv.height,d=ctx.getImageData(0,0,w,h).data;
+ // Candidate colored pixels. Strong saturation rejects white grid/background.
+ let pts={B:[],P:[],T:[]};
+ for(let y=1;y<h;y+=2)for(let x=1;x<w;x+=2){
+  let i=(y*w+x)*4,r=d[i],g=d[i+1],b=d[i+2],mx=Math.max(r,g,b),mn=Math.min(r,g,b);
+  if(mx-mn<55||mx<90)continue;
+  let k=null;
+  if(r>g*1.25&&r>b*1.18)k='B';
+  else if(b>r*1.18&&b>g*1.10)k='P';
+  else if(g>r*1.12&&g>b*1.05)k='T';
+  if(k)pts[k].push([x,y]);
+ }
+ // Connected clustering by coarse bins; intended for clean screenshots, not camera perspective.
+ let cand=[];
+ for(const k of ['B','P','T']){
+  let bins=new Map(),bs=Math.max(5,Math.round(Math.min(w,h)/120));
+  for(const [x,y] of pts[k]){let q=Math.floor(x/bs)+','+Math.floor(y/bs);bins.set(q,(bins.get(q)||0)+1)}
+  let hot=[...bins].filter(x=>x[1]>=2).map(x=>x[0].split(',').map(Number)),seen=new Set();
+  for(const q of hot){let key=q.join(',');if(seen.has(key))continue;let stack=[q],cells=[];seen.add(key);
+   while(stack.length){let [a,b]=stack.pop();cells.push([a,b]);for(let dx=-1;dx<=1;dx++)for(let dy=-1;dy<=1;dy++){let nk=(a+dx)+','+(b+dy);if(bins.has(nk)&&bins.get(nk)>=2&&!seen.has(nk)){seen.add(nk);stack.push([a+dx,b+dy])}}}
+   if(cells.length>=2){let xs=cells.map(z=>z[0]*bs+bs/2),ys=cells.map(z=>z[1]*bs+bs/2);cand.push({k,x:xs.reduce((a,b)=>a+b)/xs.length,y:ys.reduce((a,b)=>a+b)/ys.length,size:cells.length})}
+  }
+ }
+ if(cand.length<3){scanned=[];scanStatus.textContent='無法可靠找到珠盤路圓點。請裁切到只有珠盤路格子後再試。';detected.innerHTML='';return}
+ // Estimate regular cell spacing from nearest-neighbour distances.
+ let ds=[];for(let i=0;i<cand.length;i++){let best=1e9;for(let j=0;j<cand.length;j++)if(i!==j){let dx=cand[i].x-cand[j].x,dy=cand[i].y-cand[j].y,q=Math.hypot(dx,dy);if(q>4&&q<best)best=q}if(best<1e9)ds.push(best)}
+ ds.sort((a,b)=>a-b);let cell=ds[Math.floor(ds.length/2)]||20,tol=cell*.48;
+ // Find a six-row bead-road orientation. Test normal vertical rows and transposed camera captures.
+ function build(transpose){
+  let A=cand.map(z=>({k:z.k,x:transpose?z.y:z.x,y:transpose?z.x:z.y})).sort((a,b)=>a.x-b.x);
+  let xs=[];for(const z of A){let q=xs.find(v=>Math.abs(v-z.x)<tol);if(q)q.v.push(z.x),q.x=q.v.reduce((a,b)=>a+b)/q.v.length;else xs.push({x:z.x,v:[z.x]})}
+  xs.sort((a,b)=>a.x-b.x);let out=[];
+  for(const X of xs){let col=A.filter(z=>Math.abs(z.x-X.x)<tol).sort((a,b)=>a.y-b.y);if(col.length>6)continue;for(const z of col)out.push(z.k)}
+  return {out,cols:xs.length}
+ }
+ let A=build(false),B=build(true),best=(A.out.length>=B.out.length?A:B);
+ // Safety: only accept plausible bead-road candidates.
+ scanned=best.out;
+ scanStatus.textContent=`初步辨識 ${scanned.length} 局：莊 ${scanned.filter(x=>x==='B').length}／閒 ${scanned.filter(x=>x==='P').length}／和 ${scanned.filter(x=>x==='T').length}。請逐格確認後再匯入。`;
+ detected.innerHTML=scanned.map((x,i)=>`<span class="chip ${x}">${i+1}.${x==='B'?'莊':x==='P'?'閒':'和'}</span>`).join('');
+}
+function confirmImport(){
+ if(!scanned.length)return;
+ if(!confirm(`確認把辨識到的 ${scanned.length} 局加入目前這一靴？`))return;
+ tone('ok');for(const r of scanned)D.current.push({r,cards:{B:[],P:[]},ts:Date.now(),source:'image'});save();clearScan();render();
+}
+function clearScan(){scanned=[];detected.innerHTML='';scanStatus.textContent='尚未選擇圖片。';scanCanvas.style.display='none';roadImage.value=''}
+
 render();
 </script></body></html>
