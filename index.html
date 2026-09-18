@@ -18,7 +18,12 @@
 <div class="card"><div class="hd">每局牌面數字｜可選填</div><div class="body cards"><div class="hand"><b style="color:#ff6473">莊家牌</b> <span id="bpnt"></span><div id="branks" class="ranks"></div><div id="bcards" class="muted"></div></div><div class="hand"><b style="color:#63a6ff">閒家牌</b> <span id="ppnt"></span><div id="pranks" class="ranks"></div><div id="pcards" class="muted"></div></div></div><div class="body tools"><button onclick="popCard('B')">刪莊最後牌</button><button onclick="popCard('P')">刪閒最後牌</button><button onclick="clearCards()">清牌面</button><button onclick="autoResult()">依點數填結果</button></div></div>
 <div class="card"><div class="hd">本靴統計</div><div class="body stats"><div class="stat"><small>局數</small><b id="sn">0</b></div><div class="stat"><small>莊</small><b id="sb">0</b></div><div class="stat"><small>閒</small><b id="sp">0</b></div><div class="stat"><small>和</small><b id="st">0</b></div><div class="stat"><small>型態</small><b id="spat">—</b></div><div class="stat"><small>資料庫</small><b id="sdb">0靴</b></div></div></div>
 <div class="card" id="historyCard"><div class="hd">歷史靴｜結束一靴後永久保存在本機</div><div class="body"><div id="history" class="history"></div><div id="empty" class="muted">目前 0 靴。完全重新開始。</div></div></div>
-<div class="card"><div class="hd">路單演算法檢查</div><div class="body stats"><div class="stat"><small>大路</small><b>公式制</b></div><div class="stat"><small>大眼仔</small><b>回看1欄</b></div><div class="stat"><small>小路</small><b>回看2欄</b></div><div class="stat"><small>曱甴路</small><b>回看3欄</b></div><div class="stat"><small>和局</small><b>不開新格</b></div><div class="stat"><small>資料</small><b>全新0舊靴</b></div></div></div><div class="card"><div class="hd">分析規則</div><div class="body muted">只有從這個新版開始保存的靴會進入分析。百分比＝相同五路型態在已保存歷史中的下一局實際 B/P/T 分布；至少 20 個相同樣本才顯示，最高項還必須 ≥45% 且領先第二名 ≥8 個百分點才報莊／閒／和，否則觀望。這是可核對的歷史統計，不是保證下一局會中。</div></div>
+<div class="card"><div class="hd">路單演算法檢查</div><div class="body stats"><div class="stat"><small>大路</small><b>公式制</b></div><div class="stat"><small>大眼仔</small><b>回看1欄</b></div><div class="stat"><small>小路</small><b>回看2欄</b></div><div class="stat"><small>曱甴路</small><b>回看3欄</b></div><div class="stat"><small>和局</small><b>不開新格</b></div><div class="stat"><small>資料</small><b>全新0舊靴</b></div></div></div><div class="card"><div class="hd">資料備份｜跨版本保留歷史靴</div><div class="body">
+<div class="tools"><button onclick="exportBackup()">⬇ 匯出全部資料</button><button onclick="backupFile.click()">⬆ 匯入備份</button><button onclick="showDbInfo()">資料庫檢查</button><button onclick="downloadCSV()">匯出 CSV</button></div>
+<input id="backupFile" type="file" accept=".json,application/json" style="display:none" onchange="importBackup(event)">
+<div class="muted" style="margin-top:6px">V1.5 沿用 V1.4 的資料庫鍵值 <b>BPRL_NEWSTART_20260918</b>，同一網站／瀏覽器會直接承接既有靴。建議定期匯出 JSON 備份。</div>
+</div></div>
+<div class="card"><div class="hd">分析規則｜V1.5 相似路況近鄰模型</div><div class="body muted">只使用這個 NEW START 系列保存的靴。V1.5 不再要求五路100%完全相同：每個歷史局面建立大路／下三路型態、末端連續長度、近12局切換率、莊比例、和比例、最近三段長度、下三路紅藍比例等特徵，計算相似度後取相似度≥72%的前80個近鄰，並以相似度³加權其下一局 B/P/T。有效近鄰至少20個、最高加權占比≥45%、且領先第二名≥8個百分點才出訊號，否則觀望。百分比是歷史近鄰分布，不是保證勝率。</div></div>
 </div>
 <script>
 const K='BPRL_NEWSTART_20260918';let D=JSON.parse(localStorage.getItem(K)||'{"shoes":[],"current":[],"no":1}'),H={B:[],P:[]};let snd=localStorage.getItem(K+'S')!=='0',ac=null;const R=['A','2','3','4','5','6','7','8','9','10','J','Q','K'],V=x=>x==='A'?1:['10','J','Q','K'].includes(x)?0:+x;
@@ -106,12 +111,61 @@ function deriveFromResults(results,k){return dcoords(derivedRaw(results,k))}
 function draw(id,a,type){let e=document.getElementById(id),mx=Math.max(11,...a.map(x=>x.c));e.style.width=`calc(${mx+1} * var(--c))`;e.innerHTML=a.map(x=>{let z=type==='o'?`<i class="o ${x.v}">${x.t?`<em class="tie">${x.t}</em>`:''}</i>`:type==='bead'?`<i class="o ${x.v}">${x.v==='B'?'莊':x.v==='P'?'閒':'和'}</i>`:type==='eye'?`<i class="eye ${x.v}"></i>`:type==='dot'?`<i class="dot ${x.v}"></i>`:`<i class="slash ${x.v}"></i>`;return `<span class="m" style="left:calc(${x.c}*var(--c));top:calc(${x.r}*var(--c))">${z}</span>`}).join('')}
 function pat(a){a=bp(a);if(a.length<4)return'資料不足';let q=[],n=1;for(let i=1;i<a.length;i++){if(a[i]===a[i-1])n++;else{q.push(n);n=1}}q.push(n);let t=q.slice(-5),c=q.at(-1);if(c>=5)return'長龍';if(t.length>=5&&t.every(x=>x===1))return'單跳';if(t.length>=4&&t.slice(-4).every(x=>x===2))return'雙跳';let z=t.slice(-4).join('');if(['2121','1212'].includes(z))return'兩房一廳';if(['3131','1313'].includes(z))return'三房一廳';if(c>=3)return'連續';let x=a.slice(-8),ch=0;for(let i=1;i<x.length;i++)ch+=x[i]!==x[i-1];return ch>=5?'高切換':'混合'}function dpat(a){return pat(a.map(x=>x.v==='R'?'B':'P'))}
 function signature(a){let B=big(a);return[pat(a),pat(B.map(x=>x.v)),dpat(deriveFromResults(a,1)),dpat(deriveFromResults(a,2)),dpat(deriveFromResults(a,3))].join('|')}
-function stats(){let sig=signature(seq()),C={B:0,P:0,T:0},n=0;for(let s of D.shoes){let a=seq(s.rounds);for(let i=8;i<a.length;i++)if(signature(a.slice(0,i))===sig){C[a[i]]++;n++}}return{C,n}}
+function featureVector(a){
+ const B=big(a),E=deriveFromResults(a,1),S=deriveFromResults(a,2),C=deriveFromResults(a,3),x=bp(a);
+ let runs=[],n=0,last=null;
+ for(const v of x){if(v===last)n++;else{if(n)runs.push(n);last=v;n=1}}if(n)runs.push(n);
+ const tail=x.slice(-12), changes=tail.slice(1).reduce((q,v,i)=>q+(v!==tail[i]),0);
+ const lastRun=runs.length?runs.at(-1):0;
+ const r3=runs.slice(-3);
+ const frac=(arr,v)=>arr.length?arr.filter(z=>z===v).length/arr.length:0;
+ const dr=(arr)=>arr.slice(-12);
+ return {
+  pat0:pat(a),pat1:pat(B.map(z=>z.v)),pat2:dpat(E),pat3:dpat(S),pat4:dpat(C),
+  last:x.at(-1)||'-', lastRun:Math.min(lastRun,8)/8,
+  change:tail.length>1?changes/(tail.length-1):0,
+  b12:frac(tail,'B'), t12:a.slice(-12).filter(z=>z==='T').length/12,
+  runA:(r3[0]||0)/8,runB:(r3[1]||0)/8,runC:(r3[2]||0)/8,
+  eR:frac(dr(E).map(z=>z.v),'R'),sR:frac(dr(S).map(z=>z.v),'R'),cR:frac(dr(C).map(z=>z.v),'R')
+ }
+}
+function similarity(A,B){
+ let score=0,weight=0;
+ const cats=[['pat0',1.2],['pat1',1.3],['pat2',.9],['pat3',.9],['pat4',.9],['last',.8]];
+ for(const [k,w] of cats){score+=(A[k]===B[k]?w:0);weight+=w}
+ const nums=[['lastRun',1.2],['change',1.2],['b12',1],['t12',.35],['runA',.45],['runB',.45],['runC',.55],['eR',.7],['sR',.7],['cR',.7]];
+ for(const [k,w] of nums){score+=Math.max(0,1-Math.abs(A[k]-B[k]))*w;weight+=w}
+ return weight?score/weight:0
+}
+function stats(){
+ const cur=seq(),F=featureVector(cur),pool=[];
+ for(const sh of D.shoes){
+  const a=seq(sh.rounds);
+  // each historical prefix predicts only its genuinely following round
+  for(let i=8;i<a.length;i++){
+   const pre=a.slice(0,i),sim=similarity(F,featureVector(pre));
+   pool.push({sim,next:a[i],shoe:sh.no,round:i+1});
+  }
+ }
+ pool.sort((x,y)=>y.sim-x.sim);
+ // Adaptive nearest neighbours: top 80, but require reasonable similarity.
+ let near=pool.filter(x=>x.sim>=.72).slice(0,80);
+ let C={B:0,P:0,T:0},wC={B:0,P:0,T:0},ws=0;
+ for(const q of near){C[q.next]++;let w=Math.pow(q.sim,3);wC[q.next]+=w;ws+=w}
+ return {C,wC,n:near.length,ws,best:near.length?near[0].sim:0,avg:near.length?near.reduce((z,q)=>z+q.sim,0)/near.length:0,pool:pool.length}
+}
 function ask(side){let a=seq().concat(side),last=x=>x.length?(x.at(-1).v==='R'?'紅':'藍'):'—';return`大眼仔 ${last(deriveFromResults(a,1))}｜小路 ${last(deriveFromResults(a,2))}｜曱甴 ${last(deriveFromResults(a,3))}`}
 function renderCards(){branks.innerHTML=R.map(r=>`<button onclick="card('B','${r}')">${r}</button>`).join('');pranks.innerHTML=R.map(r=>`<button onclick="card('P','${r}')">${r}</button>`).join('');bcards.textContent=H.B.length?H.B.join('、'):'尚未輸入';pcards.textContent=H.P.length?H.P.join('、'):'尚未輸入';bpnt.textContent=pnt(H.B)+'點';ppnt.textContent=pnt(H.P)+'點'}
 function view(id){let s=D.shoes.find(x=>x.id===id);if(!s)return;let old=D.current;D.current=structuredClone(s.rounds);render(false);D.current=old;alert(`暫時顯示第 ${s.no} 靴完整路圖；重新整理可回目前靴。`)}
 function render(doSave=true){let a=seq(),B=big(a),E=deriveFromResults(a,1),S=deriveFromResults(a,2),C=deriveFromResults(a,3);draw('bead',bead(a),'bead');draw('big',B,'o');draw('eye',E,'eye');draw('small',S,'dot');draw('cock',C,'slash');askB.textContent=ask('B');askP.textContent=ask('P');patterns.innerHTML=[['珠盤',pat(a)],['大路',pat(B.map(x=>x.v))],['大眼仔',dpat(E)],['小路',dpat(S)],['曱甴',dpat(C)],['下一手路','B/P/T模擬']].map(x=>`<div class="pat"><b>${x[0]}</b><span>${x[1]}</span></div>`).join('');
-let z=stats(),arr=[['B',z.C.B],['P',z.C.P],['T',z.C.T]].sort((a,b)=>b[1]-a[1]),lead=arr[0],gap=z.n?(lead[1]-arr[1][1])/z.n:0,share=z.n?lead[1]/z.n:0,out=z.n>=20&&share>=.45&&gap>=.08?lead[0]:'W',nm={B:'莊',P:'閒',T:'和',W:'觀望'};pick.textContent=nm[out];pick.className='pick '+(out==='B'?'Bc':out==='P'?'Pc':out==='T'?'Tc':'');sample.textContent=z.n?`相同結構樣本 ${z.n}`:'全新資料庫';pb.textContent=z.n?(z.C.B/z.n*100).toFixed(1)+'%':'—';pp.textContent=z.n?(z.C.P/z.n*100).toFixed(1)+'%':'—';pt.textContent=z.n?(z.C.T/z.n*100).toFixed(1)+'%':'—';why.textContent=z.n<20?`目前只有 ${z.n} 個相同五路結構樣本，未達20，觀望。`:`歷史分布最高 ${nm[lead[0]]} ${(share*100).toFixed(1)}%，領先差 ${(gap*100).toFixed(1)}%。這不是保證勝率。`;
+let z=stats(),nm={B:'莊',P:'閒',T:'和',W:'觀望'},den=z.ws||0;
+let rates={B:den?z.wC.B/den:0,P:den?z.wC.P/den:0,T:den?z.wC.T/den:0};
+let arr=[['B',rates.B],['P',rates.P],['T',rates.T]].sort((a,b)=>b[1]-a[1]),lead=arr[0],gap=lead[1]-arr[1][1];
+let out=(z.n>=20&&lead[1]>=.45&&gap>=.08)?lead[0]:'W';
+pick.textContent=nm[out];pick.className='pick '+(out==='B'?'Bc':out==='P'?'Pc':out==='T'?'Tc':'');
+sample.textContent=z.n?`近鄰樣本 ${z.n}｜平均相似 ${(z.avg*100).toFixed(0)}%`:`歷史可比較前綴 ${z.pool}`;
+pb.textContent=z.n?(rates.B*100).toFixed(1)+'%':'—';pp.textContent=z.n?(rates.P*100).toFixed(1)+'%':'—';pt.textContent=z.n?(rates.T*100).toFixed(1)+'%':'—';
+why.textContent=z.n<20?`找到 ${z.n} 個相似度≥72%的歷史路況，未達20個，維持觀望。`:`以相似度加權後最高 ${nm[lead[0]]} ${(lead[1]*100).toFixed(1)}%，與第二名差 ${(gap*100).toFixed(1)}%；最佳相似 ${(z.best*100).toFixed(0)}%。百分比是歷史近鄰分布，不是下一局保證勝率。`;
 sn.textContent=a.length;sb.textContent=a.filter(x=>x==='B').length;sp.textContent=a.filter(x=>x==='P').length;st.textContent=a.filter(x=>x==='T').length;spat.textContent=pat(a);sdb.textContent=D.shoes.length+'靴';history.innerHTML=D.shoes.slice().reverse().map(s=>`<div class="shoe"><b>第${s.no}靴</b><div class="muted">${new Date(s.at).toLocaleString()}｜${s.rounds.length}局</div><button onclick="view('${s.id}')">查看完整路圖</button></div>`).join('');empty.style.display=D.shoes.length?'none':'block';soundBtn.textContent=snd?'🔊 音效':'🔇 靜音';renderCards();if(doSave)save()}
 
 let scanned=[];
@@ -169,6 +223,26 @@ function confirmImport(){
  tone('ok');for(const r of scanned)D.current.push({r,cards:{B:[],P:[]},ts:Date.now(),source:'image'});save();clearScan();render();
 }
 function clearScan(){scanned=[];detected.innerHTML='';scanStatus.textContent='尚未選擇圖片。';scanCanvas.style.display='none';roadImage.value=''}
+
+
+function exportBackup(){
+ tone('ok');const data={format:'BPRL_BACKUP_V1',exportedAt:new Date().toISOString(),storageKey:K,data:D};
+ const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'}),u=URL.createObjectURL(blob),a=document.createElement('a');
+ a.href=u;a.download=`BPRL_backup_${new Date().toISOString().slice(0,10)}_${D.shoes.length}shoes.json`;a.click();setTimeout(()=>URL.revokeObjectURL(u),1000)
+}
+function importBackup(ev){
+ const f=ev.target.files&&ev.target.files[0];if(!f)return;const rd=new FileReader();
+ rd.onload=()=>{try{let x=JSON.parse(rd.result),data=x.data||x;if(!data||!Array.isArray(data.shoes)||!Array.isArray(data.current))throw Error('格式不符');
+ if(!confirm(`備份內有 ${data.shoes.length} 靴，目前有 ${D.shoes.length} 靴。確定以備份資料取代目前資料？`))return;
+ D=data;save();tone('ok');render();alert('備份匯入完成。')}catch(e){alert('備份檔無法讀取：'+e.message)}finally{backupFile.value=''}};
+ rd.readAsText(f)
+}
+function showDbInfo(){let rounds=D.shoes.reduce((n,s)=>n+s.rounds.length,0);alert(`資料庫：${K}\n已完成：${D.shoes.length} 靴／${rounds} 局\n目前第 ${D.no} 靴：${D.current.length} 局\n資料只存在目前網站來源的瀏覽器儲存空間，請定期匯出備份。`)}
+function downloadCSV(){
+ let rows=[['shoe','round','result','banker_cards','player_cards','time']];
+ for(const s of D.shoes)for(let i=0;i<s.rounds.length;i++){let r=s.rounds[i],c=r.cards||{B:[],P:[]};rows.push([s.no,i+1,r.r,(c.B||[]).join('-'),(c.P||[]).join('-'),r.ts?new Date(r.ts).toISOString():''])}
+ let csv=rows.map(r=>r.map(v=>'"'+String(v).replaceAll('"','""')+'"').join(',')).join('\n'),blob=new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8'}),u=URL.createObjectURL(blob),a=document.createElement('a');a.href=u;a.download='BPRL_history.csv';a.click();setTimeout(()=>URL.revokeObjectURL(u),1000);tone('ok')
+}
 
 render();
 </script></body></html>
