@@ -17,7 +17,7 @@
 <div class="card"><div class="hd">下一把整合分析</div><div class="body decision"><div><div id="pick" class="pick">觀望</div><div id="sample" class="muted" style="text-align:center">全新資料庫</div></div><div><div class="prob"><div><small>莊 歷史支持</small><b id="pb">—</b></div><div><small>閒 歷史支持</small><b id="pp">—</b></div><div><small>和 歷史支持</small><b id="pt">—</b></div></div><div id="why" class="muted" style="margin-top:6px">沒有舊資料，樣本不足時不製造百分比。</div></div></div></div></div>
 <div class="card"><div class="hd">正規路單｜珠盤路・大路・大眼仔・小路・曱甴路</div><div class="body"><div class="roads2"><div><div class="muted">珠盤路</div><div class="rw"><div id="bead" class="road bead"></div></div></div><div><div class="muted">大路</div><div class="rw"><div id="big" class="road"></div></div></div></div><div class="roads3"><div><div class="muted">大眼仔</div><div class="rw"><div id="eye" class="road"></div></div></div><div><div class="muted">小路</div><div class="rw"><div id="small" class="road"></div></div></div><div><div class="muted">曱甴路</div><div class="rw"><div id="cock" class="road"></div></div></div></div></div></div>
 <div class="card"><div class="hd">下一手路｜Ask Road</div><div class="body ask"><div><b style="color:#ff6473">假設莊</b><div id="askB" class="muted"></div></div><div><b style="color:#63a6ff">假設閒</b><div id="askP" class="muted"></div></div><div><b style="color:#50d493">假設和</b><div class="muted">和不開新大路格；獨立納入三分類分析</div></div></div></div>
-<div class="card"><div class="hd">六路圖型辨識</div><div class="body"><div id="patterns" class="patterns"></div><div class="muted" style="margin-top:6px">辨識長龍、單跳、雙跳、兩房一廳、三房一廳、連續、高切換、混合。下三路紅藍是結構，不是莊閒。</div></div></div>
+<div class="card"><div class="hd">六路圖型辨識</div><div class="body"><div id="patterns" class="patterns"></div><div class="muted" style="margin-top:6px">辨識長龍、單跳、雙跳、兩房一廳、三房一廳、連莊／連閒、跳路、雜路。下三路紅藍是結構，不是莊閒。</div></div></div>
 <div class="card"><div class="hd">每局牌面數字｜可選填</div><div class="body cards"><div class="hand"><b style="color:#ff6473">莊家牌</b> <span id="bpnt"></span><div id="branks" class="ranks"></div><div id="bcards" class="muted"></div></div><div class="hand"><b style="color:#63a6ff">閒家牌</b> <span id="ppnt"></span><div id="pranks" class="ranks"></div><div id="pcards" class="muted"></div></div></div><div class="body tools"><button onclick="popCard('B')">刪莊最後牌</button><button onclick="popCard('P')">刪閒最後牌</button><button onclick="clearCards()">清牌面</button><button onclick="autoResult()">依點數填結果</button></div></div>
 <div class="card"><div class="hd">本靴統計</div><div class="body stats"><div class="stat"><small>局數</small><b id="sn">0</b></div><div class="stat"><small>莊</small><b id="sb">0</b></div><div class="stat"><small>閒</small><b id="sp">0</b></div><div class="stat"><small>和</small><b id="st">0</b></div><div class="stat"><small>型態</small><b id="spat">—</b></div><div class="stat"><small>資料庫</small><b id="sdb">0靴</b></div></div></div>
 <div class="card" id="historyCard"><div class="hd">歷史靴｜結束一靴後永久保存在本機</div><div class="body"><div id="history" class="history"></div><div id="empty" class="muted">目前 0 靴。完全重新開始。</div></div></div>
@@ -41,14 +41,14 @@
 <input id="backupFile" type="file" accept=".json,application/json" style="display:none" onchange="importBackup(event)">
 <div class="muted" style="margin-top:6px">V1.5 沿用 V1.4 的資料庫鍵值 <b>BPRL_NEWSTART_20260918</b>，同一網站／瀏覽器會直接承接既有靴。建議定期匯出 JSON 備份。</div>
 </div></div>
-<div class="card"><div class="hd">分析規則｜V1.5 相似路況近鄰模型</div><div class="body muted">只使用這個 NEW START 系列保存的靴。V1.5 不再要求五路100%完全相同：每個歷史局面建立大路／下三路型態、末端連續長度、近12局切換率、莊比例、和比例、最近三段長度、下三路紅藍比例等特徵，計算相似度後取相似度≥72%的前80個近鄰，並以相似度³加權其下一局 B/P/T。有效近鄰至少20個、最高加權占比≥45%、且領先第二名≥8個百分點才出訊號，否則觀望。百分比是歷史近鄰分布，不是保證勝率。</div></div>
+<div class="card"><div class="hd">分析規則｜V1.5 相似路況近鄰模型</div><div class="body muted">只使用這個 NEW START 系列保存的靴。V1.5 不再要求五路100%完全相同：每個歷史局面建立大路／下三路型態、末端連莊／連閒長度、近12局切換率、莊比例、和比例、最近三段長度、下三路紅藍比例等特徵，計算相似度後取相似度≥72%的前80個近鄰，並以相似度³加權其下一局 B/P/T。不再設定20個歷史近鄰門檻；目前這一靴就會立即分析，之後每一局都保存當時特徵與實際結果，歷史資料越多就逐步融合更多近鄰資料。百分比是歷史近鄰分布，不是保證勝率。</div></div>
 </div>
 <script>
 const K='BPRL_NEWSTART_20260918';let D=JSON.parse(localStorage.getItem(K)||'{"shoes":[],"current":[],"no":1}'),H={B:[],P:[]};let snd=localStorage.getItem(K+'S')!=='0',ac=null;const R=['A','2','3','4','5','6','7','8','9','10','J','Q','K'],V=x=>x==='A'?1:['10','J','Q','K'].includes(x)?0:+x;
 function save(){localStorage.setItem(K,JSON.stringify(D))}function audio(){if(!ac)ac=new(window.AudioContext||window.webkitAudioContext)();if(ac.state==='suspended')ac.resume()}function tone(x='tap'){if(!snd)return;audio();let o=ac.createOscillator(),g=ac.createGain(),f={B:220,P:350,T:520,ok:650,warn:150,tap:430}[x]||430;o.frequency.value=f;g.gain.value=.05;o.connect(g);g.connect(ac.destination);g.gain.exponentialRampToValueAtTime(.001,ac.currentTime+.07);o.start();o.stop(ac.currentTime+.08)}function toggleSound(){snd=!snd;localStorage.setItem(K+'S',snd?'1':'0');soundBtn.textContent=snd?'🔊 音效':'🔇 靜音';if(snd)tone('ok')}document.addEventListener('pointerdown',()=>snd&&audio(),{once:true});
 function seq(a=D.current){return a.map(x=>x.r)}function bp(a){return a.filter(x=>x==='B'||x==='P')}function pnt(a){return a.reduce((s,x)=>s+V(x),0)%10}
 function card(s,r){tone();if(H[s].length<3)H[s].push(r);renderCards()}function popCard(s){tone('warn');H[s].pop();renderCards()}function clearCards(){tone('warn');H={B:[],P:[]};renderCards()}function autoResult(){if(H.B.length<2||H.P.length<2)return;let b=pnt(H.B),p=pnt(H.P);add(b>p?'B':p>b?'P':'T')}
-function add(r){tone(r);D.current.push({r,cards:{B:[...H.B],P:[...H.P]},ts:Date.now()});H={B:[],P:[]};save();render()}function undo(){tone('warn');D.current.pop();save();render()}function clearShoe(){if(D.current.length&&confirm('確定清除目前這一靴？')){tone('warn');D.current=[];save();render()}}function saveShoe(){if(!D.current.length)return;tone('ok');D.shoes.push({id:'s'+Date.now(),no:D.no,at:Date.now(),rounds:structuredClone(D.current)});D.no++;D.current=[];H={B:[],P:[]};save();render()}
+function add(r){tone(r);recordLearningBeforeResult(r);D.current.push({r,cards:{B:[...H.B],P:[...H.P]},ts:Date.now()});H={B:[],P:[]};save();render()}function undo(){tone('warn');D.current.pop();save();render()}function clearShoe(){if(D.current.length&&confirm('確定清除目前這一靴？')){tone('warn');D.current=[];save();render()}}function saveShoe(){if(!D.current.length)return;tone('ok');D.shoes.push({id:'s'+Date.now(),no:D.no,at:Date.now(),rounds:structuredClone(D.current)});D.no++;D.current=[];H={B:[],P:[]};save();render()}
 function bead(a){return a.map((v,i)=>({r:i%6,c:Math.floor(i/6),v,t:0}))}
 function big(a){
  let out=[],occ=new Set(),last=null,row=0,col=0,baseCol=-1,lm=null;
@@ -127,8 +127,35 @@ function derive(B,k){
 }
 function deriveFromResults(results,k){return dcoords(derivedRaw(results,k))}
 function draw(id,a,type){let e=document.getElementById(id),mx=Math.max(11,...a.map(x=>x.c));e.style.width=`calc(${mx+1} * var(--c))`;e.innerHTML=a.map(x=>{let z=type==='o'?`<i class="o ${x.v}">${x.t?`<em class="tie">${x.t}</em>`:''}</i>`:type==='bead'?`<i class="o ${x.v}">${x.v==='B'?'莊':x.v==='P'?'閒':'和'}</i>`:type==='eye'?`<i class="eye ${x.v}"></i>`:type==='dot'?`<i class="dot ${x.v}"></i>`:`<i class="slash ${x.v}"></i>`;return `<span class="m" style="left:calc(${x.c}*var(--c));top:calc(${x.r}*var(--c))">${z}</span>`}).join('')}
-function pat(a){a=bp(a);if(a.length<4)return'資料不足';let q=[],n=1;for(let i=1;i<a.length;i++){if(a[i]===a[i-1])n++;else{q.push(n);n=1}}q.push(n);let t=q.slice(-5),c=q.at(-1);if(c>=5)return'長龍';if(t.length>=5&&t.every(x=>x===1))return'單跳';if(t.length>=4&&t.slice(-4).every(x=>x===2))return'雙跳';let z=t.slice(-4).join('');if(['2121','1212'].includes(z))return'兩房一廳';if(['3131','1313'].includes(z))return'三房一廳';if(c>=3)return'連續';let x=a.slice(-8),ch=0;for(let i=1;i<x.length;i++)ch+=x[i]!==x[i-1];return ch>=5?'高切換':'混合'}function dpat(a){return pat(a.map(x=>x.v==='R'?'B':'P'))}
+function pat(a){a=bp(a);if(a.length<4)return'未成路';let q=[],n=1;for(let i=1;i<a.length;i++){if(a[i]===a[i-1])n++;else{q.push(n);n=1}}q.push(n);let t=q.slice(-5),c=q.at(-1);if(c>=5)return'長龍';if(t.length>=5&&t.every(x=>x===1))return'單跳';if(t.length>=4&&t.slice(-4).every(x=>x===2))return'雙跳';let z=t.slice(-4).join('');if(['2121','1212'].includes(z))return'兩房一廳';if(['3131','1313'].includes(z))return'三房一廳';if(c>=3)return'連莊／連閒';let x=a.slice(-8),ch=0;for(let i=1;i<x.length;i++)ch+=x[i]!==x[i-1];return ch>=5?'跳路':'雜路'}function dpat(a){return pat(a.map(x=>x.v==='R'?'B':'P'))}
 function signature(a){let B=big(a);return[pat(a),pat(B.map(x=>x.v)),dpat(deriveFromResults(a,1)),dpat(deriveFromResults(a,2)),dpat(deriveFromResults(a,3))].join('|')}
+function liveAnalysis(a){
+ const x=bp(a),E=deriveFromResults(a,1),S=deriveFromResults(a,2),C=deriveFromResults(a,3);
+ let b=1,p=1,t=.22,label=pat(a);
+ if(x.length){
+  const last=x.at(-1),tail=x.slice(-12);
+  const changes=tail.slice(1).reduce((q,v,i)=>q+(v!==tail[i]),0),cr=tail.length>1?changes/(tail.length-1):.5;
+  let run=1;for(let i=x.length-2;i>=0&&x[i]===last;i--)run++;
+  if(run>=4){last==='B'?b+=.55:p+=.55}
+  else if(run===1&&cr>.62){last==='B'?p+=.38:b+=.38}
+  else if(run===2){last==='B'?b+=.18:p+=.18}
+  const rf=q=>q.length?q.slice(-10).filter(z=>z.v==='R').length/Math.min(10,q.length):.5;
+  const structure=(rf(E)+rf(S)+rf(C))/3;
+  if(structure>.66){last==='B'?b+=.20:p+=.20}
+  if(structure<.34){last==='B'?p+=.16:b+=.16}
+  t=.22+Math.min(.08,a.slice(-12).filter(v=>v==='T').length*.015);
+ }
+ const sum=b+p+t;return{B:b/sum,P:p/sum,T:t/sum,label}
+}
+const LK=K+'_ROUND_LEARNING_V1';
+let LL=[];try{LL=JSON.parse(localStorage.getItem(LK)||'[]')}catch(e){}
+function saveLearning(){localStorage.setItem(LK,JSON.stringify(LL))}
+function recordLearningBeforeResult(actual){
+ const pre=seq(); if(!pre.length)return;
+ const F=featureVector(pre),L=liveAnalysis(pre),Z=stats();
+ LL.push({ts:Date.now(),shoe:D.no,targetRound:pre.length+1,features:F,live:L,historicalN:Z.n,actual});
+ if(LL.length>10000)LL=LL.slice(-10000);saveLearning();
+}
 function featureVector(a){
  const B=big(a),E=deriveFromResults(a,1),S=deriveFromResults(a,2),C=deriveFromResults(a,3),x=bp(a);
  let runs=[],n=0,last=null;
@@ -179,11 +206,18 @@ function render(doSave=true){let a=seq(),B=big(a),E=deriveFromResults(a,1),S=der
 let z=stats(),nm={B:'莊',P:'閒',T:'和',W:'觀望'},den=z.ws||0;
 let rates={B:den?z.wC.B/den:0,P:den?z.wC.P/den:0,T:den?z.wC.T/den:0};
 let arr=[['B',rates.B],['P',rates.P],['T',rates.T]].sort((a,b)=>b[1]-a[1]),lead=arr[0],gap=lead[1]-arr[1][1];
-let out=(z.n>=20&&lead[1]>=.45&&gap>=.08)?lead[0]:'W';
+let live=liveAnalysis(seq()),histReady=z.n>0;
+let combined={B:live.B,P:live.P,T:live.T};
+if(histReady){
+ const hw=Math.min(.70,.20+z.n/100),lw=1-hw;
+ combined.B=lw*live.B+hw*rates.B;combined.P=lw*live.P+hw*rates.P;combined.T=lw*live.T+hw*rates.T;
+}
+let carr=[['B',combined.B],['P',combined.P],['T',combined.T]].sort((a,b)=>b[1]-a[1]),clead=carr[0],cgap=clead[1]-carr[1][1];
+let out=(clead[1]>=.43&&cgap>=.035)?clead[0]:'W';
 pick.textContent=nm[out];pick.className='pick '+(out==='B'?'Bc':out==='P'?'Pc':out==='T'?'Tc':'');
-sample.textContent=z.n?`近鄰樣本 ${z.n}｜平均相似 ${(z.avg*100).toFixed(0)}%`:`歷史可比較前綴 ${z.pool}`;
-pb.textContent=z.n?(rates.B*100).toFixed(1)+'%':'—';pp.textContent=z.n?(rates.P*100).toFixed(1)+'%':'—';pt.textContent=z.n?(rates.T*100).toFixed(1)+'%':'—';
-why.textContent=z.n<20?`找到 ${z.n} 個相似度≥72%的歷史路況，未達20個，維持觀望。`:`以相似度加權後最高 ${nm[lead[0]]} ${(lead[1]*100).toFixed(1)}%，與第二名差 ${(gap*100).toFixed(1)}%；最佳相似 ${(z.best*100).toFixed(0)}%。百分比是歷史近鄰分布，不是下一局保證勝率。`;
+sample.textContent=`當下牌局分析｜${live.label}`+(histReady?`｜歷史近鄰 ${z.n}`:'｜歷史持續累積');
+pb.textContent=(combined.B*100).toFixed(1)+'%';pp.textContent=(combined.P*100).toFixed(1)+'%';pt.textContent=(combined.T*100).toFixed(1)+'%';
+why.textContent=`不設20筆門檻。先依目前牌局的路形、連莊／連閒段、切換率與下三路即時分析；每局開出後保存開獎前特徵、當時分析與實際結果。${histReady?`目前另融合 ${z.n} 個歷史近鄰。`:``}最高支持 ${nm[clead[0]]} ${(clead[1]*100).toFixed(1)}%。這是模型支持度，不代表保證勝率。`;
 sn.textContent=a.length;sb.textContent=a.filter(x=>x==='B').length;sp.textContent=a.filter(x=>x==='P').length;st.textContent=a.filter(x=>x==='T').length;spat.textContent=pat(a);sdb.textContent=D.shoes.length+'靴';history.innerHTML=D.shoes.slice().reverse().map(s=>`<div class="shoe"><b>第${s.no}靴</b><div class="muted">${new Date(s.at).toLocaleString()}｜${s.rounds.length}局</div><button onclick="view('${s.id}')">查看完整路圖</button></div>`).join('');empty.style.display=D.shoes.length?'none':'block';soundBtn.textContent=snd?'🔊 音效':'🔇 靜音';renderCards();if(doSave)save()}
 
 let scanned=[];
