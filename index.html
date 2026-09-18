@@ -1753,334 +1753,602 @@ body,.app,.v16-shell{
 
 
 
-<style id="v245-tablet-three-panels">
-/* V24.5：平板右欄三區同時存在：AI 決策＋五路分析＋最佳路 */
-@media (min-width:760px) and (max-width:1400px){
-  .v16-right{
+
+
+<style id="v249-right-three-panel-final">
+/* V24.9：右側三區最終版。直接作用於右欄，不再依賴平板 media query。 */
+
+/* 三區按比例排版：AI > 五路 > 最佳路 */
+.v16-right{
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr)!important;
+  grid-template-rows:minmax(210px,1.10fr) minmax(185px,1.00fr) minmax(180px,.92fr)!important;
+  gap:8px!important;
+  align-content:start!important;
+  overflow:visible!important;
+  min-width:0!important;
+}
+
+/* 僅鎖定三個核心區塊 */
+.v16-right > #v24Decision,
+.v16-right > #v241Unified,
+.v16-right > .road-ai-panel{
+  display:block!important;
+  width:100%!important;
+  min-width:0!important;
+  height:100%!important;
+  min-height:0!important;
+  max-height:none!important;
+  margin:0!important;
+  box-sizing:border-box!important;
+  overflow:hidden!important;
+  border-radius:10px!important;
+}
+
+/* ==================== AI 決策中心 ==================== */
+.v16-right #v24Decision{
+  padding:10px!important;
+}
+.v16-right #v24Decision .v24-head{
+  margin-bottom:7px!important;
+}
+.v16-right #v24Decision .v24-head b{
+  font-size:16px!important;
+  line-height:1.08!important;
+}
+.v16-right #v24Decision .v24-head span{
+  font-size:10px!important;
+  line-height:1.08!important;
+}
+.v16-right #v24Decision .v24-main{
+  grid-template-columns:92px minmax(0,1fr)!important;
+  gap:8px!important;
+  align-items:center!important;
+}
+.v16-right #v24Decision .v24-gauge{
+  width:88px!important;
+  height:88px!important;
+}
+.v16-right #v24Decision .v24-gauge-inner strong{
+  font-size:28px!important;
+  line-height:1!important;
+}
+.v16-right #v24Decision .v24-gauge-inner small{
+  font-size:10px!important;
+  line-height:1!important;
+}
+.v16-right #v24Decision .v24-summary{
+  gap:5px!important;
+}
+.v16-right #v24Decision .v24-metric{
+  padding:6px 7px!important;
+  min-height:0!important;
+}
+.v16-right #v24Decision .v24-metric span{
+  font-size:10px!important;
+  font-weight:800!important;
+  line-height:1.1!important;
+}
+.v16-right #v24Decision .v24-metric b{
+  font-size:14px!important;
+  font-weight:900!important;
+  line-height:1.08!important;
+  margin-top:2px!important;
+}
+.v16-right #v24Decision .v24-signal{
+  margin-top:5px!important;
+  padding:5px 7px!important;
+}
+.v16-right #v24Decision .v24-signal span,
+.v16-right #v24Decision .v24-signal b{
+  font-size:9.5px!important;
+  line-height:1.08!important;
+}
+.v16-right #v24Decision .v24-alert{
+  margin-top:5px!important;
+  padding:5px 7px!important;
+  font-size:9.5px!important;
+  font-weight:800!important;
+  line-height:1.15!important;
+}
+.v16-right #v24Decision .v24-pattern-grid{
+  gap:4px!important;
+}
+.v16-right #v24Decision .v24-p{
+  padding:4px 5px!important;
+}
+.v16-right #v24Decision .v24-p span{
+  font-size:8.5px!important;
+  font-weight:800!important;
+  line-height:1.08!important;
+}
+.v16-right #v24Decision .v24-p b{
+  font-size:11px!important;
+  font-weight:900!important;
+  line-height:1.08!important;
+}
+/* 保留計算邏輯，只隱藏右欄過長的診斷文字 */
+.v16-right #v24Decision .v24-detail-title,
+.v16-right #v24Decision .v24-detail-grid,
+.v16-right #v24Decision #v24Diagnostics{
+  display:none!important;
+}
+
+/* ==================== 五路分析 ==================== */
+.v16-right #v241Unified{
+  padding:9px!important;
+}
+.v16-right #v241Unified .uh{
+  font-size:12px!important;
+  font-weight:900!important;
+  line-height:1.08!important;
+  margin-bottom:6px!important;
+}
+.v16-right #v241Unified .decision{
+  grid-template-columns:66px minmax(0,1fr)!important;
+  gap:7px!important;
+}
+.v16-right #v241Unified .orb{
+  height:62px!important;
+  border-width:5px!important;
+  font-size:15px!important;
+}
+.v16-right #v241Unified .sum{
+  padding:5px 6px!important;
+}
+.v16-right #v241Unified .pick{
+  font-size:15px!important;
+  line-height:1.08!important;
+}
+.v16-right #v241Unified .meta{
+  font-size:8.5px!important;
+  line-height:1.12!important;
+}
+.v16-right #v241Unified .grid{
+  grid-template-columns:repeat(5,minmax(0,1fr))!important;
+  gap:4px!important;
+  margin-top:6px!important;
+}
+.v16-right #v241Unified .m{
+  min-width:0!important;
+  padding:5px 4px!important;
+  font-size:8.5px!important;
+  font-weight:800!important;
+  line-height:1.08!important;
+  text-align:center!important;
+}
+.v16-right #v241Unified .m b{
+  font-size:10.5px!important;
+  font-weight:900!important;
+  line-height:1.05!important;
+  margin-bottom:2px!important;
+}
+.v16-right #v241Unified .m span{
+  font-size:7.5px!important;
+  line-height:1.05!important;
+}
+.v16-right #v241Unified .stats{
+  gap:4px!important;
+  margin-top:5px!important;
+}
+.v16-right #v241Unified .st{
+  padding:4px 3px!important;
+}
+.v16-right #v241Unified .st span{
+  font-size:8px!important;
+  font-weight:800!important;
+}
+.v16-right #v241Unified .st b{
+  font-size:10px!important;
+  font-weight:900!important;
+}
+.v16-right #v241Unified .warn{
+  margin-top:5px!important;
+  padding:5px 6px!important;
+  font-size:8px!important;
+  font-weight:800!important;
+  line-height:1.12!important;
+}
+
+/* ==================== 最佳路分析 ==================== */
+.v16-right .road-ai-panel{
+  padding:9px!important;
+}
+.v16-right .road-ai-title{
+  font-size:14px!important;
+  font-weight:900!important;
+  line-height:1.08!important;
+  margin-bottom:6px!important;
+}
+.v16-right .road-ai-best{
+  padding:6px 7px!important;
+  gap:7px!important;
+  margin-bottom:5px!important;
+}
+.v16-right .road-ai-label{
+  font-size:9px!important;
+  font-weight:800!important;
+}
+.v16-right .road-ai-name{
+  font-size:13px!important;
+  font-weight:900!important;
+}
+.v16-right .road-ai-pick{
+  min-width:110px!important;
+  padding:6px 8px!important;
+  font-size:10px!important;
+  font-weight:900!important;
+}
+.v16-right .road-ai-grid{
+  display:grid!important;
+  grid-template-columns:repeat(5,minmax(0,1fr))!important;
+  gap:4px!important;
+  margin-top:5px!important;
+}
+.v16-right .road-ai-item{
+  min-width:0!important;
+  min-height:72px!important;
+  padding:6px 3px!important;
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:center!important;
+  justify-content:center!important;
+  text-align:center!important;
+}
+.v16-right .road-ai-item span{
+  width:100%!important;
+  font-size:9.5px!important;
+  font-weight:900!important;
+  line-height:1.05!important;
+  white-space:normal!important;
+  overflow-wrap:anywhere!important;
+}
+.v16-right .road-ai-item b{
+  font-size:14px!important;
+  font-weight:900!important;
+  line-height:1!important;
+  margin-top:4px!important;
+}
+.v16-right .road-ai-item em{
+  font-size:10px!important;
+  font-weight:900!important;
+  line-height:1!important;
+  margin-top:4px!important;
+}
+.v16-right .road-ai-reason{
+  margin-top:5px!important;
+  padding:5px 6px!important;
+  font-size:8px!important;
+  font-weight:800!important;
+  line-height:1.12!important;
+}
+
+/* 不讓舊按鈕佔第四格 */
+.v16-right > .center-analysis-btn{
+  display:none!important;
+}
+.v16-right *{
+  box-sizing:border-box!important;
+}
+</style>
+
+
+<style id="v251-shoe-history-css">
+#v251ShoeModal{
+  position:fixed;inset:0;z-index:99999;display:none;align-items:center;justify-content:center;
+  background:rgba(0,0,0,.72);padding:16px;
+}
+#v251ShoeModal.open{display:flex}
+#v251ShoeBox{
+  width:min(760px,96vw);max-height:88vh;overflow:auto;background:#081923;color:#eef8ff;
+  border:1px solid #9e7b2d;border-radius:12px;box-shadow:0 18px 50px rgba(0,0,0,.55);
+}
+#v251ShoeHead{
+  position:sticky;top:0;z-index:2;display:flex;align-items:center;justify-content:space-between;
+  gap:10px;padding:12px 14px;background:#0b2230;border-bottom:1px solid #27495a
+}
+#v251ShoeHead b{font-size:16px;color:#ffd66d}
+#v251ShoeHead button{border:1px solid #416174;background:#112f40;color:#fff;border-radius:7px;padding:7px 11px;font-weight:800}
+#v251ShoeSummary{padding:10px 14px;font-size:12px;color:#9fc0d0}
+#v251ShoeList{padding:0 12px 12px}
+.v251-shoe{
+  display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;align-items:center;
+  border:1px solid #28495b;border-radius:8px;background:#0a202d;padding:9px;margin-top:7px
+}
+.v251-shoe-title{font-weight:900;font-size:13px}
+.v251-shoe-meta{margin-top:3px;font-size:10px;color:#9db5c1;line-height:1.35}
+.v251-shoe-actions{display:flex;gap:5px;flex-wrap:wrap;justify-content:flex-end}
+.v251-shoe-actions button{border:1px solid #365b70;background:#102f40;color:#fff;border-radius:6px;padding:6px 8px;font-size:10px;font-weight:800}
+.v251-shoe-actions .danger{border-color:#8e4545;background:#3a1919}
+#v251ShoeEmpty{padding:24px;text-align:center;color:#7895a3}
+</style>
+
+
+<style id="v252-history-learning-css">
+#v241Unified .v252learn{
+  margin-top:5px;padding:5px 6px;border:1px solid #38566a;border-radius:6px;
+  background:#091b27;min-width:0
+}
+#v241Unified .v252head{display:flex;align-items:center;justify-content:space-between;gap:6px;font-size:8.5px;color:#d8f1ff}
+#v241Unified .v252head b{color:#7fd7ff;font-size:9.5px}
+#v241Unified .v252head span{color:#9fb8c5;font-size:7.5px}
+#v241Unified .v252stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:3px;margin-top:4px}
+#v241Unified .v252stats span{display:block;background:#0d2635;border:1px solid #1f4253;border-radius:4px;padding:3px;text-align:center;font-size:6.8px;color:#7899aa;white-space:nowrap}
+#v241Unified .v252stats b{display:block;margin-top:1px;color:#fff;font-size:8.8px}
+#v241Unified .v252meta{margin-top:4px;color:#7f9daa;font-size:6.8px;line-height:1.3}
+</style>
+
+
+<style id="v253-auto-max-css">
+#v253AutoStrip{
+  margin:6px 0 0;padding:6px 8px;border:1px solid #24516a;border-radius:7px;
+  background:#071b27;color:#91afbf;font-size:8px;line-height:1.45
+}
+#v253AutoStrip b{color:#65d6ff}
+#v23AutoHub .v23-grid{grid-template-columns:repeat(6,minmax(0,1fr))!important}
+@media(max-width:900px){
+  #v23AutoHub .v23-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+}
+</style>
+
+
+<style id="v255-db-sound-css">
+.v255-db-modal{position:fixed;inset:0;z-index:99999;display:none;background:rgba(0,0,0,.78);padding:18px;box-sizing:border-box;align-items:center;justify-content:center}
+.v255-db-modal.show{display:flex}
+.v255-db-box{width:min(980px,96vw);max-height:92vh;overflow:auto;background:#07131f;border:1px solid #31556f;border-radius:14px;box-shadow:0 18px 60px rgba(0,0,0,.5);color:#eaf6ff}
+.v255-db-head{position:sticky;top:0;z-index:2;display:flex;justify-content:space-between;gap:12px;align-items:center;padding:14px 16px;background:#091a29;border-bottom:1px solid #29475d}
+.v255-db-title{font-size:20px;font-weight:900;color:#ffd86a}
+.v255-db-sub{font-size:12px;color:#8fb0c7;margin-top:3px}
+.v255-db-head button,.v255-db-actions button,.v255-db-shoe button{background:#102a3e;color:#eef8ff;border:1px solid #315b75;border-radius:8px;padding:9px 12px;font-weight:800;cursor:pointer}
+.v255-db-stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;padding:12px 14px 4px}
+.v255-db-stats>div{background:#0b2233;border:1px solid #254b64;border-radius:9px;padding:9px}
+.v255-db-stats span{display:block;color:#8eacbf;font-size:11px}.v255-db-stats b{display:block;margin-top:3px;font-size:16px;color:#fff}
+.v255-db-actions{display:flex;gap:7px;flex-wrap:wrap;padding:9px 14px}
+.v255-db-info{margin:0 14px 8px;padding:8px 10px;border-radius:8px;background:#0a1d2a;color:#86b9d6;font-size:12px}
+.v255-db-list{padding:0 14px 14px}
+.v255-db-shoe{border:1px solid #294a60;border-radius:10px;background:#091b29;margin:7px 0;padding:10px}
+.v255-db-shoe-head{display:flex;justify-content:space-between;gap:10px;font-weight:800}
+.v255-db-shoe-meta{margin-top:5px;color:#96b0c1;font-size:12px;line-height:1.5}
+.v255-db-raw{display:none;margin:0 14px 14px;padding:12px;max-height:48vh;overflow:auto;white-space:pre-wrap;word-break:break-word;border-radius:9px;background:#030b11;border:1px solid #223b4d;color:#d6edf9;font-size:11px;line-height:1.45}
+@media(max-width:700px){.v255-db-modal{padding:7px}.v255-db-box{width:99vw;max-height:95vh}.v255-db-stats{grid-template-columns:repeat(2,minmax(0,1fr))}.v255-db-title{font-size:17px}}
+</style>
+
+
+<style id="v256-landscape-final-layout">
+/* V25.6 LANDSCAPE FINAL
+   Final override only: landscape-first, no fixed-height clipping, touch-safe buttons. */
+html,body{max-width:100%;overflow-x:hidden!important}
+.app{width:100%!important;max-width:none!important;box-sizing:border-box!important;padding:6px!important}
+
+/* Main landscape workspace */
+@media (min-width:900px){
+  .v16-shell{
     display:grid!important;
-    grid-template-rows:minmax(0,.88fr) minmax(0,.82fr) minmax(0,.78fr)!important;
-    gap:5px!important;
-    overflow:hidden!important;
-    padding:0!important;
+    grid-template-columns:minmax(250px,22%) minmax(0,1fr) minmax(330px,29%)!important;
+    gap:7px!important;
+    align-items:start!important;
+    width:100%!important;
+    max-width:100%!important;
+  }
+  .v16-left,.v16-center,.v16-right{
+    width:100%!important;
+    min-width:0!important;
+    height:auto!important;
+    min-height:0!important;
+    max-height:none!important;
+    overflow:visible!important;
+    position:static!important;
+    box-sizing:border-box!important;
   }
 
-  /* 三個核心區塊全部同時顯示 */
-  .v16-right > #v24Decision,
-  .v16-right > #v241Unified,
-  .v16-right > .road-ai-panel{
+  /* LEFT: quick input -> full hand -> vision, never hide controls */
+  #v26InputDock{height:auto!important;overflow:visible!important}
+  #v26QuickPane,#v26ManualPane,#v26VisionPane{
+    height:auto!important;max-height:none!important;overflow:visible!important
+  }
+  #v19Vision{height:auto!important;max-height:none!important;overflow:visible!important}
+  #v19VisionWrap{height:145px!important;min-height:145px!important}
+  #v19VisionCanvas{height:145px!important;max-height:145px!important}
+
+  /* Quick result buttons */
+  #v26QuickPane .result-btn{
+    width:32%!important;
+    min-height:48px!important;
+    height:48px!important;
+    margin:0 .6% 5px 0!important;
+    font-size:20px!important;
+    border-radius:9px!important;
+  }
+  #v26QuickPane .undo{height:42px!important;min-height:42px!important;font-size:12px!important}
+
+  /* Five utility buttons: planned as 2 columns so text never collides */
+  #v26QuickPane .actions{
+    display:grid!important;
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    gap:5px!important;
+  }
+  #v26QuickPane .actions button{
+    width:100%!important;
+    height:44px!important;
+    min-height:44px!important;
+    padding:4px 6px!important;
+    font-size:11px!important;
+    line-height:1.15!important;
+    white-space:normal!important;
+    overflow:visible!important;
+  }
+  #v26QuickPane .actions button:last-child:nth-child(odd){
+    grid-column:1/-1!important;
+  }
+
+  /* Full-hand controls: touch-safe but compact */
+  #v19HandInput button,
+  #v26ManualPane button,
+  #v26VisionPane button{
+    min-height:40px!important;
+    padding:5px 7px!important;
+    box-sizing:border-box!important;
+  }
+  #v19HandInput select{min-height:36px!important}
+  #v233RecordFixed{min-height:46px!important;font-size:13px!important}
+
+  /* CENTER: roads use available width and retain readable proportions */
+  .v16-center{padding:5px!important}
+  .v16-center .roads{
+    display:grid!important;
+    grid-template-columns:1fr 1fr!important;
+    grid-template-rows:300px 180px!important;
+    gap:6px!important;
+    width:100%!important;
+    height:auto!important;
+    min-height:0!important;
+  }
+  .v16-center .roads>.road{height:300px!important;min-height:0!important}
+  .v16-center .minis{
+    grid-column:1/-1!important;
+    display:grid!important;
+    grid-template-columns:repeat(4,minmax(0,1fr))!important;
+    gap:6px!important;
+    height:180px!important;
+    min-height:180px!important;
+  }
+  .v16-center .minis>.road{height:180px!important;min-height:0!important}
+  .v16-center .canvaswrap{
+    height:calc(100% - 28px)!important;
+    min-height:0!important;
+    overflow:hidden!important;
+  }
+  .v16-center canvas{width:100%!important;height:100%!important}
+
+  /* RIGHT: all three panels remain visible and never overlap */
+  .v16-right{
+    display:grid!important;
+    grid-template-columns:1fr!important;
+    grid-template-rows:auto auto auto!important;
+    gap:7px!important;
+    align-content:start!important;
+  }
+  .v16-right>#v24Decision,
+  .v16-right>#v241Unified,
+  .v16-right>.road-ai-panel{
+    width:100%!important;
+    height:auto!important;
+    min-height:0!important;
+    max-height:none!important;
+    overflow:visible!important;
+    margin:0!important;
+    box-sizing:border-box!important;
+  }
+  .v16-right #v24Decision{padding:8px!important}
+  .v16-right #v24Decision .v24-head b{font-size:14px!important}
+  .v16-right #v24Decision .v24-main{grid-template-columns:78px minmax(0,1fr)!important;gap:6px!important}
+  .v16-right #v24Decision .v24-gauge{width:74px!important;height:74px!important}
+  .v16-right #v24Decision .v24-gauge-inner strong{font-size:23px!important}
+  #v241Unified,.road-ai-panel{padding:8px!important}
+
+  /* Bottom data center: landscape grid, no covered buttons */
+  #v23AutoHub .v23-grid{grid-template-columns:repeat(6,minmax(0,1fr))!important}
+  .panel.connect{width:100%!important;max-width:100%!important;overflow:visible!important}
+}
+
+/* Every button: consistent tap target and no clipped labels */
+button{
+  box-sizing:border-box!important;
+  max-width:100%;
+  touch-action:manipulation;
+}
+@media (min-width:900px){
+  button:not(.result-btn){
+    min-height:38px;
+  }
+}
+
+/* Portrait/phone fallback: one column, nothing is allowed to sit underneath another panel */
+@media (max-width:899px){
+  .v16-shell{display:flex!important;flex-direction:column!important;width:100%!important}
+  .v16-left,.v16-center,.v16-right{
+    width:100%!important;height:auto!important;max-height:none!important;overflow:visible!important
+  }
+  #v26QuickPane .actions{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  #v26QuickPane .actions button{height:44px!important;min-height:44px!important;font-size:11px!important}
+  #v26QuickPane .actions button:last-child:nth-child(odd){grid-column:1/-1!important}
+  .v16-right{display:grid!important;grid-template-rows:auto auto auto!important}
+}
+</style>
+
+
+<style id="v257-landscape-fill-space">
+/* V25.7 — fill the large center blank area seen in the user's landscape screen.
+   Keep the 3-column positions, but let the center roadmap consume the full working height. */
+@media (min-width:900px){
+  .v16-shell{
+    align-items:stretch!important;
+    min-height:calc(100vh - 12px)!important;
+  }
+  .v16-left,.v16-center,.v16-right{
+    align-self:stretch!important;
+    min-height:calc(100vh - 24px)!important;
+  }
+
+  /* Center becomes a full-height roadmap board instead of two short rows at the top. */
+  .v16-center{
     display:flex!important;
     flex-direction:column!important;
+    height:calc(100vh - 24px)!important;
+    min-height:620px!important;
+    overflow:hidden!important;
+  }
+  .v16-center .roads{
+    flex:1 1 auto!important;
+    display:grid!important;
+    grid-template-columns:1fr 1fr!important;
+    grid-template-rows:minmax(300px,1.65fr) minmax(210px,1fr)!important;
+    gap:6px!important;
     width:100%!important;
     height:100%!important;
     min-height:0!important;
-    margin:0!important;
-    overflow:hidden!important;
-    box-sizing:border-box!important;
-    border-radius:8px!important;
   }
-
-  /* AI 決策：保留主決策/回測/型態摘要，隱藏過長的細節區 */
-  .v16-right #v24Decision{
-    padding:6px!important;
-  }
-  .v16-right #v24Decision .v24-head{
-    font-size:9px!important;
-    margin-bottom:4px!important;
-  }
-  .v16-right #v24Decision .v24-main{
-    flex:0 0 auto!important;
-    gap:5px!important;
-  }
-  .v16-right #v24Decision .v24-gauge{
-    width:62px!important;
-    height:62px!important;
-    min-width:62px!important;
-  }
-  .v16-right #v24Decision .v24-gauge-inner strong{
-    font-size:15px!important;
-  }
-  .v16-right #v24Decision .v24-summary{
-    gap:3px!important;
-  }
-  .v16-right #v24Decision .v24-metric{
-    padding:3px!important;
-  }
-  .v16-right #v24Decision .v24-metric span{
-    font-size:6px!important;
-  }
-  .v16-right #v24Decision .v24-metric b{
-    font-size:8px!important;
-  }
-  .v16-right #v24Decision .v24-alert{
-    margin-top:3px!important;
-    padding:3px 5px!important;
-    font-size:7px!important;
-  }
-  .v16-right #v24Decision #v24Pattern{
-    flex:1 1 auto!important;
+  .v16-center .roads>.road{
+    height:100%!important;
     min-height:0!important;
-    margin-top:3px!important;
     overflow:hidden!important;
   }
-  .v16-right #v24Decision .v24-pattern-grid{
-    gap:2px!important;
-  }
-  .v16-right #v24Decision .v24-p{
-    padding:2px 3px!important;
-  }
-  .v16-right #v24Decision .v24-p span{
-    font-size:5.5px!important;
-  }
-  .v16-right #v24Decision .v24-p b{
-    font-size:7px!important;
-  }
-  .v16-right #v24Decision .v24-detail-title,
-  .v16-right #v24Decision .v24-detail-grid,
-  .v16-right #v24Decision #v24Diagnostics{
-    display:none!important;
-  }
-
-  /* 五路統一分析：保留五路方向＋50/100 回測＋偏差警告 */
-  .v16-right #v241Unified{
-    padding:5px!important;
-  }
-  .v16-right #v241Unified .uh{
-    font-size:8px!important;
-    margin-bottom:3px!important;
-  }
-  .v16-right #v241Unified .decision{
-    grid-template-columns:48px 1fr!important;
-    gap:4px!important;
-  }
-  .v16-right #v241Unified .orb{
-    height:43px!important;
-    border-width:4px!important;
-    font-size:10px!important;
-  }
-  .v16-right #v241Unified .sum{
-    padding:3px!important;
-  }
-  .v16-right #v241Unified .pick{
-    font-size:10px!important;
-  }
-  .v16-right #v241Unified .meta{
-    font-size:5.5px!important;
-    line-height:1.1!important;
-  }
-  .v16-right #v241Unified .grid{
-    grid-template-columns:repeat(5,minmax(0,1fr))!important;
-    gap:2px!important;
-    margin-top:3px!important;
-  }
-  .v16-right #v241Unified .m{
-    padding:2px!important;
-    font-size:5px!important;
-    line-height:1.05!important;
-  }
-  .v16-right #v241Unified .m b{
-    font-size:6px!important;
-    margin-bottom:1px!important;
-  }
-  .v16-right #v241Unified .stats{
-    gap:2px!important;
-    margin-top:3px!important;
-  }
-  .v16-right #v241Unified .st{
-    padding:2px!important;
-  }
-  .v16-right #v241Unified .st span{
-    font-size:5px!important;
-  }
-  .v16-right #v241Unified .st b{
-    font-size:6px!important;
-  }
-  .v16-right #v241Unified .warn{
-    margin-top:3px!important;
-    padding:3px!important;
-    font-size:5.3px!important;
-    line-height:1.1!important;
-  }
-
-  /* 最佳路：完整保留五路排名 */
-  .v16-right .road-ai-panel{
-    padding:5px!important;
-  }
-  .v16-right .road-ai-title{
-    font-size:9px!important;
-    margin-bottom:3px!important;
-  }
-  .v16-right .road-ai-best{
-    padding:4px!important;
-    margin-bottom:3px!important;
-  }
-  .v16-right .road-ai-label{
-    font-size:5.5px!important;
-  }
-  .v16-right .road-ai-name{
-    font-size:9px!important;
-  }
-  .v16-right .road-ai-pick{
-    padding:4px 7px!important;
-    font-size:8px!important;
-  }
-  .v16-right .road-ai-grid{
-    flex:1 1 auto!important;
+  .v16-center .minis{
+    grid-column:1/-1!important;
     display:grid!important;
-    grid-template-columns:repeat(5,minmax(0,1fr))!important;
-    gap:2px!important;
+    grid-template-columns:repeat(4,minmax(0,1fr))!important;
+    gap:6px!important;
+    width:100%!important;
+    height:100%!important;
     min-height:0!important;
   }
-  .v16-right .road-ai-item{
-    padding:3px 2px!important;
-    min-width:0!important;
+  .v16-center .minis>.road{
+    height:100%!important;
+    min-height:0!important;
+    overflow:hidden!important;
   }
-  .v16-right .road-ai-item span{
-    font-size:5.5px!important;
-  }
-  .v16-right .road-ai-item b{
-    font-size:7px!important;
-  }
-  .v16-right .road-ai-item em{
-    font-size:5.5px!important;
-  }
-  .v16-right .road-ai-reason{
-    margin-top:3px!important;
-    padding:3px!important;
-    font-size:5.5px!important;
-    line-height:1.1!important;
+  .v16-center .canvaswrap{
+    height:calc(100% - 27px)!important;
+    min-height:0!important;
   }
 
-  /* 若還有舊的開始分析按鈕，不佔平板右欄高度 */
-  .v16-right > .center-analysis-btn{
-    display:none!important;
-  }
-}
-</style>
-
-
-<style id="v246-tablet-text-readable">
-/* V24.6 平板：只放大右側「框框裡面的字」，外框位置/三區並存不動 */
-@media (min-width:760px) and (max-width:1400px){
-
-  /* AI 決策中心：框內文字加大 */
-  .v16-right #v24Decision .v24-metric span{
-    font-size:7.5px!important;
-    line-height:1.15!important;
-  }
-  .v16-right #v24Decision .v24-metric b{
-    font-size:10px!important;
-    line-height:1.15!important;
-  }
-  .v16-right #v24Decision .v24-alert{
-    font-size:8px!important;
-    line-height:1.2!important;
-  }
-  .v16-right #v24Decision .v24-p span{
-    font-size:7px!important;
-    line-height:1.1!important;
-  }
-  .v16-right #v24Decision .v24-p b{
-    font-size:8.5px!important;
-    line-height:1.1!important;
+  /* Stretch the right column visually through the available height without covering panels. */
+  .v16-right{
+    min-height:calc(100vh - 24px)!important;
+    align-content:start!important;
   }
 
-  /* 五路分析：每個小框內名稱/方向/數字放大 */
-  .v16-right #v241Unified .m{
-    font-size:7px!important;
-    line-height:1.15!important;
-    padding:3px!important;
-  }
-  .v16-right #v241Unified .m b{
-    font-size:8px!important;
-    line-height:1.1!important;
-  }
-  .v16-right #v241Unified .st span{
-    font-size:6.5px!important;
-    line-height:1.1!important;
-  }
-  .v16-right #v241Unified .st b{
-    font-size:8px!important;
-    line-height:1.1!important;
-  }
-  .v16-right #v241Unified .warn{
-    font-size:6.5px!important;
-    line-height:1.15!important;
-  }
-  .v16-right #v241Unified .meta{
-    font-size:6.5px!important;
-    line-height:1.15!important;
-  }
-
-  /* 最佳路分析：五個框內的文字明顯加大 */
-  .v16-right .road-ai-item{
-    padding:4px 3px!important;
-  }
-  .v16-right .road-ai-item span{
-    font-size:7.5px!important;
-    line-height:1.1!important;
-  }
-  .v16-right .road-ai-item b{
-    font-size:9px!important;
-    line-height:1.1!important;
-  }
-  .v16-right .road-ai-item em{
-    font-size:7px!important;
-    line-height:1.1!important;
-  }
-  .v16-right .road-ai-reason{
-    font-size:6.5px!important;
-    line-height:1.15!important;
-  }
-
-  /* 為了不把整個右欄撐高，減少框內上下空白，而不是再縮字 */
-  .v16-right #v24Decision .v24-metric,
-  .v16-right #v241Unified .m,
-  .v16-right #v241Unified .st,
-  .v16-right .road-ai-item{
+  /* Left column stays natural; no artificial blank fixed panel blocks. */
+  .v16-left{
+    height:auto!important;
     min-height:0!important;
   }
 }
-</style>
 
-
-<style id="v247-tablet-final-readable">
-/* V24.7：平板右欄最終可讀版。只優化框內字級與留白，不移動三大區塊。 */
-@media (min-width:760px) and (max-width:1400px){
-  /* AI 決策中心 */
-  .v16-right #v24Decision .v24-metric{padding:4px 5px!important}
-  .v16-right #v24Decision .v24-metric span{font-size:8.5px!important;font-weight:700!important;line-height:1.15!important}
-  .v16-right #v24Decision .v24-metric b{font-size:11.5px!important;font-weight:900!important;line-height:1.15!important}
-  .v16-right #v24Decision .v24-alert{font-size:9px!important;font-weight:800!important;line-height:1.18!important;padding:4px 6px!important}
-  .v16-right #v24Decision .v24-p{padding:3px 4px!important}
-  .v16-right #v24Decision .v24-p span{font-size:7.8px!important;font-weight:700!important}
-  .v16-right #v24Decision .v24-p b{font-size:9.5px!important;font-weight:900!important}
-
-  /* 五路分析：框內文字放大，但五格仍維持一排 */
-  .v16-right #v241Unified .m{padding:4px 3px!important;font-size:7.8px!important;font-weight:700!important;line-height:1.12!important}
-  .v16-right #v241Unified .m b{font-size:9px!important;font-weight:900!important;line-height:1.08!important}
-  .v16-right #v241Unified .st{padding:3px!important}
-  .v16-right #v241Unified .st span{font-size:7px!important;font-weight:700!important}
-  .v16-right #v241Unified .st b{font-size:9px!important;font-weight:900!important}
-  .v16-right #v241Unified .meta{font-size:7px!important;line-height:1.12!important}
-  .v16-right #v241Unified .warn{font-size:7px!important;font-weight:700!important;line-height:1.12!important;padding:3px 5px!important}
-
-  /* 最佳路分析：照片中最難看的五個框，優先放大 */
-  .v16-right .road-ai-item{padding:5px 3px!important;display:flex!important;flex-direction:column!important;justify-content:center!important}
-  .v16-right .road-ai-item span{font-size:8.5px!important;font-weight:800!important;line-height:1.08!important}
-  .v16-right .road-ai-item b{font-size:11px!important;font-weight:900!important;line-height:1.08!important;margin-top:2px!important}
-  .v16-right .road-ai-item em{font-size:8px!important;font-weight:800!important;line-height:1.08!important;margin-top:2px!important}
-  .v16-right .road-ai-label{font-size:7.5px!important;font-weight:800!important}
-  .v16-right .road-ai-name{font-size:11px!important;font-weight:900!important}
-  .v16-right .road-ai-pick{font-size:9px!important;font-weight:900!important}
-  .v16-right .road-ai-reason{font-size:7.2px!important;font-weight:700!important;line-height:1.12!important;padding:3px 5px!important}
-
-  /* 避免放大字後被固定高度裁掉 */
-  .v16-right #v24Decision .v24-metric,
-  .v16-right #v24Decision .v24-p,
-  .v16-right #v241Unified .m,
-  .v16-right #v241Unified .st,
-  .v16-right .road-ai-item{
-    overflow:visible!important;
+/* Very wide landscape displays: devote a little more room to roads. */
+@media (min-width:1200px) and (orientation:landscape){
+  .v16-shell{
+    grid-template-columns:minmax(250px,21%) minmax(0,1fr) minmax(330px,28%)!important;
   }
 }
 </style>
@@ -2122,7 +2390,7 @@ box-shadow:0 10px 30px rgba(0,0,0,.18)">
       <div class="twobtn"><button onclick="add('B6')">莊 6</button><button onclick="add('P6')">閒 6</button></div>
       <div class="checks"><label><input type="checkbox" id="bp"> 莊對</label><label><input type="checkbox" id="pp"> 閒對</label></div>
       <button class="undo" onclick="undo()">上一步</button>
-      <div class="actions"><button class="save" onclick="saveData()">儲存</button><button onclick="loadData()">讀取</button><button class="clear" onclick="clearAll()">清空</button></div>
+      <div class="actions"><button class="save" onclick="finishAndSaveShoe()">結束本靴並儲存</button><button onclick="openShoeHistory()">歷史靴</button><button onclick="openV255Database()">資料庫</button><button id="v255SoundBtn" onclick="toggleV255Sound()">🔊 按鍵音：開</button><button class="clear" onclick="clearCurrentShoe()">清空本靴</button></div>
     </div>
 
     <div class="roads">
@@ -2251,7 +2519,17 @@ color:#c9d6e3;font-size:12px;text-align:center">
       <div class="v23-card"><span>點數</span><b id="v23Points">等待資料</b></div>
       <div class="v23-card"><span>牌型 / 補牌</span><b id="v23Cards">等待資料</b></div>
       <div class="v23-card"><span>資料品質</span><b id="v23Quality">等待資料</b></div>
+      <div class="v23-card"><span>穩定層</span><b id="v253Guard">待命</b></div>
+      <div class="v23-card"><span>本靴識別</span><b id="v253Shoe">等待資料</b></div>
+      <div class="v23-card"><span>防重複</span><b id="v253Dedup">0</b></div>
+      <div class="v23-card"><span>異常隔離</span><b id="v253Quarantine">0</b></div>
+      <div class="v23-card"><span>進場補抓</span><b id="v254Backfill">尚未同步</b></div>
+      <div class="v23-card"><span>模式</span><b id="v254Mode">待命</b></div>
       <div class="v23-card"><span>AI 分析</span><b id="v23AI">等待資料</b></div>
+    </div>
+    <div id="v253AutoStrip">
+      <b>V25.3 自動抓取穩定層：</b>
+      <span id="v253AutoText">先補抓本靴前面資料 → 去重/校驗 → 接即時新局 → 換靴自動封存</span>
     </div>
 
     <div id="v23Log">系統待命。貼上資料網址或匯入 JSON / CSV 後即可自動分析。</div>
@@ -2883,10 +3161,49 @@ function add(r){
   requestAnimationFrame(()=>updateRecommendation());
 }
 function undo(){data.pop();persist();render()}
-function clearAll(){if(confirm('確定清空全部資料？')){data=[];persist();render()}}
-function persist(){localStorage.setItem('baccaratData_v11_alt',JSON.stringify(data))}
-function saveData(){persist();alert('已儲存')}
-function loadData(){data=JSON.parse(localStorage.getItem('baccaratData_v11_alt')||'[]');render()}
+function clearAll(){
+  if(confirm('確定清空目前牌局？\n已按「儲存」保存的資料不會被刪除。')){
+    data=[];
+    persist();
+    render();
+  }
+}
+function persist(){
+  localStorage.setItem('baccaratData_live_v24',JSON.stringify(data));
+}
+function saveData(){
+  try{
+    localStorage.setItem('baccaratData_saved_v24',JSON.stringify(data));
+    localStorage.setItem('baccaratData_saved_v24_time',new Date().toISOString());
+    alert('已儲存 '+data.length+' 局。\n之後按「清空目前」再按「讀取快照」仍可恢復。');
+  }catch(e){
+    alert('儲存失敗：'+e.message);
+  }
+}
+function loadData(){
+  try{
+    const raw=localStorage.getItem('baccaratData_saved_v24');
+    if(!raw){
+      alert('目前沒有已儲存的牌局。請先按「儲存快照」。');
+      return;
+    }
+    const saved=JSON.parse(raw);
+    if(!Array.isArray(saved)){
+      alert('已儲存資料格式異常，無法讀取。');
+      return;
+    }
+    data=saved;
+    persist();
+    render();
+    requestAnimationFrame(()=>{
+      try{if(typeof updateRecommendation==='function')updateRecommendation();}catch(e){}
+      try{if(typeof updateRoadRecommendations==='function')updateRoadRecommendations();}catch(e){}
+    });
+    alert('已讀取 '+data.length+' 局。');
+  }catch(e){
+    alert('讀取失敗：'+e.message);
+  }
+}
 
 function tick(){const d=new Date();date.textContent=d.toLocaleDateString('zh-TW');time.textContent=d.toLocaleTimeString('zh-TW',{hour12:false})}
 setInterval(tick,1000);tick();
@@ -3237,27 +3554,179 @@ function updateAutoLatest(d,r){
 }
 
 function processPayload(payload){
+  /* V25.3 MAX AUTO CAPTURE
+     1) strict table filter
+     2) Round/Shoe persistent dedup
+     3) result/card/point consistency checks
+     4) conflict quarantine
+     5) auto shoe rollover
+     6) raw audit metadata
+  */
   const target=(tableFilter.value||tableMirror.value||'').trim().toLowerCase();
-  let added=0,detailAdded=0;
-  for(const row of deepRows(payload)){
+  let added=0,detailAdded=0,dupCount=0,badCount=0;
+
+  const guardEl=document.getElementById('v253Guard');
+  const shoeEl=document.getElementById('v253Shoe');
+  const dedupEl=document.getElementById('v253Dedup');
+  const quarantineEl=document.getElementById('v253Quarantine');
+  const textEl=document.getElementById('v253AutoText');
+
+  const safeParse=(k,def)=>{try{const v=JSON.parse(localStorage.getItem(k)||'null');return v??def}catch(e){return def}};
+  const persistentSeen=safeParse('baccaratSeen_v253',[]);
+  const pSeen=new Set(Array.isArray(persistentSeen)?persistentSeen:[]);
+  const quarantine=safeParse('baccaratQuarantine_v253',[]);
+  let liveState=safeParse('baccaratLiveState_v253',{});
+
+  function saveSeen(){
+    /* only keep recent 3000 keys to avoid unlimited localStorage growth */
+    const arr=[...pSeen];
+    localStorage.setItem('baccaratSeen_v253',JSON.stringify(arr.slice(-3000)));
+  }
+  function saveState(){localStorage.setItem('baccaratLiveState_v253',JSON.stringify(liveState))}
+  function pushQuarantine(reason,row,meta={}){
+    quarantine.push({ts:Date.now(),reason,meta,row});
+    if(quarantine.length>300)quarantine.splice(0,quarantine.length-300);
+    localStorage.setItem('baccaratQuarantine_v253',JSON.stringify(quarantine));
+    badCount++;
+  }
+  function asRound(v){
+    if(v==null)return null;
+    const m=String(v).match(/\d+/g);
+    if(!m||!m.length)return null;
+    const n=Number(m[m.length-1]);
+    return Number.isFinite(n)?n:null;
+  }
+  function handValid(cards){
+    return !cards.length || (cards.length>=2 && cards.length<=3);
+  }
+  function detailConsistent(d,r){
+    if(!handValid(d.playerCards)||!handValid(d.bankerCards))return {ok:false,reason:'牌數異常'};
+    if(d.playerCards.length>=2 && d.playerPoints!==null && baccaratPoints(d.playerCards)!==d.playerPoints)
+      return {ok:false,reason:'閒家牌面與點數不一致'};
+    if(d.bankerCards.length>=2 && d.bankerPoints!==null && baccaratPoints(d.bankerCards)!==d.bankerPoints)
+      return {ok:false,reason:'莊家牌面與點數不一致'};
+    const rr=resultFromDetail(d);
+    if(rr && r && rr!==r)return {ok:false,reason:'開獎結果與牌面點數衝突'};
+    return {ok:true};
+  }
+  function autoArchiveCurrentShoe(meta){
+    if(!Array.isArray(data)||data.length<6)return false; // refuse tiny false shoes
+    try{
+      const db=JSON.parse(localStorage.getItem('baccaratShoes_v251')||'[]');
+      const list=Array.isArray(db)?db:[];
+      const B=data.filter(x=>String(x?.r||x).charAt(0)==='B').length;
+      const P=data.filter(x=>String(x?.r||x).charAt(0)==='P').length;
+      const T=data.filter(x=>String(x?.r||x).charAt(0)==='T').length;
+      list.push({
+        id:'shoe_auto_'+Date.now()+'_'+Math.random().toString(36).slice(2,7),
+        createdAt:new Date().toISOString(),
+        autoArchived:true,
+        autoReason:meta.reason||'auto',
+        sourceShoeId:meta.shoeId||'',
+        table:meta.table||'',
+        count:data.length,banker:B,player:P,tie:T,
+        data:JSON.parse(JSON.stringify(data))
+      });
+      localStorage.setItem('baccaratShoes_v251',JSON.stringify(list));
+      data=[];
+      persist();
+      render();
+      logmsg(`自動換靴：上一靴 ${B+P+T} 局已存入歷史資料庫（${meta.reason}）`);
+      return true;
+    }catch(e){
+      logmsg('自動換靴儲存失敗：'+e.message);
+      return false;
+    }
+  }
+  function checkShoeRollover(table,shoeId,roundNo){
+    const k=String(table||target||'default').toLowerCase();
+    const st=liveState[k]||{};
+    let rollover=false,reason='';
+    if(st.shoeId && shoeId && String(st.shoeId)!==String(shoeId)){
+      rollover=true;reason=`Shoe ID ${st.shoeId} → ${shoeId}`;
+    }else if(!shoeId && st.lastRound!=null && roundNo!=null){
+      /* conservative fallback: only consider a reset after a mature shoe */
+      const gap=Date.now()-(st.lastTs||Date.now());
+      if(st.lastRound>=20 && roundNo<=3 && roundNo<st.lastRound && gap>=15000){
+        rollover=true;reason=`局號 ${st.lastRound} → ${roundNo}`;
+      }
+    }
+    if(rollover)autoArchiveCurrentShoe({reason,shoeId,table});
+    liveState[k]={
+      shoeId:shoeId||st.shoeId||'',
+      lastRound:roundNo??st.lastRound??null,
+      lastTs:Date.now()
+    };
+    saveState();
+    if(shoeEl)shoeEl.textContent=shoeId?String(shoeId):(roundNo!=null?'局 '+roundNo:'未提供 Shoe ID');
+  }
+
+  const rows=deepRows(payload);
+  for(const row of rows){
     if(!row||typeof row!=='object')continue;
-    const table=pick(row,['table','tableId','table_id','tableNo','desk','room']);
-    if(target&&String(table??'').toLowerCase()!==target)continue;
+
+    const table=pick(row,['table','tableId','table_id','tableNo','table_no','desk','room']);
+    if(target && String(table??'').trim().toLowerCase()!==target)continue;
+
+    const shoeId=pick(row,['shoeId','shoe_id','shoeNo','shoe_no','shoe','bootId','boot_id']);
+    const roundId=pick(row,['roundId','round_id','roundNo','round_no','gameId','game_id','serial','issue','id']);
+    const roundNo=asRound(roundId);
 
     const d=detailFromRow(row);
     const rf=resultField.value.trim();
     const raw=rf?row[rf]:pick(row,['result','winner','side','gameResult','game_result','outcome','win']);
     let r=normalizeResult(raw);
     if(!r)r=resultFromDetail(d);
-    if(!r)continue;
+    if(!r){
+      pushQuarantine('找不到有效莊/閒/和結果',row,{table,shoeId,roundId});
+      continue;
+    }
 
-    const id=pick(row,['id','gameId','game_id','roundId','round_id','serial','issue'])??JSON.stringify(row);
-    const key=String(id);
-    if(seen.has(key))continue;
-    seen.add(key);
+    const qc=detailConsistent(d,r);
+    if(!qc.ok){
+      pushQuarantine(qc.reason,row,{table,shoeId,roundId,result:r});
+      continue;
+    }
+
+    /* Strong key first; fingerprint only as fallback. */
+    const strongId=roundId!=null && String(roundId)!=='';
+    const fingerprint=[
+      String(table??''),String(shoeId??''),String(roundId??''),
+      r,(d.playerCards||[]).join('.'),(d.bankerCards||[]).join('.'),
+      d.playerPoints??'',d.bankerPoints??''
+    ].join('|');
+    const key=strongId
+      ? ['RID',String(table??''),String(shoeId??''),String(roundId)].join('|')
+      : 'FP|'+fingerprint;
+
+    /* Detect same Round ID coming back with changed result -> quarantine instead of overwrite. */
+    const conflictKey='baccaratRoundSnapshot_v253_'+encodeURIComponent(key).slice(0,180);
+    if(strongId){
+      const prev=localStorage.getItem(conflictKey);
+      const snapshot=JSON.stringify({r,pc:d.playerCards,bc:d.bankerCards,pp:d.playerPoints,bp:d.bankerPoints});
+      if(prev && prev!==snapshot){
+        pushQuarantine('同一 Round ID 出現不同結果/牌面',row,{table,shoeId,roundId});
+        continue;
+      }
+      try{localStorage.setItem(conflictKey,snapshot)}catch(e){}
+    }
+
+    if(seen.has(key)||pSeen.has(key)){
+      dupCount++;
+      continue;
+    }
+
+    /* Check rollover immediately before accepting first round of the new shoe. */
+    checkShoeRollover(table,shoeId,roundNo);
+
+    seen.add(key);pSeen.add(key);
 
     scorePendingPrediction(r);
-    const rec={r,source:'auto',ts:Date.now(),table:table??''};
+    const rec={
+      r,source:'auto-v253',ts:Date.now(),table:table??'',
+      roundId:roundId??'',shoeId:shoeId??'',
+      ingestKey:key,quality:'verified'
+    };
 
     if(d.playerPoints!==null)rec.playerPoints=d.playerPoints;
     if(d.bankerPoints!==null)rec.bankerPoints=d.bankerPoints;
@@ -3278,12 +3747,124 @@ function processPayload(payload){
     updateAutoLatest(d,r);
     added++;
   }
+
+  saveSeen();
+  if(guardEl)guardEl.textContent=added?'已驗證寫入':'監控中';
+  if(dedupEl){
+    const old=Number(localStorage.getItem('baccaratDupCount_v253')||0)+dupCount;
+    localStorage.setItem('baccaratDupCount_v253',String(old));
+    dedupEl.textContent=old;
+  }
+  if(quarantineEl)quarantineEl.textContent=quarantine.length;
+  if(textEl)textEl.textContent=`本次新增 ${added}｜擋重複 ${dupCount}｜隔離 ${badCount}｜永久防重複鍵 ${pSeen.size}`;
+
   if(added){
     persist();render();
-    logmsg(`新增 ${added} 局｜其中 ${detailAdded} 局含點數/牌面，自動更新走勢＋牌型＋AI分析`);
+    logmsg(`V25.3 新增 ${added} 局｜完整牌面 ${detailAdded}｜重複攔截 ${dupCount}｜異常隔離 ${badCount}`);
+  }else if(dupCount||badCount){
+    logmsg(`V25.3 未新增｜重複 ${dupCount}｜異常 ${badCount}`);
   }
 }
 function logmsg(m){const t=new Date().toLocaleTimeString('zh-TW',{hour12:false});log.innerHTML+=`<div>[${t}] ${m}</div>`;log.scrollTop=log.scrollHeight}
+
+let v254InitialSyncDone=false;
+let v254SyncBusy=false;
+let v254BackfillTotal=0;
+let v254LastPayloadAt=0;
+
+function v254RowTime(row){
+  const v=pick(row,['timestamp','time','createdAt','created_at','openTime','open_time','settledAt','settled_at','date']);
+  if(v==null)return null;
+  const n=typeof v==='number'?v:Date.parse(v);
+  return Number.isFinite(n)?n:null;
+}
+function v254RoundNo(row){
+  const v=pick(row,['roundId','round_id','roundNo','round_no','gameId','game_id','serial','issue','id']);
+  if(v==null)return null;
+  const m=String(v).match(/\d+/g);
+  if(!m||!m.length)return null;
+  const n=Number(m[m.length-1]);
+  return Number.isFinite(n)?n:null;
+}
+function v254ShoeId(row){
+  const v=pick(row,['shoeId','shoe_id','shoeNo','shoe_no','shoe','bootId','boot_id']);
+  return v==null?'':String(v);
+}
+function v254Table(row){
+  const v=pick(row,['table','tableId','table_id','tableNo','table_no','desk','room']);
+  return v==null?'':String(v);
+}
+function v254NormalizeInitialRows(payload){
+  let rows=deepRows(payload).filter(x=>x&&typeof x==='object');
+  const target=(tableFilter.value||tableMirror.value||'').trim().toLowerCase();
+  if(target){
+    rows=rows.filter(r=>v254Table(r).trim().toLowerCase()===target);
+  }
+  if(rows.length<2)return rows;
+
+  // Prefer explicit timestamps. This prevents reverse-ordered history APIs from corrupting shoe order.
+  const timed=rows.filter(r=>v254RowTime(r)!=null).length;
+  if(timed>=Math.max(2,Math.floor(rows.length*.65))){
+    rows=rows.slice().sort((a,b)=>{
+      const ta=v254RowTime(a),tb=v254RowTime(b);
+      if(ta==null&&tb==null)return 0;
+      if(ta==null)return 1;if(tb==null)return -1;
+      return ta-tb;
+    });
+    return rows;
+  }
+
+  // If the payload is one shoe, safely sort by round number.
+  const shoes=[...new Set(rows.map(v254ShoeId).filter(Boolean))];
+  if(shoes.length===1){
+    const withRound=rows.filter(r=>v254RoundNo(r)!=null).length;
+    if(withRound>=Math.max(2,Math.floor(rows.length*.65))){
+      rows=rows.slice().sort((a,b)=>(v254RoundNo(a)??1e9)-(v254RoundNo(b)??1e9));
+    }
+  }
+  return rows;
+}
+function v254UpdateMode(mode,text){
+  const m=document.getElementById('v254Mode');
+  const b=document.getElementById('v254Backfill');
+  if(m)m.textContent=mode;
+  if(b&&text!=null)b.textContent=text;
+}
+function v254ProcessIncoming(payload,isFirst=false){
+  v254LastPayloadAt=Date.now();
+
+  if(isFirst && !v254InitialSyncDone){
+    v254SyncBusy=true;
+    v254UpdateMode('同步歷史','掃描本靴…');
+    const rows=v254NormalizeInitialRows(payload);
+
+    // If API returned a list, process normalized rows in one pass.
+    if(rows.length){
+      const before=Array.isArray(data)?data.length:0;
+      processPayload(rows);
+      const after=Array.isArray(data)?data.length:0;
+      const added=Math.max(0,after-before);
+      v254BackfillTotal+=added;
+      v254UpdateMode('即時追蹤',`已補 ${v254BackfillTotal} 局`);
+      logmsg(`V25.4 進場同步完成：來源 ${rows.length} 筆，本次補入 ${added} 局；現在切換即時追蹤`);
+    }else{
+      processPayload(payload);
+      v254UpdateMode('即時追蹤','來源無歷史列表');
+      logmsg('V25.4 未發現可補抓的歷史列表，直接進入即時追蹤');
+    }
+
+    v254InitialSyncDone=true;
+    v254SyncBusy=false;
+    localStorage.setItem('baccaratV254LastSync',JSON.stringify({
+      ts:Date.now(),backfill:v254BackfillTotal
+    }));
+    return;
+  }
+
+  processPayload(payload);
+  v254UpdateMode('即時追蹤',v254BackfillTotal?`已補 ${v254BackfillTotal} 局`:'即時中');
+}
+
 async function poll(){
   try{
     const url=endpoint.value.trim();
@@ -3305,7 +3886,7 @@ async function poll(){
       }
     }
 
-    processPayload(payload);
+    v254ProcessIncoming(payload,!v254InitialSyncDone);
     connStatus.textContent='已連線';
   }catch(e){
     connStatus.textContent='連線失敗';
@@ -3313,15 +3894,65 @@ async function poll(){
   }
 }
 function connectSource(){
-  disconnectSource(false);const url=endpoint.value.trim();
+  disconnectSource(false);
+  const url=endpoint.value.trim();
   localStorage.setItem('baccaratFeedSettings_v11_alt',JSON.stringify({
     sourceType:sourceType.value,endpoint:url,tableFilter:tableFilter.value,
     tableMirror:tableMirror.value,pollMs:pollMs.value,resultField:resultField.value
-  }));if(!url){alert('請先貼上網址');return}
-  if(sourceType.value==='ws'){try{ws=new WebSocket(url);connStatus.textContent='連線中';ws.onopen=()=>{connStatus.textContent='已連線';logmsg('WebSocket 已連線')};ws.onmessage=e=>{try{processPayload(JSON.parse(e.data))}catch{}};ws.onclose=()=>connStatus.textContent='已停止'}catch(e){logmsg(e.message)}}
-  else{poll();timer=setInterval(poll,Number(pollMs.value)||3000);logmsg('開始自動抓取')}
+  }));
+  if(!url){alert('請先貼上網址');return}
+
+  v254InitialSyncDone=false;
+  v254SyncBusy=false;
+  v254BackfillTotal=0;
+  v254UpdateMode('準備同步','等待來源');
+
+  if(sourceType.value==='ws'){
+    try{
+      ws=new WebSocket(url);
+      connStatus.textContent='連線中';
+      ws.onopen=()=>{
+        connStatus.textContent='已連線';
+        v254UpdateMode('等待首包','準備補抓');
+        logmsg('WebSocket 已連線；首包若包含本靴歷史，會先自動補抓');
+      };
+      ws.onmessage=e=>{
+        try{
+          const p=JSON.parse(e.data);
+          v254ProcessIncoming(p,!v254InitialSyncDone);
+        }catch(err){
+          logmsg('WebSocket 資料解析失敗：'+err.message);
+        }
+      };
+      ws.onerror=()=>{connStatus.textContent='連線異常'};
+      ws.onclose=()=>{
+        connStatus.textContent='已停止';
+        if(!window.v254ManualStop){
+          v254UpdateMode('等待重連','保留進度');
+          setTimeout(()=>{
+            if(!window.v254ManualStop && endpoint.value.trim()===url){
+              logmsg('WebSocket 嘗試自動重連');
+              connectSource();
+            }
+          },3000);
+        }
+      };
+      window.v254ManualStop=false;
+    }catch(e){logmsg(e.message)}
+  }else{
+    window.v254ManualStop=false;
+    poll();
+    timer=setInterval(poll,Number(pollMs.value)||3000);
+    logmsg('V25.4 開始：先同步可取得的本靴歷史，再持續抓即時新局');
+  }
 }
-function disconnectSource(write=true){if(timer){clearInterval(timer);timer=null}if(ws){try{ws.close()}catch{}ws=null}connStatus.textContent='已停止';if(write)logmsg('已停止')}
+function disconnectSource(write=true){
+  window.v254ManualStop=!!write;
+  if(timer){clearInterval(timer);timer=null}
+  if(ws){try{ws.close()}catch{}ws=null}
+  connStatus.textContent='已停止';
+  if(write){v254UpdateMode('已停止',v254BackfillTotal?`已補 ${v254BackfillTotal} 局`:'—');logmsg('已停止')}
+}
 function testFeed(){
   const r=Math.random()>.5?'B':'P';
   scorePendingPrediction(r);
@@ -3942,7 +4573,7 @@ document.addEventListener("DOMContentLoaded",function(){
   </div>
   <div class="vvisionOpts">
     <label><input type="checkbox" id="v19VisionAuto" checked> 每 2 秒自動辨識</label>
-    <label><input type="checkbox" id="v19VisionAutoSave"> 穩定後自動記錄</label>
+    <label><input type="checkbox" id="v19VisionAutoSave"> 3 幀穩定後自動記錄</label>
     <label><input type="checkbox" id="v19UseTemplate" checked> 優先模板比對</label>
   </div>
   <div class="vtemplate">
@@ -4218,12 +4849,33 @@ document.addEventListener("DOMContentLoaded",function(){
       const avg=used.length?used.reduce((a,k)=>a+(meta[k]?.confidence||0),0)/used.length:0;
       const methods=[...new Set(used.map(k=>meta[k]?.method).filter(Boolean))].join("+")||"—";
       $("v19VisionResult").innerHTML=`<b>辨識結果：</b> 閒 ${pc.join("・")||"—"}（${pp??"—"}點）｜莊 ${bc.join("・")||"—"}（${bp??"—"}點）｜${res}<span class="vconf">${methods} ${Math.round(avg*100)}%</span>`;
-      status(`完成・穩定 ${stableCount}/2`);
+      status(`完成・穩定 ${stableCount}/3`);
 
-      if($("v19VisionAutoSave")?.checked && stableCount>=2 && avg>=.82 && pp!==null && bp!==null && sig!==lastSavedSig){
-        const pMan=$("v19PManual"),bMan=$("v19BManual");
-        if(pMan)pMan.value="";if(bMan)bMan.value="";
-        if(typeof save==="function"){save();lastSavedSig=sig;stableCount=0;status("已自動記錄")}
+      if($("v19VisionAutoSave")?.checked && stableCount>=3 && avg>=.88 && pp!==null && bp!==null && sig!==lastSavedSig){
+        const firstFour=["P1","P2","B1","B2"];
+        const coreOK=firstFour.every(k=>vals[k] && (meta[k]?.confidence||0)>=.80);
+        const cardCountOK=pc.length>=2 && pc.length<=3 && bc.length>=2 && bc.length<=3;
+        if(!coreOK || !cardCountOK){
+          status("已攔截：核心牌位信心不足");
+        }else{
+          const pMan=$("v19PManual"),bMan=$("v19BManual");
+          if(pMan)pMan.value="";if(bMan)bMan.value="";
+          if(typeof save==="function"){
+            save();
+            try{
+              if(typeof data!=="undefined" && Array.isArray(data) && data.length){
+                const rec=data[data.length-1];
+                rec.source="vision-v253";
+                rec.visionConfidence=Math.round(avg*1000)/1000;
+                rec.visionStableFrames=3;
+                rec.visionSignature=sig;
+                rec.quality="vision-verified";
+                if(typeof persist==="function")persist();
+              }
+            }catch(e){}
+            lastSavedSig=sig;stableCount=0;status("已自動記錄・3幀驗證");
+          }
+        }
       }
     }catch(e){
       console.error(e);status("辨識失敗");$("v19VisionResult").innerHTML="<b>辨識失敗：</b> "+e.message;
@@ -4314,7 +4966,7 @@ document.addEventListener("DOMContentLoaded",function(){
 document.addEventListener("DOMContentLoaded",()=>{
  setTimeout(()=>{
    const bc=document.querySelector(".brand-cn");
-   if(bc)bc.textContent="BACCARAT 智能分析工作台 V24 ULTIMATE";
+   if(bc)bc.textContent="BACCARAT 智能分析工作台 V25.7 LANDSCAPE FULL";
    const be=document.querySelector(".brand-en");
    if(be)be.textContent="AI演算法 × 影像辨識 × 即時數據 × 歷史回測 × 模型分析";
  },120);
@@ -5422,6 +6074,15 @@ window.V24_CONFIG={symmetricThreshold:true,noBetZone:0.045,derivedRoadCorrelatio
       {name:"近期20",score:rateScore(s,20)*.35,w:.55},
       {name:"N-gram",score:ngramScore(s)*.55,w:.75}
     ];
+    /* V25.2: completed-shoe historical model. It is trained only on earlier completed shoes. */
+    try{
+      if(typeof window.v252HistoricalSignal==="function"){
+        const hs=window.v252HistoricalSignal(s);
+        if(hs && hs.ready && Number.isFinite(hs.score)){
+          models.push({name:"跨靴歷史",score:clamp(hs.score,-1,1),w:hs.weight||.35});
+        }
+      }
+    }catch(e){}
     let den=models.reduce((a,m)=>a+m.w,0);
     let score=models.reduce((a,m)=>a+m.score*m.w,0)/den;
     let directional=models.filter(m=>Math.abs(m.score)>=.07);
@@ -5461,7 +6122,7 @@ window.V24_CONFIG={symmetricThreshold:true,noBetZone:0.045,derivedRoadCorrelatio
     const right=document.querySelector(".v16-right");if(!right||$("v241Unified"))return;
     const box=document.createElement("section");box.id="v241Unified";
     box.innerHTML=`
-      <div class="uh"><span>V24.1 五路統一決策＋回測</span><span id="v241State">資料建立中</span></div>
+      <div class="uh"><span>V25.7 橫向滿版＋資料庫</span><span id="v241State">資料建立中</span></div>
       <div class="decision">
         <div class="orb" id="v241Orb">觀望</div>
         <div class="sum">
@@ -5478,7 +6139,17 @@ window.V24_CONFIG={symmetricThreshold:true,noBetZone:0.045,derivedRoadCorrelatio
         <div class="st"><span>預測覆蓋</span><b id="v241Coverage">—</b></div>
         <div class="st"><span>有效樣本</span><b id="v241N">0</b></div>
       </div>
-      <div class="warn" id="v241Bias">方向偏差監控：等待樣本</div>`;
+      <div class="warn" id="v241Bias">方向偏差監控：等待樣本</div>
+      <div class="v252learn" id="v252Learn">
+        <div class="v252head"><b>V25.2 跨靴 Walk-Forward</b><span id="v252State">等待歷史靴</span></div>
+        <div class="v252stats">
+          <span>訓練靴 <b id="v252TrainShoes">0</b></span>
+          <span>回測 <b id="v252Bt">—</b></span>
+          <span>覆蓋 <b id="v252Cov">—</b></span>
+          <span>歷史訊號 <b id="v252Pick">—</b></span>
+        </div>
+        <div class="v252meta" id="v252Meta">只使用較早完成的牌靴訓練，後面的牌靴只拿來測試。</div>
+      </div>`;
     const old=$("v24Decision");
     if(old&&old.parentNode===right)right.insertBefore(box,old.nextSibling);
     else right.insertBefore(box,right.firstChild);
@@ -5514,6 +6185,490 @@ window.V24_CONFIG={symmetricThreshold:true,noBetZone:0.045,derivedRoadCorrelatio
 })();
 </script>
 
+
+
+<div id="v251ShoeModal" aria-hidden="true">
+  <div id="v251ShoeBox">
+    <div id="v251ShoeHead">
+      <b>歷史靴資料庫</b>
+      <button type="button" onclick="closeShoeHistory()">關閉</button>
+    </div>
+    <div id="v251ShoeSummary">尚未載入</div>
+    <div id="v251ShoeList"></div>
+  </div>
+</div>
+
+
+<script id="v251-shoe-history-js">
+(function(){
+  const DB_KEY='baccaratShoes_v251';
+  const CUR_KEY='baccaratCurrentShoe_v251';
+
+  function rows(){
+    try{
+      if(typeof data!=='undefined' && Array.isArray(data)) return data;
+      if(Array.isArray(window.data)) return window.data;
+    }catch(e){}
+    return [];
+  }
+  function setRows(v){
+    try{
+      if(typeof data!=='undefined'){ data=v; return; }
+    }catch(e){}
+    window.data=v;
+  }
+  function safeRender(){
+    try{ if(typeof render==='function') render(); }catch(e){}
+    try{ if(typeof updateRecommendation==='function') updateRecommendation(); }catch(e){}
+    try{ if(typeof updateRoadRecommendations==='function') updateRoadRecommendations(); }catch(e){}
+    try{ if(typeof updateV13==='function') updateV13(); }catch(e){}
+  }
+  function getDB(){
+    try{
+      const x=JSON.parse(localStorage.getItem(DB_KEY)||'[]');
+      return Array.isArray(x)?x:[];
+    }catch(e){ return []; }
+  }
+  function setDB(db){ localStorage.setItem(DB_KEY,JSON.stringify(db)); }
+  function fmt(t){
+    try{return new Date(t).toLocaleString('zh-TW',{hour12:false})}catch(e){return String(t||'')}
+  }
+  function counts(arr){
+    let B=0,P=0,T=0;
+    arr.forEach(x=>{
+      const r=String((typeof x==='string'?x:(x&&x.r)||'')).charAt(0);
+      if(r==='B')B++; else if(r==='P')P++; else if(r==='T')T++;
+    });
+    return {B,P,T,n:arr.length};
+  }
+
+  window.finishAndSaveShoe=function(){
+    const cur=rows();
+    if(!cur.length){ alert('目前本靴沒有牌局，無法儲存。'); return; }
+    if(!confirm('確定結束本靴並儲存？\n目前 '+cur.length+' 局會存進歷史靴資料庫。'))return;
+
+    const db=getDB();
+    const now=new Date().toISOString();
+    const c=counts(cur);
+    const shoe={
+      id:'shoe_'+Date.now()+'_'+Math.random().toString(36).slice(2,7),
+      createdAt:now,
+      count:c.n, banker:c.B, player:c.P, tie:c.T,
+      data:JSON.parse(JSON.stringify(cur))
+    };
+    db.push(shoe);
+    setDB(db);
+    window.v252ViewingShoeId=null;
+
+    setRows([]);
+    try{ localStorage.setItem(CUR_KEY,'[]'); }catch(e){}
+    try{ if(typeof persist==='function') persist(); }catch(e){}
+    safeRender();
+
+    alert('第 '+db.length+' 靴已儲存，共 '+c.n+' 局。\n已自動清空目前本靴，可以開始下一靴。');
+  };
+
+  window.clearCurrentShoe=function(){
+    const cur=rows();
+    if(!cur.length){ alert('目前本靴已經是空的。'); return; }
+    if(!confirm('只清空目前這一靴？\n歷史靴資料不會刪除。'))return;
+    window.v252ViewingShoeId=null;
+    setRows([]);
+    try{ localStorage.setItem(CUR_KEY,'[]'); }catch(e){}
+    try{ if(typeof persist==='function') persist(); }catch(e){}
+    safeRender();
+  };
+
+  window.openShoeHistory=function(){
+    const modal=document.getElementById('v251ShoeModal');
+    if(!modal)return;
+    renderHistory();
+    modal.classList.add('open');
+    modal.setAttribute('aria-hidden','false');
+  };
+  window.closeShoeHistory=function(){
+    const modal=document.getElementById('v251ShoeModal');
+    if(!modal)return;
+    modal.classList.remove('open');
+    modal.setAttribute('aria-hidden','true');
+  };
+
+  function renderHistory(){
+    const db=getDB();
+    const list=document.getElementById('v251ShoeList');
+    const sum=document.getElementById('v251ShoeSummary');
+    if(!list||!sum)return;
+    const total=db.reduce((a,x)=>a+(Array.isArray(x.data)?x.data.length:0),0);
+    sum.textContent='已儲存 '+db.length+' 靴｜歷史總牌局 '+total+' 局';
+    if(!db.length){
+      list.innerHTML='<div id="v251ShoeEmpty">目前還沒有歷史靴。<br>一靴打完後按「結束本靴並儲存」。</div>';
+      return;
+    }
+    list.innerHTML=db.slice().reverse().map((x,revIdx)=>{
+      const idx=db.length-1-revIdx;
+      const c=counts(Array.isArray(x.data)?x.data:[]);
+      return `<div class="v251-shoe">
+        <div>
+          <div class="v251-shoe-title">第 ${idx+1} 靴｜${c.n} 局</div>
+          <div class="v251-shoe-meta">${fmt(x.createdAt)}｜莊 ${c.B}・閒 ${c.P}・和 ${c.T}</div>
+        </div>
+        <div class="v251-shoe-actions">
+          <button type="button" onclick="loadHistoricalShoe(${idx})">載入查看</button>
+          <button type="button" class="danger" onclick="deleteHistoricalShoe(${idx})">刪除此靴</button>
+        </div>
+      </div>`;
+    }).join('');
+  }
+
+  window.loadHistoricalShoe=function(idx){
+    const db=getDB(), shoe=db[idx];
+    if(!shoe||!Array.isArray(shoe.data))return;
+    if(rows().length && !confirm('載入歷史靴會取代目前畫面中的本靴資料。\n歷史資料庫本身不會被刪除。繼續嗎？'))return;
+    window.v252ViewingShoeId=shoe.id||null;
+    setRows(JSON.parse(JSON.stringify(shoe.data)));
+    try{ if(typeof persist==='function') persist(); }catch(e){}
+    safeRender();
+    closeShoeHistory();
+    alert('已載入第 '+(idx+1)+' 靴，共 '+shoe.data.length+' 局。');
+  };
+
+  window.deleteHistoricalShoe=function(idx){
+    const db=getDB(), shoe=db[idx];
+    if(!shoe)return;
+    if(!confirm('確定永久刪除第 '+(idx+1)+' 靴？\n這個動作不能復原。'))return;
+    db.splice(idx,1); setDB(db); renderHistory();
+  };
+
+  /* Save the active shoe separately from historical completed shoes. */
+  const oldPersist=window.persist;
+  setInterval(()=>{
+    try{localStorage.setItem(CUR_KEY,JSON.stringify(rows()))}catch(e){}
+  },1500);
+
+  /* Clicking the dimmed background closes the history window. */
+  document.addEventListener('click',e=>{
+    const m=document.getElementById('v251ShoeModal');
+    if(m && e.target===m) closeShoeHistory();
+  });
+})();
+</script>
+
+
+<script id="v252-history-learning-js">
+(function(){
+  'use strict';
+  const DB_KEY='baccaratShoes_v251';
+  const MIN_CONTEXT_SAMPLE=8;
+  const MIN_SIGNAL=.055;
+
+  const $=id=>document.getElementById(id);
+  const clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
+
+  function getDB(){
+    try{
+      const x=JSON.parse(localStorage.getItem(DB_KEY)||'[]');
+      return Array.isArray(x)?x:[];
+    }catch(e){ return []; }
+  }
+  function seqOf(data){
+    return (Array.isArray(data)?data:[]).map(x=>{
+      const v=typeof x==='string'?x:(x&&x.r);
+      const c=String(v||'').charAt(0);
+      return c==='B'||c==='P'?c:null;
+    }).filter(Boolean);
+  }
+  function validShoes(excludeId){
+    return getDB().filter(x=>x && x.id!==excludeId && Array.isArray(x.data))
+      .map(x=>({id:x.id||'',seq:seqOf(x.data)}))
+      .filter(x=>x.seq.length>=8);
+  }
+
+  function train(shoes){
+    const ctx={1:new Map(),2:new Map(),3:new Map(),4:new Map()};
+    let totalB=0,totalP=0;
+    for(const shoe of shoes){
+      const s=shoe.seq||shoe;
+      for(let i=0;i<s.length;i++){
+        s[i]==='B'?totalB++:totalP++;
+        for(let k=1;k<=4;k++){
+          if(i<k)continue;
+          const key=s.slice(i-k,i).join('');
+          const m=ctx[k], cur=m.get(key)||{B:0,P:0};
+          s[i]==='B'?cur.B++:cur.P++;
+          m.set(key,cur);
+        }
+      }
+    }
+    return {ctx,totalB,totalP,shoes:shoes.length};
+  }
+
+  function predict(prefix,model){
+    if(!model || !model.shoes || prefix.length<1) return {ready:false,score:0,n:0,k:0};
+    let num=0,den=0,bestN=0,bestK=0;
+    for(let k=4;k>=1;k--){
+      if(prefix.length<k)continue;
+      const key=prefix.slice(-k).join('');
+      const c=model.ctx[k].get(key);
+      if(!c)continue;
+      const n=c.B+c.P;
+      if(n<MIN_CONTEXT_SAMPLE)continue;
+      // Symmetric around 50/50 with Laplace shrinkage; no built-in Banker vote.
+      const score=(c.B-c.P)/(n+6);
+      const w=(k*k)*Math.min(1,n/30);
+      num+=score*w; den+=w;
+      if(n>bestN){bestN=n;bestK=k}
+    }
+    if(!den) return {ready:false,score:0,n:0,k:0};
+    return {ready:true,score:clamp(num/den,-1,1),n:bestN,k:bestK};
+  }
+
+  function historicalWeight(stats){
+    if(!stats || stats.predictions<20)return .22;
+    const acc=stats.accuracy;
+    if(acc==null)return .22;
+    // Poor or unproven history gets low influence; stronger held-out results earn more weight.
+    if(acc<.49)return .15;
+    if(acc<.515)return .25;
+    if(acc<.535)return .38;
+    if(acc<.555)return .52;
+    return .65;
+  }
+
+  function forwardBacktest(allShoes){
+    let hit=0,predictions=0,eligible=0,pickB=0,pickP=0;
+    const perShoe=[];
+    // Shoe j is NEVER included in its own training set.
+    for(let j=1;j<allShoes.length;j++){
+      const trainShoes=allShoes.slice(0,j);
+      const model=train(trainShoes);
+      const test=allShoes[j].seq;
+      let shHit=0,shPred=0,shElig=0;
+      for(let i=4;i<test.length;i++){
+        const p=predict(test.slice(0,i),model);
+        if(!p.ready)continue;
+        shElig++; eligible++;
+        if(Math.abs(p.score)<MIN_SIGNAL)continue;
+        const pick=p.score>0?'B':'P';
+        pick==='B'?pickB++:pickP++;
+        predictions++;shPred++;
+        if(pick===test[i]){hit++;shHit++}
+      }
+      perShoe.push({
+        index:j,
+        predictions:shPred,
+        eligible:shElig,
+        accuracy:shPred?shHit/shPred:null
+      });
+    }
+    return {
+      testShoes:Math.max(0,allShoes.length-1),
+      predictions,eligible,hit,
+      accuracy:predictions?hit/predictions:null,
+      coverage:eligible?predictions/eligible:null,
+      pickB,pickP,perShoe
+    };
+  }
+
+  function currentSignal(currentSeq){
+    const excludeId=window.v252ViewingShoeId||null;
+    const shoes=validShoes(excludeId);
+    const model=train(shoes);
+    const bt=forwardBacktest(shoes);
+    const p=predict(currentSeq,model);
+    const weight=historicalWeight(bt);
+    const ready=p.ready && shoes.length>=2;
+    return {
+      ready,
+      score:ready?p.score:0,
+      weight,
+      sample:p.n||0,
+      context:p.k||0,
+      shoes:shoes.length,
+      bt
+    };
+  }
+
+  window.v252HistoricalSignal=function(currentSeq){
+    return currentSignal(Array.isArray(currentSeq)?currentSeq:[]);
+  };
+
+  function currentRowsSeq(){
+    try{
+      if(typeof data!=='undefined' && Array.isArray(data))return seqOf(data);
+      if(Array.isArray(window.data))return seqOf(window.data);
+    }catch(e){}
+    return [];
+  }
+
+  function render(){
+    if(!$('v252Learn'))return;
+    const hs=currentSignal(currentRowsSeq());
+    const bt=hs.bt;
+    $('v252TrainShoes').textContent=hs.shoes;
+    $('v252Bt').textContent=bt.accuracy==null?'—':(bt.accuracy*100).toFixed(1)+'% ('+bt.predictions+')';
+    $('v252Cov').textContent=bt.coverage==null?'—':Math.round(bt.coverage*100)+'%';
+
+    let pick='資料不足';
+    if(hs.ready){
+      if(Math.abs(hs.score)<MIN_SIGNAL)pick='觀望';
+      else pick=(hs.score>0?'莊':'閒')+' '+Math.round(Math.abs(hs.score)*100)+'%';
+    }
+    $('v252Pick').textContent=pick;
+
+    if(hs.shoes<2){
+      $('v252State').textContent='至少需要 2 靴';
+      $('v252Meta').textContent='先累積完成牌靴。第 2 靴之後才開始真正的跨靴樣本外回測。';
+    }else{
+      $('v252State').textContent='嚴格前推回測';
+      const bias=bt.predictions?`回測輸出 莊 ${bt.pickB}／閒 ${bt.pickP}`:'尚無有效預測';
+      $('v252Meta').textContent=
+        `訓練只看較早完成的靴；測試靴不回灌模型。`+
+        `目前歷史權重 ${hs.weight.toFixed(2)}｜匹配上下文 ${hs.context||0} 手／樣本 ${hs.sample||0}。${bias}`;
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded',()=>{
+    setTimeout(render,650);
+    setInterval(render,1200);
+  });
+})();
+</script>
+
+
+<script id="v253-watchdog-js">
+(function(){
+  let lastCount=0,lastChange=Date.now();
+  function rows(){
+    try{
+      if(typeof data!=="undefined"&&Array.isArray(data))return data;
+      if(Array.isArray(window.data))return window.data;
+    }catch(e){}
+    return [];
+  }
+  function update(){
+    const n=rows().length;
+    if(n!==lastCount){lastCount=n;lastChange=Date.now()}
+    const guard=document.getElementById("v253Guard");
+    const q=document.getElementById("v253Quarantine");
+    if(q){
+      try{q.textContent=(JSON.parse(localStorage.getItem("baccaratQuarantine_v253")||"[]")||[]).length}catch(e){}
+    }
+    /* Watchdog is informational only; it never fabricates or skips a round. */
+    if(guard && n>0 && Date.now()-lastChange>180000 && /已連線|連線中/.test(document.getElementById("connStatus")?.textContent||"")){
+      guard.textContent="已連線・等待新局";
+    }
+  }
+  document.addEventListener("DOMContentLoaded",()=>{
+    try{
+      const d=Number(localStorage.getItem("baccaratDupCount_v253")||0);
+      const e=document.getElementById("v253Dedup");if(e)e.textContent=d;
+    }catch(e){}
+    setInterval(update,5000);
+  });
+})();
+</script>
+
+
+<script id="v254-initial-sync-ui">
+document.addEventListener('DOMContentLoaded',()=>{
+  try{
+    const x=JSON.parse(localStorage.getItem('baccaratV254LastSync')||'null');
+    if(x&&x.backfill){
+      const b=document.getElementById('v254Backfill');
+      if(b)b.textContent='上次補 '+x.backfill+' 局';
+    }
+  }catch(e){}
+});
+</script>
+
+
+<div id="v255DbModal" class="v255-db-modal" aria-hidden="true">
+  <div class="v255-db-box">
+    <div class="v255-db-head"><div><div class="v255-db-title">本機資料庫</div><div class="v255-db-sub">儲存在這個瀏覽器的 localStorage</div></div><button onclick="closeV255Database()">✕ 關閉</button></div>
+    <div class="v255-db-stats">
+      <div><span>目前本靴</span><b id="v255DbCurrent">0 局</b></div>
+      <div><span>歷史靴</span><b id="v255DbShoes">0 靴</b></div>
+      <div><span>歷史總局數</span><b id="v255DbRounds">0 局</b></div>
+      <div><span>儲存項目</span><b id="v255DbKeys">0</b></div>
+    </div>
+    <div class="v255-db-actions">
+      <button onclick="v255DbShow('shoes')">歷史靴資料</button>
+      <button onclick="v255DbShow('current')">目前本靴</button>
+      <button onclick="v255DbShow('storage')">全部 localStorage</button>
+      <button onclick="v255ExportDatabase()">匯出備份 JSON</button>
+    </div>
+    <div id="v255DbInfo" class="v255-db-info">選擇上方項目查看資料。</div>
+    <div id="v255DbList" class="v255-db-list"></div>
+    <pre id="v255DbRaw" class="v255-db-raw"></pre>
+  </div>
+</div>
+
+
+<script id="v255-db-sound-js">
+(function(){
+  const DBKEY='baccaratShoes_v251', SOUNDKEY='baccaratButtonSound_v255';
+  let audioCtx=null, soundEnabled=localStorage.getItem(SOUNDKEY)!=='0';
+
+  const esc=x=>String(x??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+  function getData(){try{if(typeof data!=='undefined'&&Array.isArray(data))return data;if(Array.isArray(window.data))return window.data}catch(e){} try{return JSON.parse(localStorage.getItem('baccaratData_live_v24')||'[]')||[]}catch(e){return []}}
+  function getShoes(){try{const x=JSON.parse(localStorage.getItem(DBKEY)||'[]');return Array.isArray(x)?x:[]}catch(e){return []}}
+  function keys(){const a=[];for(let i=0;i<localStorage.length;i++)a.push(localStorage.key(i));return a.sort()}
+  const totalRounds=sh=>sh.reduce((n,x)=>n+(Array.isArray(x?.data)?x.data.length:(Number(x?.count)||0)),0);
+
+  function stats(){
+    const sh=getShoes(),cur=getData(),ks=keys();
+    const set=(id,t)=>{const e=document.getElementById(id);if(e)e.textContent=t};
+    set('v255DbCurrent',cur.length+' 局');set('v255DbShoes',sh.length+' 靴');set('v255DbRounds',totalRounds(sh)+' 局');set('v255DbKeys',ks.length);
+  }
+  window.openV255Database=function(){stats();const m=document.getElementById('v255DbModal');if(m){m.classList.add('show');m.setAttribute('aria-hidden','false')}v255DbShow('shoes')};
+  window.closeV255Database=function(){const m=document.getElementById('v255DbModal');if(m){m.classList.remove('show');m.setAttribute('aria-hidden','true')}};
+
+  window.v255DbShow=function(mode){
+    stats();
+    const list=document.getElementById('v255DbList'),raw=document.getElementById('v255DbRaw'),info=document.getElementById('v255DbInfo');
+    if(!list||!raw||!info)return;
+    list.innerHTML='';raw.textContent='';raw.style.display='none';
+    if(mode==='shoes'){
+      const sh=getShoes();info.textContent=`歷史資料庫目前有 ${sh.length} 靴，共 ${totalRounds(sh)} 局。`;
+      if(!sh.length){list.innerHTML='<div class="v255-db-shoe">目前還沒有已封存的歷史靴。</div>';return}
+      sh.slice().reverse().forEach((shoe,rev)=>{
+        const idx=sh.length-1-rev,cnt=Array.isArray(shoe?.data)?shoe.data.length:(Number(shoe?.count)||0),dt=shoe?.createdAt?new Date(shoe.createdAt).toLocaleString():'';
+        const div=document.createElement('div');div.className='v255-db-shoe';
+        div.innerHTML=`<div class="v255-db-shoe-head"><span>第 ${idx+1} 靴</span><span>${cnt} 局</span></div><div class="v255-db-shoe-meta">莊 ${Number(shoe?.banker)||0}｜閒 ${Number(shoe?.player)||0}｜和 ${Number(shoe?.tie)||0}<br>Shoe ID：${esc(shoe?.sourceShoeId||shoe?.id||'—')}<br>桌號：${esc(shoe?.table||'—')}｜儲存：${esc(dt||'—')}<br>結束原因：${esc(shoe?.autoReason||(shoe?.autoArchived?'自動封存':'手動儲存'))}</div><button onclick="v255ViewShoeRaw(${idx})">查看這靴原始資料</button>`;
+        list.appendChild(div);
+      });return;
+    }
+    if(mode==='current'){const cur=getData();info.textContent=`目前這一靴共有 ${cur.length} 局。`;raw.style.display='block';raw.textContent=JSON.stringify(cur,null,2);return}
+    if(mode==='storage'){const obj={};for(const k of keys()){let v=localStorage.getItem(k);try{v=JSON.parse(v)}catch(e){}obj[k]=v}info.textContent=`目前此網站共有 ${Object.keys(obj).length} 個 localStorage 儲存項目。`;raw.style.display='block';raw.textContent=JSON.stringify(obj,null,2)}
+  };
+
+  window.v255ViewShoeRaw=function(idx){const shoe=getShoes()[idx],raw=document.getElementById('v255DbRaw'),info=document.getElementById('v255DbInfo');if(!shoe||!raw)return;if(info)info.textContent=`第 ${idx+1} 靴原始資料`;raw.style.display='block';raw.textContent=JSON.stringify(shoe,null,2);raw.scrollIntoView({behavior:'smooth',block:'nearest'})};
+
+  window.v255ExportDatabase=function(){
+    const obj={exportedAt:new Date().toISOString(),version:'V25.5',currentShoe:getData(),shoes:getShoes(),localStorage:{}};
+    for(const k of keys()){let v=localStorage.getItem(k);try{v=JSON.parse(v)}catch(e){}obj.localStorage[k]=v}
+    const blob=new Blob([JSON.stringify(obj,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');
+    a.href=url;a.download='baccarat_database_backup_'+new Date().toISOString().replace(/[:.]/g,'-')+'.json';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1500);
+  };
+
+  function updateBtn(){const b=document.getElementById('v255SoundBtn');if(b)b.textContent=soundEnabled?'🔊 按鍵音：開':'🔇 按鍵音：關'}
+  window.toggleV255Sound=function(){soundEnabled=!soundEnabled;localStorage.setItem(SOUNDKEY,soundEnabled?'1':'0');updateBtn()};
+
+  function play(btn){
+    if(!soundEnabled)return;
+    try{
+      const AC=window.AudioContext||window.webkitAudioContext;if(!AC)return;if(!audioCtx)audioCtx=new AC();if(audioCtx.state==='suspended')audioCtx.resume();
+      const o=audioCtx.createOscillator(),g=audioCtx.createGain();let f=560,d=.045;
+      const t=btn?.textContent||'';
+      if(btn?.classList?.contains('save')){f=760;d=.065}else if(btn?.classList?.contains('clear')){f=330;d=.07}else if(t.includes('莊'))f=480;else if(t.includes('閒'))f=650;else if(t.includes('和'))f=820;
+      o.type='sine';o.frequency.setValueAtTime(f,audioCtx.currentTime);g.gain.setValueAtTime(.035,audioCtx.currentTime);g.gain.exponentialRampToValueAtTime(.001,audioCtx.currentTime+d);o.connect(g);g.connect(audioCtx.destination);o.start();o.stop(audioCtx.currentTime+d);
+    }catch(e){}
+  }
+
+  document.addEventListener('pointerdown',e=>{const b=e.target.closest?.('button');if(b)play(b)},true);
+  document.addEventListener('DOMContentLoaded',()=>{updateBtn();const m=document.getElementById('v255DbModal');if(m)m.addEventListener('click',e=>{if(e.target===m)closeV255Database()})});
+})();
+</script>
 
 </body>
 </html>
