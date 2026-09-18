@@ -5,6 +5,9 @@
 
 .importbox{display:grid;grid-template-columns:220px 1fr;gap:8px}.drop{border:1px dashed #526c61;border-radius:9px;padding:10px;text-align:center;background:#091510}.drop input{width:100%;font-size:11px}.preview{max-width:100%;max-height:180px;border-radius:6px;display:none;margin-top:6px}.detected{display:flex;flex-wrap:wrap;gap:4px;max-height:125px;overflow:auto}.chip{padding:5px 7px;border-radius:6px;font-size:10px;font-weight:900}.chip.B{background:#df4052}.chip.P{background:#347eea}.chip.T{background:#22a86b}.importactions{display:flex;gap:5px;margin-top:7px}.importactions button{flex:1}.warnbox{font-size:11px;color:#dfb85b;margin-top:5px}
 @media(max-width:650px){.importbox{grid-template-columns:1fr}}
+
+.autoscan-grid{display:grid;grid-template-columns:280px 1fr;gap:8px}.scan-controls{background:#091510;border-radius:8px;padding:8px}.scan-controls label{display:block;font-size:11px;color:#8fa69b;margin:6px 0 3px}.scan-controls input,.scan-controls select{width:100%;background:#172a22;color:#fff;border:1px solid #294036;border-radius:6px;padding:7px}.scan-chart{background:#f6f4ed;border-radius:8px;padding:6px;overflow:auto}.scan-chart canvas{width:100%;height:190px;display:block}.scanlog{max-height:160px;overflow:auto;margin-top:6px;font-size:10px}.scanrow{display:grid;grid-template-columns:54px 1fr 55px 55px 55px;gap:4px;padding:4px;border-bottom:1px solid #22372e}.scan-live{font-size:28px;font-weight:950;text-align:center;padding:8px}.scan-live.B{color:#ff6473;background:transparent}.scan-live.P{color:#63a6ff;background:transparent}.scan-live.T{color:#50d493;background:transparent}
+@media(max-width:700px){.autoscan-grid{grid-template-columns:1fr}}
 </style></head><body>
 <div class="top">BACCARAT&nbsp;<span>PRO ROAD LAB</span><button id="soundBtn" onclick="toggleSound()">🔊 音效</button></div><div class="app">
 <div class="card"><div class="hd">📷 匯入珠盤路圖片｜先辨識、確認後才寫入</div><div class="body importbox">
@@ -18,7 +21,22 @@
 <div class="card"><div class="hd">每局牌面數字｜可選填</div><div class="body cards"><div class="hand"><b style="color:#ff6473">莊家牌</b> <span id="bpnt"></span><div id="branks" class="ranks"></div><div id="bcards" class="muted"></div></div><div class="hand"><b style="color:#63a6ff">閒家牌</b> <span id="ppnt"></span><div id="pranks" class="ranks"></div><div id="pcards" class="muted"></div></div></div><div class="body tools"><button onclick="popCard('B')">刪莊最後牌</button><button onclick="popCard('P')">刪閒最後牌</button><button onclick="clearCards()">清牌面</button><button onclick="autoResult()">依點數填結果</button></div></div>
 <div class="card"><div class="hd">本靴統計</div><div class="body stats"><div class="stat"><small>局數</small><b id="sn">0</b></div><div class="stat"><small>莊</small><b id="sb">0</b></div><div class="stat"><small>閒</small><b id="sp">0</b></div><div class="stat"><small>和</small><b id="st">0</b></div><div class="stat"><small>型態</small><b id="spat">—</b></div><div class="stat"><small>資料庫</small><b id="sdb">0靴</b></div></div></div>
 <div class="card" id="historyCard"><div class="hd">歷史靴｜結束一靴後永久保存在本機</div><div class="body"><div id="history" class="history"></div><div id="empty" class="muted">目前 0 靴。完全重新開始。</div></div></div>
-<div class="card"><div class="hd">路單演算法檢查</div><div class="body stats"><div class="stat"><small>大路</small><b>公式制</b></div><div class="stat"><small>大眼仔</small><b>回看1欄</b></div><div class="stat"><small>小路</small><b>回看2欄</b></div><div class="stat"><small>曱甴路</small><b>回看3欄</b></div><div class="stat"><small>和局</small><b>不開新格</b></div><div class="stat"><small>資料</small><b>全新0舊靴</b></div></div></div><div class="card"><div class="hd">資料備份｜跨版本保留歷史靴</div><div class="body">
+<div class="card"><div class="hd">路單演算法檢查</div><div class="body stats"><div class="stat"><small>大路</small><b>公式制</b></div><div class="stat"><small>大眼仔</small><b>回看1欄</b></div><div class="stat"><small>小路</small><b>回看2欄</b></div><div class="stat"><small>曱甴路</small><b>回看3欄</b></div><div class="stat"><small>和局</small><b>不開新格</b></div><div class="stat"><small>資料</small><b>全新0舊靴</b></div></div></div><div class="card"><div class="hd">自動掃描資料中心｜畫面取樣・圖表・紀錄</div><div class="body autoscan-grid">
+<div class="scan-controls">
+<div id="scanLive" class="scan-live">待機</div>
+<label>掃描來源</label><select id="scanSource"><option value="screen">螢幕／視窗分享</option><option value="camera">相機</option></select>
+<label>掃描間隔（秒）</label><input id="scanSec" type="number" min="1" max="30" value="3">
+<div class="tools" style="grid-template-columns:repeat(2,1fr)"><button onclick="startAutoScan()">▶ 開始掃描</button><button onclick="stopAutoScan()">■ 停止</button><button onclick="captureReference()">設定掃描區</button><button onclick="exportScanLog()">匯出紀錄</button></div>
+<div id="scanMsg" class="muted">第一次開始時，瀏覽器會要求你選擇要分享的螢幕／視窗。掃描只在本機瀏覽器處理。</div>
+<video id="scanVideo" playsinline muted style="width:100%;max-height:130px;margin-top:6px;border-radius:6px;background:#000"></video>
+<canvas id="scanFrame" style="display:none"></canvas>
+</div>
+<div>
+<div class="scan-chart"><canvas id="scanChart" width="900" height="190"></canvas></div>
+<div class="muted" style="margin-top:5px">圖表顯示自動掃描累積的莊／閒／和數量。自動結果會先去重；只有偵測到與上一筆不同且穩定的結果才寫入掃描紀錄。要加入正式本靴仍需按「加入本靴」，避免誤判污染正式資料。</div>
+<div class="tools" style="grid-template-columns:repeat(4,1fr)"><button onclick="acceptScan('B')">加入莊</button><button onclick="acceptScan('P')">加入閒</button><button onclick="acceptScan('T')">加入和</button><button onclick="acceptDetected()">加入偵測結果</button></div>
+<div id="scanLog" class="scanlog"></div>
+</div></div></div><div class="card"><div class="hd">資料備份｜跨版本保留歷史靴</div><div class="body">
 <div class="tools"><button onclick="exportBackup()">⬇ 匯出全部資料</button><button onclick="backupFile.click()">⬆ 匯入備份</button><button onclick="showDbInfo()">資料庫檢查</button><button onclick="downloadCSV()">匯出 CSV</button></div>
 <input id="backupFile" type="file" accept=".json,application/json" style="display:none" onchange="importBackup(event)">
 <div class="muted" style="margin-top:6px">V1.5 沿用 V1.4 的資料庫鍵值 <b>BPRL_NEWSTART_20260918</b>，同一網站／瀏覽器會直接承接既有靴。建議定期匯出 JSON 備份。</div>
@@ -244,5 +262,69 @@ function downloadCSV(){
  let csv=rows.map(r=>r.map(v=>'"'+String(v).replaceAll('"','""')+'"').join(',')).join('\n'),blob=new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8'}),u=URL.createObjectURL(blob),a=document.createElement('a');a.href=u;a.download='BPRL_history.csv';a.click();setTimeout(()=>URL.revokeObjectURL(u),1000);tone('ok')
 }
 
-render();
+
+/* V1.6 additive auto-scan module. Existing road/model/storage code above is unchanged. */
+const SK=K+'_AUTOSCAN_V1';
+let SL=JSON.parse(localStorage.getItem(SK)||'[]'),scanStream=null,scanTimer=null,scanROI=null,lastDetected=null,lastStable=0;
+function saveSL(){localStorage.setItem(SK,JSON.stringify(SL))}
+async function startAutoScan(){
+ stopAutoScan();tone('tap');
+ try{
+  if(scanSource.value==='camera')scanStream=await navigator.mediaDevices.getUserMedia({video:{facingMode:'environment'},audio:false});
+  else scanStream=await navigator.mediaDevices.getDisplayMedia({video:true,audio:false});
+  scanVideo.srcObject=scanStream;await scanVideo.play();
+  scanMsg.textContent='掃描中。若尚未設定掃描區，先按「設定掃描區」。';
+  const ms=Math.max(1000,Math.min(30000,(+scanSec.value||3)*1000));
+  scanTimer=setInterval(scanTick,ms);scanTick();
+ }catch(e){scanMsg.textContent='無法啟動掃描：'+e.message}
+}
+function stopAutoScan(){
+ if(scanTimer){clearInterval(scanTimer);scanTimer=null}
+ if(scanStream){scanStream.getTracks().forEach(t=>t.stop());scanStream=null}
+ scanLive.textContent='待機';scanLive.className='scan-live';scanMsg.textContent='掃描已停止。'
+}
+function captureReference(){
+ if(!scanVideo.videoWidth){scanMsg.textContent='請先開始掃描。';return}
+ // Default ROI is central-lower 55% where bead/road panels commonly sit.
+ // User can refine with four percentage prompts without changing any existing UI.
+ let old=scanROI||{x:.05,y:.35,w:.9,h:.6};
+ let x=prompt('掃描區左側 %（0-100）',Math.round(old.x*100));if(x===null)return;
+ let y=prompt('掃描區上側 %（0-100）',Math.round(old.y*100));if(y===null)return;
+ let w=prompt('掃描區寬度 %（1-100）',Math.round(old.w*100));if(w===null)return;
+ let h=prompt('掃描區高度 %（1-100）',Math.round(old.h*100));if(h===null)return;
+ scanROI={x:Math.max(0,+x)/100,y:Math.max(0,+y)/100,w:Math.max(.01,+w/100),h:Math.max(.01,+h/100)};
+ localStorage.setItem(SK+'_ROI',JSON.stringify(scanROI));scanMsg.textContent='掃描區已保存。'
+}
+try{scanROI=JSON.parse(localStorage.getItem(SK+'_ROI')||'null')}catch(e){}
+function scanTick(){
+ if(!scanVideo.videoWidth)return;
+ const cv=scanFrame,ctx=cv.getContext('2d'),vw=scanVideo.videoWidth,vh=scanVideo.videoHeight,R=scanROI||{x:.05,y:.35,w:.9,h:.6};
+ let sx=Math.round(vw*R.x),sy=Math.round(vh*R.y),sw=Math.round(vw*Math.min(R.w,1-R.x)),sh=Math.round(vh*Math.min(R.h,1-R.y));
+ cv.width=Math.min(900,sw);cv.height=Math.max(1,Math.round(sh*cv.width/sw));ctx.drawImage(scanVideo,sx,sy,sw,sh,0,0,cv.width,cv.height);
+ let d=ctx.getImageData(0,0,cv.width,cv.height).data,c={B:0,P:0,T:0};
+ for(let i=0;i<d.length;i+=16){let r=d[i],g=d[i+1],b=d[i+2],mx=Math.max(r,g,b),mn=Math.min(r,g,b);if(mx-mn<55||mx<85)continue;
+  if(r>g*1.28&&r>b*1.18)c.B++;else if(b>r*1.18&&b>g*1.08)c.P++;else if(g>r*1.12&&g>b*1.05)c.T++;
+ }
+ let arr=Object.entries(c).sort((a,b)=>b[1]-a[1]),det=(arr[0][1]>120&&arr[0][1]>arr[1][1]*1.18)?arr[0][0]:null;
+ if(det&&det===lastDetected)lastStable++;else{lastDetected=det;lastStable=det?1:0}
+ scanLive.textContent=det?(det==='B'?'偵測：莊':det==='P'?'偵測：閒':'偵測：和'):'未判定';scanLive.className='scan-live '+(det||'');
+ if(det&&lastStable===2){
+  let prev=SL.at(-1);if(!prev||prev.detected!==det||Date.now()-prev.ts>12000){SL.push({ts:Date.now(),detected:det,pixels:c,accepted:false});saveSL();renderScan()}
+ }
+}
+function acceptScan(r){tone(r);SL.push({ts:Date.now(),detected:r,pixels:null,accepted:true,manual:true});saveSL();add(r);renderScan()}
+function acceptDetected(){if(!lastDetected){scanMsg.textContent='目前沒有穩定偵測結果。';return}tone(lastDetected);SL.push({ts:Date.now(),detected:lastDetected,pixels:null,accepted:true});saveSL();add(lastDetected);renderScan()}
+function renderScan(){
+ let B=SL.filter(x=>x.detected==='B').length,P=SL.filter(x=>x.detected==='P').length,T=SL.filter(x=>x.detected==='T').length;
+ scanLog.innerHTML=SL.slice(-60).reverse().map((x,i)=>`<div class="scanrow"><span>${SL.length-i}</span><span>${new Date(x.ts).toLocaleTimeString()}</span><b>${x.detected==='B'?'莊':x.detected==='P'?'閒':'和'}</b><span>${x.accepted?'已加入':'待確認'}</span><span>${x.manual?'手動':'掃描'}</span></div>`).join('');
+ const cv=scanChart,ctx=cv.getContext('2d'),W=cv.width,H=cv.height;ctx.clearRect(0,0,W,H);ctx.fillStyle='#f6f4ed';ctx.fillRect(0,0,W,H);
+ let vals=[B,P,T],labs=['莊','閒','和'],mx=Math.max(1,...vals),bw=130,gap=90,start=125;
+ ctx.font='15px sans-serif';ctx.textAlign='center';
+ vals.forEach((v,i)=>{let h=(H-55)*v/mx,x=start+i*(bw+gap);ctx.fillStyle=['#df4052','#347eea','#22a86b'][i];ctx.fillRect(x,H-30-h,bw,h);ctx.fillStyle='#26352f';ctx.fillText(labs[i]+' '+v,x+bw/2,H-9)});
+}
+function exportScanLog(){
+ let blob=new Blob([JSON.stringify({format:'BPRL_AUTOSCAN_V1',exportedAt:new Date().toISOString(),records:SL},null,2)],{type:'application/json'}),u=URL.createObjectURL(blob),a=document.createElement('a');a.href=u;a.download='BPRL_autoscan_log.json';a.click();setTimeout(()=>URL.revokeObjectURL(u),1000);tone('ok')
+}
+
+render();renderScan();
 </script></body></html>
