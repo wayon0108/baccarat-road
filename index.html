@@ -8,7 +8,23 @@
 
 .autoscan-grid{display:grid;grid-template-columns:280px 1fr;gap:8px}.scan-controls{background:#091510;border-radius:8px;padding:8px}.scan-controls label{display:block;font-size:11px;color:#8fa69b;margin:6px 0 3px}.scan-controls input,.scan-controls select{width:100%;background:#172a22;color:#fff;border:1px solid #294036;border-radius:6px;padding:7px}.scan-chart{background:#f6f4ed;border-radius:8px;padding:6px;overflow:auto}.scan-chart canvas{width:100%;height:190px;display:block}.scanlog{max-height:160px;overflow:auto;margin-top:6px;font-size:10px}.scanrow{display:grid;grid-template-columns:54px 1fr 55px 55px 55px;gap:4px;padding:4px;border-bottom:1px solid #22372e}.scan-live{font-size:28px;font-weight:950;text-align:center;padding:8px}.scan-live.B{color:#ff6473;background:transparent}.scan-live.P{color:#63a6ff;background:transparent}.scan-live.T{color:#50d493;background:transparent}
 @media(max-width:700px){.autoscan-grid{grid-template-columns:1fr}}
-</style></head><body>
+
+/* V1.9.1 iPad road-layout containment fix */
+.roads2,.roads3{width:100%;min-width:0}
+.roads2>div,.roads3>div{min-width:0;width:100%;overflow:hidden}
+.rw{width:100%;max-width:100%;min-width:0;overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;contain:layout paint}
+.road{flex:none;max-width:none}
+#bead,#big,#eye,#small,#cock{max-width:none}
+@media(min-width:851px){
+  .roads2{grid-template-columns:minmax(0,2fr) minmax(0,3fr)}
+  .roads3{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+</style>
+<style>
+#archiveList,#archiveViewer,#archiveRoads{position:relative;z-index:0;max-width:100%;overflow:hidden}
+#archiveViewer .rw{overflow-x:auto}
+</style>
+</head><body>
 <div class="top">BACCARAT&nbsp;<span>PRO ROAD LAB</span><button id="soundBtn" onclick="toggleSound()">🔊 音效</button></div><div class="app">
 <div class="card"><div class="hd">📷 匯入珠盤路圖片｜先辨識、確認後才寫入</div><div class="body importbox">
 <div class="drop"><input id="roadImage" type="file" accept="image/*" onchange="loadRoadImage(event)"><canvas id="scanCanvas" class="preview"></canvas><div class="muted">優先使用「珠盤路」截圖。系統依格線與紅／藍／綠圓形辨識，不直接改資料。</div></div>
