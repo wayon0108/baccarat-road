@@ -23,7 +23,7 @@
 /* V1.9.2a ONLY: 大眼仔／小路／曱甴路走滿後繼續向右，其他版面不改 */
 #eye.closest-fix-placeholder{} /* harmless marker */
 
-/* V1.10 B/C independent modules only */
+/* V1.11 B/C independent modules only */
 .pattern-summary{margin-top:7px;background:#091510;border-radius:8px;padding:8px;font-size:11px;line-height:1.65}
 .pattern-summary b{color:#dfb85b}
 .verify-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
@@ -197,48 +197,103 @@ function deriveFromResults(results,k){return dcoords(derivedRaw(results,k))}
 function draw(id,a,type){let e=document.getElementById(id),mx=Math.max(11,...a.map(x=>x.c));e.style.width=`calc(${mx+1} * var(--c))`;e.innerHTML=a.map(x=>{let z=type==='o'?`<i class="o ${x.v}">${x.t?`<em class="tie">${x.t}</em>`:''}</i>`:type==='bead'?`<i class="o ${x.v}">${x.v==='B'?'莊':x.v==='P'?'閒':'和'}</i>`:type==='eye'?`<i class="eye ${x.v}"></i>`:type==='dot'?`<i class="dot ${x.v}"></i>`:`<i class="slash ${x.v}"></i>`;return `<span class="m" style="left:calc(${x.c}*var(--c));top:calc(${x.r}*var(--c))">${z}</span>`}).join('')}
 function pat(a){a=bp(a);if(a.length<4)return'未成路';let q=[],n=1;for(let i=1;i<a.length;i++){if(a[i]===a[i-1])n++;else{q.push(n);n=1}}q.push(n);let t=q.slice(-5),c=q.at(-1);if(c>=5)return'長龍';if(t.length>=5&&t.every(x=>x===1))return'單跳';if(t.length>=4&&t.slice(-4).every(x=>x===2))return'雙跳';let z=t.slice(-4).join('');if(['2121','1212'].includes(z))return'兩房一廳';if(['3131','1313'].includes(z))return'三房一廳';if(c>=3)return'連莊／連閒';let x=a.slice(-8),ch=0;for(let i=1;i<x.length;i++)ch+=x[i]!==x[i-1];return ch>=5?'跳路':'雜路'}function dpat(a){return pat(a.map(x=>x.v==='R'?'B':'P'))}
 
-/* B｜六路圖形辨識：獨立只讀模組。不得被下一手分析反向控制。 */
+/* B｜六路圖形辨識：獨立只讀模組。
+   V1.11：只修改 B。大路 1~10 名稱與形狀依使用者提供的參考圖；
+   B 只讀既有走勢，不寫回、不修改原本下一手分析與 C 驗證紀錄。 */
 function runLengths(values){
  const a=values.filter(Boolean),out=[];if(!a.length)return out;
  let v=a[0],n=1;
  for(let i=1;i<a.length;i++){if(a[i]===v)n++;else{out.push({v,n});v=a[i];n=1}}
  out.push({v,n});return out
 }
-function simpleRoadPattern(values,kind='BP'){
- const a=values.filter(v=>kind==='BP'?(v==='B'||v==='P'):(v==='R'||v==='U'));
+function sideName(v){return v==='B'?'莊':'閒'}
+function opposite(v){return v==='B'?'P':'B'}
+function endsWithRuns(runs, spec){
+ if(runs.length<spec.length)return false;
+ const t=runs.slice(-spec.length);
+ return spec.every((x,i)=>(x.v==null||t[i].v===x.v)&&(x.n==null||t[i].n===x.n));
+}
+function altRunsFrom(first,lens){
+ return lens.map((n,i)=>({v:i%2?opposite(first):first,n}));
+}
+/* 參考圖 1~10 的大路模板。方向是「若此圖形繼續延伸，下一口對應哪一方」。
+   只用於 B 區顯示，不送入原預測。 */
+function photoBigRoadPattern(values){
+ const a=values.filter(v=>v==='B'||v==='P');
+ if(!a.length)return {name:'未成路',state:'',count:0,score:0,direction:'觀望'};
+ const runs=runLengths(a), last=runs.at(-1);
+
+ // 1 長莊 / 2 長閒：3 形成中、4 成立、5+ 延續。
+ if(last.n>=3){
+   return {
+     name:last.v==='B'?'長莊':'長閒',
+     state:last.n===3?'形成中':last.n===4?'已形成':'延續中',
+     count:last.n,unit:'顆',
+     score:90+Math.min(9,last.n),
+     direction:sideName(last.v)
+   };
+ }
+
+ // 3 大路單跳：照片為紅藍紅藍；至少最近四柱皆 1。
+ if(runs.length>=4 && runs.slice(-4).every(x=>x.n===1)){
+   return {name:'大路單跳',state:runs.length>=6?'延續中':'已形成',
+     count:Math.min(runs.length,99),unit:'段',score:88,direction:sideName(opposite(last.v))};
+ }
+
+ // 4 一廳兩房（閒）：照片形狀 = 閒1 / 莊2 / 閒1 / 莊2，延續下一口為閒。
+ if(endsWithRuns(runs,altRunsFrom('P',[1,2,1,2]))){
+   return {name:'一廳兩房（閒）',state:'已形成',count:4,unit:'段',score:86,direction:'閒'};
+ }
+ // 5 一廳兩房（莊）：照片形狀 = 莊1 / 閒2 / 莊1 / 閒2，延續下一口為莊。
+ if(endsWithRuns(runs,altRunsFrom('B',[1,2,1,2]))){
+   return {name:'一廳兩房（莊）',state:'已形成',count:4,unit:'段',score:86,direction:'莊'};
+ }
+
+ // 6 逢閒黐：依照片的大路柱形：閒長柱 / 莊1 / 閒1 / 莊2。
+ if(runs.length>=4){
+   const t=runs.slice(-4);
+   if(t[0].v==='P'&&t[0].n>=3&&t[1].v==='B'&&t[1].n===1&&t[2].v==='P'&&t[2].n===1&&t[3].v==='B'&&t[3].n===2)
+     return {name:'逢閒黐',state:'已形成',count:4,unit:'段',score:82,direction:'閒'};
+ }
+ // 7 逢莊黐：依照片鏡像：莊長柱 / 閒1 / 莊1 / 閒2。
+ if(runs.length>=4){
+   const t=runs.slice(-4);
+   if(t[0].v==='B'&&t[0].n>=3&&t[1].v==='P'&&t[1].n===1&&t[2].v==='B'&&t[2].n===1&&t[3].v==='P'&&t[3].n===2)
+     return {name:'逢莊黐',state:'已形成',count:4,unit:'段',score:82,direction:'莊'};
+ }
+
+ // 8 拍拍黐：照片柱形 = 莊2 / 閒3 / 莊2（鏡像亦視為同型）。
+ if(runs.length>=3){
+   const t=runs.slice(-3), lens=t.map(x=>x.n).join('-');
+   if(lens==='2-3-2')
+     return {name:'拍拍黐',state:'已形成',count:3,unit:'段',score:80,direction:sideName(opposite(last.v))};
+ }
+
+ // 9 隔黐莊：照片形狀 = 莊1/閒1/莊2/閒1/莊1/閒1/莊2；延續方向為閒。
+ if(endsWithRuns(runs,altRunsFrom('B',[1,1,2,1,1,1,2]))){
+   return {name:'隔黐莊',state:'已形成',count:7,unit:'段',score:84,direction:'閒'};
+ }
+ // 10 隔黐閒：照片鏡像 = 閒1/莊2/閒1/莊1/閒1/莊2；延續方向為閒。
+ if(endsWithRuns(runs,altRunsFrom('P',[1,2,1,1,1,2]))){
+   return {name:'隔黐閒',state:'已形成',count:6,unit:'段',score:84,direction:'閒'};
+ }
+
+ return {name:a.length<4?'未成路':'無明顯路型',state:'',count:0,score:a.length<4?0:20,direction:'觀望'};
+}
+function derivedPattern(values){
+ const a=values.filter(v=>v==='R'||v==='U');
  if(!a.length)return {name:'未成路',state:'',count:0,score:0};
- const runs=runLengths(a),last=runs.at(-1),lens=runs.map(x=>x.n),tail=lens.slice(-6);
- const side=v=>kind==='BP'?(v==='B'?'莊':'閒'):(v==='R'?'紅':'藍');
- // 長龍：依已確認規格，3形成中、4成立、5+延續。
- if(last.n>=3)return {name:`${side(last.v)}長龍`,state:last.n===3?'形成中':last.n===4?'已形成':'延續中',count:last.n,unit:'顆',score:Math.min(100,58+last.n*7)};
- const allLast=(n,val)=>lens.length>=n&&lens.slice(-n).every(x=>x===val);
- if(allLast(4,1))return {name:kind==='BP'?'單跳':'紅藍單跳',state:lens.length>=6?'延續中':'已形成',count:Math.min(lens.length,99),unit:'段',score:Math.min(96,60+Math.min(lens.length,9)*4)};
- if(allLast(3,2))return {name:kind==='BP'?'雙跳':'紅藍雙跳',state:lens.length>=4?'延續中':'已形成',count:Math.min(lens.length,99),unit:'段',score:Math.min(94,60+Math.min(lens.length,8)*4)};
- if(allLast(3,3))return {name:kind==='BP'?'三跳':'紅藍三跳',state:lens.length>=4?'延續中':'已形成',count:Math.min(lens.length,99),unit:'段',score:Math.min(92,58+Math.min(lens.length,8)*4)};
- const z4=lens.slice(-4).join('-');
- if(kind==='BP'){
-   if(z4==='1-2-1-2'||z4==='2-1-2-1'){
-     const two=runs.slice(-4).filter(x=>x.n===2).at(-1);
-     return {name:`一廳兩房（${two?side(two.v):'—'}）`,state:'已形成',count:4,unit:'段',score:78};
-   }
-   if(z4==='1-3-1-3'||z4==='3-1-3-1'){
-     const three=runs.slice(-4).filter(x=>x.n===3).at(-1);
-     return {name:`一廳三房（${three?side(three.v):'—'}）`,state:'已形成',count:4,unit:'段',score:76};
-   }
- }
- const pairs=['1-2-1-2','1-3-1-3','2-3-2-3','2-1-2-1','3-1-3-1','3-2-3-2'];
- if(pairs.includes(z4))return {name:kind==='BP'?`規律柱型 ${z4}`:`紅藍規律型 ${z4}`,state:'已形成',count:4,unit:'段',score:72};
- // 參考圖中的黐路類：以近期柱長節奏做獨立定位；不送入預測。
- if(kind==='BP'&&lens.length>=5){
-   const q=lens.slice(-5);
-   const ones=q.filter(n=>n===1).length,twos=q.filter(n=>n===2).length;
-   if(ones>=3&&twos>=1){
-     const lastTwo=[...runs].reverse().find(x=>x.n===2);
-     if(lastTwo)return {name:`逢${side(lastTwo.v)}黐`,state:'形成中',count:5,unit:'段',score:64};
-   }
- }
- if(a.length<4)return {name:'未成路',state:'',count:a.length,unit:'顆',score:0};
- return {name:'無明顯路型',state:'',count:0,score:20};
+ const runs=runLengths(a),last=runs.at(-1),lens=runs.map(x=>x.n);
+ const c=v=>v==='R'?'紅':'藍';
+ if(last.n>=3)return {name:`${c(last.v)}長龍`,state:last.n===3?'形成中':last.n===4?'已形成':'延續中',
+   count:last.n,unit:'顆',score:70+Math.min(12,last.n*2)};
+ if(lens.length>=4&&lens.slice(-4).every(x=>x===1))
+   return {name:'紅藍單跳',state:lens.length>=6?'延續中':'已形成',count:lens.length,unit:'段',score:72};
+ if(lens.length>=3&&lens.slice(-3).every(x=>x===2))
+   return {name:'紅藍雙跳',state:'已形成',count:lens.length,unit:'段',score:68};
+ if(lens.length>=3&&lens.slice(-3).every(x=>x===3))
+   return {name:'紅藍三跳',state:'已形成',count:lens.length,unit:'段',score:66};
+ return {name:a.length<4?'未成路':'無明顯路型',state:'',count:0,score:a.length<4?0:20};
 }
 function askPatternInfo(a){
  const get=side=>[1,2,3].map(k=>{const q=deriveFromResults(a,k),w=deriveFromResults(a.concat(side),k);return w.length>q.length?w.at(-1).v:'-'}).join('/');
@@ -246,21 +301,26 @@ function askPatternInfo(a){
 }
 function independentPatternAnalysis(a){
  const B=big(a),E=deriveFromResults(a,1),S=deriveFromResults(a,2),C=deriveFromResults(a,3);
+ const bead=photoBigRoadPattern(bp(a));
+ const bigp=photoBigRoadPattern(B.map(x=>x.v));
  const items=[
-  {key:'bead',label:'珠盤路',...simpleRoadPattern(bp(a),'BP')},
-  {key:'big',label:'大路',...simpleRoadPattern(B.map(x=>x.v),'BP')},
-  {key:'eye',label:'大眼仔',...simpleRoadPattern(E.map(x=>x.v),'RU')},
-  {key:'small',label:'小路',...simpleRoadPattern(S.map(x=>x.v),'RU')},
-  {key:'cock',label:'曱甴路',...simpleRoadPattern(C.map(x=>x.v),'RU')},
+  {key:'bead',label:'珠盤路',...bead},
+  {key:'big',label:'大路',...bigp},
+  {key:'eye',label:'大眼仔',...derivedPattern(E.map(x=>x.v))},
+  {key:'small',label:'小路',...derivedPattern(S.map(x=>x.v))},
+  {key:'cock',label:'曱甴路',...derivedPattern(C.map(x=>x.v))},
   {key:'ask',label:'下一手路',...askPatternInfo(a)}
  ];
- const candidates=items.filter(x=>x.key!=='ask'&&x.score>20).sort((a,b)=>b.score-a.score);
+ // 「最好」只代表 B 模組內目前照片模板吻合度最高，不改原預測。
+ const candidates=items.filter(x=>x.key!=='ask'&&x.score>20).sort((x,y)=>y.score-x.score);
  return {items,best:candidates[0]||null};
 }
 function renderIndependentPatterns(a){
  const P=independentPatternAnalysis(a);
  patterns.innerHTML=P.items.map(x=>`<div class="pat"><b>${x.label}</b><span>${x.name}${x.state?'｜'+x.state:''}${x.count&&x.unit?'｜'+x.count+x.unit:''}</span></div>`).join('');
- patternBest.innerHTML=P.best?`<b>目前最明確路型：</b>${P.best.label}｜${P.best.name}${P.best.state?'｜'+P.best.state:''}${P.best.count&&P.best.unit?'｜'+P.best.count+P.best.unit:''}`:'<b>目前最明確路型：</b>尚未形成明確路型';
+ patternBest.innerHTML=P.best
+   ?`<b>目前最明確路型：</b>${P.best.label}｜${P.best.name}${P.best.state?'｜'+P.best.state:''}${P.best.count&&P.best.unit?'｜'+P.best.count+P.best.unit:''}<br><b>依此路型延續：</b>${P.best.direction||'觀望'}`
+   :'<b>目前最明確路型：</b>尚未形成明確路型<br><b>依此路型延續：</b>觀望';
 }
 function signature(a){let B=big(a);return[pat(a),pat(B.map(x=>x.v)),dpat(deriveFromResults(a,1)),dpat(deriveFromResults(a,2)),dpat(deriveFromResults(a,3))].join('|')}
 function liveAnalysis(a){
