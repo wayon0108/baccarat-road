@@ -20,28 +20,8 @@
   .roads3{grid-template-columns:repeat(3,minmax(0,1fr))}
 }
 
-/* V1.9.2 saved-shoe road viewer: same casino layout as live board */
-#archiveRoads{width:100%;max-width:100%;overflow:hidden}
-.archiveRoads2,.archiveRoads3{display:grid;width:100%;min-width:0;gap:4px;margin-top:5px}
-.archiveRoads2{grid-template-columns:minmax(0,2fr) minmax(0,3fr)}
-.archiveRoads3{grid-template-columns:repeat(3,minmax(0,1fr))}
-.archiveRoadCell{min-width:0;width:100%;overflow:hidden}
-.archiveRoadCell .rw{width:100%;max-width:100%;overflow-x:auto;overflow-y:hidden}
-.archiveRoadCell .road{height:calc(6 * var(--c));min-width:calc(12 * var(--c));background-color:#f7f5ee}
-@media(max-width:850px){
- .archiveRoads2,.archiveRoads3{grid-template-columns:1fr}
-}
-
-/* V1.9.3：大眼仔／小路／曱甴路超過可視格後繼續向右延伸 */
-.rw{
-  overflow-x:auto !important;
-  overflow-y:hidden !important;
-  -webkit-overflow-scrolling:touch;
-}
-.road{
-  flex:none !important;
-  max-width:none !important;
-}
+/* V1.9.2a ONLY: 大眼仔／小路／曱甴路走滿後繼續向右，其他版面不改 */
+#eye.closest-fix-placeholder{} /* harmless marker */
 </style>
 <style>
 #archiveList,#archiveViewer,#archiveRoads{position:relative;z-index:0;max-width:100%;overflow:hidden}
@@ -287,12 +267,19 @@ function ask(side){let a=seq().concat(side),last=x=>x.length?(x.at(-1).v==='R'?'
 function renderCards(){branks.innerHTML=R.map(r=>`<button onclick="card('B','${r}')">${r}</button>`).join('');pranks.innerHTML=R.map(r=>`<button onclick="card('P','${r}')">${r}</button>`).join('');bcards.textContent=H.B.length?H.B.join('、'):'尚未輸入';pcards.textContent=H.P.length?H.P.join('、'):'尚未輸入';bpnt.textContent=pnt(H.B)+'點';ppnt.textContent=pnt(H.P)+'點'}
 function view(id){let s=D.shoes.find(x=>x.id===id);if(!s)return;let old=D.current;D.current=structuredClone(s.rounds);render(false);D.current=old;alert(`暫時顯示第 ${s.no} 靴完整路圖；重新整理可回目前靴。`)}
 
-function followRoadEnds(){
+function followDerivedRoadEnds(){
  requestAnimationFrame(()=>{
   ['eye','small','cock'].forEach(id=>{
    const road=document.getElementById(id);
-   const w=road&&road.closest('.rw');
-   if(w && w.scrollWidth>w.clientWidth) w.scrollLeft=w.scrollWidth;
+   if(!road)return;
+   const wrap=road.closest('.rw');
+   if(!wrap)return;
+   wrap.style.overflowX='auto';
+   wrap.style.overflowY='hidden';
+   wrap.style.webkitOverflowScrolling='touch';
+   road.style.maxWidth='none';
+   road.style.flex='none';
+   if(wrap.scrollWidth>wrap.clientWidth) wrap.scrollLeft=wrap.scrollWidth;
   });
  });
 }
@@ -306,7 +293,7 @@ sample.textContent=`六路即時分析｜歷史相似靴 ${z.shoeN||0} 靴／相
 pb.textContent=(mix.B*100).toFixed(1)+'%';pp.textContent=(mix.P*100).toFixed(1)+'%';pt.textContent=(mix.T*100).toFixed(1)+'%';
 why.textContent=`判斷＝當下六路走勢${hist?'＋已保存靴相似六路局面':''}。支持度不是保證勝率。`;
 sixEvidence.innerHTML='<b>本局判斷依據：</b> '+live.evidence.map(e=>`${e.name} ${e.side==='B'?'莊○':e.side==='P'?'閒○':'中性'}${e.note?'（'+e.note+'）':''}`).join('｜')+`<br><b>歷史相似靴：</b>${z.shoeN||0} 靴｜相似局面 ${z.n}`;
-sn.textContent=a.length;sb.textContent=a.filter(x=>x==='B').length;sp.textContent=a.filter(x=>x==='P').length;st.textContent=a.filter(x=>x==='T').length;spat.textContent=pat(a);sdb.textContent=D.shoes.length+'靴';history.innerHTML=D.shoes.slice().reverse().map(s=>`<div class="shoe"><b>第${s.no}靴</b><div class="muted">${new Date(s.at).toLocaleString()}｜${s.rounds.length}局</div><button onclick="view('${s.id}')">查看完整路圖</button></div>`).join('');empty.style.display=D.shoes.length?'none':'block';soundBtn.textContent=snd?'🔊 音效':'🔇 靜音';renderCards();followRoadEnds();if(doSave)save()}
+sn.textContent=a.length;sb.textContent=a.filter(x=>x==='B').length;sp.textContent=a.filter(x=>x==='P').length;st.textContent=a.filter(x=>x==='T').length;spat.textContent=pat(a);sdb.textContent=D.shoes.length+'靴';history.innerHTML=D.shoes.slice().reverse().map(s=>`<div class="shoe"><b>第${s.no}靴</b><div class="muted">${new Date(s.at).toLocaleString()}｜${s.rounds.length}局</div><button onclick="view('${s.id}')">查看完整路圖</button></div>`).join('');empty.style.display=D.shoes.length?'none':'block';soundBtn.textContent=snd?'🔊 音效':'🔇 靜音';renderCards();followDerivedRoadEnds();if(doSave)save()}
 
 let scanned=[];
 function loadRoadImage(ev){
@@ -466,32 +453,39 @@ function renderArchive(){
    </div>`
  }).join('')
 }
-function archiveRoadHTML(id,title,items,type){
- const mx=Math.max(11,...items.map(x=>x.c||0));
- const marks=items.map(x=>{
-  let z=type==='o'?`<i class="o ${x.v}">${x.t?`<em class="tie">${x.t}</em>`:''}</i>`:
-        type==='bead'?`<i class="o ${x.v}">${x.v==='B'?'莊':x.v==='P'?'閒':'和'}</i>`:
-        type==='eye'?`<i class="eye ${x.v}"></i>`:
-        type==='dot'?`<i class="dot ${x.v}"></i>`:`<i class="slash ${x.v}"></i>`;
-  return `<span class="m" style="left:calc(${x.c}*var(--c));top:calc(${x.r}*var(--c))">${z}</span>`
+function miniRoadBox(title,html){
+ return `<div style="margin:7px 0"><div style="font-size:11px;font-weight:900;margin-bottom:3px">${title}</div>
+ <div style="background:#f7f5ee;border-radius:6px;padding:4px;overflow:auto">${html}</div></div>`
+}
+function archiveGrid(items,type){
+ if(!items.length)return '<div style="color:#59665f;padding:8px">尚未形成</div>';
+ const rows=6,maxc=Math.max(0,...items.map(z=>z.c??0)),cell=22,w=Math.max(330,(maxc+1)*cell+8),h=rows*cell+8;
+ let marks=items.map(z=>{
+   let c=z.c??0,r=z.r??0,v=z.v,cls=v==='B'?'#d73545':v==='P'?'#2774d8':v==='T'?'#21a46b':v==='R'?'#d73545':'#2774d8';
+   if(type==='small')return `<circle cx="${c*cell+15}" cy="${r*cell+15}" r="5" fill="${cls}"/>`;
+   if(type==='cock')return `<line x1="${c*cell+9}" y1="${r*cell+20}" x2="${c*cell+20}" y2="${r*cell+9}" stroke="${cls}" stroke-width="3"/>`;
+   let fill=type==='bead'?cls:'none',txt=type==='bead'?(v==='B'?'莊':v==='P'?'閒':'和'):'';
+   return `<circle cx="${c*cell+15}" cy="${r*cell+15}" r="8" fill="${fill}" stroke="${cls}" stroke-width="2"/>${txt?`<text x="${c*cell+15}" y="${r*cell+18}" text-anchor="middle" font-size="7" fill="white">${txt}</text>`:''}`
  }).join('');
- return `<div class="archiveRoadCell"><div class="muted">${title}</div><div class="rw"><div id="${id}" class="road${type==='bead'?' bead':''}" style="width:calc(${mx+1} * var(--c))">${marks}</div></div></div>`
+ let lines='';for(let r=0;r<=6;r++)lines+=`<line x1="4" y1="${r*cell+4}" x2="${w}" y2="${r*cell+4}" stroke="#d8d6ce" stroke-width=".6"/>`;
+ for(let c=0;c<=Math.ceil(w/cell);c++)lines+=`<line x1="${c*cell+4}" y1="4" x2="${c*cell+4}" y2="${h}" stroke="#d8d6ce" stroke-width=".6"/>`;
+ return `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}">${lines}${marks}</svg>`
+}
+function beadCoords(a){
+ const o=[];let col=0,row=0;
+ for(const v of a){o.push({r:row,c:col,v});row++;if(row>=6){row=0;col++}}
+ return o
 }
 function viewArchiveShoe(i){
- const sh=D.shoes[i];if(!sh)return;
- const a=archiveRoundSeq(sh),B=big(a),E=deriveFromResults(a,1),S=deriveFromResults(a,2),C=deriveFromResults(a,3);
+ const sh=D.shoes[i];if(!sh)return;const a=archiveRoundSeq(sh),B=big(a),E=deriveFromResults(a,1),S=deriveFromResults(a,2),C=deriveFromResults(a,3);
  archiveViewer.style.display='block';
  archiveViewerTitle.textContent=`第 ${sh.no??i+1} 靴｜${a.length} 局｜${archiveDate(sh)}`;
  archiveRoads.innerHTML=
-   `<div class="archiveRoads2">
-      ${archiveRoadHTML('ab'+i,'珠盤路',bead(a),'bead')}
-      ${archiveRoadHTML('ag'+i,'大路',B,'o')}
-    </div>
-    <div class="archiveRoads3">
-      ${archiveRoadHTML('ae'+i,'大眼仔',E,'eye')}
-      ${archiveRoadHTML('as'+i,'小路',S,'dot')}
-      ${archiveRoadHTML('ac'+i,'曱甴路',C,'slash')}
-    </div>`;
+   miniRoadBox('珠盤路',archiveGrid(beadCoords(a),'bead'))+
+   miniRoadBox('大路',archiveGrid(B,'big'))+
+   miniRoadBox('大眼仔',archiveGrid(E,'big'))+
+   miniRoadBox('小路',archiveGrid(S,'small'))+
+   miniRoadBox('曱甴路',archiveGrid(C,'cock'));
  archiveViewer.scrollIntoView({behavior:'smooth',block:'start'})
 }
 function closeArchiveViewer(){archiveViewer.style.display='none';archiveRoads.innerHTML=''}
