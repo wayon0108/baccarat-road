@@ -22,6 +22,16 @@
 
 /* V1.9.2a ONLY: 大眼仔／小路／曱甴路走滿後繼續向右，其他版面不改 */
 #eye.closest-fix-placeholder{} /* harmless marker */
+
+/* V1.10 B/C independent modules only */
+.pattern-summary{margin-top:7px;background:#091510;border-radius:8px;padding:8px;font-size:11px;line-height:1.65}
+.pattern-summary b{color:#dfb85b}
+.verify-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
+.verify-stat{background:#091510;border-radius:8px;padding:7px;text-align:center}
+.verify-stat small{display:block;color:#8fa69b;font-size:10px}
+.verify-log{max-height:210px;overflow:auto;margin-top:7px;font-size:10px}
+.verify-row{display:grid;grid-template-columns:58px 58px 58px 70px 1fr;gap:5px;padding:5px;border-bottom:1px solid #22372e;align-items:center}
+@media(max-width:650px){.verify-grid{grid-template-columns:repeat(2,1fr)}.verify-row{grid-template-columns:48px 48px 48px 1fr}.verify-row span:last-child{grid-column:1/-1}}
 </style>
 <style>
 #archiveList,#archiveViewer,#archiveRoads{position:relative;z-index:0;max-width:100%;overflow:hidden}
@@ -36,7 +46,12 @@
 <div class="card"><div class="hd">下一把整合分析</div><div class="body decision"><div><div id="pick" class="pick">觀望</div><div id="sample" class="muted" style="text-align:center">全新資料庫</div></div><div><div class="prob"><div><small>莊 歷史支持</small><b id="pb">—</b></div><div><small>閒 歷史支持</small><b id="pp">—</b></div><div><small>和 歷史支持</small><b id="pt">—</b></div></div><div id="why" class="muted" style="margin-top:6px">沒有舊資料，樣本不足時不製造百分比。</div><div id="sixEvidence" class="muted" style="margin-top:7px;line-height:1.7">本局判斷依據：等待牌局資料</div></div></div></div></div>
 <div class="card"><div class="hd">正規路單｜珠盤路・大路・大眼仔・小路・曱甴路</div><div class="body"><div class="roads2"><div><div class="muted">珠盤路</div><div class="rw"><div id="bead" class="road bead"></div></div></div><div><div class="muted">大路</div><div class="rw"><div id="big" class="road"></div></div></div></div><div class="roads3"><div><div class="muted">大眼仔</div><div class="rw"><div id="eye" class="road"></div></div></div><div><div class="muted">小路</div><div class="rw"><div id="small" class="road"></div></div></div><div><div class="muted">曱甴路</div><div class="rw"><div id="cock" class="road"></div></div></div></div></div></div>
 <div class="card"><div class="hd">下一手路｜Ask Road</div><div class="body ask"><div><b style="color:#ff6473">假設莊</b><div id="askB" class="muted"></div></div><div><b style="color:#63a6ff">假設閒</b><div id="askP" class="muted"></div></div><div><b style="color:#50d493">假設和</b><div class="muted">和不開新大路格；獨立納入三分類分析</div></div></div></div>
-<div class="card"><div class="hd">六路圖型辨識</div><div class="body"><div id="patterns" class="patterns"></div><div class="muted" style="margin-top:6px">辨識長龍、單跳、雙跳、兩房一廳、三房一廳、連莊／連閒、跳路、雜路。下三路紅藍是結構，不是莊閒。</div></div></div>
+<div class="card"><div class="hd">六路圖形辨識｜獨立模組</div><div class="body"><div id="patterns" class="patterns"></div><div id="patternBest" class="pattern-summary"><b>目前最明確路型：</b>等待牌局資料</div><div class="muted" style="margin-top:6px">此區只讀取既有六路資料並獨立辨識，不寫回六路、不改變「下一把整合分析」。下三路紅藍代表結構，不代表莊／閒。</div></div></div>
+<div class="card"><div class="hd">預測驗證紀錄｜獨立記錄，不影響原分析</div><div class="body">
+<div class="verify-grid"><div class="verify-stat"><small>已驗證預測</small><b id="vTotal">0</b></div><div class="verify-stat"><small>命中</small><b id="vHit">0</b></div><div class="verify-stat"><small>未命中</small><b id="vMiss">0</b></div><div class="verify-stat"><small>觀望</small><b id="vWatch">0</b></div><div class="verify-stat"><small>命中率*</small><b id="vRate">—</b></div></div>
+<div class="muted" style="margin-top:6px">*命中率只計有做出莊／閒／和判定的紀錄；觀望不列入分母。每筆保存當時支持度、相似靴數、相似局面數與最高相似度，只供後續檢查，不會回寫或調整原本預測。</div>
+<div id="verifyLog" class="verify-log"></div>
+</div></div>
 <div class="card"><div class="hd">每局牌面數字｜可選填</div><div class="body cards"><div class="hand"><b style="color:#ff6473">莊家牌</b> <span id="bpnt"></span><div id="branks" class="ranks"></div><div id="bcards" class="muted"></div></div><div class="hand"><b style="color:#63a6ff">閒家牌</b> <span id="ppnt"></span><div id="pranks" class="ranks"></div><div id="pcards" class="muted"></div></div></div><div class="body tools"><button onclick="popCard('B')">刪莊最後牌</button><button onclick="popCard('P')">刪閒最後牌</button><button onclick="clearCards()">清牌面</button><button onclick="autoResult()">依點數填結果</button></div></div>
 <div class="card"><div class="hd">本靴統計</div><div class="body stats"><div class="stat"><small>局數</small><b id="sn">0</b></div><div class="stat"><small>莊</small><b id="sb">0</b></div><div class="stat"><small>閒</small><b id="sp">0</b></div><div class="stat"><small>和</small><b id="st">0</b></div><div class="stat"><small>型態</small><b id="spat">—</b></div><div class="stat"><small>資料庫</small><b id="sdb">0靴</b></div></div></div>
 <div class="card" id="historyCard"><div class="hd">歷史靴｜結束一靴後永久保存在本機</div><div class="body"><div id="history" class="history"></div><div id="empty" class="muted">目前 0 靴。完全重新開始。</div></div></div>
@@ -81,7 +96,7 @@ const K='BPRL_NEWSTART_20260918';let D=JSON.parse(localStorage.getItem(K)||'{"sh
 function save(){localStorage.setItem(K,JSON.stringify(D))}function audio(){if(!ac)ac=new(window.AudioContext||window.webkitAudioContext)();if(ac.state==='suspended')ac.resume()}function tone(x='tap'){if(!snd)return;audio();let o=ac.createOscillator(),g=ac.createGain(),f={B:220,P:350,T:520,ok:650,warn:150,tap:430}[x]||430;o.frequency.value=f;g.gain.value=.05;o.connect(g);g.connect(ac.destination);g.gain.exponentialRampToValueAtTime(.001,ac.currentTime+.07);o.start();o.stop(ac.currentTime+.08)}function toggleSound(){snd=!snd;localStorage.setItem(K+'S',snd?'1':'0');soundBtn.textContent=snd?'🔊 音效':'🔇 靜音';if(snd)tone('ok')}document.addEventListener('pointerdown',()=>snd&&audio(),{once:true});
 function seq(a=D.current){return a.map(x=>x.r)}function bp(a){return a.filter(x=>x==='B'||x==='P')}function pnt(a){return a.reduce((s,x)=>s+V(x),0)%10}
 function card(s,r){tone();if(H[s].length<3)H[s].push(r);renderCards()}function popCard(s){tone('warn');H[s].pop();renderCards()}function clearCards(){tone('warn');H={B:[],P:[]};renderCards()}function autoResult(){if(H.B.length<2||H.P.length<2)return;let b=pnt(H.B),p=pnt(H.P);add(b>p?'B':p>b?'P':'T')}
-function add(r){tone(r);recordLearningBeforeResult(r);D.current.push({r,cards:{B:[...H.B],P:[...H.P]},ts:Date.now()});H={B:[],P:[]};save();render()}function undo(){tone('warn');D.current.pop();save();render()}function clearShoe(){if(D.current.length&&confirm('確定清除目前這一靴？')){tone('warn');D.current=[];save();render()}}function saveShoe(){if(!D.current.length)return;tone('ok');D.shoes.push({id:'s'+Date.now(),no:D.no,at:Date.now(),rounds:structuredClone(D.current)});D.no++;D.current=[];H={B:[],P:[]};save();render()}
+function add(r){tone(r);recordPredictionVerification(r);recordLearningBeforeResult(r);D.current.push({r,cards:{B:[...H.B],P:[...H.P]},ts:Date.now()});H={B:[],P:[]};save();render()}function undo(){tone('warn');if(D.current.length){removeLastVerificationForCurrentShoe();D.current.pop()}save();render()}function clearShoe(){if(D.current.length&&confirm('確定清除目前這一靴？')){tone('warn');clearVerificationForCurrentShoe();D.current=[];save();render()}}function saveShoe(){if(!D.current.length)return;tone('ok');D.shoes.push({id:'s'+Date.now(),no:D.no,at:Date.now(),rounds:structuredClone(D.current)});D.no++;D.current=[];H={B:[],P:[]};save();render()}
 function bead(a){return a.map((v,i)=>({r:i%6,c:Math.floor(i/6),v,t:0}))}
 function big(a){
  let out=[],occ=new Set(),last=null,row=0,col=0,baseCol=-1,lm=null;
@@ -181,6 +196,72 @@ function derive(B,k){
 function deriveFromResults(results,k){return dcoords(derivedRaw(results,k))}
 function draw(id,a,type){let e=document.getElementById(id),mx=Math.max(11,...a.map(x=>x.c));e.style.width=`calc(${mx+1} * var(--c))`;e.innerHTML=a.map(x=>{let z=type==='o'?`<i class="o ${x.v}">${x.t?`<em class="tie">${x.t}</em>`:''}</i>`:type==='bead'?`<i class="o ${x.v}">${x.v==='B'?'莊':x.v==='P'?'閒':'和'}</i>`:type==='eye'?`<i class="eye ${x.v}"></i>`:type==='dot'?`<i class="dot ${x.v}"></i>`:`<i class="slash ${x.v}"></i>`;return `<span class="m" style="left:calc(${x.c}*var(--c));top:calc(${x.r}*var(--c))">${z}</span>`}).join('')}
 function pat(a){a=bp(a);if(a.length<4)return'未成路';let q=[],n=1;for(let i=1;i<a.length;i++){if(a[i]===a[i-1])n++;else{q.push(n);n=1}}q.push(n);let t=q.slice(-5),c=q.at(-1);if(c>=5)return'長龍';if(t.length>=5&&t.every(x=>x===1))return'單跳';if(t.length>=4&&t.slice(-4).every(x=>x===2))return'雙跳';let z=t.slice(-4).join('');if(['2121','1212'].includes(z))return'兩房一廳';if(['3131','1313'].includes(z))return'三房一廳';if(c>=3)return'連莊／連閒';let x=a.slice(-8),ch=0;for(let i=1;i<x.length;i++)ch+=x[i]!==x[i-1];return ch>=5?'跳路':'雜路'}function dpat(a){return pat(a.map(x=>x.v==='R'?'B':'P'))}
+
+/* B｜六路圖形辨識：獨立只讀模組。不得被下一手分析反向控制。 */
+function runLengths(values){
+ const a=values.filter(Boolean),out=[];if(!a.length)return out;
+ let v=a[0],n=1;
+ for(let i=1;i<a.length;i++){if(a[i]===v)n++;else{out.push({v,n});v=a[i];n=1}}
+ out.push({v,n});return out
+}
+function simpleRoadPattern(values,kind='BP'){
+ const a=values.filter(v=>kind==='BP'?(v==='B'||v==='P'):(v==='R'||v==='U'));
+ if(!a.length)return {name:'未成路',state:'',count:0,score:0};
+ const runs=runLengths(a),last=runs.at(-1),lens=runs.map(x=>x.n),tail=lens.slice(-6);
+ const side=v=>kind==='BP'?(v==='B'?'莊':'閒'):(v==='R'?'紅':'藍');
+ // 長龍：依已確認規格，3形成中、4成立、5+延續。
+ if(last.n>=3)return {name:`${side(last.v)}長龍`,state:last.n===3?'形成中':last.n===4?'已形成':'延續中',count:last.n,unit:'顆',score:Math.min(100,58+last.n*7)};
+ const allLast=(n,val)=>lens.length>=n&&lens.slice(-n).every(x=>x===val);
+ if(allLast(4,1))return {name:kind==='BP'?'單跳':'紅藍單跳',state:lens.length>=6?'延續中':'已形成',count:Math.min(lens.length,99),unit:'段',score:Math.min(96,60+Math.min(lens.length,9)*4)};
+ if(allLast(3,2))return {name:kind==='BP'?'雙跳':'紅藍雙跳',state:lens.length>=4?'延續中':'已形成',count:Math.min(lens.length,99),unit:'段',score:Math.min(94,60+Math.min(lens.length,8)*4)};
+ if(allLast(3,3))return {name:kind==='BP'?'三跳':'紅藍三跳',state:lens.length>=4?'延續中':'已形成',count:Math.min(lens.length,99),unit:'段',score:Math.min(92,58+Math.min(lens.length,8)*4)};
+ const z4=lens.slice(-4).join('-');
+ if(kind==='BP'){
+   if(z4==='1-2-1-2'||z4==='2-1-2-1'){
+     const two=runs.slice(-4).filter(x=>x.n===2).at(-1);
+     return {name:`一廳兩房（${two?side(two.v):'—'}）`,state:'已形成',count:4,unit:'段',score:78};
+   }
+   if(z4==='1-3-1-3'||z4==='3-1-3-1'){
+     const three=runs.slice(-4).filter(x=>x.n===3).at(-1);
+     return {name:`一廳三房（${three?side(three.v):'—'}）`,state:'已形成',count:4,unit:'段',score:76};
+   }
+ }
+ const pairs=['1-2-1-2','1-3-1-3','2-3-2-3','2-1-2-1','3-1-3-1','3-2-3-2'];
+ if(pairs.includes(z4))return {name:kind==='BP'?`規律柱型 ${z4}`:`紅藍規律型 ${z4}`,state:'已形成',count:4,unit:'段',score:72};
+ // 參考圖中的黐路類：以近期柱長節奏做獨立定位；不送入預測。
+ if(kind==='BP'&&lens.length>=5){
+   const q=lens.slice(-5);
+   const ones=q.filter(n=>n===1).length,twos=q.filter(n=>n===2).length;
+   if(ones>=3&&twos>=1){
+     const lastTwo=[...runs].reverse().find(x=>x.n===2);
+     if(lastTwo)return {name:`逢${side(lastTwo.v)}黐`,state:'形成中',count:5,unit:'段',score:64};
+   }
+ }
+ if(a.length<4)return {name:'未成路',state:'',count:a.length,unit:'顆',score:0};
+ return {name:'無明顯路型',state:'',count:0,score:20};
+}
+function askPatternInfo(a){
+ const get=side=>[1,2,3].map(k=>{const q=deriveFromResults(a,k),w=deriveFromResults(a.concat(side),k);return w.length>q.length?w.at(-1).v:'-'}).join('/');
+ return {name:`問莊 ${get('B')}｜問閒 ${get('P')}`,state:'',count:0,score:0};
+}
+function independentPatternAnalysis(a){
+ const B=big(a),E=deriveFromResults(a,1),S=deriveFromResults(a,2),C=deriveFromResults(a,3);
+ const items=[
+  {key:'bead',label:'珠盤路',...simpleRoadPattern(bp(a),'BP')},
+  {key:'big',label:'大路',...simpleRoadPattern(B.map(x=>x.v),'BP')},
+  {key:'eye',label:'大眼仔',...simpleRoadPattern(E.map(x=>x.v),'RU')},
+  {key:'small',label:'小路',...simpleRoadPattern(S.map(x=>x.v),'RU')},
+  {key:'cock',label:'曱甴路',...simpleRoadPattern(C.map(x=>x.v),'RU')},
+  {key:'ask',label:'下一手路',...askPatternInfo(a)}
+ ];
+ const candidates=items.filter(x=>x.key!=='ask'&&x.score>20).sort((a,b)=>b.score-a.score);
+ return {items,best:candidates[0]||null};
+}
+function renderIndependentPatterns(a){
+ const P=independentPatternAnalysis(a);
+ patterns.innerHTML=P.items.map(x=>`<div class="pat"><b>${x.label}</b><span>${x.name}${x.state?'｜'+x.state:''}${x.count&&x.unit?'｜'+x.count+x.unit:''}</span></div>`).join('');
+ patternBest.innerHTML=P.best?`<b>目前最明確路型：</b>${P.best.label}｜${P.best.name}${P.best.state?'｜'+P.best.state:''}${P.best.count&&P.best.unit?'｜'+P.best.count+P.best.unit:''}`:'<b>目前最明確路型：</b>尚未形成明確路型';
+}
 function signature(a){let B=big(a);return[pat(a),pat(B.map(x=>x.v)),dpat(deriveFromResults(a,1)),dpat(deriveFromResults(a,2)),dpat(deriveFromResults(a,3))].join('|')}
 function liveAnalysis(a){
  const x=bp(a),E=deriveFromResults(a,1),S=deriveFromResults(a,2),C=deriveFromResults(a,3),ev=[],score={B:0,P:0};
@@ -207,6 +288,40 @@ function liveAnalysis(a){
  }
  let b=1+score.B,p=1+score.P,t=.22+Math.min(.08,a.slice(-12).filter(v=>v==='T').length*.015),sum=b+p+t;
  return {B:b/sum,P:p/sum,T:t/sum,label:pat(a),evidence:ev};
+}
+
+/* C｜預測驗證紀錄：獨立旁路記錄，不參與原分析。 */
+const VK=K+'_PREDICTION_VERIFY_V1';
+let VL=[];try{VL=JSON.parse(localStorage.getItem(VK)||'[]');if(!Array.isArray(VL))VL=[]}catch(e){VL=[]}
+function saveVerify(){localStorage.setItem(VK,JSON.stringify(VL))}
+function predictionSnapshotForVerify(){
+ const z=stats(),live=liveAnalysis(seq()),hist=z.n>0;
+ const hr={B:z.ws?z.wC.B/z.ws:0,P:z.ws?z.wC.P/z.ws:0,T:z.ws?z.wC.T/z.ws:0},mix={B:live.B,P:live.P,T:live.T};
+ if(hist){const hw=Math.min(.55,.20+z.n/120),lw=1-hw;mix.B=lw*live.B+hw*hr.B;mix.P=lw*live.P+hw*hr.P;mix.T=lw*live.T+hw*hr.T}
+ const rank=[['B',mix.B],['P',mix.P],['T',mix.T]].sort((a,b)=>b[1]-a[1]),lead=rank[0],gap=lead[1]-rank[1][1];
+ const out=(seq().length>=2&&lead[1]>=.43&&gap>=.035)?lead[0]:'W';
+ return {out,mix,z};
+}
+function recordPredictionVerification(actual){
+ const pre=seq();if(!pre.length)return;
+ const q=predictionSnapshotForVerify();
+ VL.push({id:'v'+Date.now()+Math.random().toString(36).slice(2,6),ts:Date.now(),shoe:D.no,targetRound:pre.length+1,
+  prediction:q.out,actual,support:{B:q.mix.B,P:q.mix.P,T:q.mix.T},
+  historical:{shoeN:q.z.shoeN||0,n:q.z.n||0,best:q.z.best||0,avg:q.z.avg||0,samples:(q.z.samples||[]).slice(0,12)}});
+ if(VL.length>20000)VL=VL.slice(-20000);saveVerify();
+}
+function removeLastVerificationForCurrentShoe(){
+ for(let i=VL.length-1;i>=0;i--){if(VL[i].shoe===D.no){VL.splice(i,1);saveVerify();break}}
+}
+function clearVerificationForCurrentShoe(){
+ VL=VL.filter(x=>x.shoe!==D.no);saveVerify();
+}
+function renderVerification(){
+ if(typeof vTotal==='undefined')return;
+ const decided=VL.filter(x=>x.prediction&&x.prediction!=='W'),hit=decided.filter(x=>x.prediction===x.actual).length,miss=decided.length-hit,watch=VL.filter(x=>x.prediction==='W').length;
+ vTotal.textContent=decided.length;vHit.textContent=hit;vMiss.textContent=miss;vWatch.textContent=watch;vRate.textContent=decided.length?(hit/decided.length*100).toFixed(1)+'%':'—';
+ const nm={B:'莊',P:'閒',T:'和',W:'觀望'};
+ verifyLog.innerHTML=VL.slice(-30).reverse().map(x=>`<div class="verify-row"><span>第${x.shoe}靴</span><span>${x.targetRound}局</span><span>${nm[x.prediction]||x.prediction}→${nm[x.actual]||x.actual}</span><span>${x.prediction==='W'?'觀望':x.prediction===x.actual?'✓ 命中':'✕ 未中'}</span><span>相似靴 ${x.historical?.shoeN||0}｜局面 ${x.historical?.n||0}｜最高 ${Math.round((x.historical?.best||0)*100)}%</span></div>`).join('')||'<div class="muted">尚無驗證紀錄；下一次輸入結果後開始累積。</div>';
 }
 const LK=K+'_ROUND_LEARNING_V1';
 let LL=[];try{LL=JSON.parse(localStorage.getItem(LK)||'[]')}catch(e){}
@@ -261,7 +376,7 @@ function stats(){
  pool.sort((a,b)=>b.sim-a.sim);const near=pool.filter(x=>x.sim>=.58).slice(0,60);
  let C={B:0,P:0,T:0},wC={B:0,P:0,T:0},ws=0,shoeSet=new Set();
  for(const q of near){C[q.next]++;let w=Math.pow(q.sim,4);wC[q.next]+=w;ws+=w;shoeSet.add(q.shoe)}
- return {C,wC,n:near.length,ws,best:near[0]?.sim||0,avg:near.length?near.reduce((n,q)=>n+q.sim,0)/near.length:0,pool:pool.length,shoeN:shoeSet.size}
+ return {C,wC,n:near.length,ws,best:near[0]?.sim||0,avg:near.length?near.reduce((n,q)=>n+q.sim,0)/near.length:0,pool:pool.length,shoeN:shoeSet.size,samples:near.map(q=>({shoe:q.shoe,round:q.round,sim:q.sim,next:q.next}))}
 }
 function ask(side){let a=seq().concat(side),last=x=>x.length?(x.at(-1).v==='R'?'紅':'藍'):'—';return`大眼仔 ${last(deriveFromResults(a,1))}｜小路 ${last(deriveFromResults(a,2))}｜曱甴 ${last(deriveFromResults(a,3))}`}
 function renderCards(){branks.innerHTML=R.map(r=>`<button onclick="card('B','${r}')">${r}</button>`).join('');pranks.innerHTML=R.map(r=>`<button onclick="card('P','${r}')">${r}</button>`).join('');bcards.textContent=H.B.length?H.B.join('、'):'尚未輸入';pcards.textContent=H.P.length?H.P.join('、'):'尚未輸入';bpnt.textContent=pnt(H.B)+'點';ppnt.textContent=pnt(H.P)+'點'}
@@ -283,7 +398,7 @@ function followDerivedRoadEnds(){
   });
  });
 }
-function render(doSave=true){let a=seq(),B=big(a),E=deriveFromResults(a,1),S=deriveFromResults(a,2),C=deriveFromResults(a,3);draw('bead',bead(a),'bead');draw('big',B,'o');draw('eye',E,'eye');draw('small',S,'dot');draw('cock',C,'slash');askB.textContent=ask('B');askP.textContent=ask('P');patterns.innerHTML=[['珠盤',pat(a)],['大路',pat(B.map(x=>x.v))],['大眼仔',dpat(E)],['小路',dpat(S)],['曱甴',dpat(C)],['下一手路','B/P/T模擬']].map(x=>`<div class="pat"><b>${x[0]}</b><span>${x[1]}</span></div>`).join('');
+function render(doSave=true){let a=seq(),B=big(a),E=deriveFromResults(a,1),S=deriveFromResults(a,2),C=deriveFromResults(a,3);draw('bead',bead(a),'bead');draw('big',B,'o');draw('eye',E,'eye');draw('small',S,'dot');draw('cock',C,'slash');askB.textContent=ask('B');askP.textContent=ask('P');renderIndependentPatterns(a);
 let z=stats(),nm={B:'莊',P:'閒',T:'和',W:'觀望'},live=liveAnalysis(seq()),hist=z.n>0;
 let hr={B:z.ws?z.wC.B/z.ws:0,P:z.ws?z.wC.P/z.ws:0,T:z.ws?z.wC.T/z.ws:0},mix={B:live.B,P:live.P,T:live.T};
 if(hist){let hw=Math.min(.55,.20+z.n/120),lw=1-hw;mix.B=lw*live.B+hw*hr.B;mix.P=lw*live.P+hw*hr.P;mix.T=lw*live.T+hw*hr.T}
@@ -293,7 +408,7 @@ sample.textContent=`六路即時分析｜歷史相似靴 ${z.shoeN||0} 靴／相
 pb.textContent=(mix.B*100).toFixed(1)+'%';pp.textContent=(mix.P*100).toFixed(1)+'%';pt.textContent=(mix.T*100).toFixed(1)+'%';
 why.textContent=`判斷＝當下六路走勢${hist?'＋已保存靴相似六路局面':''}。支持度不是保證勝率。`;
 sixEvidence.innerHTML='<b>本局判斷依據：</b> '+live.evidence.map(e=>`${e.name} ${e.side==='B'?'莊○':e.side==='P'?'閒○':'中性'}${e.note?'（'+e.note+'）':''}`).join('｜')+`<br><b>歷史相似靴：</b>${z.shoeN||0} 靴｜相似局面 ${z.n}`;
-sn.textContent=a.length;sb.textContent=a.filter(x=>x==='B').length;sp.textContent=a.filter(x=>x==='P').length;st.textContent=a.filter(x=>x==='T').length;spat.textContent=pat(a);sdb.textContent=D.shoes.length+'靴';history.innerHTML=D.shoes.slice().reverse().map(s=>`<div class="shoe"><b>第${s.no}靴</b><div class="muted">${new Date(s.at).toLocaleString()}｜${s.rounds.length}局</div><button onclick="view('${s.id}')">查看完整路圖</button></div>`).join('');empty.style.display=D.shoes.length?'none':'block';soundBtn.textContent=snd?'🔊 音效':'🔇 靜音';renderCards();followDerivedRoadEnds();if(doSave)save()}
+sn.textContent=a.length;sb.textContent=a.filter(x=>x==='B').length;sp.textContent=a.filter(x=>x==='P').length;st.textContent=a.filter(x=>x==='T').length;spat.textContent=pat(a);sdb.textContent=D.shoes.length+'靴';history.innerHTML=D.shoes.slice().reverse().map(s=>`<div class="shoe"><b>第${s.no}靴</b><div class="muted">${new Date(s.at).toLocaleString()}｜${s.rounds.length}局</div><button onclick="view('${s.id}')">查看完整路圖</button></div>`).join('');empty.style.display=D.shoes.length?'none':'block';soundBtn.textContent=snd?'🔊 音效':'🔇 靜音';renderCards();renderVerification();followDerivedRoadEnds();if(doSave)save()}
 
 let scanned=[];
 function loadRoadImage(ev){
