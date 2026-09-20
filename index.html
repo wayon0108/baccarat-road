@@ -52,16 +52,16 @@
 <div class="card"><div class="hd">下一把整合分析</div><div class="body decision"><div><div id="pick" class="pick">觀望</div><div id="sample" class="muted" style="text-align:center">全新資料庫</div></div><div><div class="prob"><div><small>莊 歷史支持</small><b id="pb">—</b></div><div><small>閒 歷史支持</small><b id="pp">—</b></div><div><small>和 歷史支持</small><b id="pt">—</b></div></div><div id="why" class="muted" style="margin-top:6px">沒有舊資料，樣本不足時不製造百分比。</div><div id="sixEvidence" class="muted" style="margin-top:7px;line-height:1.7">本局判斷依據：等待牌局資料</div></div></div></div></div>
 <div class="card"><div class="hd">正規路單｜珠盤路・大路・大眼仔・小路・曱甴路</div><div class="body"><div class="roads2"><div><div class="muted">珠盤路</div><div class="rw"><div id="bead" class="road bead"></div></div></div><div><div class="muted">大路</div><div class="rw"><div id="big" class="road"></div></div></div></div><div class="roads3"><div><div class="muted">大眼仔</div><div class="rw"><div id="eye" class="road"></div></div></div><div><div class="muted">小路</div><div class="rw"><div id="small" class="road"></div></div></div><div><div class="muted">曱甴路</div><div class="rw"><div id="cock" class="road"></div></div></div></div></div></div>
 <div class="card"><div class="hd">下一手路｜Ask Road</div><div class="body ask"><div><b style="color:#ff6473">假設莊</b><div id="askB" class="muted"></div></div><div><b style="color:#63a6ff">假設閒</b><div id="askP" class="muted"></div></div><div><b style="color:#50d493">假設和</b><div class="muted">和不開新大路格；獨立納入三分類分析</div></div></div></div>
+<div class="card"><div class="hd">D｜六路獨立看圖分析</div><div class="body">
+<div id="dRoadCompare" class="d-road-compare"></div>
+<div id="dRoadPick" class="d-road-pick"><b>目前參考：</b>等待牌局資料</div>
+<div class="muted" style="margin-top:6px">此區只讀取目前畫面六路結構，不讀歷史靴、不讀 B 路型結果、不讀 C 紀錄，也不寫回或影響原本分析。下三路紅／藍只代表結構，會用問路換算成莊／閒。</div>
+</div></div>
 <div class="card"><div class="hd">六路圖形辨識｜獨立模組</div><div class="body"><div id="patterns" class="patterns"></div><div id="patternBest" class="pattern-summary"><b>目前最明確路型：</b>等待牌局資料</div><div class="muted" style="margin-top:6px">此區只讀取既有六路資料並獨立辨識，不寫回六路、不改變「下一把整合分析」。下三路紅藍代表結構，不代表莊／閒。</div></div></div>
 <div class="card"><div class="hd">預測驗證紀錄｜獨立記錄，不影響原分析</div><div class="body">
 <div class="verify-grid"><div class="verify-stat"><small>已驗證預測</small><b id="vTotal">0</b></div><div class="verify-stat"><small>命中</small><b id="vHit">0</b></div><div class="verify-stat"><small>未命中</small><b id="vMiss">0</b></div><div class="verify-stat"><small>觀望</small><b id="vWatch">0</b></div><div class="verify-stat"><small>命中率*</small><b id="vRate">—</b></div></div>
 <div class="muted" style="margin-top:6px">*命中率只計有做出莊／閒／和判定的紀錄；觀望不列入分母。每筆保存當時支持度、相似靴數、相似局面數與最高相似度，只供後續檢查，不會回寫或調整原本預測。</div>
 <div id="verifyLog" class="verify-log"></div>
-</div></div>
-<div class="card"><div class="hd">D｜六路獨立看圖分析</div><div class="body">
-<div id="dRoadCompare" class="d-road-compare"></div>
-<div id="dRoadPick" class="d-road-pick"><b>目前參考：</b>等待牌局資料</div>
-<div class="muted" style="margin-top:6px">此區只讀取目前畫面六路結構，不讀歷史靴、不讀 B 路型結果、不讀 C 紀錄，也不寫回或影響原本分析。下三路紅／藍只代表結構，會用問路換算成莊／閒。</div>
 </div></div>
 <div class="card"><div class="hd">每局牌面數字｜可選填</div><div class="body cards"><div class="hand"><b style="color:#ff6473">莊家牌</b> <span id="bpnt"></span><div id="branks" class="ranks"></div><div id="bcards" class="muted"></div></div><div class="hand"><b style="color:#63a6ff">閒家牌</b> <span id="ppnt"></span><div id="pranks" class="ranks"></div><div id="pcards" class="muted"></div></div></div><div class="body tools"><button onclick="popCard('B')">刪莊最後牌</button><button onclick="popCard('P')">刪閒最後牌</button><button onclick="clearCards()">清牌面</button><button onclick="autoResult()">依點數填結果</button></div></div>
 <div class="card"><div class="hd">本靴統計</div><div class="body stats"><div class="stat"><small>局數</small><b id="sn">0</b></div><div class="stat"><small>莊</small><b id="sb">0</b></div><div class="stat"><small>閒</small><b id="sp">0</b></div><div class="stat"><small>和</small><b id="st">0</b></div><div class="stat"><small>型態</small><b id="spat">—</b></div><div class="stat"><small>資料庫</small><b id="sdb">0靴</b></div></div></div>
